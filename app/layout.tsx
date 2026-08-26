@@ -1,13 +1,8 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import { AuthProvider } from '@/components/auth/auth-provider';
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-});
+import { MockAuthProvider } from '@/components/auth/mock-auth-provider';
+import { isSupabaseConfigured } from '@/lib/supabase';
 
 export const metadata: Metadata = {
   title: {
@@ -43,15 +38,23 @@ export const metadata: Metadata = {
   },
 };
 
+function AuthWrapper({ children }: { children: React.ReactNode }) {
+  // Use mock auth when Supabase is not configured (for local development/testing)
+  if (!isSupabaseConfigured) {
+    return <MockAuthProvider>{children}</MockAuthProvider>;
+  }
+  return <AuthProvider>{children}</AuthProvider>;
+}
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
-      <body className="font-sans antialiased">
-        <AuthProvider>{children}</AuthProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body className="antialiased" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'" }}>
+        <AuthWrapper>{children}</AuthWrapper>
       </body>
     </html>
   );

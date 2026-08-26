@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { BookOpen, CheckCircle2, XCircle, ArrowRight, TrendingUp } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
-import { useAuth } from '@/components/auth/auth-provider';
+import { useAuth } from '@/components/auth/use-auth';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';

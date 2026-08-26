@@ -1,316 +1,285 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Search, Volume2, Bookmark, ArrowLeft, ArrowRight, RotateCw, Check, X, Brain } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
-import { useAuth } from '@/components/auth/auth-provider';
+import { Search, Volume2, Check, X, RotateCw, Plus, Trash2, BookOpen, Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
 
 interface VocabWord {
   id: string;
   word: string;
-  pronunciation: string | null;
-  part_of_speech: string | null;
   definition: string;
-  uzbek_translation: string | null;
-  example_sentence: string | null;
-  synonyms: string[] | null;
-  antonyms: string[] | null;
-  word_family: any;
-  ielts_usage: string | null;
+  example: string;
+  synonyms: string[];
+  difficulty: 'easy' | 'medium' | 'hard';
   category: string;
-  cefr_level: string | null;
-  ielts_band: string | null;
-  difficulty: string;
+  mastered: boolean;
 }
 
-const categories = ['all', 'academic', 'education', 'environment', 'technology', 'health', 'science', 'society', 'government', 'economy', 'business', 'travel', 'culture', 'media', 'crime', 'globalization', 'work', 'family', 'transport'];
+const defaultWords: VocabWord[] = [
+  { id: 'v1', word: 'ubiquitous', definition: 'Present, appearing, or found everywhere', example: 'Mobile phones have become ubiquitous in modern society.', synonyms: ['omnipresent', 'pervasive', 'universal'], difficulty: 'hard', category: 'academic', mastered: false },
+  { id: 'v2', word: 'mitigate', definition: 'To make less severe, harmful, or painful', example: 'The government introduced policies to mitigate the effects of the economic downturn.', synonyms: ['alleviate', 'reduce', 'diminish'], difficulty: 'medium', category: 'academic', mastered: false },
+  { id: 'v3', word: 'deteriorate', definition: 'To become progressively worse', example: "The patient's condition began to deteriorate rapidly after surgery.", synonyms: ['worsen', 'decline', 'degrade'], difficulty: 'medium', category: 'academic', mastered: true },
+  { id: 'v4', word: 'comprehensive', definition: 'Complete and including all elements', example: "The report provides a comprehensive analysis of the company's financial performance.", synonyms: ['thorough', 'complete', 'exhaustive'], difficulty: 'easy', category: 'academic', mastered: false },
+  { id: 'v5', word: 'scrutinize', definition: 'To examine closely and thoroughly', example: 'The committee scrutinized every detail of the proposal.', synonyms: ['examine', 'inspect', 'analyze'], difficulty: 'hard', category: 'academic', mastered: false },
+  { id: 'v6', word: 'predominantly', definition: 'Mainly or for the most part', example: 'The audience was predominantly young professionals.', synonyms: ['mainly', 'mostly', 'primarily'], difficulty: 'medium', category: 'academic', mastered: false },
+  { id: 'v7', word: 'feasible', definition: 'Possible to do easily or conveniently', example: 'The engineers determined that the bridge design was technically feasible.', synonyms: ['possible', 'viable', 'achievable'], difficulty: 'easy', category: 'academic', mastered: true },
+  { id: 'v8', word: 'paradigm', definition: 'A typical example or pattern of something', example: 'The discovery represented a paradigm shift in our understanding.', synonyms: ['model', 'pattern', 'standard'], difficulty: 'hard', category: 'academic', mastered: false },
+  { id: 'v9', word: 'resilient', definition: 'Able to withstand or recover quickly from difficulties', example: 'Children are often more resilient than adults give them credit for.', synonyms: ['tough', 'strong', 'hardy'], difficulty: 'medium', category: 'academic', mastered: false },
+  { id: 'v10', word: 'consequence', definition: 'A result or effect, typically unwelcome', example: 'The consequences of climate change are becoming increasingly visible.', synonyms: ['result', 'outcome', 'effect'], difficulty: 'easy', category: 'academic', mastered: false },
+  { id: 'v11', word: 'advocate', definition: 'To publicly recommend or support', example: 'Many doctors advocate for a balanced diet and regular exercise.', synonyms: ['support', 'endorse', 'promote'], difficulty: 'medium', category: 'academic', mastered: false },
+  { id: 'v12', word: 'inevitable', definition: 'Certain to happen; unavoidable', example: 'Given the economic conditions, some job losses were inevitable.', synonyms: ['unavoidable', 'inescapable', 'certain'], difficulty: 'easy', category: 'academic', mastered: true },
+];
+
+const difficultyColors = {
+  easy: 'bg-emerald-100 text-emerald-700',
+  medium: 'bg-amber-100 text-amber-700',
+  hard: 'bg-red-100 text-red-700',
+};
+
+function getStoredWords(): VocabWord[] {
+  if (typeof window === 'undefined') return defaultWords;
+  try {
+    const data = localStorage.getItem('ieltspro_vocabulary');
+    if (data) return JSON.parse(data);
+    localStorage.setItem('ieltspro_vocabulary', JSON.stringify(defaultWords));
+    return defaultWords;
+  } catch { return defaultWords; }
+}
+
+function saveWords(words: VocabWord[]) {
+  try { localStorage.setItem('ieltspro_vocabulary', JSON.stringify(words)); } catch {}
+}
 
 export default function VocabularyPage() {
-  const { user } = useAuth();
   const [words, setWords] = useState<VocabWord[]>([]);
-  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('all');
-  const [view, setView] = useState<'library' | 'flashcards' | 'quiz'>('library');
+  const [filterDifficulty, setFilterDifficulty] = useState<string>('all');
+  const [showMastered, setShowMastered] = useState<'all' | 'mastered' | 'unmastered'>('all');
+  const [viewMode, setViewMode] = useState<'grid' | 'flashcard'>('grid');
   const [flashcardIndex, setFlashcardIndex] = useState(0);
-  const [flashcardFlipped, setFlashcardFlipped] = useState(false);
-  const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({});
-  const [quizSubmitted, setQuizSubmitted] = useState(false);
-  const [reviewStatuses, setReviewStatuses] = useState<Record<string, string>>({});
+  const [flipped, setFlipped] = useState(false);
+  const [showAddWord, setShowAddWord] = useState(false);
+  const [newWord, setNewWord] = useState({ word: '', definition: '', example: '', synonyms: '', difficulty: 'medium' as const, category: 'academic' });
 
-  useEffect(() => {
-    (async () => {
-      let query = supabase.from('vocabulary_words').select('*');
-      if (category !== 'all') query = query.eq('category', category);
-      if (search) query = query.ilike('word', `%${search}%`);
-      const { data } = await query.order('word', { ascending: true }).limit(100);
-      setWords(data || []);
-      setLoading(false);
-    })();
-  }, [category, search]);
+  useEffect(() => { setWords(getStoredWords()); }, []);
 
-  const updateReviewStatus = useCallback(async (wordId: string, status: string) => {
-    if (!user) return;
-    const word = words.find((w) => w.id === wordId);
-    if (!word) return;
+  const filteredWords = words.filter(w => {
+    if (search && !w.word.toLowerCase().includes(search.toLowerCase()) && !w.definition.toLowerCase().includes(search.toLowerCase())) return false;
+    if (filterDifficulty !== 'all' && w.difficulty !== filterDifficulty) return false;
+    if (showMastered === 'mastered' && !w.mastered) return false;
+    if (showMastered === 'unmastered' && w.mastered) return false;
+    return true;
+  });
 
-    const intervals: Record<string, number> = { know: 7, learning: 3, difficult: 1, review: 2 };
-    const masteryMap: Record<string, number> = { know: 4, learning: 2, difficult: 1, review: 3 };
+  const masteredCount = words.filter(w => w.mastered).length;
+  const flashcardWords = filteredWords.length > 0 ? filteredWords : words;
 
-    const { data: existing } = await supabase
-      .from('vocabulary_reviews')
-      .select('id, review_count, correct_count')
-      .eq('user_id', user.id)
-      .eq('vocabulary_word_id', wordId)
-      .maybeSingle();
+  const toggleMastered = (id: string) => {
+    const updated = words.map(w => w.id === id ? { ...w, mastered: !w.mastered } : w);
+    setWords(updated);
+    saveWords(updated);
+  };
 
-    if (existing) {
-      await supabase.from('vocabulary_reviews').update({
-        status,
-        mastery_level: masteryMap[status] || 0,
-        next_review_date: new Date(Date.now() + (intervals[status] || 1) * 86400000).toISOString().split('T')[0],
-        review_interval_days: intervals[status] || 1,
-        review_count: existing.review_count + 1,
-        correct_count: status === 'know' ? existing.correct_count + 1 : existing.correct_count,
-        last_reviewed_at: new Date().toISOString(),
-      }).eq('id', existing.id);
-    } else {
-      await supabase.from('vocabulary_reviews').insert({
-        user_id: user.id,
-        vocabulary_word_id: wordId,
-        status,
-        mastery_level: masteryMap[status] || 0,
-        next_review_date: new Date(Date.now() + (intervals[status] || 1) * 86400000).toISOString().split('T')[0],
-        review_interval_days: intervals[status] || 1,
-        review_count: 1,
-        correct_count: status === 'know' ? 1 : 0,
-        last_reviewed_at: new Date().toISOString(),
-      });
+  const deleteWord = (id: string) => {
+    const updated = words.filter(w => w.id !== id);
+    setWords(updated);
+    saveWords(updated);
+  };
+
+  const addWord = () => {
+    if (!newWord.word.trim() || !newWord.definition.trim()) return;
+    const word: VocabWord = {
+      id: 'v' + Date.now(),
+      word: newWord.word.trim(),
+      definition: newWord.definition.trim(),
+      example: newWord.example.trim(),
+      synonyms: newWord.synonyms.split(',').map(s => s.trim()).filter(Boolean),
+      difficulty: newWord.difficulty,
+      category: newWord.category,
+      mastered: false,
+    };
+    const updated = [...words, word];
+    setWords(updated);
+    saveWords(updated);
+    setNewWord({ word: '', definition: '', example: '', synonyms: '', difficulty: 'medium', category: 'academic' });
+    setShowAddWord(false);
+  };
+
+  const speak = (text: string) => {
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      speechSynthesis.speak(utterance);
     }
-    setReviewStatuses((prev) => ({ ...prev, [wordId]: status }));
-  }, [user, words]);
-
-  const quizWords = words.slice(0, 10);
-  const quizScore = quizWords.filter((w) => {
-    const ua = quizAnswers[w.id];
-    return ua && ua.toLowerCase().trim() === w.definition.toLowerCase().trim();
-  }).length;
+  };
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">IELTS Vocabulary</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Master essential IELTS vocabulary with flashcards, quizzes, and spaced repetition.</p>
+      {/* Header */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">Vocabulary</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {words.length} words • {masteredCount} mastered
+          </p>
+        </div>
+        <div className="flex gap-2">
+          <button onClick={() => setViewMode(viewMode === 'grid' ? 'flashcard' : 'grid')} className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-medium transition-all hover:shadow-md">
+            <RotateCw className="h-4 w-4" />
+            {viewMode === 'grid' ? 'Flashcards' : 'Grid View'}
+          </button>
+          <button onClick={() => setShowAddWord(true)} className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary to-violet-600 px-4 py-2.5 text-sm font-medium text-white shadow-lg shadow-primary/25">
+            <Plus className="h-4 w-4" />
+            Add Word
+          </button>
+        </div>
       </div>
 
-      {/* View tabs */}
-      <div className="flex gap-2">
-        {[
-          { key: 'library', label: 'Library' },
-          { key: 'flashcards', label: 'Flashcards' },
-          { key: 'quiz', label: 'Quiz' },
-        ].map((t) => (
-          <button
-            key={t.key}
-            onClick={() => { setView(t.key as any); setFlashcardIndex(0); setFlashcardFlipped(false); setQuizSubmitted(false); setQuizAnswers({}); }}
-            className={cn(
-              'rounded-lg px-4 py-2 text-sm font-medium transition-colors',
-              view === t.key ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground hover:bg-muted/70'
-            )}
-          >
-            {t.label}
+      {/* Stats Bar */}
+      <div className="grid grid-cols-3 gap-4">
+        <div className="rounded-xl border border-border bg-card p-4 text-center">
+          <div className="text-2xl font-bold">{words.length}</div>
+          <div className="text-xs text-muted-foreground">Total Words</div>
+        </div>
+        <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4 text-center">
+          <div className="text-2xl font-bold text-emerald-600">{masteredCount}</div>
+          <div className="text-xs text-muted-foreground">Mastered</div>
+        </div>
+        <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 text-center">
+          <div className="text-2xl font-bold text-amber-600">{words.length - masteredCount}</div>
+          <div className="text-xs text-muted-foreground">To Learn</div>
+        </div>
+      </div>
+
+      {/* Filters */}
+      <div className="flex flex-wrap gap-2">
+        <div className="relative flex-1 min-w-[200px]">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <input type="text" placeholder="Search words..." value={search} onChange={e => setSearch(e.target.value)} className="w-full rounded-xl border border-border bg-card pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50" />
+        </div>
+        {(['all', 'easy', 'medium', 'hard'] as const).map(d => (
+          <button key={d} onClick={() => setFilterDifficulty(d)} className={cn('rounded-full px-3 py-2 text-xs font-medium transition-colors', filterDifficulty === d ? 'bg-foreground text-background' : 'bg-muted/50 text-muted-foreground hover:bg-muted')}>
+            {d === 'all' ? 'All' : d.charAt(0).toUpperCase() + d.slice(1)}
+          </button>
+        ))}
+        <div className="h-px w-px bg-border self-center mx-1" />
+        {(['all', 'mastered', 'unmastered'] as const).map(s => (
+          <button key={s} onClick={() => setShowMastered(s)} className={cn('rounded-full px-3 py-2 text-xs font-medium transition-colors', showMastered === s ? 'bg-foreground text-background' : 'bg-muted/50 text-muted-foreground hover:bg-muted')}>
+            {s === 'all' ? 'All' : s === 'mastered' ? 'Mastered' : 'To Learn'}
           </button>
         ))}
       </div>
 
-      {/* Library view */}
-      {view === 'library' && (
-        <>
-          <div className="flex flex-col gap-4 sm:flex-row">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input placeholder="Search words..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-9" />
-            </div>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="rounded-md border border-input bg-background px-3 py-2 text-sm"
+      {/* Flashcard View */}
+      {viewMode === 'flashcard' && flashcardWords.length > 0 && (
+        <div className="flex flex-col items-center gap-6 py-8">
+          <div className="w-full max-w-lg">
+            <div
+              className={cn('relative cursor-pointer rounded-2xl border border-border bg-card p-8 min-h-[280px] transition-all duration-500', flipped && '[transform:rotateY(180deg)]')}
+              style={{ perspective: '1000px' }}
+              onClick={() => setFlipped(!flipped)}
             >
-              {categories.map((c) => (
-                <option key={c} value={c} className="capitalize">{c === 'all' ? 'All categories' : c.charAt(0).toUpperCase() + c.slice(1)}</option>
-              ))}
-            </select>
-          </div>
-
-          {loading ? (
-            <div className="animate-pulse text-muted-foreground">Loading vocabulary...</div>
-          ) : words.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-border py-16 text-center text-sm text-muted-foreground">
-              No words found. Try a different search or category.
-            </div>
-          ) : (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {words.map((w) => (
-                <div key={w.id} className="rounded-2xl border border-border bg-card p-5 transition-all hover:shadow-md">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h3 className="text-lg font-bold">{w.word}</h3>
-                      {w.pronunciation && <p className="text-xs text-muted-foreground">{w.pronunciation}</p>}
-                    </div>
-                    <div className="flex gap-1">
-                      {w.cefr_level && <Badge variant="secondary" className="text-xs">{w.cefr_level}</Badge>}
-                      {w.ielts_band && <Badge className="text-xs">B{w.ielts_band}</Badge>}
-                    </div>
-                  </div>
-                  {w.part_of_speech && <p className="mt-1 text-xs italic text-muted-foreground">{w.part_of_speech}</p>}
-                  <p className="mt-2 text-sm">{w.definition}</p>
-                  {w.uzbek_translation && <p className="mt-1 text-sm text-muted-foreground">{w.uzbek_translation}</p>}
-                  {w.example_sentence && (
-                    <p className="mt-3 rounded-lg bg-muted/30 p-2 text-xs italic text-muted-foreground">"{w.example_sentence}"</p>
-                  )}
-                  {w.synonyms && w.synonyms.length > 0 && (
-                    <div className="mt-3 flex flex-wrap gap-1">
-                      {w.synonyms.slice(0, 4).map((s) => (
-                        <span key={s} className="rounded bg-primary/10 px-2 py-0.5 text-xs text-primary">{s}</span>
-                      ))}
-                    </div>
-                  )}
-                  <div className="mt-4 flex gap-2">
-                    <Button size="sm" variant={reviewStatuses[w.id] === 'know' ? 'default' : 'outline'} onClick={() => updateReviewStatus(w.id, 'know')} className="flex-1">
-                      <Check className="h-3 w-3" /> Know
-                    </Button>
-                    <Button size="sm" variant={reviewStatuses[w.id] === 'learning' ? 'default' : 'outline'} onClick={() => updateReviewStatus(w.id, 'learning')} className="flex-1">
-                      <Brain className="h-3 w-3" /> Learning
-                    </Button>
-                    <Button size="sm" variant={reviewStatuses[w.id] === 'difficult' ? 'destructive' : 'outline'} onClick={() => updateReviewStatus(w.id, 'difficult')} className="flex-1">
-                      <X className="h-3 w-3" /> Hard
-                    </Button>
-                  </div>
+              <div className={cn('transition-opacity duration-300', flipped ? 'opacity-0' : 'opacity-100')}>
+                <div className="flex items-center justify-between mb-6">
+                  <span className={cn('rounded-full px-2.5 py-0.5 text-xs font-semibold', difficultyColors[flashcardWords[flashcardIndex]?.difficulty])}>
+                    {flashcardWords[flashcardIndex]?.difficulty}
+                  </span>
+                  <button onClick={e => { e.stopPropagation(); speak(flashcardWords[flashcardIndex]?.word); }} className="rounded-full bg-primary/10 p-2 hover:bg-primary/20">
+                    <Volume2 className="h-4 w-4 text-primary" />
+                  </button>
                 </div>
-              ))}
-            </div>
-          )}
-        </>
-      )}
-
-      {/* Flashcards view */}
-      {view === 'flashcards' && (
-        <div className="mx-auto max-w-2xl">
-          {words.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-border py-16 text-center text-sm text-muted-foreground">
-              No words available for flashcards.
-            </div>
-          ) : (
-            <>
-              <div className="mb-4 text-center text-sm text-muted-foreground">
-                Card {flashcardIndex + 1} of {words.length}
+                <h2 className="text-3xl font-bold text-center">{flashcardWords[flashcardIndex]?.word}</h2>
+                <p className="text-center text-muted-foreground mt-4">Tap to reveal definition</p>
               </div>
-              <div
-                className="relative h-80 cursor-pointer perspective-1000"
-                onClick={() => setFlashcardFlipped(!flashcardFlipped)}
-              >
-                <div className={cn('absolute inset-0 rounded-3xl border-2 border-border bg-card p-8 transition-all', flashcardFlipped ? 'opacity-0 rotate-y-180' : 'opacity-100')}>
-                  <div className="flex h-full flex-col items-center justify-center">
-                    <h2 className="text-4xl font-bold">{words[flashcardIndex]?.word}</h2>
-                    {words[flashcardIndex]?.pronunciation && (
-                      <p className="mt-2 text-sm text-muted-foreground">{words[flashcardIndex].pronunciation}</p>
-                    )}
-                    {words[flashcardIndex]?.part_of_speech && (
-                      <p className="mt-1 text-xs italic text-muted-foreground">{words[flashcardIndex].part_of_speech}</p>
-                    )}
-                    <p className="mt-6 text-xs text-muted-foreground">Click to flip</p>
-                  </div>
-                </div>
-                {flashcardFlipped && (
-                  <div className="absolute inset-0 rounded-3xl border-2 border-primary bg-card p-8">
-                    <div className="flex h-full flex-col items-center justify-center space-y-3">
-                      <p className="text-lg font-medium">{words[flashcardIndex]?.definition}</p>
-                      {words[flashcardIndex]?.uzbek_translation && (
-                        <p className="text-sm text-muted-foreground">{words[flashcardIndex].uzbek_translation}</p>
-                      )}
-                      {words[flashcardIndex]?.example_sentence && (
-                        <p className="rounded-lg bg-muted/30 p-3 text-sm italic">"{words[flashcardIndex].example_sentence}"</p>
-                      )}
-                      {words[flashcardIndex]?.synonyms && words[flashcardIndex].synonyms.length > 0 && (
-                        <div className="flex flex-wrap justify-center gap-1">
-                          {words[flashcardIndex].synonyms.map((s) => (
-                            <span key={s} className="rounded bg-primary/10 px-2 py-0.5 text-xs text-primary">{s}</span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
+              <div className={cn('absolute inset-0 flex flex-col items-center justify-center p-8 [transform:rotateY(180deg)] [backface-visibility:hidden]', flipped ? 'opacity-100' : 'opacity-0')}>
+                <h3 className="text-xl font-bold mb-2">{flashcardWords[flashcardIndex]?.word}</h3>
+                <p className="text-muted-foreground text-center mb-4">{flashcardWords[flashcardIndex]?.definition}</p>
+                {flashcardWords[flashcardIndex]?.example && (
+                  <p className="text-sm italic text-muted-foreground/80 text-center">"{flashcardWords[flashcardIndex]?.example}"</p>
+                )}
+                {flashcardWords[flashcardIndex]?.synonyms.length > 0 && (
+                  <div className="mt-4 flex flex-wrap gap-1 justify-center">
+                    {flashcardWords[flashcardIndex]?.synonyms.map((s, i) => (
+                      <span key={i} className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs text-primary">{s}</span>
+                    ))}
                   </div>
                 )}
               </div>
-              <div className="mt-6 flex items-center justify-between">
-                <Button variant="outline" onClick={() => { setFlashcardIndex(Math.max(0, flashcardIndex - 1)); setFlashcardFlipped(false); }} disabled={flashcardIndex === 0}>
-                  <ArrowLeft className="mr-1 h-4 w-4" /> Previous
-                </Button>
-                <div className="flex gap-2">
-                  <Button size="sm" variant="outline" onClick={() => updateReviewStatus(words[flashcardIndex].id, 'difficult')}>
-                    <X className="h-4 w-4" /> Difficult
-                  </Button>
-                  <Button size="sm" variant="outline" onClick={() => updateReviewStatus(words[flashcardIndex].id, 'review')}>
-                    <RotateCw className="h-4 w-4" /> Review
-                  </Button>
-                  <Button size="sm" onClick={() => updateReviewStatus(words[flashcardIndex].id, 'know')}>
-                    <Check className="h-4 w-4" /> Know
-                  </Button>
-                </div>
-                <Button variant="outline" onClick={() => { setFlashcardIndex(Math.min(words.length - 1, flashcardIndex + 1)); setFlashcardFlipped(false); }} disabled={flashcardIndex === words.length - 1}>
-                  Next <ArrowRight className="ml-1 h-4 w-4" />
-                </Button>
-              </div>
-            </>
-          )}
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <button onClick={() => { setFlashcardIndex(Math.max(0, flashcardIndex - 1)); setFlipped(false); }} disabled={flashcardIndex === 0} className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium disabled:opacity-50">← Previous</button>
+            <span className="text-sm text-muted-foreground">{flashcardIndex + 1} / {flashcardWords.length}</span>
+            <button onClick={() => { setFlashcardIndex(Math.min(flashcardWords.length - 1, flashcardIndex + 1)); setFlipped(false); }} disabled={flashcardIndex >= flashcardWords.length - 1} className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium disabled:opacity-50">Next →</button>
+          </div>
         </div>
       )}
 
-      {/* Quiz view */}
-      {view === 'quiz' && (
-        <div className="mx-auto max-w-2xl space-y-6">
-          {quizWords.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-border py-16 text-center text-sm text-muted-foreground">
-              No words available for quiz.
-            </div>
-          ) : quizSubmitted ? (
-            <div className="rounded-3xl border border-border bg-card p-8 text-center">
-              <h2 className="text-2xl font-bold">Quiz Complete!</h2>
-              <div className="mt-4 text-5xl font-bold text-primary">{quizScore}/{quizWords.length}</div>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {quizScore === quizWords.length ? 'Perfect score! Excellent work!' : quizScore >= quizWords.length * 0.7 ? 'Great job! Keep it up!' : 'Keep practicing to improve your score.'}
-              </p>
-              <Button className="mt-6" onClick={() => { setQuizSubmitted(false); setQuizAnswers({}); }}>
-                Try Again
-              </Button>
-            </div>
-          ) : (
-            <>
-              <p className="text-sm text-muted-foreground">Match each word to its correct definition. 10 questions.</p>
-              {quizWords.map((w, i) => (
-                <div key={w.id} className="rounded-2xl border border-border bg-card p-5">
+      {/* Grid View */}
+      {viewMode === 'grid' && (
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {filteredWords.map(word => (
+            <div key={word.id} className={cn('rounded-2xl border border-border bg-card p-4 transition-all hover:shadow-md', word.mastered && 'border-emerald-500/20 bg-emerald-500/5')}>
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
                   <div className="flex items-center gap-2">
-                    <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/10 text-sm font-bold text-primary">{i + 1}</span>
-                    <span className="font-medium">{w.word}</span>
-                    {w.part_of_speech && <span className="text-xs italic text-muted-foreground">{w.part_of_speech}</span>}
+                    <h3 className="font-bold">{word.word}</h3>
+                    <button onClick={() => speak(word.word)} className="text-muted-foreground hover:text-primary"><Volume2 className="h-3.5 w-3.5" /></button>
                   </div>
-                  <Input
-                    placeholder="Type the definition..."
-                    value={quizAnswers[w.id] || ''}
-                    onChange={(e) => setQuizAnswers({ ...quizAnswers, [w.id]: e.target.value })}
-                    className="mt-3"
-                  />
+                  <span className={cn('mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold', difficultyColors[word.difficulty])}>{word.difficulty}</span>
                 </div>
-              ))}
-              <Button onClick={() => setQuizSubmitted(true)} className="w-full" size="lg">
-                Submit Quiz
-              </Button>
-            </>
-          )}
+                <div className="flex gap-1">
+                  <button onClick={() => toggleMastered(word.id)} className={cn('rounded-lg p-1.5 transition-colors', word.mastered ? 'bg-emerald-100 text-emerald-600' : 'bg-muted text-muted-foreground hover:bg-emerald-100 hover:text-emerald-600')}>
+                    <Check className="h-3.5 w-3.5" />
+                  </button>
+                  <button onClick={() => deleteWord(word.id)} className="rounded-lg bg-muted p-1.5 text-muted-foreground hover:bg-red-100 hover:text-red-600">
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              </div>
+              <p className="mt-2 text-sm text-muted-foreground">{word.definition}</p>
+              {word.example && <p className="mt-2 text-xs italic text-muted-foreground/70">"{word.example}"</p>}
+              {word.synonyms.length > 0 && (
+                <div className="mt-2 flex flex-wrap gap-1">
+                  {word.synonyms.map((s, i) => (
+                    <span key={i} className="rounded-full bg-muted px-2 py-0.5 text-[10px] text-muted-foreground">{s}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Add Word Modal */}
+      {showAddWord && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="w-full max-w-md rounded-2xl border border-border bg-card p-6">
+            <h2 className="text-lg font-bold mb-4">Add New Word</h2>
+            <div className="space-y-3">
+              <input placeholder="Word *" value={newWord.word} onChange={e => setNewWord({ ...newWord, word: e.target.value })} className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              <input placeholder="Definition *" value={newWord.definition} onChange={e => setNewWord({ ...newWord, definition: e.target.value })} className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              <input placeholder="Example sentence" value={newWord.example} onChange={e => setNewWord({ ...newWord, example: e.target.value })} className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              <input placeholder="Synonyms (comma separated)" value={newWord.synonyms} onChange={e => setNewWord({ ...newWord, synonyms: e.target.value })} className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              <select value={newWord.difficulty} onChange={e => setNewWord({ ...newWord, difficulty: e.target.value as any })} className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50">
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+            <div className="mt-4 flex gap-2 justify-end">
+              <button onClick={() => setShowAddWord(false)} className="rounded-xl border border-border px-4 py-2 text-sm font-medium">Cancel</button>
+              <button onClick={addWord} className="rounded-xl bg-gradient-to-r from-primary to-violet-600 px-4 py-2 text-sm font-medium text-white shadow-lg">Add Word</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Empty state */}
+      {viewMode === 'grid' && filteredWords.length === 0 && (
+        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border py-16 text-center">
+          <BookOpen className="h-10 w-10 text-muted-foreground/50" />
+          <p className="mt-3 text-sm text-muted-foreground">No words found. Try a different filter or add a new word.</p>
         </div>
       )}
     </div>

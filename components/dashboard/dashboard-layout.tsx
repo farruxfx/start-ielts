@@ -22,21 +22,15 @@ import {
   Bell,
   ShieldCheck,
 } from 'lucide-react';
-import { useAuth } from '@/components/auth/auth-provider';
+import { useAuth } from '@/components/auth/use-auth';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
 const navItems = [
   { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { label: 'Practice', href: '/practice', icon: BookOpen },
-  { label: 'Reading', href: '/practice?skill=reading', icon: BookOpen },
-  { label: 'Listening', href: '/practice?skill=listening', icon: Headphones },
-  { label: 'Writing', href: '/practice?skill=writing', icon: PenLine },
-  { label: 'Speaking', href: '/practice?skill=speaking', icon: Mic },
-  { label: 'Mock Exam', href: '/mock-exam', icon: FileCheck },
   { label: 'Analytics', href: '/analytics', icon: BarChart3 },
   { label: 'Vocabulary', href: '/vocabulary', icon: BookMarked },
-  { label: 'Mistakes', href: '/mistakes', icon: AlertCircle },
   { label: 'AI Coach', href: '/ai-coach', icon: Brain },
 ];
 

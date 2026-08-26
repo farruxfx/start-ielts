@@ -16,7 +16,7 @@ import {
   ChevronRight,
   ShieldCheck,
 } from 'lucide-react';
-import { useAuth } from '@/components/auth/auth-provider';
+import { useAuth } from '@/components/auth/use-auth';
 import { cn } from '@/lib/utils';
 
 const adminNav = [
