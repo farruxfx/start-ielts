@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import type { GoogleUserInfo } from '@/lib/google-auth';
 
 type UserRole = 'student' | 'teacher' | 'admin';
 
@@ -9,6 +10,8 @@ interface MockUser {
   email: string;
   name: string;
   role: UserRole;
+  avatar?: string;
+  authProvider?: 'email' | 'google';
 }
 
 interface MockAuthContextValue {
@@ -18,6 +21,7 @@ interface MockAuthContextValue {
   role: UserRole | null;
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
   signUp: (email: string, password: string, name: string) => Promise<{ error: string | null }>;
+  signInWithGoogle: (googleUser?: GoogleUserInfo) => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
 }
 
@@ -28,6 +32,7 @@ const MockAuthContext = createContext<MockAuthContextValue>({
   role: null,
   signIn: async () => ({ error: 'Not implemented' }),
   signUp: async () => ({ error: 'Not implemented' }),
+  signInWithGoogle: async (_googleUser?: GoogleUserInfo) => ({ error: 'Not implemented' }),
   signOut: async () => {},
 });
 
@@ -68,7 +73,7 @@ function seedDefaultAdmin() {
   }
 }
 
-function getStoredUsers(): Record<string, { password: string; user: MockUser }> {
+function getStoredUsers(): Record<string, { password?: string; user: MockUser }> {
   if (typeof window === 'undefined') return {};
   try {
     const data = localStorage.getItem(STORAGE_KEY);
@@ -78,7 +83,7 @@ function getStoredUsers(): Record<string, { password: string; user: MockUser }> 
   }
 }
 
-function saveStoredUsers(users: Record<string, { password: string; user: MockUser }>) {
+function saveStoredUsers(users: Record<string, { password?: string; user: MockUser }>) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
 }
 
@@ -161,6 +166,42 @@ export function MockAuthProvider({ children }: { children: ReactNode }) {
     return { error: null };
   };
 
+  const signInWithGoogle = async (googleUser?: GoogleUserInfo) => {
+    if (!googleUser) return { error: 'No Google user data provided' };
+    const users = getStoredUsers();
+    const email = googleUser.email.toLowerCase();
+
+    // Find or create user
+    let existingUser = users[email]?.user;
+
+    if (!existingUser) {
+      // Create new user from Google info
+      const newUser: MockUser = {
+        id: `google-${googleUser.sub}`,
+        email,
+        name: googleUser.name,
+        role: 'student',
+        avatar: googleUser.picture,
+        authProvider: 'google',
+      };
+      users[email] = { user: newUser };
+      saveStoredUsers(users);
+      existingUser = newUser;
+    } else {
+      // Update existing user with Google info
+      existingUser.name = googleUser.name;
+      existingUser.avatar = googleUser.picture;
+      existingUser.authProvider = 'google';
+      users[email].user = existingUser;
+      saveStoredUsers(users);
+    }
+
+    setUser(existingUser);
+    setRole(existingUser.role);
+    setCurrentUser(existingUser);
+    return { error: null };
+  };
+
   const signOut = async () => {
     setUser(null);
     setRole(null);
@@ -176,6 +217,7 @@ export function MockAuthProvider({ children }: { children: ReactNode }) {
         role,
         signIn,
         signUp,
+        signInWithGoogle,
         signOut,
       }}
     >

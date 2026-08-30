@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { AuthProvider } from '@/components/auth/auth-provider';
 import { MockAuthProvider } from '@/components/auth/mock-auth-provider';
+import { ThemeProvider } from '@/components/theme-provider';
 import { isSupabaseConfigured } from '@/lib/supabase';
 
 export const metadata: Metadata = {
@@ -54,7 +55,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="antialiased" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'" }}>
-        <AuthWrapper>{children}</AuthWrapper>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <AuthWrapper>{children}</AuthWrapper>
+        </ThemeProvider>
       </body>
     </html>
   );

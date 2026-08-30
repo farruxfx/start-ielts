@@ -13,6 +13,7 @@ interface AuthContextValue {
   role: UserRole | null;
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
   signUp: (email: string, password: string, name: string) => Promise<{ error: string | null }>;
+  signInWithGoogle: () => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
 }
 
@@ -23,6 +24,7 @@ const AuthContext = createContext<AuthContextValue>({
   role: null,
   signIn: async () => ({ error: 'Not implemented' }),
   signUp: async () => ({ error: 'Not implemented' }),
+  signInWithGoogle: async () => ({ error: 'Not implemented' }),
   signOut: async () => {},
 });
 
@@ -95,6 +97,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { error: null };
   };
 
+  const signInWithGoogle = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+    return { error: error?.message ?? null };
+  };
+
   const signOut = async () => {
     await supabase.auth.signOut();
     setSession(null);
@@ -103,7 +115,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, loading, role, signIn, signUp, signOut }}>
+    <AuthContext.Provider value={{ user, session, loading, role, signIn, signUp, signInWithGoogle, signOut }}>
       {children}
     </AuthContext.Provider>
   );

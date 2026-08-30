@@ -28,6 +28,9 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { getUserPlan } from '@/lib/subscription';
 import { UpgradeModal } from '@/components/subscription/upgrade-modal';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { NotificationPanel } from '@/components/notifications/notification-panel';
+import { getUnreadCount } from '@/lib/notifications';
 
 const navItems = [
   { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -44,6 +47,12 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { user, loading, role, signOut } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showUpgrade, setShowUpgrade] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [notifCount, setNotifCount] = useState(0);
+
+  useEffect(() => {
+    setNotifCount(getUnreadCount());
+  }, [pathname]);
   const currentPlan = user ? getUserPlan(user.id) : 'free';
   const isFreeUser = currentPlan === 'free';
 
@@ -217,7 +226,17 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             </div>
             <span className="font-bold tracking-tight">IELTS PRO</span>
           </div>
-          <Bell className="h-5 w-5 text-muted-foreground" />
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <button onClick={() => setShowNotifications(true)} className="relative">
+              <Bell className="h-5 w-5 text-muted-foreground" />
+              {notifCount > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[9px] font-bold text-primary-foreground">
+                  {notifCount}
+                </span>
+              )}
+            </button>
+          </div>
         </header>
 
         <main className="p-4 sm:p-6 lg:p-8">{children}</main>
@@ -225,6 +244,8 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
       {/* Upgrade Modal */}
       <UpgradeModal open={showUpgrade} onClose={() => setShowUpgrade(false)} />
+      {/* Notifications */}
+      <NotificationPanel open={showNotifications} onClose={() => setShowNotifications(false)} />
     </div>
   );
 }
