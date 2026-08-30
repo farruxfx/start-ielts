@@ -1,126 +1,165 @@
 'use client';
 
-import Link from 'next/link';
-import { ArrowRight, BookOpen, Headphones, PenLine, Mic, FileCheck } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useEffect, useRef, useState } from 'react';
+import {
+  BookOpen, Headphones, PenLine, Mic, Brain, BarChart3,
+  Trophy, Clock, Target, Sparkles, Zap, Shield
+} from 'lucide-react';
 
 const features = [
   {
-    icon: Headphones,
-    title: 'Listening',
-    description:
-      'Real audio, auto-save, and instant scoring across all 4 sections.',
-    gradient: 'bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700',
-    link: '/practice?skill=listening',
+    icon: BookOpen,
+    title: '130+ Reading Tests',
+    description: 'Academic & General reading passages with real IELTS format questions.',
+    color: 'from-blue-500 to-cyan-500',
+    bgColor: 'bg-blue-500/10',
   },
   {
-    icon: BookOpen,
-    title: 'Reading',
-    description:
-      '13+ question types with highlight, notes, and real exam interface.',
-    gradient: 'bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-600',
-    link: '/practice?skill=reading',
+    icon: Headphones,
+    title: '68+ Listening Tests',
+    description: 'Full listening sections with audio, transcripts, and answer explanations.',
+    color: 'from-purple-500 to-pink-500',
+    bgColor: 'bg-purple-500/10',
   },
   {
     icon: PenLine,
-    title: 'Writing',
-    description:
-      'AI evaluates Task 1 & 2 across all IELTS criteria with detailed feedback.',
-    gradient: 'bg-gradient-to-br from-rose-500 via-pink-500 to-fuchsia-600',
-    link: '/practice?skill=writing',
+    title: '130 Writing Topics',
+    description: 'Task 1 & Task 2 topics with AI-powered essay evaluation and feedback.',
+    color: 'from-amber-500 to-orange-500',
+    bgColor: 'bg-amber-500/10',
   },
   {
     icon: Mic,
-    title: 'Speaking',
-    description:
-      'Record yourself, get AI pronunciation analysis and improvement tips.',
-    gradient: 'bg-gradient-to-br from-amber-400 via-orange-400 to-yellow-500',
-    link: '/practice?skill=speaking',
+    title: 'AI Speaking Practice',
+    description: 'Web Speech API + Groq AI for real-time pronunciation and fluency feedback.',
+    color: 'from-rose-500 to-red-500',
+    bgColor: 'bg-rose-500/10',
   },
   {
-    icon: FileCheck,
-    title: 'Mock Exams',
-    description:
-      'Full IELTS simulation with realistic timer and automatic band scoring.',
-    gradient: 'bg-gradient-to-br from-gray-800 via-gray-900 to-black',
-    link: '/mock-exam',
+    icon: Brain,
+    title: 'AI Writing Evaluator',
+    description: 'Get instant band scores, corrections, and vocabulary improvements.',
+    color: 'from-indigo-500 to-blue-500',
+    bgColor: 'bg-indigo-500/10',
+  },
+  {
+    icon: BarChart3,
+    title: 'Progress Analytics',
+    description: 'Track your band scores, weak areas, and study streak over time.',
+    color: 'from-emerald-500 to-teal-500',
+    bgColor: 'bg-emerald-500/10',
+  },
+  {
+    icon: Trophy,
+    title: '50 Mock Exams',
+    description: 'Full-length IELTS mock exams with 4 sections and timed interface.',
+    color: 'from-yellow-500 to-amber-500',
+    bgColor: 'bg-yellow-500/10',
+  },
+  {
+    icon: Clock,
+    title: 'Spaced Repetition',
+    description: 'Smart vocabulary system that optimizes your learning intervals.',
+    color: 'from-cyan-500 to-blue-500',
+    bgColor: 'bg-cyan-500/10',
+  },
+  {
+    icon: Target,
+    title: 'Study Plans',
+    description: 'Personalized 30-day study plans based on your target band and level.',
+    color: 'from-violet-500 to-purple-500',
+    bgColor: 'bg-violet-500/10',
+  },
+  {
+    icon: Sparkles,
+    title: 'Daily Goals',
+    description: 'Track daily learning goals and maintain your streak.',
+    color: 'from-pink-500 to-rose-500',
+    bgColor: 'bg-pink-500/10',
+  },
+  {
+    icon: Shield,
+    title: 'Secure Payments',
+    description: 'Automated payment verification via Telegram HUMObot.',
+    color: 'from-teal-500 to-green-500',
+    bgColor: 'bg-teal-500/10',
+  },
+  {
+    icon: Zap,
+    title: 'Instant Results',
+    description: 'Get your band scores and feedback immediately after submission.',
+    color: 'from-orange-500 to-red-500',
+    bgColor: 'bg-orange-500/10',
   },
 ];
 
+function FeatureCard({ feature, index }: { feature: typeof features[0]; index: number }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => setIsVisible(true), index * 100);
+        }
+      },
+      { threshold: 0.1 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [index]);
+
+  return (
+    <div
+      ref={ref}
+      className={`group relative rounded-2xl border border-border bg-card p-6 transition-all duration-500 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      }`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Gradient background on hover */}
+      <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${feature.color} opacity-0 transition-opacity duration-300 ${isHovered ? 'opacity-5' : ''}`} />
+      
+      <div className="relative z-10">
+        <div className={`mb-4 inline-flex rounded-xl p-3 ${feature.bgColor} transition-transform duration-300 ${isHovered ? 'scale-110 rotate-3' : ''}`}>
+          <feature.icon className={`h-6 w-6 bg-gradient-to-r ${feature.color} bg-clip-text`} style={{ color: 'currentColor' }} />
+        </div>
+        <h3 className="mb-2 text-lg font-bold">{feature.title}</h3>
+        <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
+      </div>
+    </div>
+  );
+}
+
 export function Features() {
   return (
-    <section id="features" className="relative py-24 sm:py-32">
+    <section className="relative py-20 sm:py-28">
       {/* Background */}
-      <div className="absolute inset-0 bg-muted/30" />
-      <div className="absolute left-0 top-1/2 h-[500px] w-[500px] -translate-y-1/2 -translate-x-1/2 rounded-full bg-blue-500/5 blur-[100px]" />
-
-      <div className="container-mw container-px relative">
-        {/* Header */}
-        <div className="mx-auto max-w-2xl text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-1.5 text-sm font-medium text-blue-700 dark:bg-blue-950 dark:text-blue-300">
-            <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />
-            All-in-one platform
-          </div>
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-muted/20 to-background" />
+      
+      <div className="container-mw container-px relative z-10">
+        {/* Section Header */}
+        <div className="mx-auto mb-16 max-w-2xl text-center">
+          <span className="mb-4 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
+            Everything you need
+          </span>
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-            Everything you need to{' '}
-            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              ace IELTS
-            </span>
+            All IELTS skills,
+            <span className="bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent"> one platform</span>
           </h2>
-          <p className="mt-5 text-lg text-muted-foreground">
-            Complete IELTS preparation ecosystem with specialized tools for every skill, AI-powered
-            evaluation, and professional analytics.
+          <p className="mt-4 text-lg text-muted-foreground">
+            From Reading to Speaking, we cover every section with real exam format and AI-powered feedback.
           </p>
         </div>
 
-        {/* Gradient Feature Cards */}
-        <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:mt-20">
-          {features.map((feature) => (
-            <Link key={feature.title} href={feature.link}>
-              <div
-                className={`group relative overflow-hidden rounded-3xl ${feature.gradient} p-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl sm:p-8`}
-              >
-                {/* Decorative Icon */}
-                <div className="absolute -bottom-6 -right-6 opacity-20 transition-transform duration-500 group-hover:scale-110 group-hover:opacity-30">
-                  <feature.icon className="h-28 w-28 sm:h-36 sm:w-36 text-white" />
-                </div>
-
-                {/* Badge */}
-                <div className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
-                  <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
-                  {feature.title}
-                </div>
-
-                {/* Title */}
-                <h3 className="mt-4 text-2xl font-bold text-white sm:text-3xl">{feature.title}</h3>
-
-                {/* Description */}
-                <p className="mt-2 max-w-xs text-sm font-medium text-white/80">
-                  {feature.description}
-                </p>
-
-                {/* Button */}
-                <div className="mt-5 inline-flex items-center gap-2 rounded-full bg-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 group-hover:bg-white/30 group-hover:gap-3">
-                  Practice
-                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                </div>
-              </div>
-            </Link>
+        {/* Features Grid */}
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {features.map((feature, index) => (
+            <FeatureCard key={feature.title} feature={feature} index={index} />
           ))}
-        </div>
-
-        {/* Bottom CTA */}
-        <div className="mt-16 text-center">
-          <Link href="/practice">
-            <Button
-              variant="outline"
-              size="lg"
-              className="group border-2 px-8 transition-all hover:bg-muted/50"
-            >
-              Explore all features
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Button>
-          </Link>
         </div>
       </div>
     </section>

@@ -6,105 +6,98 @@ import { cn } from '@/lib/utils';
 
 const faqs = [
   {
-    question: 'Is IELTS PRO affiliated with the official IELTS organization?',
-    answer:
-      'No. IELTS PRO is an independent preparation platform. We are not affiliated with, endorsed by, or connected to the official IELTS organization, Cambridge University Press, or the British Council. Our practice materials are designed to help you prepare effectively.',
+    question: 'Is IELTS PRO free to use?',
+    answer: 'Yes! IELTS PRO offers a free plan with limited access to practice tests, vocabulary, and basic analytics. You can upgrade to a paid plan for full access to all features.',
   },
   {
-    question: 'How does the AI writing evaluation work?',
-    answer:
-      'Our AI evaluates your Writing Task 1 and Task 2 responses across all official IELTS criteria: Task Achievement, Coherence & Cohesion, Lexical Resource, and Grammatical Range & Accuracy. You receive a detailed breakdown with specific feedback on each criterion and suggestions for improvement.',
+    question: 'How does AI writing evaluation work?',
+    answer: 'Our AI writing evaluator uses Groq\'s Llama 3.3 70B model to analyze your essays. It provides band scores, identifies grammar mistakes, suggests vocabulary improvements, and gives detailed feedback on task achievement, coherence, and lexical resource.',
+  },
+  {
+    question: 'Can I practice speaking with AI?',
+    answer: 'Yes! IELTS PRO uses Web Speech API for speech recognition and Groq AI for evaluation. You can practice all 3 parts of the speaking test and get instant feedback on fluency, pronunciation, grammar, and vocabulary.',
+  },
+  {
+    question: 'How many mock exams are available?',
+    answer: 'We offer 50 full-length mock exams that simulate the real IELTS test experience. Each mock exam includes all 4 sections (Listening, Reading, Writing, Speaking) with timed interfaces and detailed scoring.',
   },
   {
     question: 'Can I use IELTS PRO on my phone?',
-    answer:
-      'Yes! IELTS PRO is fully responsive and works on all devices — desktop, tablet, and mobile. You can practice anywhere, anytime. However, we recommend using a desktop or tablet for the best experience, especially for writing practice.',
+    answer: 'Absolutely! IELTS PRO is fully responsive and works great on all devices — smartphones, tablets, and desktops. We also support PWA for offline access.',
   },
   {
-    question: 'How is the speaking practice different from just recording myself?',
-    answer:
-      'Our speaking simulator provides AI-powered analysis of your pronunciation, fluency, vocabulary, and grammar. You get specific feedback on areas to improve, not just a recording. The AI also evaluates how well your response addresses the question.',
+    question: 'What payment methods do you accept?',
+    answer: 'We accept payments via HUMO card through our automated Telegram payment system. Simply transfer the exact amount to the provided card number, and your subscription will be activated automatically.',
   },
   {
-    question: 'Do I get a certificate after completing practice tests?',
-    answer:
-      'IELTS PRO provides detailed score reports showing your performance across all skills. However, these are practice scores and should not be confused with official IELTS results. They are excellent for tracking your progress and identifying areas to focus on.',
-  },
-  {
-    question: 'Can I cancel my subscription anytime?',
-    answer:
-      'Absolutely. You can cancel your subscription at any time from your account settings. There are no cancellation fees. If you cancel, you will continue to have access until the end of your current billing period.',
+    question: 'Can I get a refund?',
+    answer: 'Yes, we offer a 7-day money-back guarantee on all paid plans. If you\'re not satisfied, contact our support team for a full refund.',
   },
 ];
 
-export function FAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+function FAQItem({ faq, index }: { faq: typeof faqs[0]; index: number }) {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <section id="faq" className="relative py-24 sm:py-32">
+    <div
+      className="border-b border-border last:border-0"
+      style={{ animation: `fadeInUp 0.5s ease-out ${index * 0.1}s both` }}
+    >
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex w-full items-center justify-between py-5 text-left transition-colors hover:text-primary"
+      >
+        <span className="text-lg font-medium pr-4">{faq.question}</span>
+        <ChevronDown
+          className={cn(
+            'h-5 w-5 shrink-0 transition-transform duration-300',
+            isOpen && 'rotate-180'
+          )}
+        />
+      </button>
+      <div
+        className={cn(
+          'overflow-hidden transition-all duration-300',
+          isOpen ? 'max-h-40 pb-5' : 'max-h-0'
+        )}
+      >
+        <p className="text-muted-foreground leading-relaxed">{faq.answer}</p>
+      </div>
+    </div>
+  );
+}
+
+export function FAQ() {
+  return (
+    <section className="relative py-20 sm:py-28">
       <div className="container-mw container-px">
-        <div className="mx-auto max-w-3xl">
-          {/* Header */}
-          <div className="text-center">
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-purple-100 px-4 py-1.5 text-sm font-medium text-purple-700 dark:bg-purple-950 dark:text-purple-300">
-              <span className="h-1.5 w-1.5 rounded-full bg-purple-500" />
-              FAQ
-            </div>
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-              Frequently asked questions
-            </h2>
-            <p className="mt-5 text-lg text-muted-foreground">
-              Got questions? We have answers.
-            </p>
-          </div>
+        {/* Header */}
+        <div className="mx-auto mb-12 max-w-2xl text-center">
+          <span className="mb-4 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
+            FAQ
+          </span>
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+            Frequently asked questions
+          </h2>
+          <p className="mt-4 text-lg text-muted-foreground">
+            Everything you need to know about IELTS PRO
+          </p>
+        </div>
 
-          {/* FAQ List */}
-          <div className="mt-12 space-y-4 lg:mt-16">
-            {faqs.map((faq, index) => (
-              <div
-                key={index}
-                className="rounded-xl border border-border bg-card transition-all hover:border-purple-200 dark:hover:border-purple-800"
-              >
-                <button
-                  className="flex w-full items-center justify-between p-5 text-left"
-                  onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                >
-                  <span className="pr-4 text-sm font-semibold sm:text-base">{faq.question}</span>
-                  <ChevronDown
-                    className={cn(
-                      'h-5 w-5 flex-shrink-0 text-muted-foreground transition-transform duration-200',
-                      openIndex === index && 'rotate-180'
-                    )}
-                  />
-                </button>
-                <div
-                  className={cn(
-                    'overflow-hidden transition-all duration-300',
-                    openIndex === index ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
-                  )}
-                >
-                  <div className="px-5 pb-5 text-sm leading-relaxed text-muted-foreground">
-                    {faq.answer}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Bottom CTA */}
-          <div className="mt-12 text-center">
-            <p className="text-sm text-muted-foreground">
-              Still have questions?{' '}
-              <a
-                href="mailto:hello@ieltspro.app"
-                className="font-medium text-primary hover:underline"
-              >
-                Contact us
-              </a>
-            </p>
-          </div>
+        {/* FAQ List */}
+        <div className="mx-auto max-w-3xl rounded-2xl border border-border bg-card p-6 sm:p-8">
+          {faqs.map((faq, index) => (
+            <FAQItem key={faq.question} faq={faq} index={index} />
+          ))}
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </section>
   );
 }

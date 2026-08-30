@@ -1,112 +1,113 @@
 'use client';
 
-import { Monitor, Brain, TrendingUp, Award, ArrowRight } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { UserPlus, Target, BookOpen, Trophy, ArrowRight } from 'lucide-react';
 
 const steps = [
   {
-    icon: Monitor,
-    title: 'Practice in real exam environment',
-    description:
-      'Our interface mirrors the official computer-delivered IELTS exam. Timer, navigation, highlight, notes — everything for test-day confidence.',
-    color: 'from-blue-500 to-blue-600',
-    iconBg: 'bg-blue-100 dark:bg-blue-950',
-    number: '01',
+    icon: UserPlus,
+    step: '01',
+    title: 'Create Account',
+    description: 'Sign up for free with email or Google. Takes less than 30 seconds.',
+    color: 'from-blue-500 to-cyan-500',
   },
   {
-    icon: Brain,
-    title: 'Get AI-powered feedback',
-    description:
-      'Submit Writing and Speaking responses for instant evaluation across all IELTS criteria — task achievement, coherence, lexical resource, grammar, and pronunciation.',
-    color: 'from-indigo-500 to-indigo-600',
-    iconBg: 'bg-indigo-100 dark:bg-indigo-950',
-    number: '02',
+    icon: Target,
+    step: '02',
+    title: 'Set Your Goal',
+    description: 'Choose your target band score and we\'ll create a personalized study plan.',
+    color: 'from-purple-500 to-pink-500',
   },
   {
-    icon: TrendingUp,
-    title: 'Track your progress',
-    description:
-      'Monitor band score progression over time. Identify weak areas, compare skills against targets, and receive personalized recommendations.',
-    color: 'from-purple-500 to-purple-600',
-    iconBg: 'bg-purple-100 dark:bg-purple-950',
-    number: '03',
-  },
-  {
-    icon: Award,
-    title: 'Achieve your target band',
-    description:
-      'Follow a personalized study plan, practice consistently, and watch scores improve. Join thousands who reached their target band.',
+    icon: BookOpen,
+    step: '03',
+    title: 'Practice Daily',
+    description: 'Complete reading, listening, writing, and speaking exercises every day.',
     color: 'from-amber-500 to-orange-500',
-    iconBg: 'bg-amber-100 dark:bg-amber-950',
-    number: '04',
+  },
+  {
+    icon: Trophy,
+    step: '04',
+    title: 'Achieve Your Band',
+    description: 'Track your progress and reach your target IELTS band score.',
+    color: 'from-emerald-500 to-teal-500',
   },
 ];
 
+function StepCard({ step, index }: { step: typeof steps[0]; index: number }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => setIsVisible(true), index * 200);
+        }
+      },
+      { threshold: 0.2 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [index]);
+
+  return (
+    <div
+      ref={ref}
+      className={`relative flex flex-col items-center text-center transition-all duration-700 ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+      }`}
+    >
+      {/* Connector line */}
+      {index < steps.length - 1 && (
+        <div className="absolute left-[calc(50%+40px)] top-10 hidden h-0.5 w-[calc(100%-80px)] bg-gradient-to-r from-border to-transparent lg:block" />
+      )}
+
+      {/* Step number */}
+      <div className="relative mb-6">
+        <div className={`flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br ${step.color} text-white shadow-xl transition-transform duration-300 hover:scale-110 hover:rotate-3`}>
+          <step.icon className="h-8 w-8" />
+        </div>
+        <span className="absolute -top-2 -right-2 flex h-8 w-8 items-center justify-center rounded-full bg-background border border-border text-xs font-bold">
+          {step.step}
+        </span>
+      </div>
+
+      <h3 className="text-xl font-bold">{step.title}</h3>
+      <p className="mt-2 max-w-xs text-sm text-muted-foreground">{step.description}</p>
+    </div>
+  );
+}
+
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="relative py-24 sm:py-32">
+    <section className="relative py-20 sm:py-28">
       <div className="container-mw container-px">
         {/* Header */}
-        <div className="mx-auto max-w-2xl text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-indigo-100 px-4 py-1.5 text-sm font-medium text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
-            <span className="h-1.5 w-1.5 rounded-full bg-indigo-500" />
-            Simple process
-          </div>
+        <div className="mx-auto mb-16 max-w-2xl text-center">
+          <span className="mb-4 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
+            How It Works
+          </span>
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-            How it works
+            Start in 4 simple steps
           </h2>
-          <p className="mt-5 text-lg text-muted-foreground">
-            Four simple steps from your first practice test to your target band score.
+          <p className="mt-4 text-lg text-muted-foreground">
+            Get started with IELTS PRO in minutes. No complicated setup required.
           </p>
         </div>
 
-        {/* Steps Grid */}
-        <div className="mt-16 grid gap-8 lg:mt-20 lg:grid-cols-4">
-          {steps.map((step, i) => (
-            <div key={step.title} className="group relative">
-              {/* Connector Line (Desktop) */}
-              {i < steps.length - 1 && (
-                <div className="absolute -right-4 top-8 hidden h-px w-8 bg-gradient-to-r from-border to-transparent lg:block" />
-              )}
-
-              {/* Card */}
-              <div className="relative rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:border-indigo-200 hover:shadow-lg hover:shadow-indigo-500/5 dark:hover:border-indigo-800 sm:p-8">
-                {/* Step Number */}
-                <div className="absolute -right-3 -top-3 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-gray-100 to-gray-200 text-xs font-bold text-gray-600 shadow-sm dark:from-gray-800 dark:to-gray-700 dark:text-gray-300">
-                  {step.number}
-                </div>
-
-                {/* Icon */}
-                <div
-                  className={`flex h-14 w-14 items-center justify-center rounded-2xl ${step.iconBg} transition-transform duration-300 group-hover:scale-110`}
-                >
-                  <step.icon
-                    className={`h-7 w-7 bg-gradient-to-br ${step.color} bg-clip-text text-transparent`}
-                    style={{
-                      color: 'transparent',
-                      backgroundClip: 'text',
-                      WebkitBackgroundClip: 'text',
-                    }}
-                  />
-                </div>
-
-                {/* Content */}
-                <h3 className="mt-6 text-lg font-semibold">{step.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  {step.description}
-                </p>
-              </div>
-            </div>
+        {/* Steps */}
+        <div className="mx-auto grid max-w-4xl gap-12 lg:grid-cols-4">
+          {steps.map((step, index) => (
+            <StepCard key={step.step} step={step} index={index} />
           ))}
         </div>
 
-        {/* Bottom CTA */}
+        {/* CTA */}
         <div className="mt-16 text-center">
-          <a
-            href="/signup"
-            className="inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary/80"
-          >
+          <a href="/signup" className="inline-flex items-center gap-2 text-lg font-semibold text-primary hover:underline">
             Get started now
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="h-5 w-5" />
           </a>
         </div>
       </div>

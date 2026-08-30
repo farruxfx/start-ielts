@@ -1,155 +1,150 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
 import { Star, Quote } from 'lucide-react';
 
 const testimonials = [
   {
-    name: 'Dilnoza K.',
-    score: 'Band 7.5',
-    university: 'University of Edinburgh',
-    text: 'IELTS PRO ning AI writing evaluation i juda foydali boldi. Har bir essay im uchun batafsil feedback oldim va writing im 5.5 dan 7.0 ga kotarildi.',
-    initial: 'D',
+    name: 'Dilshod Karimov',
+    role: 'Band 8.0 Achiever',
+    content: 'IELTS PRO helped me go from 6.5 to 8.0 in just 3 months. The AI writing feedback is incredible!',
     rating: 5,
-    improvement: '+2.0',
-    avatarBg: 'from-blue-500 to-indigo-500',
+    avatar: 'DK',
+    color: 'from-blue-500 to-cyan-500',
   },
   {
-    name: 'Jasur T.',
-    score: 'Band 8.0',
-    university: 'University of Melbourne',
-    text: 'The mock exams felt exactly like the real test. The timer, the interface, everything was spot on. I scored 8.0 on my actual IELTS.',
-    initial: 'J',
+    name: 'Nilufar Rustamova',
+    role: 'Band 7.5 Achiever',
+    content: 'The speaking practice with real-time feedback changed everything. I finally feel confident speaking English.',
     rating: 5,
-    improvement: '+2.5',
-    avatarBg: 'from-emerald-500 to-teal-500',
+    avatar: 'NR',
+    color: 'from-purple-500 to-pink-500',
   },
   {
-    name: 'Malika R.',
-    score: 'Band 7.0',
-    university: 'UCL',
-    text: 'Speaking simulator is amazing. I practiced every day for a month and my fluency improved dramatically. Got 7.0 in speaking!',
-    initial: 'M',
+    name: 'Sardor Toshmatov',
+    role: 'Band 7.0 Achiever',
+    content: 'Best IELTS platform in Uzbekistan. The mock exams feel exactly like the real test.',
     rating: 5,
-    improvement: '+1.5',
-    avatarBg: 'from-purple-500 to-pink-500',
+    avatar: 'ST',
+    color: 'from-amber-500 to-orange-500',
+  },
+  {
+    name: 'Malika Nishonova',
+    role: 'Band 8.5 Achiever',
+    content: 'From 5.5 to 8.5 in 6 months! The personalized study plan kept me on track every day.',
+    rating: 5,
+    avatar: 'MN',
+    color: 'from-emerald-500 to-teal-500',
+  },
+  {
+    name: 'Jasur Alimov',
+    role: 'Band 7.5 Achiever',
+    content: 'The vocabulary spaced repetition system is genius. I remembered 500+ words effortlessly.',
+    rating: 5,
+    avatar: 'JA',
+    color: 'from-rose-500 to-red-500',
+  },
+  {
+    name: 'Gulnora Karimova',
+    role: 'Band 7.0 Achiever',
+    content: 'Finally got my visa! IELTS PRO made preparation fun and effective. Thank you!',
+    rating: 5,
+    avatar: 'GK',
+    color: 'from-indigo-500 to-blue-500',
   },
 ];
 
+function TestimonialCard({ testimonial, index }: { testimonial: typeof testimonials[0]; index: number }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => setIsVisible(true), index * 150);
+        }
+      },
+      { threshold: 0.1 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [index]);
+
+  return (
+    <div
+      ref={ref}
+      className={`group relative rounded-2xl border border-border bg-card p-6 transition-all duration-500 hover:shadow-xl hover:-translate-y-1 ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      }`}
+    >
+      {/* Quote icon */}
+      <Quote className="absolute right-4 top-4 h-8 w-8 text-muted-foreground/10" />
+
+      {/* Stars */}
+      <div className="mb-4 flex gap-1">
+        {Array.from({ length: testimonial.rating }).map((_, i) => (
+          <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
+        ))}
+      </div>
+
+      {/* Content */}
+      <p className="mb-6 text-sm leading-relaxed text-muted-foreground">
+        &ldquo;{testimonial.content}&rdquo;
+      </p>
+
+      {/* Author */}
+      <div className="flex items-center gap-3">
+        <div className={`flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br ${testimonial.color} text-sm font-bold text-white`}>
+          {testimonial.avatar}
+        </div>
+        <div>
+          <p className="font-semibold">{testimonial.name}</p>
+          <p className="text-xs text-muted-foreground">{testimonial.role}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function Testimonials() {
   return (
-    <section id="testimonials" className="relative overflow-hidden py-24 sm:py-32">
+    <section className="relative py-20 sm:py-28 overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-muted/30" />
-      <div className="absolute right-0 top-1/2 h-[600px] w-[600px] -translate-y-1/2 translate-x-1/2 rounded-full bg-indigo-500/5 blur-[120px]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-muted/10 to-background" />
 
-      <div className="container-mw container-px relative">
+      <div className="container-mw container-px relative z-10">
         {/* Header */}
-        <div className="mx-auto max-w-2xl text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-amber-100 px-4 py-1.5 text-sm font-medium text-amber-700 dark:bg-amber-950 dark:text-amber-300">
-            <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-            Student success stories
-          </div>
+        <div className="mx-auto mb-16 max-w-2xl text-center">
+          <span className="mb-4 inline-block rounded-full bg-amber-500/10 px-4 py-1.5 text-sm font-medium text-amber-600">
+            Success Stories
+          </span>
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-            Students achieve their{' '}
-            <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
-              dreams
-            </span>
+            Students who <span className="text-amber-500">achieved</span> their dreams
           </h2>
-          <p className="mt-5 text-lg text-muted-foreground">
-            Minglab talabalar IELTS PRO bilan o z target band score lariga yetdi.
+          <p className="mt-4 text-lg text-muted-foreground">
+            Join thousands of students who improved their IELTS scores with our platform.
           </p>
         </div>
 
         {/* Testimonials Grid */}
-        <div className="mt-16 grid gap-6 md:grid-cols-3 lg:mt-20">
-          {testimonials.map((t) => (
-            <div
-              key={t.name}
-              className="group relative flex flex-col rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:border-amber-200 hover:shadow-xl hover:shadow-amber-500/5 hover:-translate-y-1 sm:p-8 dark:hover:border-amber-800"
-            >
-              {/* Quote Icon */}
-              <div className="mb-4">
-                <Quote className="h-8 w-8 text-amber-500/30" />
-              </div>
-
-              {/* Stars */}
-              <div className="mb-4 flex gap-1">
-                {Array.from({ length: t.rating }).map((_, i) => (
-                  <Star
-                    key={i}
-                    className="h-4 w-4 fill-amber-400 text-amber-400"
-                  />
-                ))}
-              </div>
-
-              {/* Text */}
-              <p className="flex-1 text-sm leading-relaxed text-foreground/90 sm:text-base">
-                &ldquo;{t.text}&rdquo;
-              </p>
-
-              {/* User Info */}
-              <div className="mt-6 flex items-center gap-3 border-t border-border pt-6">
-                <div
-                  className={`flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br ${t.avatarBg} text-sm font-bold text-white shadow-lg`}
-                >
-                  {t.initial}
-                </div>
-                <div className="flex-1">
-                  <div className="text-sm font-semibold">{t.name}</div>
-                  <div className="text-xs text-muted-foreground">{t.university}</div>
-                </div>
-                <div className="flex flex-col items-end gap-1">
-                  <div className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-bold text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
-                    {t.score}
-                  </div>
-                  <div className="text-[10px] font-medium text-emerald-600 dark:text-emerald-400">
-                    {t.improvement} improvement
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div className="mx-auto grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {testimonials.map((testimonial, index) => (
+            <TestimonialCard key={testimonial.name} testimonial={testimonial} index={index} />
           ))}
         </div>
 
-        {/* Social Proof */}
-        <div className="mt-16 flex flex-col items-center justify-center gap-8 border-t border-border pt-16 lg:mt-20">
+        {/* Trust badges */}
+        <div className="mt-12 flex flex-wrap items-center justify-center gap-8 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
-            <div className="flex -space-x-2">
-              {['D', 'J', 'M', 'A', 'R'].map((initial, i) => (
-                <div
-                  key={i}
-                  className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-background bg-gradient-to-br from-muted to-muted-foreground/20 text-xs font-bold"
-                >
-                  {initial}
-                </div>
-              ))}
-            </div>
-            <div className="ml-2 text-sm text-muted-foreground">
-              <span className="font-semibold text-foreground">10,000+</span> students trust IELTS
-              PRO
-            </div>
+            <Star className="h-5 w-5 fill-amber-400 text-amber-400" />
+            <span className="font-semibold">4.9/5</span> average rating
           </div>
-
-          {/* Trust Badges */}
-          <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <Star className="h-5 w-5 fill-amber-400 text-amber-400" />
-              <span>
-                <span className="font-semibold text-foreground">4.9/5</span> average rating
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-lg">🎯</span>
-              <span>
-                <span className="font-semibold text-foreground">95%</span> success rate
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-lg">🌍</span>
-              <span>
-                <span className="font-semibold text-foreground">50+</span> countries
-              </span>
-            </div>
+          <div className="flex items-center gap-2">
+            <span className="font-semibold">2,000+</span> happy students
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="font-semibold">95%</span> success rate
           </div>
         </div>
       </div>

@@ -1,204 +1,210 @@
 'use client';
 
 import Link from 'next/link';
-import { Check, ArrowRight, Zap } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useState } from 'react';
+import { Check, Star, Zap, Crown, ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const plans = [
   {
-    id: 'free',
-    name: 'Bepul',
-    icon: '🆓',
+    name: 'Free',
     price: '0',
     period: '',
-    description: 'Platformani sinab ko\'ring',
+    description: 'Start exploring IELTS preparation',
+    icon: Zap,
+    color: 'from-gray-500 to-gray-600',
+    popular: false,
     features: [
-      'Cheklangan Practice testlar',
+      'Limited Practice Tests',
       'Basic Dashboard',
-      'Test tarixi',
+      'Vocabulary Practice',
+      'Test History',
     ],
-    highlighted: false,
-    cta: 'Boshlash',
-    href: '/signup',
   },
   {
-    id: 'daily',
-    name: 'Daily Pass',
-    icon: '⚡',
-    price: "7'900",
-    period: '/24 soat',
-    description: 'Bir kunlik to\'liq kirish',
-    features: [
-      'To\'liq Reading & Listening',
-      'Writing & Speaking Practice',
-      'Tanlangan Mock Exam',
-      'Basic Analytics',
-    ],
-    highlighted: false,
-    cta: 'Sotib olish',
-    href: '/pricing',
-    badge: '24 SOAT',
-  },
-  {
-    id: 'start',
     name: 'Start',
-    icon: '🌱',
-    price: "29'000",
+    price: '29,000',
     period: '/oyiga',
-    description: 'IELTS safaringizni boshlang',
+    description: 'Begin your IELTS journey',
+    icon: Star,
+    color: 'from-blue-500 to-indigo-500',
+    popular: false,
     features: [
-      'Kengaytirilgan Practice',
+      'Extended Practice Access',
       'Reading & Listening',
-      'Tushuntirishlar',
-      'Progress tarixi',
-      'Limited Mock Exam',
+      'Basic Statistics',
+      'Limited Mock Exams',
+      'Answer Explanations',
     ],
-    highlighted: false,
-    cta: 'Sotib olish',
-    href: '/pricing',
   },
   {
-    id: 'basic',
     name: 'Basic',
-    icon: '⭐',
-    price: "59'000",
+    price: '59,000',
     period: '/oyiga',
-    description: 'Jiddiy tayyorgarlik uchun hamma narsa',
+    description: 'Everything you need to prepare',
+    icon: Star,
+    color: 'from-primary to-violet-600',
+    popular: true,
     features: [
-      'Cheksiz Practice Library',
-      'To\'liq Reading & Listening',
+      'Unlimited Practice Library',
+      'All Reading & Listening Tests',
       'Writing & Speaking Practice',
-      'To\'liq Mock Exam',
+      'Full Mock Exam Access',
       'Advanced Statistics',
-      'Shaxsiy Study Plan',
+      'Personal Study Plan',
+      'Weak Area Analysis',
     ],
-    highlighted: true,
-    cta: 'Sotib olish',
-    href: '/pricing',
-    badge: 'ENG MASHHUR',
   },
   {
-    id: 'pro',
     name: 'Pro',
-    icon: '👑',
-    price: "99'000",
+    price: '99,000',
     period: '/oyiga',
-    description: 'AI bilan aqlliroq tayyorlaning',
+    description: 'AI-powered preparation',
+    icon: Crown,
+    color: 'from-amber-500 to-orange-500',
+    popular: false,
     features: [
-      'Basic dagi hammasi',
-      'AI Writing tahlili',
-      'AI Speaking tahlili',
+      'Everything in Basic',
+      'AI Writing Analysis',
+      'AI Speaking Analysis',
       'Advanced Band Analytics',
-      'Shaxsiy AI tavsiyalar',
+      'Personalized Recommendations',
+      'Weekly Progress Reports',
       'Priority Support',
     ],
-    highlighted: false,
-    cta: 'Sotib olish',
-    href: '/pricing',
   },
 ];
 
+function PricingCard({ plan, index }: { plan: typeof plans[0]; index: number }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <div
+      className={`relative group rounded-3xl border bg-card p-6 transition-all duration-500 ${
+        plan.popular
+          ? 'border-primary shadow-2xl shadow-primary/20 scale-[1.02] z-10'
+          : 'border-border hover:border-primary/50 hover:shadow-xl'
+      } ${isHovered ? '-translate-y-2' : ''}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`,
+        transform: isHovered ? `perspective(1000px) rotateX(${2}deg) rotateY(${-2}deg) translateY(-8px)` : undefined,
+      }}
+    >
+      {/* Popular badge */}
+      {plan.popular && (
+        <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+          <span className="bg-gradient-to-r from-primary to-violet-600 px-4 py-1.5 rounded-full text-xs font-bold text-white shadow-lg">
+            MOST POPULAR
+          </span>
+        </div>
+      )}
+
+      {/* Gradient background */}
+      <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${plan.color} opacity-0 transition-opacity duration-300 ${isHovered ? 'opacity-5' : ''}`} />
+
+      <div className="relative z-10">
+        {/* Header */}
+        <div className="mb-6">
+          <div className={`mb-3 inline-flex rounded-xl p-2 bg-gradient-to-r ${plan.color} text-white`}>
+            <plan.icon className="h-5 w-5" />
+          </div>
+          <h3 className="text-xl font-bold">{plan.name}</h3>
+          <p className="mt-1 text-sm text-muted-foreground">{plan.description}</p>
+        </div>
+
+        {/* Price */}
+        <div className="mb-6">
+          <div className="flex items-baseline gap-1">
+            <span className="text-sm text-muted-foreground">UZS</span>
+            <span className="text-4xl font-bold">{plan.price}</span>
+            {plan.period && (
+              <span className="text-sm text-muted-foreground">{plan.period}</span>
+            )}
+          </div>
+        </div>
+
+        {/* Features */}
+        <ul className="mb-6 space-y-3">
+          {plan.features.map((feature) => (
+            <li key={feature} className="flex items-start gap-3">
+              <Check className={`mt-0.5 h-4 w-4 shrink-0 ${plan.popular ? 'text-primary' : 'text-muted-foreground'}`} />
+              <span className="text-sm">{feature}</span>
+            </li>
+          ))}
+        </ul>
+
+        {/* CTA */}
+        <Link href="/signup">
+          <Button
+            className={`w-full ${
+              plan.popular
+                ? 'bg-gradient-to-r from-primary to-violet-600 shadow-lg shadow-primary/25'
+                : ''
+            }`}
+            variant={plan.popular ? 'default' : 'outline'}
+          >
+            {plan.price === '0' ? 'Get Started' : 'Choose Plan'}
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 export function PricingPreview() {
   return (
-    <section className="py-20 sm:py-28 bg-muted/30">
-      <div className="container-mw container-px">
+    <section className="relative py-20 sm:py-28 overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background" />
+      
+      {/* Decorative orbs */}
+      <div className="absolute -left-32 top-1/4 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
+      <div className="absolute -right-32 bottom-1/4 h-64 w-64 rounded-full bg-purple-500/10 blur-3xl" />
+
+      <div className="container-mw container-px relative z-10">
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary mb-4">
-            <Zap className="h-4 w-4" />
-            Narxlar
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
-            IELTS tayyorgarligingizga mos rejani tanlang
+        <div className="mx-auto mb-16 max-w-2xl text-center">
+          <span className="mb-4 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
+            Simple Pricing
+          </span>
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+            Choose your plan
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Bepul boshlang, o'z tezligingizda o'rganing va tayyor bo'lganingizda yangilang.
+            Start for free, upgrade when you&apos;re ready. All plans include a 7-day money-back guarantee.
           </p>
         </div>
 
-        {/* Plans Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 max-w-7xl mx-auto">
-          {plans.map((plan) => (
-            <div
-              key={plan.id}
-              className={cn(
-                'relative rounded-2xl border-2 p-5 transition-all duration-300 flex flex-col',
-                plan.highlighted
-                  ? 'border-primary shadow-xl shadow-primary/10 bg-gradient-to-b from-primary/5 to-transparent scale-[1.02]'
-                  : 'border-border hover:border-primary/30 hover:shadow-lg bg-card'
-              )}
-            >
-              {/* Badge */}
-              {plan.badge && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className={cn(
-                    'inline-flex items-center rounded-full px-3 py-0.5 text-[10px] font-bold text-white',
-                    plan.id === 'daily' ? 'bg-amber-500' : 'bg-primary'
-                  )}>
-                    {plan.badge}
-                  </span>
-                </div>
-              )}
-
-              {/* Icon & Name */}
-              <div className="text-center mb-4">
-                <div className="text-2xl mb-1">{plan.icon}</div>
-                <h3 className="text-base font-bold">{plan.name}</h3>
-                <p className="text-xs text-muted-foreground mt-0.5">{plan.description}</p>
-              </div>
-
-              {/* Price */}
-              <div className="text-center mb-4">
-                <div className="flex items-baseline justify-center gap-0.5">
-                  <span className="text-2xl font-bold">{plan.price}</span>
-                  {plan.period && (
-                    <span className="text-xs text-muted-foreground">{plan.period}</span>
-                  )}
-                </div>
-                {plan.price !== '0' && (
-                  <p className="text-[10px] text-muted-foreground">so'm</p>
-                )}
-              </div>
-
-              {/* Features */}
-              <ul className="space-y-1.5 mb-5 flex-1">
-                {plan.features.map((feature, i) => (
-                  <li key={i} className="flex items-start gap-2 text-xs">
-                    <Check className="h-3.5 w-3.5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-
-              {/* CTA */}
-              <Link
-                href={plan.href}
-                className={cn(
-                  'w-full rounded-xl py-2.5 text-sm font-bold transition-all flex items-center justify-center gap-2',
-                  plan.highlighted
-                    ? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/25'
-                    : plan.id === 'daily'
-                    ? 'bg-amber-500 text-white hover:bg-amber-600'
-                    : 'border-2 border-border hover:border-primary/50 hover:bg-muted'
-                )}
-              >
-                {plan.cta}
-                <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
-            </div>
+        {/* Pricing Cards */}
+        <div className="mx-auto grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {plans.map((plan, index) => (
+            <PricingCard key={plan.name} plan={plan} index={index} />
           ))}
         </div>
 
-        {/* Bottom Note */}
-        <div className="text-center mt-8">
-          <p className="text-sm text-muted-foreground">
-            Barcha rejalarda 30 kunlik pulni qaytarish kafolati bor.{' '}
-            <Link href="/pricing" className="text-primary hover:underline font-medium">
-              Batafsil →
+        {/* Daily Pass */}
+        <div className="mx-auto mt-12 max-w-md">
+          <div className="rounded-2xl border-2 border-dashed border-amber-300 bg-amber-50/50 p-6 text-center dark:border-amber-700 dark:bg-amber-950/20">
+            <span className="text-2xl">⚡</span>
+            <h3 className="mt-2 font-bold">Daily Pass</h3>
+            <p className="mt-1 text-sm text-muted-foreground">Full access for 24 hours</p>
+            <p className="mt-2 text-2xl font-bold text-amber-600">7,900 UZS</p>
+            <Link href="/signup" className="mt-4 inline-block">
+              <Button variant="outline" size="sm">Get Daily Pass</Button>
             </Link>
-          </p>
+          </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </section>
   );
 }
