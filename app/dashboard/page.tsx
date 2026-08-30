@@ -140,13 +140,6 @@ export default function DashboardPage() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <button
-            onClick={() => setShowSettings(!showSettings)}
-            className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-card px-5 py-3 text-base font-semibold transition-all hover:shadow-md"
-          >
-            <Settings className="h-5 w-5" />
-            Settings
-          </button>
           <Link
             href="/practice"
             className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary to-violet-600 px-7 py-3 text-base font-bold text-white shadow-lg shadow-primary/25 transition-all hover:shadow-xl hover:shadow-primary/30 hover:scale-[1.02]"
