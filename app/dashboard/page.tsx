@@ -46,6 +46,8 @@ import { SubscriptionWidget } from '@/components/subscription/subscription-widge
 import { DailyGoalsWidget } from '@/components/dashboard/daily-goals-widget';
 import { AchievementsWidget } from '@/components/dashboard/achievements-widget';
 import { StudyPlanCard } from '@/components/dashboard/study-plan-card';
+import { ProgressCharts } from '@/components/dashboard/progress-charts';
+import { ExamCountdown } from '@/components/dashboard/exam-countdown';
 
 const skillConfig: Record<string, { icon: typeof BookOpen; bg: string }> = {
   reading: { icon: BookOpen, bg: 'bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-700' },
@@ -157,6 +159,12 @@ export default function DashboardPage() {
       {/* Study Plan Card */}
       <StudyPlanCard />
 
+
+      {/* Exam Countdown */}
+      <ExamCountdown />
+
+      {/* Progress Charts */}
+      <ProgressCharts />
       {/* Daily Goals Widget */}
       <DailyGoalsWidget />
 
