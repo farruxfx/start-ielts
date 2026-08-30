@@ -2,9 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import {
-  GraduationCap,
+import { usePathname, useRouter } from 'next/navigation';import { GraduationCap,
   LayoutDashboard,
   BookOpen,
   Headphones,
@@ -22,10 +20,14 @@ import {
   Bell,
   ShieldCheck,
   ClipboardList,
+  Crown,
+  ArrowRight,
 } from 'lucide-react';
 import { useAuth } from '@/components/auth/use-auth';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { getUserPlan } from '@/lib/subscription';
+import { UpgradeModal } from '@/components/subscription/upgrade-modal';
 
 const navItems = [
   { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -41,6 +43,9 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { user, loading, role, signOut } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showUpgrade, setShowUpgrade] = useState(false);
+  const currentPlan = user ? getUserPlan(user.id) : 'free';
+  const isFreeUser = currentPlan === 'free';
 
   useEffect(() => {
     if (!loading && !user) {
@@ -93,6 +98,23 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               </Link>
             );
           })}
+
+          {/* Upgrade Widget */}
+          {isFreeUser && (
+            <button
+              onClick={() => setShowUpgrade(true)}
+              className="w-full mt-4 rounded-xl bg-gradient-to-r from-primary to-blue-600 p-3.5 text-left text-white shadow-lg shadow-primary/20 transition-all hover:shadow-xl hover:shadow-primary/30 hover:scale-[1.02]"
+            >
+              <div className="flex items-center gap-2 mb-1">
+                <Crown className="h-4 w-4" />
+                <span className="text-xs font-bold uppercase tracking-wide">Get Pro</span>
+              </div>
+              <p className="text-[11px] text-white/80">To'liq kirish oling — AI tahlil, unlimited tests</p>
+              <div className="mt-2 flex items-center gap-1 text-xs font-bold">
+                Boshlash <ArrowRight className="h-3 w-3" />
+              </div>
+            </button>
+          )}
         </nav>
 
         <div className="border-t border-border p-4">
@@ -200,6 +222,9 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
         <main className="p-4 sm:p-6 lg:p-8">{children}</main>
       </div>
+
+      {/* Upgrade Modal */}
+      <UpgradeModal open={showUpgrade} onClose={() => setShowUpgrade(false)} />
     </div>
   );
 }

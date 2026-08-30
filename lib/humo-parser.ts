@@ -163,8 +163,8 @@ export function parseHumoNotification(message: string, meta?: {
   }
 
   // ─── Card Identifier ─────────────────────────────────────────
-  const cardMatch = text.match(/(?:\*{4}|карта|card)[:\s]*(\d{4})/i) 
-    || text.match(/(?:****|XXXX)\s*(\d{4})/);
+  const cardMatch = text.match(/(?:\*{4}|карта|card)[:\s]*(\d{4})/i)
+    || text.match(/(?:\*{4}|XXXX)\s*(\d{4})/);
   if (cardMatch) {
     result.cardIdentifier = cardMatch[1];
   }
