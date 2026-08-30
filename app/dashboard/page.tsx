@@ -45,6 +45,7 @@ import { useAuth } from '@/components/auth/use-auth';
 import { SubscriptionWidget } from '@/components/subscription/subscription-widget';
 import { DailyGoalsWidget } from '@/components/dashboard/daily-goals-widget';
 import { AchievementsWidget } from '@/components/dashboard/achievements-widget';
+import { StudyPlanCard } from '@/components/dashboard/study-plan-card';
 
 const skillConfig: Record<string, { icon: typeof BookOpen; bg: string }> = {
   reading: { icon: BookOpen, bg: 'bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-700' },
@@ -152,6 +153,9 @@ export default function DashboardPage() {
 
       {/* Subscription Widget */}
       <SubscriptionWidget />
+
+      {/* Study Plan Card */}
+      <StudyPlanCard />
 
       {/* Daily Goals Widget */}
       <DailyGoalsWidget />

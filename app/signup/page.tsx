@@ -40,7 +40,7 @@ export default function SignUpPage() {
               setError(error);
               setGoogleLoading(false);
             } else {
-              router.push('/dashboard');
+              router.push('/onboarding');
             }
           }
         },
@@ -67,7 +67,7 @@ export default function SignUpPage() {
     if (error) {
       setError(error);
     } else {
-      router.push('/dashboard');
+      router.push('/onboarding');
     }
   };
 
