@@ -1,403 +1,248 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState, useRef } from 'react';
-import { ArrowRight, Play, CheckCircle2, Star, Zap, Trophy, Users, GraduationCap } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { useMouseParallax, useInView } from '@/lib/animations';
+import { ArrowRight, Play } from 'lucide-react';
 
-// Floating 3D Shape component
-function FloatingShape({ className, delay = 0, duration = 20, children }: { className?: string; delay?: number; duration?: number; children?: React.ReactNode }) {
+// Floating glass card component
+function GlassCard({ children, className = '', delay = 0, x = 0, y = 0 }: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+  x?: number;
+  y?: number;
+}) {
+  const mouse = useMouseParallax(0.015);
   return (
     <div
-      className={`absolute pointer-events-none ${className}`}
+      className={`absolute pointer-events-none transition-transform duration-[2000ms] ease-out ${className}`}
       style={{
-        animation: `float ${duration}s ease-in-out ${delay}s infinite`,
+        left: `${x}%`,
+        top: `${y}%`,
+        transform: `translate(${mouse.x * (1 + delay * 0.3)}px, ${mouse.y * (1 + delay * 0.3)}px)`,
+        animation: `float ${6 + delay * 2}s ease-in-out ${delay}s infinite`,
       }}
-    >{children}</div>
+    >
+      <div className="glass rounded-2xl p-4 shadow-2xl shadow-black/20">
+        {children}
+      </div>
+    </div>
   );
 }
 
-// Animated counter hook
-function useCounter(end: number, duration: number = 2000) {
-  const [count, setCount] = useState(0);
-  const [started, setStarted] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+// Floating 3D sphere
+function FloatingSphere({ size, color, x, y, delay, blur = false }: {
+  size: number; color: string; x: number; y: number; delay: number; blur?: boolean;
+}) {
+  const mouse = useMouseParallax(0.02);
+  return (
+    <div
+      className="absolute pointer-events-none"
+      style={{
+        left: `${x}%`, top: `${y}%`,
+        width: size, height: size,
+        transform: `translate(${mouse.x * 1.5}px, ${mouse.y * 1.5}px)`,
+        animation: `float-slow ${8 + delay}s ease-in-out ${delay}s infinite`,
+      }}
+    >
+      <div
+        className="w-full h-full rounded-full"
+        style={{
+          background: `radial-gradient(circle at 30% 30%, ${color}40, ${color}10)`,
+          boxShadow: `0 0 ${size}px ${color}20, inset 0 0 ${size / 2}px ${color}10`,
+          filter: blur ? 'blur(1px)' : 'none',
+        }}
+      />
+    </div>
+  );
+}
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !started) {
-          setStarted(true);
-          const startTime = Date.now();
-          const animate = () => {
-            const elapsed = Date.now() - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            setCount(Math.floor(eased * end));
-            if (progress < 1) requestAnimationFrame(animate);
-          };
-          animate();
-        }
-      },
-      { threshold: 0.5 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [end, duration, started]);
+// Waveform element
+function Waveform({ className = '' }: { className?: string }) {
+  return (
+    <div className={`flex items-center gap-[3px] ${className}`}>
+      {Array.from({ length: 12 }).map((_, i) => (
+        <div
+          key={i}
+          className="w-[2px] rounded-full bg-indigo-400/40"
+          style={{
+            height: `${8 + Math.sin(i * 0.8) * 8}px`,
+            animation: `waveform ${1.5 + (i % 3) * 0.3}s ease-in-out ${i * 0.1}s infinite`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
 
-  return { count, ref };
+// Orbiting letter
+function OrbitLetter({ letter, delay }: { letter: string; delay: number }) {
+  return (
+    <div
+      className="absolute left-1/2 top-1/2 -ml-3 -mt-3"
+      style={{ animation: `orbit ${20 + delay * 5}s linear ${delay}s infinite` }}
+    >
+      <span className="text-lg font-bold text-white/10">{letter}</span>
+    </div>
+  );
 }
 
 export function Hero() {
-  const stats1 = useCounter(75, 2000);
-  const stats2 = useCounter(10000, 2500);
-  const stats3 = useCounter(95, 2000);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({
-        x: (e.clientX / window.innerWidth - 0.5) * 20,
-        y: (e.clientY / window.innerHeight - 0.5) * 20,
-      });
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  const { ref: heroRef, isInView } = useInView();
+  const mouse = useMouseParallax(0.01);
 
   return (
-    <section className="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-28 lg:pt-48 lg:pb-36">
-      {/* Animated Background */}
+    <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Ambient background */}
       <div className="absolute inset-0">
-        {/* Gradient mesh */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50/50 to-purple-50 dark:from-gray-950 dark:via-blue-950/20 dark:to-purple-950/20" />
+        {/* Main gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#080808] via-[#0a0a12] to-[#080808]" />
         
-        {/* Grid pattern */}
-        <div className="absolute inset-0 bg-grid opacity-[0.03] dark:opacity-[0.05]" />
+        {/* Ambient glow */}
+        <div className="absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-indigo-500/[0.04] blur-[120px]" />
+        <div className="absolute right-1/4 top-1/2 w-[400px] h-[400px] rounded-full bg-blue-500/[0.03] blur-[100px]" />
         
-        {/* Animated gradient orbs */}
-        <div className="absolute -left-32 -top-32 h-96 w-96 rounded-full bg-gradient-to-br from-blue-400/30 to-cyan-400/20 blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
-        <div className="absolute -right-32 top-1/4 h-80 w-80 rounded-full bg-gradient-to-br from-purple-400/30 to-pink-400/20 blur-3xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }} />
-        <div className="absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-gradient-to-br from-indigo-400/20 to-blue-400/20 blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '2s' }} />
+        {/* Grid */}
+        <div
+          className="absolute inset-0 opacity-[0.02]"
+          style={{
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+            backgroundSize: '80px 80px',
+          }}
+        />
       </div>
 
-      {/* 3D Floating Shapes */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Large floating cube */}
-        <FloatingShape delay={0} duration={8} className="left-[10%] top-[20%]">
+      {/* 3D Floating Composition */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Spheres */}
+        <FloatingSphere size={180} color="#4F46E5" x={15} y={25} delay={0} />
+        <FloatingSphere size={120} color="#6366F1" x={75} y={20} delay={2} blur />
+        <FloatingSphere size={80} color="#818CF8" x={60} y={65} delay={4} />
+        <FloatingSphere size={60} color="#4F46E5" x={25} y={70} delay={1} blur />
+        <FloatingSphere size={40} color="#A5B4FC" x={80} y={55} delay={3} />
+
+        {/* Orbiting letters */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-0 h-0">
+          <OrbitLetter letter="A" delay={0} />
+          <OrbitLetter letter="B" delay={3} />
+          <OrbitLetter letter="C" delay={6} />
+          <OrbitLetter letter="D" delay={9} />
+        </div>
+
+        {/* Floating Glass UI Cards */}
+        <GlassCard x={8} y={30} delay={0}>
+          <div className="min-w-[140px]">
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-white/30 mb-1">Listening</div>
+            <div className="text-2xl font-bold text-white">8.0</div>
+            <div className="text-[10px] text-emerald-400/70 mt-1">↑ +0.5 this week</div>
+          </div>
+        </GlassCard>
+
+        <GlassCard x={72} y={18} delay={2}>
+          <div className="min-w-[140px]">
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-white/30 mb-1">Reading</div>
+            <div className="flex items-baseline gap-1">
+              <span className="text-2xl font-bold text-white">7.5</span>
+            </div>
+            <div className="text-[10px] text-indigo-400/70 mt-1">Progress +24%</div>
+          </div>
+        </GlassCard>
+
+        <GlassCard x={75} y={60} delay={4}>
+          <div className="min-w-[130px]">
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-white/30 mb-1">Mock Exam</div>
+            <div className="text-lg font-bold text-white">3 / 10</div>
+            <div className="mt-2 h-1 w-full rounded-full bg-white/10">
+              <div className="h-full w-[30%] rounded-full bg-indigo-500" />
+            </div>
+          </div>
+        </GlassCard>
+
+        <GlassCard x={5} y={62} delay={3}>
+          <div className="flex items-center gap-3">
+            <Waveform />
+            <div>
+              <div className="text-[10px] font-semibold uppercase tracking-wider text-white/30">Speaking</div>
+              <div className="text-sm font-bold text-white">Recording...</div>
+            </div>
+          </div>
+        </GlassCard>
+
+        {/* Floating particles */}
+        {Array.from({ length: 30 }).map((_, i) => (
           <div
-            className="h-20 w-20 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 backdrop-blur-sm border border-white/20 shadow-xl"
+            key={i}
+            className="absolute rounded-full bg-white/[0.15]"
             style={{
-              transform: `translate(${mousePos.x * 0.5}px, ${mousePos.y * 0.5}px) rotateX(${mousePos.y}deg) rotateY(${mousePos.x}deg)`,
-              transition: 'transform 0.3s ease-out',
+              left: `${5 + (i * 3.1) % 90}%`,
+              top: `${5 + (i * 4.7) % 85}%`,
+              width: `${1 + (i % 3)}px`,
+              height: `${1 + (i % 3)}px`,
+              animation: `float ${4 + (i % 4)}s ease-in-out ${i * 0.3}s infinite`,
             }}
           />
-        </FloatingShape>
-
-        {/* Floating circle */}
-        <FloatingShape delay={1} duration={10} className="right-[15%] top-[15%]">
-          <div
-            className="h-16 w-16 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm border border-white/20 shadow-xl"
-            style={{
-              transform: `translate(${mousePos.x * -0.3}px, ${mousePos.y * -0.3}px)`,
-              transition: 'transform 0.3s ease-out',
-            }}
-          />
-        </FloatingShape>
-
-        {/* Small triangle */}
-        <FloatingShape delay={2} duration={12} className="left-[20%] top-[60%]">
-          <div
-            className="h-12 w-12 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 backdrop-blur-sm border border-white/20 shadow-xl"
-            style={{
-              clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)',
-              transform: `translate(${mousePos.x * 0.4}px, ${mousePos.y * 0.4}px) rotate(${mousePos.x * 2}deg)`,
-              transition: 'transform 0.3s ease-out',
-            }}
-          />
-        </FloatingShape>
-
-        {/* Floating diamond */}
-        <FloatingShape delay={3} duration={9} className="right-[20%] top-[55%]">
-          <div
-            className="h-14 w-14 bg-gradient-to-br from-amber-500/20 to-orange-500/20 backdrop-blur-sm border border-white/20 shadow-xl rotate-45"
-            style={{
-              transform: `translate(${mousePos.x * -0.6}px, ${mousePos.y * -0.6}px) rotate(45deg)`,
-              transition: 'transform 0.3s ease-out',
-            }}
-          />
-        </FloatingShape>
-
-        {/* Floating hexagon */}
-        <FloatingShape delay={4} duration={11} className="left-[5%] top-[40%]">
-          <div
-            className="h-10 w-10 bg-gradient-to-br from-rose-500/20 to-red-500/20 backdrop-blur-sm border border-white/20 shadow-xl"
-            style={{
-              clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
-              transform: `translate(${mousePos.x * 0.7}px, ${mousePos.y * 0.7}px)`,
-              transition: 'transform 0.3s ease-out',
-            }}
-          />
-        </FloatingShape>
-
-        {/* Tiny dots */}
-        {Array.from({ length: 20 }).map((_, i) => (
-          <FloatingShape key={i} delay={i * 0.5} duration={6 + (i % 4) * 2} className={`left-[${10 + (i * 4) % 80}%] top-[${10 + (i * 7) % 80}%]`}>
-            <div className="h-1.5 w-1.5 rounded-full bg-gradient-to-br from-blue-400/40 to-purple-400/40" />
-          </FloatingShape>
         ))}
       </div>
 
-      <div className="container-mw container-px relative z-10">
-        {/* Top Badge */}
-        <div className="mb-8 flex justify-center" style={{ animation: 'fadeInUp 0.8s ease-out' }}>
-          <Badge
-            variant="secondary"
-            className="gap-2 rounded-full border-blue-200 bg-blue-50/80 px-4 py-1.5 text-sm font-medium text-blue-700 backdrop-blur-sm dark:border-blue-800 dark:bg-blue-950/80 dark:text-blue-300"
-          >
-            <span className="flex h-2 w-2 animate-pulse rounded-full bg-blue-500" />
-            AI-powered Speaking & Writing Evaluation
-          </Badge>
-        </div>
-
-        {/* Main Content */}
-        <div className="mx-auto max-w-4xl text-center">
-          <h1
-            className="text-balance text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
-            style={{ animation: 'fadeInUp 0.8s ease-out 0.1s both' }}
-          >
-            Prepare smarter.
-            <br />
-            <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent animate-gradient">
-              Score higher.
-            </span>
-          </h1>
-
-          <p
-            className="mx-auto mt-6 max-w-2xl text-balance text-lg text-muted-foreground sm:text-xl lg:mt-8 lg:text-2xl"
-            style={{ animation: 'fadeInUp 0.8s ease-out 0.2s both' }}
-          >
-            Professional IELTS preparation with real exam interface, AI-powered feedback, and
-            detailed analytics. Join 10,000+ students who achieved their target band.
-          </p>
-
-          {/* CTA Buttons */}
-          <div
-            className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row lg:mt-10"
-            style={{ animation: 'fadeInUp 0.8s ease-out 0.3s both' }}
-          >
-            <Link href="/signup">
-              <Button
-                size="lg"
-                className="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-600 px-10 py-4 text-lg font-bold shadow-xl shadow-blue-500/25 transition-all hover:shadow-blue-500/40 hover:scale-[1.02] lg:px-12 lg:py-4.5"
-              >
-                <span className="relative z-10 flex items-center">
-                  Start practicing free
-                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 opacity-0 transition-opacity group-hover:opacity-100" />
-              </Button>
-            </Link>
-            <Link href="/practice">
-              <Button
-                size="lg"
-                variant="outline"
-                className="group px-10 py-4 text-lg font-bold transition-all hover:bg-muted/50 backdrop-blur-sm lg:px-12 lg:py-4.5"
-              >
-                <Play className="mr-2 h-5 w-5 transition-transform group-hover:scale-110" />
-                Explore tests
-              </Button>
-            </Link>
-          </div>
-
-          {/* Trust Badges */}
-          <div
-            className="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground lg:mt-10"
-            style={{ animation: 'fadeInUp 0.8s ease-out 0.4s both' }}
-          >
-            <span className="flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-emerald-500" />
-              No credit card required
-            </span>
-            <span className="flex items-center gap-2">
-              <Star className="h-4 w-4 text-amber-500" />
-              4.9/5 from 2,000+ students
-            </span>
-            <span className="flex items-center gap-2">
-              <Zap className="h-4 w-4 text-blue-500" />
-              Instant AI feedback
-            </span>
-          </div>
-        </div>
-
-        {/* Stats Bar with Animated Counters */}
+      {/* Hero Content */}
+      <div className="relative z-10 mx-auto max-w-5xl px-6 text-center pt-24">
+        {/* Label */}
         <div
-          className="mx-auto mt-16 max-w-3xl lg:mt-20"
-          style={{ animation: 'fadeInUp 0.8s ease-out 0.5s both' }}
+          className={`mb-8 transition-all duration-1000 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
         >
-          <div className="grid grid-cols-3 gap-4 rounded-2xl border border-white/20 bg-white/50 p-6 shadow-xl backdrop-blur-sm dark:bg-gray-950/50 sm:p-8">
-            <div className="text-center" ref={stats1.ref}>
-              <div className="flex items-center justify-center gap-2">
-                <Trophy className="h-5 w-5 text-amber-500" />
-                <span className="text-2xl font-bold sm:text-3xl">{(stats1.count / 10).toFixed(1)}+</span>
-              </div>
-              <p className="mt-1 text-xs text-muted-foreground sm:text-sm">Avg. Band Score</p>
-            </div>
-            <div className="border-x border-border/50 text-center" ref={stats2.ref}>
-              <div className="flex items-center justify-center gap-2">
-                <Users className="h-5 w-5 text-blue-500" />
-                <span className="text-2xl font-bold sm:text-3xl">{(stats2.count / 1000).toFixed(0)}K+</span>
-              </div>
-              <p className="mt-1 text-xs text-muted-foreground sm:text-sm">Active Students</p>
-            </div>
-            <div className="text-center" ref={stats3.ref}>
-              <div className="flex items-center justify-center gap-2">
-                <CheckCircle2 className="h-5 w-5 text-emerald-500" />
-                <span className="text-2xl font-bold sm:text-3xl">{stats3.count}%</span>
-              </div>
-              <p className="mt-1 text-xs text-muted-foreground sm:text-sm">Success Rate</p>
-            </div>
-          </div>
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.15em] text-white/40">
+            <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 animate-pulse" />
+            The Smart Way to Prepare for IELTS
+          </span>
         </div>
 
-        {/* App Preview with 3D tilt effect */}
+        {/* Headline */}
+        <h1
+          className={`text-5xl font-bold tracking-[-0.03em] leading-[1.05] sm:text-6xl md:text-7xl lg:text-[80px] xl:text-[88px] transition-all duration-1000 delay-100 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+        >
+          <span className="text-white">Prepare smarter.</span>
+          <br />
+          <span className="text-gradient">Perform better.</span>
+        </h1>
+
+        {/* Subtitle */}
+        <p
+          className={`mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/40 sm:text-lg md:text-xl transition-all duration-1000 delay-200 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+        >
+          Practice all four IELTS skills, take realistic mock exams, track your progress,
+          and understand exactly what to improve.
+        </p>
+
+        {/* CTAs */}
         <div
-          className="mx-auto mt-16 max-w-5xl lg:mt-20"
-          style={{ animation: 'fadeInUp 0.8s ease-out 0.6s both' }}
+          className={`mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row transition-all duration-1000 delay-300 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
         >
-          <div
-            className="group relative rounded-2xl border border-white/20 bg-white/50 p-2 shadow-2xl shadow-blue-500/10 backdrop-blur-sm transition-all duration-500 hover:shadow-blue-500/20 dark:bg-gray-950/50 sm:p-3"
-            style={{
-              transform: `perspective(1000px) rotateX(${mousePos.y * 0.02}deg) rotateY(${mousePos.x * 0.02}deg)`,
-              transition: 'transform 0.3s ease-out',
-            }}
+          <Link
+            href="/signup"
+            className="group relative flex items-center gap-2 rounded-2xl bg-white px-8 py-4 text-[15px] font-semibold text-black transition-all hover:bg-white/90 hover:shadow-xl hover:shadow-white/10"
           >
-            <div className="overflow-hidden rounded-xl bg-gradient-to-b from-muted/40 to-background p-4 sm:p-6">
-              {/* Browser Chrome */}
-              <div className="flex items-center justify-between border-b border-border pb-4">
-                <div className="flex items-center gap-2">
-                  <div className="h-3 w-3 rounded-full bg-red-400/80" />
-                  <div className="h-3 w-3 rounded-full bg-amber-400/80" />
-                  <div className="h-3 w-3 rounded-full bg-emerald-400/80" />
-                </div>
-                <div className="rounded-lg bg-muted/50 px-4 py-1.5 text-xs text-muted-foreground">
-                  ieltspro.app/practice/reading
-                </div>
-                <div className="w-16" />
-              </div>
-
-              {/* App Content */}
-              <div className="mt-4 grid gap-4 sm:mt-6 md:grid-cols-2">
-                {/* Reading Passage */}
-                <div className="rounded-xl border border-border bg-background p-4 transition-all hover:border-blue-200 hover:shadow-sm dark:hover:border-blue-800">
-                  <div className="mb-3 flex items-center justify-between">
-                    <span className="text-xs font-semibold uppercase tracking-wide text-blue-600 dark:text-blue-400">
-                      Reading Passage
-                    </span>
-                    <span className="rounded-full bg-blue-100 px-2 py-0.5 text-[10px] font-medium text-blue-700 dark:bg-blue-900 dark:text-blue-300">
-                      Academic
-                    </span>
-                  </div>
-                  <div className="space-y-2.5">
-                    <div className="h-2.5 w-full rounded-full bg-muted" />
-                    <div className="h-2.5 w-5/6 rounded-full bg-muted" />
-                    <div className="h-2.5 w-full rounded-full bg-muted" />
-                    <div className="h-2.5 w-4/6 rounded-full bg-muted" />
-                    <div className="h-2.5 w-full rounded-full bg-muted" />
-                    <div className="h-2.5 w-3/4 rounded-full bg-muted" />
-                    <div className="h-2.5 w-5/6 rounded-full bg-muted" />
-                  </div>
-                </div>
-
-                {/* Question Panel */}
-                <div className="rounded-xl border border-border bg-background p-4 transition-all hover:border-indigo-200 hover:shadow-sm dark:hover:border-indigo-800">
-                  <div className="mb-3 flex items-center justify-between">
-                    <span className="text-xs font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-400">
-                      Question 7 of 40
-                    </span>
-                    <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-medium text-amber-700 dark:bg-amber-900 dark:text-amber-300">
-                      In Progress
-                    </span>
-                  </div>
-                  <div className="space-y-3">
-                    <div className="h-3.5 w-full rounded bg-muted" />
-                    <div className="space-y-2.5">
-                      {['A', 'B', 'C', 'D'].map((opt, i) => (
-                        <div
-                          key={opt}
-                          className={`flex items-center gap-3 rounded-lg border p-2.5 text-sm transition-all ${
-                            i === 1
-                              ? 'border-blue-200 bg-blue-50/50 dark:border-blue-800 dark:bg-blue-950/50'
-                              : 'border-border hover:border-muted-foreground/30'
-                          }`}
-                        >
-                          <span
-                            className={`flex h-6 w-6 items-center justify-center rounded-md text-xs font-semibold ${
-                              i === 1
-                                ? 'bg-blue-600 text-white'
-                                : 'bg-muted text-muted-foreground'
-                            }`}
-                          >
-                            {opt}
-                          </span>
-                          <div className="h-2.5 flex-1 rounded-full bg-muted/60" />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Progress Bar */}
-              <div className="mt-4 flex items-center justify-between border-t border-border pt-4">
-                <div className="flex gap-1.5">
-                  {Array.from({ length: 10 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className={`h-2 w-8 rounded-full transition-all ${
-                        i < 6
-                          ? 'bg-gradient-to-r from-blue-500 to-indigo-500'
-                          : 'bg-muted'
-                      }`}
-                    />
-                  ))}
-                </div>
-                <div className="rounded-full bg-muted/50 px-3 py-1 text-xs font-medium text-muted-foreground">
-                  Question 7 / 40
-                </div>
-              </div>
-            </div>
-          </div>
+            Start Learning for Free
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          </Link>
+          <Link
+            href="/practice"
+            className="group flex items-center gap-2 rounded-2xl border border-white/[0.08] bg-white/[0.03] px-8 py-4 text-[15px] font-medium text-white/70 transition-all hover:bg-white/[0.06] hover:text-white hover:border-white/[0.12]"
+          >
+            <Play className="h-4 w-4" />
+            Explore the Platform
+          </Link>
         </div>
+
+        {/* Trust */}
+        <p
+          className={`mt-6 text-[13px] text-white/25 transition-all duration-1000 delay-[400ms] ${isInView ? 'opacity-100' : 'opacity-0'}`}
+        >
+          No credit card required.
+        </p>
       </div>
 
-      {/* CSS Animations */}
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          33% { transform: translateY(-15px) rotate(3deg); }
-          66% { transform: translateY(10px) rotate(-2deg); }
-        }
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        @keyframes gradient {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-        }
-        .animate-gradient {
-          background-size: 200% 200%;
-          animation: gradient 3s ease infinite;
-        }
-      `}</style>
+      {/* Bottom gradient fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#080808] to-transparent" />
     </section>
   );
 }

@@ -1,10 +1,11 @@
 import { Navbar } from '@/components/landing/navbar';
 import { Hero } from '@/components/landing/hero';
-import { Features } from '@/components/landing/features';
+import { Skills } from '@/components/landing/skills';
+import { MockExamShowcase } from '@/components/landing/mock-exam-showcase';
+import { Analytics } from '@/components/landing/analytics';
 import { HowItWorks } from '@/components/landing/how-it-works';
-import { PricingPreview } from '@/components/landing/pricing-preview';
+import { Pricing } from '@/components/landing/pricing';
 import { Testimonials } from '@/components/landing/testimonials';
-import { FAQ } from '@/components/landing/faq';
 import { CTA } from '@/components/landing/cta';
 import { Footer } from '@/components/landing/footer';
 
@@ -14,11 +15,12 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <Features />
-        <PricingPreview />
+        <Skills />
+        <MockExamShowcase />
+        <Analytics />
         <HowItWorks />
+        <Pricing />
         <Testimonials />
-        <FAQ />
         <CTA />
       </main>
       <Footer />
