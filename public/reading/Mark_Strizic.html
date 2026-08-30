@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>IELTS Reading – Mark Strizic | @reading_cdi</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+
+:root{
+  --bg:#eef0f4;
+  --bg-blob-1:#ffd7dd; --bg-blob-2:#cfe4ff; --bg-blob-3:#dcffe9;
+  --panel:rgba(255,255,255,.62); --panel-solid:rgba(255,255,255,.92);
+  --text:#1c1c1e; --text2:#6e6e73; --text3:#98989d;
+  --border:rgba(60,60,67,.13); --hairline:rgba(60,60,67,.08);
+  --accent:#e31837; --accent-dark:#c11530; --accent-light:rgba(227,24,55,.10);
+  --green:#22a559; --green-bg:rgba(34,165,89,.14);
+  --redx:#ff3b30; --red-bg:rgba(255,59,48,.12);
+  --yellow:#ff9500; --yellow-bg:rgba(255,149,0,.15);
+  --tg:#0088cc;
+  --glass-hi:rgba(255,255,255,.85); --glass-lo:rgba(255,255,255,.18);
+  --shadow:0 10px 40px rgba(31,38,55,.10),0 1px 2px rgba(31,38,55,.06);
+  --blur:blur(26px) saturate(190%);
+  --radius-xl:26px;--radius-lg:20px;--radius-md:14px;--radius-sm:10px;
+}
+html[data-theme="dark"]{
+  --bg:#000000;
+  --bg-blob-1:#3a0a14; --bg-blob-2:#07182c; --bg-blob-3:#062015;
+  --panel:rgba(28,28,30,.58); --panel-solid:rgba(24,24,26,.92);
+  --text:#f2f2f7; --text2:#a9a9ae; --text3:#7c7c80;
+  --border:rgba(255,255,255,.13); --hairline:rgba(255,255,255,.08);
+  --accent:#ff4f68; --accent-dark:#ff2d4d; --accent-light:rgba(255,79,104,.16);
+  --green:#32d873; --green-bg:rgba(50,216,115,.16);
+  --redx:#ff453a; --red-bg:rgba(255,69,58,.16);
+  --yellow:#ff9f0a; --yellow-bg:rgba(255,159,10,.16);
+  --glass-hi:rgba(255,255,255,.16); --glass-lo:rgba(255,255,255,.03);
+  --shadow:0 10px 40px rgba(0,0,0,.55),0 1px 2px rgba(0,0,0,.4);
+}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','SF Pro Display','Segoe UI',Roboto,sans-serif;
+  background:var(--bg);color:var(--text);height:100%;overflow:hidden;
+  -webkit-font-smoothing:antialiased;transition:background .4s ease,color .3s ease;
+}
+.liquid-bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.liquid-bg span{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;animation:drift 22s ease-in-out infinite}
+.liquid-bg span:nth-child(1){width:46vw;height:46vw;background:var(--bg-blob-1);top:-14%;left:-10%;animation-delay:0s}
+.liquid-bg span:nth-child(2){width:38vw;height:38vw;background:var(--bg-blob-2);bottom:-16%;right:-8%;animation-delay:-7s}
+.liquid-bg span:nth-child(3){width:30vw;height:30vw;background:var(--bg-blob-3);bottom:20%;left:30%;animation-delay:-14s}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(4%,6%) scale(1.08)}66%{transform:translate(-5%,-3%) scale(.95)}}
+@media(prefers-reduced-motion:reduce){.liquid-bg span{animation:none}}
+
+.screen{display:none;position:relative;z-index:1}.screen.active{display:flex;flex-direction:column;height:100%}
+.glass{background:var(--panel);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-hi);box-shadow:var(--shadow)}
+
+/* ── LOGIN ── */
+#login-screen{align-items:center;justify-content:center;padding:30px 20px;overflow-y:auto}
+.login-card{border-radius:var(--radius-xl);padding:44px 38px;max-width:420px;width:100%;text-align:center}
+.login-logo{font-size:15px;font-weight:800;color:var(--accent);letter-spacing:-.01em}
+.login-logo span{font-size:12px;color:var(--text3);font-weight:600;display:block;margin-top:3px;letter-spacing:.05em;text-transform:uppercase}
+.login-card h1{font-size:23px;font-weight:800;color:var(--text);margin:16px 0 6px;line-height:1.28;letter-spacing:-.01em}
+.login-card p.login-sub{color:var(--text2);font-size:13.5px;margin-bottom:22px;line-height:1.55}
+.login-field{text-align:left;margin-bottom:14px}
+.login-field label{display:block;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);margin-bottom:6px}
+.login-input{width:100%;padding:13px 16px;border-radius:var(--radius-md);border:1.5px solid var(--border);background:var(--panel-solid);color:var(--text);font-size:15px;font-family:inherit;outline:none;transition:.15s}
+.login-input:focus{border-color:var(--accent);background:var(--panel-solid)}
+.login-input::placeholder{color:rgba(60,60,67,.28);font-weight:600;letter-spacing:.02em}
+html[data-theme="dark"] .login-input::placeholder{color:rgba(255,255,255,.22)}
+.login-error{color:var(--redx);font-size:12.5px;font-weight:600;margin:-4px 0 12px;display:none;text-align:left}
+.login-error.show{display:block}
+.login-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:14px 0;width:100%;font-size:15.5px;font-weight:700;cursor:pointer;transition:.2s;box-shadow:0 8px 22px rgba(227,24,55,.35);margin-top:6px}
+.login-btn:hover{background:var(--accent-dark);transform:translateY(-1px)}
+.login-btn:active{transform:scale(.98)}
+.login-hint{font-size:11.5px;color:var(--text3);margin-top:14px;line-height:1.5}
+
+/* ── HOME ── */
+#home-screen{align-items:center;justify-content:center;padding:30px 20px;overflow-y:auto}
+.home-card{border-radius:var(--radius-xl);padding:44px 38px;max-width:640px;width:100%;text-align:center}
+.home-logo{font-size:15px;font-weight:800;color:var(--accent);letter-spacing:-.01em}
+.home-logo span{font-size:12px;color:var(--text3);font-weight:600;display:block;margin-top:3px;letter-spacing:.05em;text-transform:uppercase}
+.home-badge{display:inline-flex;align-items:center;gap:8px;background:var(--accent-light);color:var(--accent);font-size:12.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:7px 16px;border-radius:99px;margin:18px 0}
+.home-card h1{font-size:26px;font-weight:800;color:var(--text);margin-bottom:8px;line-height:1.28;letter-spacing:-.01em}
+.home-card .home-sub{color:var(--text2);font-size:13.5px;margin-bottom:6px;font-style:italic}
+.home-card p{color:var(--text2);font-size:14.5px;margin-bottom:24px;line-height:1.6}
+.home-meta{display:flex;justify-content:center;gap:14px;margin-bottom:26px;flex-wrap:wrap}
+.home-meta-item{background:var(--panel-solid);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 20px;min-width:84px}
+.home-meta-item .val{font-size:20px;font-weight:800;color:var(--text)}
+.home-meta-item .lbl{font-size:10.5px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.start-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:15px 46px;font-size:16px;font-weight:700;cursor:pointer;transition:.2s;box-shadow:0 8px 22px rgba(227,24,55,.35)}
+.start-btn:hover{background:var(--accent-dark);transform:translateY(-1px)}
+.start-btn:active{transform:scale(.97)}
+
+
+.home-theme-btn{position:fixed;top:18px;right:18px;z-index:5}
+
+/* ── HEADER ── */
+#exam-screen{flex-direction:column;height:100%}
+.exam-header{flex:0 0 auto;margin:10px 12px 0;border-radius:var(--radius-lg);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:200}
+.header-left{display:flex;align-items:center;gap:12px}
+.exam-logo{font-size:14px;font-weight:800;color:var(--accent);letter-spacing:-.01em}
+.exam-sub{font-size:10.5px;color:var(--text3);margin-top:1px}
+.header-pills{display:flex;gap:8px}
+
+
+
+
+.header-right{display:flex;align-items:center;gap:8px}
+.timer-box{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--text);background:var(--panel-solid);border:1px solid var(--border);border-radius:99px;padding:6px 13px}
+.timer-box.urgent{color:var(--redx)}
+.timer-val{min-width:48px;font-variant-numeric:tabular-nums}
+.icon-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:var(--panel-solid);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text);transition:.2s;flex-shrink:0}
+.icon-btn:hover{background:var(--accent-light);color:var(--accent);transform:translateY(-1px)}
+.icon-btn:active{transform:scale(.92)}
+.exit-link{font-size:12.5px;color:var(--text3);cursor:pointer;white-space:nowrap;padding:6px 4px}
+.exit-link:hover{color:var(--accent)}
+
+.ios-switch{position:relative;width:50px;height:30px;border-radius:99px;background:#78788033;border:none;cursor:pointer;flex-shrink:0;transition:background .25s}
+.ios-switch.on{background:var(--accent)}
+.ios-switch .knob{position:absolute;top:2px;left:2px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:transform .25s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;justify-content:center;font-size:13px}
+.ios-switch.on .knob{transform:translateX(20px)}
+
+.part-banner{flex:0 0 auto;margin:10px 12px 0;border-radius:var(--radius-md);padding:10px 18px;font-size:13px;color:var(--text2)}
+.part-banner b{color:var(--text)}
+
+/* ── BODY: TWO PANES ── */
+.exam-body{display:flex;flex:1 1 auto;min-height:0;overflow:hidden;margin:10px 12px;gap:10px}
+.pane{min-width:0;min-height:0;overflow-y:auto;padding:26px 26px 90px;-webkit-overflow-scrolling:touch;border-radius:var(--radius-lg)}
+.pane-left{flex:1 1 50%;user-select:text;position:relative}
+.pane-right{flex:1 1 50%}
+.pane::-webkit-scrollbar{width:7px}
+.pane::-webkit-scrollbar-track{background:transparent}
+.pane::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
+.resizer{width:8px;cursor:col-resize;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.resizer::after{content:'';width:4px;height:44px;border-radius:99px;background:var(--border)}
+.resizer:hover::after{background:var(--accent)}
+
+.watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-25deg);font-size:50px;font-weight:800;color:rgba(227,24,55,.05);pointer-events:none;z-index:0;white-space:nowrap;letter-spacing:2px}
+html[data-theme="dark"] .watermark{color:rgba(255,79,104,.06)}
+.pane-left>*:not(.watermark){position:relative;z-index:1}
+
+.passage-label{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);background:var(--accent-light);display:inline-block;padding:4px 11px;border-radius:99px;margin-bottom:16px}
+.passage-title{font-size:19px;font-weight:800;color:var(--text);margin-bottom:4px;text-align:center;line-height:1.3}
+.passage-subtitle{font-size:12.5px;color:var(--text2);margin-bottom:20px;font-style:italic;text-align:center}
+.passage-para{margin-bottom:1.1em}
+.passage-text{font-size:14.6px;line-height:1.85;color:var(--text)}
+.section-tag{display:block;font-size:11px;font-weight:800;color:var(--accent);letter-spacing:.06em;margin:4px 0 6px}
+
+/* ── HIGHLIGHT TOOLBAR ── */
+.hl-toolbar{display:none;position:fixed;z-index:500;background:rgba(30,30,34,.85);backdrop-filter:blur(16px);border-radius:99px;padding:8px;box-shadow:0 6px 20px rgba(0,0,0,.3);gap:6px;align-items:center;border:1px solid rgba(255,255,255,.1)}
+.hl-toolbar.show{display:flex}
+.hl-dot{width:24px;height:24px;border-radius:50%;border:2px solid #fff;cursor:pointer}
+.hl-dot.y{background:#fde047}.hl-dot.g{background:#86efac}.hl-dot.p{background:#f9a8d4}.hl-dot.b{background:#93c5fd}
+.hl-remove-btn{background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:99px;padding:5px 12px;font-size:12px;cursor:pointer}
+mark.hl-y{background:#fde047}mark.hl-g{background:#86efac}mark.hl-p{background:#f9a8d4}mark.hl-b{background:#93c5fd}
+.ans-highlight{background:#ffeb3b;color:#000;padding:1px 3px;border-radius:3px;font-weight:600;cursor:pointer;border-bottom:2px dotted var(--accent-dark)}
+.ans-highlight::after{content:' 💡';font-size:11px}
+.inline-explain{display:none;background:var(--accent-light);border-left:3px solid var(--accent);border-radius:8px;padding:9px 12px;margin:8px 0;font-size:12.8px;color:var(--text);line-height:1.6}
+.inline-explain.show{display:block}
+.inline-explain b{color:var(--accent)}
+.inline-explain .ie-en{color:var(--text2);margin-bottom:4px}
+
+/* ── VOCAB / TRANSLATE ── */
+.vocab-word{border-bottom:2px dotted var(--accent);cursor:pointer;background:var(--accent-light);border-radius:3px;padding:0 1px}
+.vocab-word:hover{color:var(--accent)}
+.tooltip-box{display:none;position:fixed;z-index:9999;background:rgba(28,28,32,.88);backdrop-filter:blur(18px);color:#fff;border-radius:14px;padding:13px 16px;font-size:14px;max-width:270px;box-shadow:0 12px 30px rgba(0,0,0,.4);pointer-events:none;line-height:1.5;border:1px solid rgba(255,255,255,.1)}
+.t-word{font-size:15px;font-weight:700;color:#ff9fa8;margin-bottom:3px}
+.t-pron{font-size:12px;color:#9ca3af;margin-bottom:5px;font-style:italic}
+.t-uz{font-size:14px;color:#ffd479;font-weight:600;margin-bottom:4px}
+.t-def{font-size:12px;color:#d1d5db}
+
+/* ── QUESTIONS ── */
+.q-section-hdr{margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.q-section-hdr h3{font-size:14px;font-weight:800;color:var(--text);margin-bottom:4px}
+.q-section-hdr p{font-size:12.8px;color:var(--text2);line-height:1.6}
+
+.notes-block h4{font-size:12.5px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.04em;margin:18px 0 8px}
+.notes-block h4:first-child{margin-top:0}
+.notes-list{list-style:none;padding-left:0}
+.notes-list li{font-size:14px;line-height:1.9;color:var(--text);padding:10px 14px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--panel-solid);margin-bottom:10px}
+.notes-list li b{color:var(--accent);margin-right:2px}
+
+.sc-input{display:inline-block;min-width:130px;padding:6px 10px;border-radius:99px;border:1.5px solid var(--border);background:var(--panel);color:var(--text);font-size:13.5px;font-family:inherit;outline:none;transition:.15s;text-align:center;font-weight:700}
+.sc-input:focus{border-color:var(--accent);background:var(--panel-solid)}
+.sc-input.correct{border-color:var(--green);background:var(--green-bg);color:var(--green)}
+.sc-input.wrong{border-color:var(--redx);background:var(--red-bg);color:var(--redx)}
+
+/* ── YES/NO/NOT GIVEN ── */
+.tfng-item{padding:12px 14px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--panel-solid);margin-bottom:10px}
+.tfng-q{font-size:13.6px;line-height:1.6;color:var(--text);margin-bottom:10px}
+.tfng-q b{color:var(--accent);margin-right:4px}
+.tfng-btns{display:flex;flex-direction:column;gap:6px}
+.tfng-btn{width:100%;padding:9px 12px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--panel);color:var(--text2);font-size:12px;font-weight:700;cursor:pointer;transition:.15s;text-align:left;letter-spacing:.02em}
+.tfng-btn:hover{border-color:var(--accent);color:var(--accent)}
+.tfng-btn.selected{background:var(--accent);border-color:var(--accent);color:#fff}
+.tfng-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.tfng-btn.wrong{background:var(--redx);border-color:var(--redx);color:#fff}
+.tfng-btn.reveal-correct{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+
+/* ── MATCHING / DROPDOWN (people & dates) ── */
+.list-headings-box{background:var(--panel-solid);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 14px;margin-bottom:16px}
+.list-headings-box h5{font-size:11.5px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.list-headings-box ol{padding-left:20px}
+.list-headings-box li{font-size:12.6px;line-height:1.75;color:var(--text2)}
+.list-headings-box li b{color:var(--text)}
+.match-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--panel-solid);margin-bottom:9px}
+.match-q{font-size:13.6px;color:var(--text);font-weight:600}
+.match-q b{color:var(--accent);margin-right:4px}
+.hm-select{padding:8px 10px;border-radius:99px;border:1.5px solid var(--border);background:var(--panel);color:var(--text);font-size:12.6px;font-family:inherit;outline:none;font-weight:700;min-width:130px;cursor:pointer}
+.hm-select:focus{border-color:var(--accent)}
+.hm-select.correct{border-color:var(--green);background:var(--green-bg);color:var(--green)}
+.hm-select.wrong{border-color:var(--redx);background:var(--red-bg);color:var(--redx)}
+
+/* ── MULTIPLE CHOICE ── */
+.mc-item{padding:12px 14px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--panel-solid);margin-bottom:10px}
+.mc-q{font-size:13.6px;line-height:1.6;color:var(--text);margin-bottom:10px}
+.mc-q b{color:var(--accent);margin-right:4px}
+.mc-btns{display:flex;flex-direction:column;gap:7px}
+.mc-btn{width:100%;padding:10px 12px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--panel);color:var(--text);font-size:12.6px;font-weight:600;cursor:pointer;transition:.15s;text-align:left;line-height:1.5}
+.mc-btn b{color:var(--accent);margin-right:6px}
+.mc-btn:hover{border-color:var(--accent)}
+.mc-btn.selected{background:var(--accent);border-color:var(--accent);color:#fff}
+.mc-btn.selected b{color:#fff}
+.mc-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.mc-btn.correct b{color:#fff}
+.mc-btn.wrong{background:var(--redx);border-color:var(--redx);color:#fff}
+.mc-btn.wrong b{color:#fff}
+.mc-btn.reveal-correct{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+
+/* ── FOOTER NAV ── */
+.exam-footer{position:fixed;bottom:10px;left:12px;right:12px;border-radius:var(--radius-lg);padding:9px 14px;display:flex;align-items:center;gap:10px;z-index:200}
+.q-nav-row{display:flex;gap:5px;flex:1;overflow-x:auto;align-items:center;scrollbar-width:none}
+.q-nav-row::-webkit-scrollbar{display:none}
+.q-nav-btn{width:30px;height:30px;border-radius:50%;border:1px solid var(--border);font-size:11.5px;font-weight:700;cursor:pointer;transition:.15s;background:var(--panel-solid);color:var(--text);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.q-nav-btn:hover{border-color:var(--accent)}
+.q-nav-btn.answered{background:var(--accent-light);border-color:var(--accent);color:var(--accent)}
+.q-nav-btn.correct{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+.q-nav-btn.wrong-nav{background:var(--red-bg);border-color:var(--redx);color:var(--redx)}
+.answered-count{font-size:11.5px;color:var(--text3);white-space:nowrap}
+.check-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:11px 22px;font-size:13px;font-weight:700;cursor:pointer;transition:.2s;flex-shrink:0;white-space:nowrap}
+.check-btn:hover{background:var(--accent-dark)}
+.check-btn.done{background:var(--green)}
+
+/* ── RESULT MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,10,14,.45);backdrop-filter:blur(6px);z-index:2000;display:flex;justify-content:center;align-items:center;padding:16px}
+.modal-overlay.hidden{display:none}
+.modal-box{background:var(--panel-solid);backdrop-filter:var(--blur);border-radius:var(--radius-xl);width:100%;max-width:720px;max-height:88vh;display:flex;flex-direction:column;border:1px solid var(--glass-hi);box-shadow:var(--shadow);color:var(--text);overflow:hidden}
+.modal-header{padding:20px 24px 14px;border-bottom:1px solid var(--hairline);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-header h2{font-size:18px;font-weight:800;color:var(--text)}
+.modal-close{background:var(--border);border:none;width:30px;height:30px;border-radius:50%;font-size:18px;cursor:pointer;color:var(--text2);line-height:1}
+.modal-score-row{display:flex;gap:10px;justify-content:center;padding:14px 22px;border-bottom:1px solid var(--hairline);flex-shrink:0;flex-wrap:wrap}
+.score-pill{background:var(--panel);border:1px solid var(--border);border-radius:99px;padding:7px 18px;font-size:13.5px;font-weight:700;color:var(--text)}
+.modal-body{overflow-y:auto;padding:16px 22px 22px;flex:1}
+.res-filter-bar{display:flex;gap:6px;margin-bottom:14px;background:var(--border);padding:4px;border-radius:99px;width:fit-content}
+.res-filter-btn{background:transparent;border:none;border-radius:99px;padding:6px 15px;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--text2);transition:.2s}
+.res-filter-btn.active{background:var(--panel-solid);color:var(--accent);box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.res-row{display:grid;grid-template-columns:44px 1fr 1fr 84px;gap:8px;padding:11px 6px;border-bottom:1px solid var(--hairline);font-size:13px;align-items:start}
+.res-row.is-correct{background:rgba(34,165,89,.05)}
+.res-row.is-wrong{background:rgba(255,59,48,.05)}
+.res-row.is-skipped{background:rgba(255,149,0,.06)}
+.res-num{font-weight:700;color:var(--text);background:var(--panel);border:1px solid var(--border);border-radius:8px;width:34px;height:27px;display:flex;align-items:center;justify-content:center}
+.res-user{background:var(--panel);border:1px solid var(--border);padding:3px 7px;border-radius:7px;color:var(--text);font-size:12.5px;word-break:break-word}
+.res-correct{color:var(--green);font-weight:600;background:var(--green-bg);border:1px solid rgba(34,165,89,.25);padding:3px 7px;border-radius:7px;font-size:12.5px;word-break:break-word}
+.res-badge{justify-self:end;padding:3px 10px;border-radius:99px;font-size:10.5px;font-weight:700;white-space:nowrap;align-self:center}
+.res-badge.ok{background:var(--green-bg);color:var(--green);border:1px solid rgba(34,165,89,.3)}
+.res-badge.bad{background:var(--red-bg);color:var(--redx);border:1px solid rgba(255,59,48,.3)}
+.res-badge.skip{background:var(--yellow-bg);color:var(--yellow);border:1px solid rgba(255,149,0,.3)}
+.res-explain-en{font-size:12.5px;color:var(--text2);line-height:1.5;background:var(--panel);border-radius:8px;padding:9px 11px;margin-top:6px;grid-column:1/-1}
+.res-explain-uz{font-size:12.5px;color:var(--text);line-height:1.5;background:var(--accent-light);border-radius:8px;padding:9px 11px;margin-top:4px;grid-column:1/-1;border-left:3px solid var(--accent)}
+.modal-actions{display:flex;gap:8px;justify-content:center;padding:14px 22px;border-top:1px solid var(--hairline);flex-shrink:0;flex-wrap:wrap}
+.modal-btn{padding:10px 20px;border-radius:99px;font-size:13.5px;font-weight:700;cursor:pointer;transition:.2s;border:1.5px solid var(--border);background:var(--panel);color:var(--text)}
+.modal-btn:hover{border-color:var(--accent);color:var(--accent)}
+.modal-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}.modal-btn.primary:hover{background:var(--accent-dark)}
+.modal-btn.tg{background:var(--tg);color:#fff;border-color:var(--tg)}.modal-btn.tg:hover{background:#0077b3}
+
+@media(max-width:700px){
+  .exam-body{flex-direction:column;margin:8px}
+  .pane-left,.pane-right{flex:1 1 auto;overflow-y:visible;min-height:260px}
+  .resizer{display:none}
+  .home-card,.login-card{padding:30px 20px}
+  .header-pills{display:none}
+  .exam-header{margin:8px 8px 0;padding:8px 12px}
+  .part-banner{margin:8px 8px 0}
+  .exam-footer{left:8px;right:8px}
+  .res-row{grid-template-columns:1fr}
+  .res-badge{justify-self:start}
+  .tfng-btn{font-size:10px;min-width:66px}
+  .match-item{flex-direction:column;align-items:flex-start}
+  .hm-select{width:100%}
+}
+:fullscreen .screen.active{height:100vh}
+::selection{background:rgba(227,24,55,.25)}
+</style>
+</head>
+<body>
+
+<div class="liquid-bg"><span></span><span></span><span></span></div>
+<div class="tooltip-box" id="tooltip"></div>
+<div class="hl-toolbar" id="hlToolbar">
+  <span class="hl-dot y" data-color="hl-y"></span>
+  <span class="hl-dot g" data-color="hl-g"></span>
+  <span class="hl-dot p" data-color="hl-p"></span>
+  <span class="hl-dot b" data-color="hl-b"></span>
+  <button class="hl-remove-btn" id="hlRemoveBtn">Remove</button>
+</div>
+
+<!-- ══ LOGIN ══ -->
+<div class="screen active" id="login-screen">
+  <button class="icon-btn home-theme-btn" id="theme-toggle-login" title="Dark mode">
+    <svg id="theme-icon-login" viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg>
+  </button>
+  <div class="login-card glass">
+    <div class="login-logo">IELTS<span>@reading_cdi · Kirish</span></div>
+    <h1>Xush kelibsiz 👋</h1>
+    <p class="login-sub">Testni boshlash uchun login va parolni kiriting</p>
+
+    <div class="login-field">
+      <label for="login-user">Login</label>
+      <input type="text" id="login-user" class="login-input" placeholder="reading_cdi" autocomplete="username">
+    </div>
+    <div class="login-field">
+      <label for="login-pass">Parol</label>
+      <input type="password" id="login-pass" class="login-input" placeholder="reading_cdi" autocomplete="current-password">
+    </div>
+    <div class="login-error" id="login-error">Login yoki parol noto'g'ri. Qaytadan urinib ko'ring.</div>
+
+    <button class="login-btn" onclick="checkLogin()">Kirish</button>
+
+    
+    <div class="login-hint">Barcha yangi testlar va materiallar Telegram kanalimizda</div>
+  </div>
+</div>
+
+<!-- ══ HOME ══ -->
+<div class="screen" id="home-screen">
+  <button class="icon-btn home-theme-btn" id="theme-toggle-home" title="Dark mode">
+    <svg id="theme-icon-home" viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg>
+  </button>
+  <div class="home-card glass">
+    <div class="home-logo">IELTS<span>@reading_cdi · Reading</span></div>
+    <div class="home-badge">📖 Academic Reading</div>
+    <h1>Mark Strizic: A Career of an Australian Photographer</h1>
+    <p class="home-sub">A European émigré who reshaped Australian visual culture across five decades</p>
+    <p>14 questions · 20 minutes · Matching People + Yes/No/Not Given + Matching Dates. Tap underlined words for instant Uzbek translation. Select text with your mouse and pick a colour to highlight it.</p>
+    <div class="home-meta">
+      <div class="home-meta-item"><div class="val">14</div><div class="lbl">Questions</div></div>
+      <div class="home-meta-item"><div class="val">20:00</div><div class="lbl">Time limit</div></div>
+      <div class="home-meta-item"><div class="val">3</div><div class="lbl">Types</div></div>
+    </div>
+    <br>
+    <button class="start-btn" onclick="startExam()">Start Test</button>
+    <br>
+    
+  </div>
+</div>
+
+<!-- ══ EXAM ══ -->
+<div class="screen" id="exam-screen">
+  <div class="exam-header glass">
+    <div class="header-left">
+      <div>
+        <div class="exam-logo">IELTS</div>
+        <div class="exam-sub">@reading_cdi</div>
+      </div>
+      <div class="header-pills">
+        
+        
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="exit-link" onclick="confirmExit()">Exit</span>
+      <div class="timer-box" id="timer-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        <span class="timer-val" id="timer-val">20:00</span>
+      </div>
+      <button class="icon-btn" id="timer-toggle" title="Pause/Resume">
+        <svg id="timer-icon" viewBox="0 0 24 24" width="15" height="15"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+      </button>
+      <button class="icon-btn" id="timer-reset" title="Reset Timer">
+        <svg viewBox="0 0 24 24" width="15" height="15"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+      </button>
+      <button class="icon-btn" onclick="toggleFullscreen()" title="Fullscreen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+      </button>
+      <button class="ios-switch" id="theme-toggle-exam" title="Dark mode"><span class="knob" id="theme-knob-exam">☀️</span></button>
+    </div>
+  </div>
+
+  <div class="part-banner glass"><b>Reading Passage</b> — Mark Strizic: A career of an Australian photographer. You should spend about 20 minutes on Questions 27–40.</div>
+
+  <div class="exam-body">
+    <!-- LEFT: PASSAGE -->
+    <div class="pane pane-left glass" id="pane-left">
+      <div class="watermark">@reading_cdi</div>
+      <div class="passage-label">READING PASSAGE 3</div>
+      <div class="passage-title">Mark Strizic: A career of an Australian photographer</div>
+      <div class="passage-subtitle">How a Zagreb-born émigré became one of the most versatile figures in Australian visual culture</div>
+
+      <div class="passage-para"><p class="passage-text">Mark Strizic, who passed away in December last year, was the last representative of a remarkable generation of <span class="vocab-word" data-word="emigre">émigré</span> photographers who settled in Australia after the Second World War. Alongside Wolfgang Sievers and Henry Talbot, Strizic contributed significantly to the visual culture of his adopted country. Yet, unlike many of his <span class="vocab-word" data-word="contemporaries">contemporaries</span>, whose reputations were largely based on industrial or commercial photography, Strizic developed a career that was unusually complex. Over a span of five decades, he explored multiple photographic styles, experimented with new printing processes, engaged in book design, produced large-scale murals, and participated actively in teaching the next generation of photographers.</p></div>
+
+      <div class="passage-para"><p class="passage-text">After his arrival in Melbourne from Zagreb in 1950, Strizic initially studied science, but soon turned to photography. From the mid-1950s he began to establish himself, not only through individual works but also through collaborations. One of his most enduring achievements was his partnership with the critic and historian David Saunders, with whom he produced <i>Melbourne: A Portrait</i> in 1960. The book was distinctive for its use of <span class="vocab-word" data-word="offset">offset</span> printing, a relatively new process at the time, which allowed photographs and text to be <span class="vocab-word" data-word="integrated">integrated</span> seamlessly on the page. Strizic, as both photographer and designer, arranged his images so that one composition flowed into the next, often leaving areas of blank space or floating lines of text to balance the spreads. The result was a visually coherent book, which also carried an ambitious cultural <span class="vocab-word" data-word="agenda">agenda</span>: Saunders' text was printed in Italian and German as well as English, suggesting an international readership. The book's bright and cheerful cover, designed by Leonard French, contributed to its appeal. In 1961 it was awarded Book of the Year, recognition not only of the photographs themselves but of the integrated design of the whole publication.</p></div>
+
+      <div class="passage-para"><p class="passage-text">Strizic later admitted that the idea for <i>Melbourne: A Portrait</i> had been shaped by his father's earlier work. His father, an architect in Zagreb, had published <i>Light and Shade</i> in 1955, a reflective "city book" in the European style, which contrasted sharply with the more commercial <span class="vocab-word" data-word="boosterism">boosterism</span> of contemporary Australian publications. Strizic deliberately sought to emulate this <span class="vocab-word" data-word="contemplative">contemplative</span> approach, presenting Melbourne as a modern yet cultured metropolis.</p></div>
+
+      <div class="passage-para"><p class="passage-text">During the 1960s and 70s, Strizic continued to photograph the rapid transformation of Melbourne. His distinctive technique often involved pointing the camera directly into the sunlight, creating stark contrasts in which buildings and figures were reduced to <span class="vocab-word" data-word="silhouettes">silhouettes</span>. Many of his images juxtapose old Victorian facades with newly constructed skyscrapers, capturing a city in the midst of radical expansion. Cars, highways and office towers dominate the frame, while human figures are frequently <span class="vocab-word" data-word="marginalised">marginalised</span>, squeezed into the bottom corners or overshadowed by the built environment. By the late 1970s, Strizic's vision of Melbourne had grown darker. Using experimental methods, such as printing black-and-white negatives on colour paper or duplicating them onto high-contrast lithographic film, he produced cityscapes that glowed with intense, sometimes <span class="vocab-word" data-word="psychedelic">psychedelic</span> colours, giving Melbourne an almost <span class="vocab-word" data-word="hallucinatory">hallucinatory</span> quality.</p></div>
+
+      <div class="passage-para"><p class="passage-text">Collaboration remained central to Strizic's career. In 1967 he worked with Sun Books, a small but ambitious publishing house, on several innovative projects. For Tim Burstall's film <i>2000 Weeks</i> he created a <span class="vocab-word" data-word="photoroman">photo-roman</span>, a paperback-sized publication in which his stills from the film were combined with dialogue. Although the film was produced in a European art-house style and tackled <span class="vocab-word" data-word="existential">existential</span> themes, it failed at the box office, and Strizic's book met a similar fate. Nevertheless, the project demonstrated his willingness to experiment with new formats.</p></div>
+
+      <div class="passage-para"><p class="passage-text">A more <span class="vocab-word" data-word="prestigious">prestigious</span> venture was <i>Involvement</i> (1968), a limited-edition art book edited by Andrew Grimwade. The concept was to pair Strizic's photographic portraits with paintings by the artist Clifton Pugh. The accompanying text, written by Geoffrey Dutton, sought to place the collaboration in a grand cultural framework. Yet the book was widely regarded as <span class="vocab-word" data-word="unsatisfactory">unsatisfactory</span>, largely because of its design. Unlike <i>Melbourne: A Portrait</i>, Strizic did not design the volume himself, and the layout by Les Gray failed to balance the colour plates of Pugh's paintings with the black-and-white photographs. Despite this, Strizic's portraits attracted attention for their originality. He employed experimental methods such as pushing his 35mm film to increase contrast and <span class="vocab-word" data-word="grain">grain</span>, and often shot his <span class="vocab-word" data-word="sitters">sitters</span> against dominant backgrounds or with objects intruding into the foreground. The effect was to highlight their individuality and <span class="vocab-word" data-word="resistance">resistance</span> to their surroundings. His portrait of Sir Charles Moses, head of the ABC, shows him through a <span class="vocab-word" data-word="haze">haze</span> of cigar smoke, while Barry Humphries appears surrounded by <span class="vocab-word" data-word="eccentric">eccentric</span> antiques in his London flat. These images were exhibited in 1968 at the National Gallery of Victoria under the title Some Australian Personalities, marking the institution's first solo exhibition devoted to photography.</p></div>
+
+      <div class="passage-para"><p class="passage-text">Strizic's collaborative spirit extended into many other areas. He documented the sculptor John Davis and the furniture designer Schulim Krimper for <span class="vocab-word" data-word="monographs">monographs</span> commissioned in the 1980s, but his connection with Krimper went back to 1959. He also worked with <span class="vocab-word" data-word="avantgarde">avant-garde</span> artists such as Asher Bilu, producing the only surviving photographic record of Bilu's interactive electronic work Sculptron (1967). This task required considerable technical skill, since Strizic had to balance the exposure for glowing <span class="vocab-word" data-word="cathoderay">cathode-ray</span> tubes with the surrounding sculptural elements.</p></div>
+
+      <div class="passage-para"><p class="passage-text">In the field of murals, he developed large-scale photographic works for government buildings and corporate headquarters, sometimes combining his "photochromes" with paintings. A notable example was his collaboration with Stanislav Ostoja-Kotkowski in 1970 on a twelve-metre mural for the Ciba-Geigy building in Preston, which <span class="vocab-word" data-word="merged">merged</span> infrared photography with Strizic's experimental prints.</p></div>
+
+      <div class="passage-para"><p class="passage-text">That same year, Strizic worked with the influential architect Robin Boyd on <i>Living in Australia</i>, a book which sought to articulate Boyd's design <span class="vocab-word" data-word="philosophy">philosophy</span>. Strizic's photography reinforced Boyd's arguments, presenting domestic architecture through dramatic <span class="vocab-word" data-word="diagonal">diagonal</span> compositions and sharp contrasts. The book was recently <span class="vocab-word" data-word="republished">republished</span>, confirming its continuing relevance. In later years, Strizic combined his artistic practice with teaching in Melbourne's new photography departments during the <span class="vocab-word" data-word="boom">boom</span> of the 1970s. In 1988 he returned to his earliest negatives of Melbourne, <span class="vocab-word" data-word="staging">staging</span> an exhibition that highlighted his long-standing interest in the city's changing urban landscape.</p></div>
+
+      <div class="passage-para"><p class="passage-text">Since then, he has often been remembered as a nostalgic <span class="vocab-word" data-word="chronicler">chronicler</span> of "old Melbourne" or "disappearing Melbourne." Yet such a label <span class="vocab-word" data-word="oversimplifies">oversimplifies</span> his contribution. His career was marked by continuous experimentation, by fruitful collaborations with artists, writers and designers, and by a willingness to engage with both traditional and avant-garde practices. In this sense, he occupies a significant though sometimes <span class="vocab-word" data-word="underrecognised">under-recognised</span> position in the development of Australian visual culture.</p></div>
+
+    </div>
+
+    <div class="resizer" id="resizer"></div>
+
+    <!-- RIGHT: QUESTIONS -->
+    <div class="pane pane-right glass" id="pane-right">
+      <div class="q-section-hdr">
+        <h3>Questions 27–32</h3>
+        <p>Look at the following statements (Questions 27–32) and the list of people below. Match each statement with the correct person, A, B, C, D, E, or F.<br><b>NB</b> You may use any letter more than once.</p>
+      </div>
+
+      <div class="list-headings-box">
+        <h5>List of People</h5>
+        <ol type="A">
+          <li><b>A</b> David Saunders</li>
+          <li><b>B</b> Andrew Grimwade</li>
+          <li><b>C</b> Leonard French</li>
+          <li><b>D</b> Strizic's father</li>
+          <li><b>E</b> Stanislav Ostoja-Kotkowski</li>
+          <li><b>F</b> Geoffrey Dutton</li>
+        </ol>
+      </div>
+
+      <div class="match-block" id="match-block-1">
+        <div class="match-item">
+          <div class="match-q"><b>27</b> Strizic worked with him to produce a book about Melbourne.</div>
+          <select class="hm-select" id="hm-27" data-qnum="27">
+            <option value="">— choose —</option>
+            <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option>
+          </select>
+        </div>
+        <div class="match-item">
+          <div class="match-q"><b>28</b> He edited the art book <i>Involvement</i>.</div>
+          <select class="hm-select" id="hm-28" data-qnum="28">
+            <option value="">— choose —</option>
+            <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option>
+          </select>
+        </div>
+        <div class="match-item">
+          <div class="match-q"><b>29</b> He designed the cover of <i>Melbourne: A Portrait</i>.</div>
+          <select class="hm-select" id="hm-29" data-qnum="29">
+            <option value="">— choose —</option>
+            <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option>
+          </select>
+        </div>
+        <div class="match-item">
+          <div class="match-q"><b>30</b> His book on Zagreb inspired Strizic's <i>Melbourne: A Portrait</i>.</div>
+          <select class="hm-select" id="hm-30" data-qnum="30">
+            <option value="">— choose —</option>
+            <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option>
+          </select>
+        </div>
+        <div class="match-item">
+          <div class="match-q"><b>31</b> He collaborated with Strizic to combine photochromes with infrared photography.</div>
+          <select class="hm-select" id="hm-31" data-qnum="31">
+            <option value="">— choose —</option>
+            <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option>
+          </select>
+        </div>
+        <div class="match-item">
+          <div class="match-q"><b>32</b> He wrote the text for <i>Involvement</i>, which was considered pretentious.</div>
+          <select class="hm-select" id="hm-32" data-qnum="32">
+            <option value="">— choose —</option>
+            <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="q-section-hdr" style="margin-top:26px">
+        <h3>Questions 33–37</h3>
+        <p>Do the following statements agree with the claims of the writer in Reading Passage 3?<br><b>YES</b> if the statement agrees with the claims of the writer, <b>NO</b> if the statement contradicts the claims of the writer, <b>NOT GIVEN</b> if it is impossible to say what the writer thinks about this.</p>
+      </div>
+
+      <div class="tfng-block" id="tfng-block">
+        <div class="tfng-item">
+          <div class="tfng-q"><b>33</b> <i>2000 Weeks</i> and its accompanying photo-roman were successful with the public.</div>
+          <div class="tfng-btns" data-qnum="33">
+            <button class="tfng-btn" data-val="YES">YES</button>
+            <button class="tfng-btn" data-val="NO">NO</button>
+            <button class="tfng-btn" data-val="NOT GIVEN">NOT GIVEN</button>
+          </div>
+        </div>
+        <div class="tfng-item">
+          <div class="tfng-q"><b>34</b> Strizic's portraits in <i>Involvement</i> were exhibited at the National Gallery of Victoria in 1968.</div>
+          <div class="tfng-btns" data-qnum="34">
+            <button class="tfng-btn" data-val="YES">YES</button>
+            <button class="tfng-btn" data-val="NO">NO</button>
+            <button class="tfng-btn" data-val="NOT GIVEN">NOT GIVEN</button>
+          </div>
+        </div>
+        <div class="tfng-item">
+          <div class="tfng-q"><b>35</b> Strizic was one of the first to document the interactive artwork <i>Sculptron</i>.</div>
+          <div class="tfng-btns" data-qnum="35">
+            <button class="tfng-btn" data-val="YES">YES</button>
+            <button class="tfng-btn" data-val="NO">NO</button>
+            <button class="tfng-btn" data-val="NOT GIVEN">NOT GIVEN</button>
+          </div>
+        </div>
+        <div class="tfng-item">
+          <div class="tfng-q"><b>36</b> Strizic's photographic murals were produced with the help of advanced digital technology.</div>
+          <div class="tfng-btns" data-qnum="36">
+            <button class="tfng-btn" data-val="YES">YES</button>
+            <button class="tfng-btn" data-val="NO">NO</button>
+            <button class="tfng-btn" data-val="NOT GIVEN">NOT GIVEN</button>
+          </div>
+        </div>
+        <div class="tfng-item">
+          <div class="tfng-q"><b>37</b> Strizic is best remembered solely as a nostalgic photographer of Melbourne.</div>
+          <div class="tfng-btns" data-qnum="37">
+            <button class="tfng-btn" data-val="YES">YES</button>
+            <button class="tfng-btn" data-val="NO">NO</button>
+            <button class="tfng-btn" data-val="NOT GIVEN">NOT GIVEN</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="q-section-hdr" style="margin-top:26px">
+        <h3>Questions 38–40</h3>
+        <p>Match the events below with the correct date, A, B, C or D.<br><b>NB</b> You may use any letter more than once.</p>
+      </div>
+
+      <div class="list-headings-box">
+        <h5>List of Dates</h5>
+        <ol type="A">
+          <li><b>A</b> 1961</li>
+          <li><b>B</b> 1968</li>
+          <li><b>C</b> 1970</li>
+          <li><b>D</b> 1988</li>
+        </ol>
+      </div>
+
+      <div class="match-block" id="match-block-2">
+        <div class="match-item">
+          <div class="match-q"><b>38</b> <i>Melbourne: A Portrait</i> received the Book of the Year award.</div>
+          <select class="hm-select" id="hm-38" data-qnum="38">
+            <option value="">— choose —</option>
+            <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option>
+          </select>
+        </div>
+        <div class="match-item">
+          <div class="match-q"><b>39</b> Strizic collaborated with Robin Boyd on <i>Living in Australia</i>.</div>
+          <select class="hm-select" id="hm-39" data-qnum="39">
+            <option value="">— choose —</option>
+            <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option>
+          </select>
+        </div>
+        <div class="match-item">
+          <div class="match-q"><b>40</b> Strizic returned to his early negatives of Melbourne streets for an exhibition.</div>
+          <select class="hm-select" id="hm-40" data-qnum="40">
+            <option value="">— choose —</option>
+            <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option>
+          </select>
+        </div>
+      </div>
+    </div><!-- /pane-right -->
+  </div><!-- /exam-body -->
+
+  <div class="exam-footer glass">
+    <div class="q-nav-row" id="q-nav-row"></div>
+    <span class="answered-count" id="answered-count">0 / 14</span>
+    <button class="check-btn" id="check-btn" onclick="submitExam()">Check Answers</button>
+  </div>
+</div>
+
+<!-- ══ RESULTS MODAL ══ -->
+<div class="modal-overlay hidden" id="modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>📊 Results — Natijalar</h2>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-score-row">
+      
+      
+      
+      
+    </div>
+    <div class="modal-body">
+      <div class="res-filter-bar">
+        <button class="res-filter-btn active" onclick="setResFilter('all',this)">All 14</button>
+        <button class="res-filter-btn" onclick="setResFilter('wrong',this)">❌ Mistakes</button>
+        <button class="res-filter-btn" onclick="setResFilter('skipped',this)">⏭ Skipped</button>
+      </div>
+      <div id="res-details"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn primary" onclick="closeModal()">Close</button>
+      <button class="modal-btn" onclick="retryTest()">🔄 Retry</button>
+      
+      <button class="modal-btn" onclick="showScreen('home-screen');closeModal()">🏠 Home</button>
+    </div>
+  </div>
+</div>
+<script>
+// ══════════════════════════════════════
+//  LOGIN
+// ══════════════════════════════════════
+const VALID_USER='reading_cdi', VALID_PASS='reading_cdi';
+function checkLogin(){
+  const u=document.getElementById('login-user').value.trim();
+  const p=document.getElementById('login-pass').value.trim();
+  const err=document.getElementById('login-error');
+  if(u===VALID_USER && p===VALID_PASS){err.classList.remove('show');showScreen('home-screen');}
+  else{err.classList.add('show');}
+}
+document.getElementById('login-pass').addEventListener('keydown',e=>{if(e.key==='Enter')checkLogin();});
+document.getElementById('login-user').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('login-pass').focus();});
+
+// ══════════════════════════════════════
+//  THEME
+// ══════════════════════════════════════
+function applyTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  const on=t==='dark';
+  document.getElementById('theme-toggle-exam').classList.toggle('on',on);
+  document.getElementById('theme-knob-exam').textContent=on?'🌙':'☀️';
+  const iconPaths={
+    on:'<path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/>',
+    off:'<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>'
+  };
+  document.getElementById('theme-icon-home').innerHTML=on?iconPaths.on:iconPaths.off;
+  document.getElementById('theme-icon-login').innerHTML=on?iconPaths.on:iconPaths.off;
+  try{localStorage.setItem('cdi-theme',t);}catch(e){}
+}
+function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');}
+document.getElementById('theme-toggle-home').addEventListener('click',toggleTheme);
+document.getElementById('theme-toggle-exam').addEventListener('click',toggleTheme);
+document.getElementById('theme-toggle-login').addEventListener('click',toggleTheme);
+(function(){
+  let saved='light';
+  try{saved=localStorage.getItem('cdi-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');}catch(e){}
+  applyTheme(saved);
+})();
+
+// ══════════════════════════════════════
+//  VOCAB (advanced words — instant Uzbek translation)
+// ══════════════════════════════════════
+const VOCAB = {
+  "emigre":         {pron:"/ˌemɪˈɡreɪ/",        uz:"muhojir",                        def:"A person who has left their native country, often for political reasons"},
+  "contemporaries": {pron:"/kənˈtempərəriz/",   uz:"zamondoshlari",                  def:"People living or working at the same time as one another"},
+  "offset":         {pron:"/ˈɒfset/",           uz:"ofset (bosma usuli)",            def:"A printing method where an inked image is transferred onto a rubber surface, then onto paper"},
+  "integrated":     {pron:"/ˈɪntɪɡreɪtɪd/",     uz:"birlashtirilgan, uyg'unlashgan", def:"Combined so as to form a coordinated whole"},
+  "agenda":         {pron:"/əˈdʒendə/",         uz:"kun tartibi, maqsad",            def:"A plan or underlying set of aims"},
+  "boosterism":     {pron:"/ˈbuːstərɪzəm/",     uz:"maqtov-targ'ibot",               def:"Enthusiastic, uncritical promotion of a place or cause"},
+  "contemplative":  {pron:"/kənˈtemplətɪv/",    uz:"mulohazali, tafakkurli",         def:"Expressing or involving deep, reflective thought"},
+  "silhouettes":    {pron:"/ˌsɪluˈets/",        uz:"soyalar, kontur tasvirlar",      def:"Dark shapes and outlines seen against a lighter background"},
+  "marginalised":   {pron:"/ˈmɑːdʒɪnəlaɪzd/",   uz:"chetga surilgan",                def:"Treated as insignificant or pushed to the edge"},
+  "psychedelic":    {pron:"/ˌsaɪkɪˈdelɪk/",     uz:"psixodelik, yorqin rangli",      def:"Having vivid, swirling colours or abstract patterns"},
+  "hallucinatory":  {pron:"/həˈluːsɪnətəri/",   uz:"sanroq, xayoliy",                def:"Having a strange, dreamlike, unreal quality"},
+  "photoroman":     {pron:"/ˈfəʊtəʊ rəʊˈmɒ̃/",  uz:"foto-roman",                     def:"A narrative told through a sequence of photographs combined with dialogue or captions"},
+  "existential":    {pron:"/ˌeɡzɪˈstenʃl/",     uz:"ekzistensial (borliqqa oid)",    def:"Relating to human existence and its meaning or purpose"},
+  "prestigious":    {pron:"/preˈstɪdʒəs/",      uz:"nufuzli, obro'li",               def:"Inspiring respect and admiration; of high status"},
+  "unsatisfactory": {pron:"/ˌʌnsætɪsˈfæktəri/", uz:"qoniqarsiz",                     def:"Not good enough; failing to meet expectations"},
+  "grain":          {pron:"/ɡreɪn/",            uz:"don effekti (fotografiyada)",    def:"The visible granular texture of a photographic image"},
+  "sitters":        {pron:"/ˈsɪtəz/",           uz:"modellar (surat uchun)",         def:"People who pose for a portrait"},
+  "resistance":     {pron:"/rɪˈzɪstəns/",       uz:"qarshilik",                      def:"Refusal to accept, comply with, or be overwhelmed by something"},
+  "haze":           {pron:"/heɪz/",             uz:"tuman, xira parda",              def:"A slight obscuring of the air, often by smoke, dust or mist"},
+  "eccentric":      {pron:"/ɪkˈsentrɪk/",       uz:"g'alati, o'ziga xos",            def:"Unconventional, slightly strange in behaviour or style"},
+  "monographs":     {pron:"/ˈmɒnəɡrɑːfs/",      uz:"monografiyalar",                 def:"Detailed written or illustrated studies of a single subject or person"},
+  "avantgarde":     {pron:"/ˌævɒ̃ˈɡɑːd/",       uz:"avangard (yangi, tajribaviy)",   def:"New and experimental in relation to art, culture, or ideas"},
+  "cathoderay":     {pron:"/ˈkæθəʊd reɪ/",      uz:"katod nurlari",                  def:"A beam of electrons in a vacuum tube, used in older display technology"},
+  "merged":         {pron:"/mɜːdʒd/",           uz:"birlashtirildi, qo'shildi",      def:"Combined or blended together into one"},
+  "philosophy":     {pron:"/fəˈlɒsəfi/",        uz:"falsafa",                        def:"A particular set of underlying beliefs, values or theories"},
+  "diagonal":       {pron:"/daɪˈæɡənl/",        uz:"diagonal, qiyshiq chiziqli",     def:"Slanting; at an angle rather than horizontal or vertical"},
+  "republished":    {pron:"/ˌriːˈpʌblɪʃt/",     uz:"qayta nashr etilgan",            def:"Published again, typically after being out of print"},
+  "boom":           {pron:"/buːm/",             uz:"yuksalish davri",                def:"A period of rapid growth, popularity or expansion"},
+  "staging":        {pron:"/ˈsteɪdʒɪŋ/",        uz:"tashkil etish, o'tkazish",       def:"Organising and presenting an event, show or exhibition"},
+  "chronicler":     {pron:"/ˈkrɒnɪklə/",        uz:"yilnomachi, tarixnavis",         def:"A person who records a series of events in the order they occurred"},
+  "oversimplifies": {pron:"/ˌəʊvəˈsɪmplɪfaɪz/", uz:"soddalashtirib yuboradi",        def:"Presents something as simpler or less complex than it really is"},
+  "underrecognised":{pron:"/ˌʌndə ˈrekəɡnaɪzd/",uz:"kam e'tirof etilgan",            def:"Not given as much credit, attention or status as deserved"},
+};
+
+// ══════════════════════════════════════
+//  ANSWERS
+// ══════════════════════════════════════
+const PEOPLE_CORRECT = {27:"A",28:"B",29:"C",30:"D",31:"E",32:"F"};
+const YN_CORRECT = {33:"NO",34:"YES",35:"NOT GIVEN",36:"NO",37:"NO"};
+const DATE_CORRECT = {38:"A",39:"C",40:"D"};
+const CORRECT={};
+Object.keys(PEOPLE_CORRECT).forEach(n=>CORRECT[n]=PEOPLE_CORRECT[n]);
+Object.keys(YN_CORRECT).forEach(n=>CORRECT[n]=YN_CORRECT[n]);
+Object.keys(DATE_CORRECT).forEach(n=>CORRECT[n]=DATE_CORRECT[n]);
+
+// ══════════════════════════════════════
+//  EXPLANATIONS
+// ══════════════════════════════════════
+const EXPLANATIONS = {
+  27:{en:"Strizic's partnership with David Saunders produced Melbourne: A Portrait in 1960, a book about the city of Melbourne.",
+      uz:"Strizic va David Saunders hamkorligida 1960 yilda Melburn haqidagi 'Melbourne: A Portrait' kitobi yaratilgan."},
+  28:{en:"Involvement (1968) was a limited-edition art book edited by Andrew Grimwade.",
+      uz:"'Involvement' (1968) — cheklangan nashrdagi san'at kitobi bo'lib, uni Andrew Grimwade tahrir qilgan."},
+  29:{en:"The bright and cheerful cover of Melbourne: A Portrait was designed by Leonard French.",
+      uz:"'Melbourne: A Portrait' kitobining yorqin va quvnoq muqovasini Leonard French yaratgan."},
+  30:{en:"Strizic's father, an architect in Zagreb, published Light and Shade in 1955, a reflective city book that shaped the idea behind Melbourne: A Portrait.",
+      uz:"Strizicning otasi, Zagrebdagi arxitektor, 1955 yilda 'Light and Shade' kitobini nashr etgan bo'lib, bu 'Melbourne: A Portrait' g'oyasiga ilhom bergan."},
+  31:{en:"In 1970 Strizic collaborated with Stanislav Ostoja-Kotkowski on a mural that merged infrared photography with Strizic's experimental photochrome prints.",
+      uz:"1970 yilda Strizic Stanislav Ostoja-Kotkowski bilan hamkorlikda infraqizil fotografiya va foto-xrom bosmalarini birlashtirgan devoriy asar yaratgan."},
+  32:{en:"The text for Involvement was written by Geoffrey Dutton, who sought to place the collaboration in a grand cultural framework — widely seen as pretentious given the book's ultimately unsatisfactory reception.",
+      uz:"'Involvement' uchun matnni Geoffrey Dutton yozgan bo'lib, u hamkorlikni katta madaniy doiraga qo'yishga urinib, bu ko'pincha manmanlik sifatida baholangan."},
+  33:{en:"The passage states the film failed at the box office and Strizic's book met a similar fate, so the photo-roman was not successful with the public.",
+      uz:"Matnda film prokatda muvaffaqiyatsiz bo'lgani va kitob ham xuddi shunday taqdirga uchragani aytiladi, demak ular ommaviy muvaffaqiyat qozonmagan."},
+  34:{en:"The passage confirms these portraits (from Involvement) were exhibited in 1968 at the National Gallery of Victoria under the title Some Australian Personalities.",
+      uz:"Matnda ushbu portretlar (Involvement kitobidan) 1968 yilda Viktoriya Milliy Galereyasida 'Some Australian Personalities' nomi ostida namoyish etilgani tasdiqlanadi."},
+  35:{en:"The text says Strizic produced 'the only surviving photographic record' of Sculptron, but it never states he was among the first to document it.",
+      uz:"Matnda Strizic Sculptronning 'yagona saqlanib qolgan fotografik yozuvi'ni yaratgani aytiladi, ammo u birinchilardan bo'lgani haqida ma'lumot berilmagan."},
+  36:{en:"The murals combined infrared photography and experimental analogue prints ('photochromes'), not advanced digital technology, which did not exist in this form at the time.",
+      uz:"Devoriy asarlar infraqizil fotografiya va tajribaviy analogli bosmalar ('foto-xromlar') asosida yaratilgan, raqamli texnologiyalar bilan emas."},
+  37:{en:"The writer explicitly says the 'nostalgic chronicler' label oversimplifies his contribution, rejecting the idea that this is all he should be remembered for.",
+      uz:"Muallif aniq aytadiki, 'nostalgik yilnomachi' yorlig'i uning hissasini soddalashtirib yuboradi, demak bu yagona xotira emas."},
+  38:{en:"The passage states Melbourne: A Portrait was awarded Book of the Year in 1961.",
+      uz:"Matnda 'Melbourne: A Portrait' 1961 yilda Yilning kitobi mukofotiga sazovor bo'lgani aytiladi."},
+  39:{en:"The passage says 'that same year' (1970, following the Ciba-Geigy mural) Strizic worked with Robin Boyd on Living in Australia.",
+      uz:"Matnda 'o'sha yili' (1970, Ciba-Geigy devoriy asaridan keyin) Strizic Robin Boyd bilan 'Living in Australia' ustida ishlagani aytiladi."},
+  40:{en:"The passage states that in 1988 Strizic returned to his earliest negatives of Melbourne, staging an exhibition.",
+      uz:"Matnda 1988 yilda Strizic o'zining eng qadimgi Melburn negativlariga qaytib, ko'rgazma tashkil qilgani aytiladi."},
+};
+
+// ══════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════
+const TOTAL_Q=14;
+const Q_ORDER=[27,28,29,30,31,32,33,34,35,36,37,38,39,40];
+let userAnswers={},reviewed=false,timerSecs=1200,timerRunning=true,timerInterval,resFilter='all';
+
+// ══════════════════════════════════════
+//  VOCAB TOOLTIP
+// ══════════════════════════════════════
+const tooltip=document.getElementById('tooltip');
+let isTouchDev='ontouchstart' in window||navigator.maxTouchPoints>0;
+function posTip(x,y){if(x+280>window.innerWidth)x=window.innerWidth-285;if(x<8)x=8;if(y+140>window.innerHeight)y=y-150;if(y<8)y=8;tooltip.style.left=x+'px';tooltip.style.top=y+'px';}
+function showTip(w,e){const d=VOCAB[w];if(!d)return;tooltip.innerHTML=`<div class="t-word">${w.replace(/_/g,' ')}</div><div class="t-pron">${d.pron}</div><div class="t-uz">🇺🇿 ${d.uz}</div><div class="t-def">${d.def}</div>`;tooltip.style.display='block';posTip(e.clientX+14,e.clientY+14);}
+function hideTip(){tooltip.style.display='none';}
+document.addEventListener('mousemove',e=>{if(isTouchDev)return;const w=e.target.closest('.vocab-word');if(!w){hideTip();return;}showTip(w.dataset.word,e);});
+document.addEventListener('click',e=>{if(!isTouchDev)return;const w=e.target.closest('.vocab-word');if(!w){if(!e.target.closest('.tooltip-box'))hideTip();return;}showTip(w.dataset.word,e);e.stopPropagation();});
+
+// ══════════════════════════════════════
+//  HIGHLIGHT TOOLBAR
+// ══════════════════════════════════════
+const hlToolbar=document.getElementById('hlToolbar');
+let activeRange=null;
+document.addEventListener('mouseup',e=>{
+  if(e.target.closest('.hl-toolbar'))return;
+  const sel=window.getSelection();
+  if(!sel||sel.isCollapsed||!sel.toString().trim()){hlToolbar.classList.remove('show');return;}
+  activeRange=sel.getRangeAt(0).cloneRange();
+  const rect=sel.getRangeAt(0).getBoundingClientRect();
+  hlToolbar.style.left=Math.max(8,rect.left)+'px';
+  hlToolbar.style.top=Math.max(8,rect.top-50)+'px';
+  hlToolbar.classList.add('show');
+});
+hlToolbar.querySelectorAll('.hl-dot').forEach(dot=>{dot.addEventListener('click',()=>{
+  if(!activeRange)return;
+  const mark=document.createElement('mark');mark.className=dot.dataset.color;
+  try{activeRange.surroundContents(mark);}catch(err){const f=activeRange.extractContents();mark.appendChild(f);activeRange.insertNode(mark);}
+  window.getSelection().removeAllRanges();hlToolbar.classList.remove('show');activeRange=null;
+});});
+document.getElementById('hlRemoveBtn').addEventListener('click',()=>{hlToolbar.classList.remove('show');activeRange=null;});
+document.addEventListener('click',e=>{if(!e.target.closest('.hl-toolbar'))hlToolbar.classList.remove('show');});
+
+// ══════════════════════════════════════
+//  MATCHING DROPDOWNS (Q27-32, Q38-40)
+// ══════════════════════════════════════
+document.querySelectorAll('.hm-select').forEach(sel=>{
+  sel.addEventListener('change',e=>{
+    if(reviewed)return;
+    userAnswers[e.target.dataset.qnum]=e.target.value;
+    updateNav();
+  });
+});
+
+// ══════════════════════════════════════
+//  YES/NO/NOT GIVEN BUTTONS (Q33-37)
+// ══════════════════════════════════════
+document.querySelectorAll('.tfng-btns').forEach(group=>{
+  const n=group.dataset.qnum;
+  group.querySelectorAll('.tfng-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      if(reviewed)return;
+      userAnswers[n]=btn.dataset.val;
+      group.querySelectorAll('.tfng-btn').forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected');
+      updateNav();
+    });
+  });
+});
+
+// ══════════════════════════════════════
+//  NAV ROW
+// ══════════════════════════════════════
+function buildNav(){
+  const row=document.getElementById('q-nav-row');row.innerHTML='';
+  Q_ORDER.forEach(n=>{
+    const b=document.createElement('button');
+    b.className='q-nav-btn';b.id=`nav-${n}`;b.textContent=n;
+    b.onclick=()=>scrollToQ(n);row.appendChild(b);
+  });
+  updateNav();
+}
+function updateNav(){
+  let count=0;
+  Q_ORDER.forEach(n=>{
+    const b=document.getElementById(`nav-${n}`);if(!b)return;
+    const v=userAnswers[n];
+    const has=v&&String(v).trim();
+    b.className='q-nav-btn'+(has?' answered':'');
+    if(has)count++;
+  });
+  document.getElementById('answered-count').textContent=`${count} / ${TOTAL_Q}`;
+}
+function scrollToQ(n){
+  let el;
+  if(n>=27&&n<=32)el=document.getElementById(`hm-${n}`);
+  else if(n>=33&&n<=37)el=document.querySelector(`.tfng-btns[data-qnum="${n}"]`);
+  else el=document.getElementById(`hm-${n}`);
+  if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+// ══════════════════════════════════════
+//  TIMER
+// ══════════════════════════════════════
+function fmtTime(s){const m=Math.floor(s/60);return `${String(m).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;}
+function tickTimer(){
+  if(!timerRunning)return;
+  timerSecs--;
+  document.getElementById('timer-val').textContent=fmtTime(timerSecs);
+  if(timerSecs<=180)document.getElementById('timer-box').classList.add('urgent');
+  if(timerSecs<=0){clearInterval(timerInterval);submitExam();}
+}
+function startTimer(){timerInterval=setInterval(tickTimer,1000);}
+document.getElementById('timer-toggle').addEventListener('click',()=>{
+  timerRunning=!timerRunning;
+  const icon=document.getElementById('timer-icon');
+  icon.innerHTML=timerRunning?'<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>':'<path d="M8 5v14l11-7L8 5z"/>';
+});
+document.getElementById('timer-reset').addEventListener('click',()=>{timerSecs=1200;document.getElementById('timer-val').textContent='20:00';document.getElementById('timer-box').classList.remove('urgent');});
+
+// ══════════════════════════════════════
+//  RESIZER
+// ══════════════════════════════════════
+(function(){
+  const resizer=document.getElementById('resizer');
+  const left=document.getElementById('pane-left');
+  let startX,startW;
+  resizer.addEventListener('mousedown',e=>{
+    startX=e.clientX;startW=left.offsetWidth;
+    const onMove=e=>{const nw=startW+e.clientX-startX;if(nw>200&&window.innerWidth-nw>200)left.style.flex=`0 0 ${nw}px`;};
+    const onUp=()=>{window.removeEventListener('mousemove',onMove);window.removeEventListener('mouseup',onUp);};
+    window.addEventListener('mousemove',onMove);window.addEventListener('mouseup',onUp);
+  });
+})();
+
+// ══════════════════════════════════════
+//  FULLSCREEN
+// ══════════════════════════════════════
+function toggleFullscreen(){if(!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{});else document.exitFullscreen();}
+
+// ══════════════════════════════════════
+//  SCREENS
+// ══════════════════════════════════════
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function confirmExit(){if(confirm('Exit the test?')){clearInterval(timerInterval);showScreen('home-screen');}}
+function startExam(){
+  userAnswers={};reviewed=false;timerSecs=1200;timerRunning=true;
+  document.getElementById('timer-val').textContent='20:00';
+  document.getElementById('timer-box').classList.remove('urgent');
+  document.getElementById('timer-icon').innerHTML='<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+  document.querySelectorAll('.hm-select').forEach(s=>{s.value='';s.classList.remove('correct','wrong');});
+  document.querySelectorAll('.tfng-btn').forEach(b=>b.classList.remove('selected','correct','wrong','reveal-correct'));
+  showScreen('exam-screen');
+  buildNav();startTimer();
+  document.getElementById('check-btn').textContent='Check Answers';
+  document.getElementById('check-btn').className='check-btn';
+  document.getElementById('check-btn').onclick=submitExam;
+}
+function retryTest(){closeModal();startExam();}
+
+// ══════════════════════════════════════
+//  SCORING
+// ══════════════════════════════════════
+function normText(s){return String(s||'').trim().toLowerCase().replace(/[.,!?;:'"]+$/,'');}
+function checkAns(n){
+  const given=userAnswers[n];
+  if(!given||!String(given).trim())return null;
+  return normText(given)===normText(CORRECT[n]);
+}
+function estimateBand(s){if(s>=13)return 9;if(s>=12)return 8.5;if(s>=11)return 8;if(s>=10)return 7.5;if(s>=9)return 7;if(s>=8)return 6.5;if(s>=6)return 6;if(s>=5)return 5.5;if(s>=4)return 5;return 4.5;}
+
+function submitExam(){
+  clearInterval(timerInterval);reviewed=true;
+  let correct=0,wrong=0,skip=0;
+
+  Q_ORDER.forEach(n=>{
+    const r=checkAns(n);
+    if(r===null)skip++;else if(r)correct++;else wrong++;
+    const nb=document.getElementById(`nav-${n}`);
+    if(nb)nb.className='q-nav-btn '+(r===true?'correct':r===false?'wrong-nav':'');
+
+    if(n>=27&&n<=32){
+      const sel=document.getElementById(`hm-${n}`);
+      if(sel){if(r)sel.classList.add('correct');else if(userAnswers[n])sel.classList.add('wrong');}
+    }else if(n>=33&&n<=37){
+      const group=document.querySelector(`.tfng-btns[data-qnum="${n}"]`);
+      if(group){
+        group.querySelectorAll('.tfng-btn').forEach(b=>{
+          const isSelected=b.classList.contains('selected');
+          const isCorrectVal=normText(b.dataset.val)===normText(YN_CORRECT[n]);
+          b.classList.remove('correct','wrong','reveal-correct');
+          if(isSelected&&isCorrectVal)b.classList.add('correct');
+          else if(isSelected&&!isCorrectVal)b.classList.add('wrong');
+          else if(!isSelected&&isCorrectVal)b.classList.add('reveal-correct');
+        });
+      }
+    }else{
+      const sel=document.getElementById(`hm-${n}`);
+      if(sel){if(r)sel.classList.add('correct');else if(userAnswers[n])sel.classList.add('wrong');}
+    }
+  });
+
+  document.getElementById('modal-score').textContent=`Score: ${correct} / ${TOTAL_Q}`;
+  document.getElementById('modal-band').textContent=`Band: ${estimateBand(correct)}`;
+  document.getElementById('modal-correct').textContent=`✓ Correct: ${correct}`;
+  document.getElementById('modal-wrong').textContent=`✗ Wrong: ${wrong}`;
+  renderResDetails();
+  document.getElementById('modal').classList.remove('hidden');
+  document.getElementById('check-btn').textContent='My Result';
+  document.getElementById('check-btn').className='check-btn done';
+  document.getElementById('check-btn').onclick=()=>document.getElementById('modal').classList.remove('hidden');
+  highlightPassage();
+}
+
+function highlightPassage(){
+  const targets=[
+    {q:33, txt:"the film was produced in a european art-house style and tackled existential themes, it failed at the box office, and strizic's book met a similar fate"},
+    {q:34, txt:"these images were exhibited in 1968 at the national gallery of victoria under the title some australian personalities"},
+    {q:35, txt:"producing the only surviving photographic record of bilu's interactive electronic work sculptron"},
+    {q:36, txt:"which merged infrared photography with strizic's experimental prints"},
+    {q:37, txt:"such a label oversimplifies his contribution"},
+  ];
+  document.querySelectorAll('#pane-left .passage-text').forEach(p=>{
+    targets.forEach(t=>{
+      if(p.innerHTML.toLowerCase().includes(t.txt)&&!p.innerHTML.includes(`data-q="${t.q}"`)){
+        const esc=t.txt.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+        const expl=EXPLANATIONS[t.q]||{en:'',uz:''};
+        p.innerHTML=p.innerHTML.replace(new RegExp(esc,'i'),m=>
+          `<span class="ans-highlight" data-q="${t.q}">${m}</span>`+
+          `<span class="inline-explain" id="inline-explain-${t.q}"><div class="ie-en"><b>Q${t.q} — Why:</b> ${expl.en}</div><div><b>Tushuntirish:</b> ${expl.uz}</div></span>`
+        );
+      }
+    });
+  });
+  document.querySelectorAll('.ans-highlight').forEach(h=>{
+    h.addEventListener('click',()=>{
+      const note=document.getElementById('inline-explain-'+h.dataset.q);
+      if(note)note.classList.toggle('show');
+    });
+  });
+}
+
+// ══════════════════════════════════════
+//  REVIEW MODAL
+// ══════════════════════════════════════
+function setResFilter(f,btn){
+  resFilter=f;
+  document.querySelectorAll('.res-filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderResDetails();
+}
+function renderResDetails(){
+  const cont=document.getElementById('res-details');
+  let html='';
+  Q_ORDER.forEach(n=>{
+    const r=checkAns(n);
+    const status=r===true?'is-correct':r===false?'is-wrong':'is-skipped';
+    if(resFilter==='wrong'&&status!=='is-wrong')return;
+    if(resFilter==='skipped'&&status!=='is-skipped')return;
+    let given=userAnswers[n]||'—';
+    let correctDisp=CORRECT[n];
+    const badgeClass=status==='is-correct'?'ok':status==='is-skipped'?'skip':'bad';
+    const badgeText=status==='is-correct'?'Correct':status==='is-skipped'?'Skipped':'Incorrect';
+    const expl=EXPLANATIONS[n]||{en:'',uz:''};
+    html+=`<div class="res-row ${status}">
+      <span class="res-num">${n}</span>
+      <span class="res-user">${given}</span>
+      <span class="res-correct">${correctDisp}</span>
+      <span class="res-badge ${badgeClass}">${badgeText}</span>
+      <div class="res-explain-en"><b>Why:</b> ${expl.en}</div>
+      <div class="res-explain-uz"><b>Tushuntirish:</b> ${expl.uz}</div>
+    </div>`;
+  });
+  if(!html)html=`<p style="text-align:center;color:var(--text3);padding:30px">Nothing to show for this filter 🎉</p>`;
+  cont.innerHTML=html;
+}
+function closeModal(){document.getElementById('modal').classList.add('hidden');}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
+</script>
+</body>
+</html>

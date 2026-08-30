@@ -34,6 +34,40 @@ const MockAuthContext = createContext<MockAuthContextValue>({
 const STORAGE_KEY = 'ieltspro_mock_users';
 const CURRENT_USER_KEY = 'ieltspro_current_user';
 
+
+const ADMIN_EMAIL = 'admin@test.com';
+const ADMIN_PASSWORD = 'admin123';
+
+function seedDefaultAdmin() {
+  if (typeof window === 'undefined') return;
+  const users = getStoredUsers();
+  let needsUpdate = false;
+  if (!users[ADMIN_EMAIL]) {
+    users[ADMIN_EMAIL] = {
+      password: ADMIN_PASSWORD,
+      user: {
+        id: 'admin-default-001',
+        email: ADMIN_EMAIL,
+        name: 'Admin',
+        role: 'admin',
+      },
+    };
+    needsUpdate = true;
+  } else if (users[ADMIN_EMAIL].user.role !== 'admin') {
+    users[ADMIN_EMAIL].user.role = 'admin';
+    needsUpdate = true;
+  }
+  if (needsUpdate) {
+    saveStoredUsers(users);
+    // Also update current user session if it's the admin
+    const current = getCurrentUser();
+    if (current && current.email === ADMIN_EMAIL) {
+      current.role = 'admin';
+      setCurrentUser(current);
+    }
+  }
+}
+
 function getStoredUsers(): Record<string, { password: string; user: MockUser }> {
   if (typeof window === 'undefined') return {};
   try {
@@ -72,6 +106,7 @@ export function MockAuthProvider({ children }: { children: ReactNode }) {
   const [role, setRole] = useState<UserRole | null>(null);
 
   useEffect(() => {
+    seedDefaultAdmin();
     // Load current user from localStorage
     const stored = getCurrentUser();
     if (stored) {
@@ -93,9 +128,13 @@ export function MockAuthProvider({ children }: { children: ReactNode }) {
       return { error: 'Invalid password.' };
     }
 
-    setUser(record.user);
-    setRole(record.user.role);
-    setCurrentUser(record.user);
+    // Force admin role for admin@test.com
+    const effectiveUser = record.user.email === ADMIN_EMAIL
+      ? { ...record.user, role: 'admin' as UserRole }
+      : record.user;
+    setUser(effectiveUser);
+    setRole(effectiveUser.role);
+    setCurrentUser(effectiveUser);
     return { error: null };
   };
 
@@ -110,8 +149,8 @@ export function MockAuthProvider({ children }: { children: ReactNode }) {
       id: crypto.randomUUID(),
       email: email.toLowerCase(),
       name,
-      role: 'student',
-    };
+      role: email.toLowerCase() === ADMIN_EMAIL ? 'admin' : 'student',
+    }
 
     users[email.toLowerCase()] = { password, user: newUser };
     saveStoredUsers(users);

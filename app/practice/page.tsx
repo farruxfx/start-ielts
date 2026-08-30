@@ -8,6 +8,10 @@ import { getTestResults } from '@/lib/store';
 import type { TestType, TestResult } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { SkillCardsGrid, MockExamCard } from '@/components/practice/skill-cards';
+import { LISTENING_TESTS, LISTENING_CATEGORIES } from '@/lib/listening-tests';
+import { READING_TESTS, READING_CATEGORIES } from '@/lib/reading-tests';
+import { WRITING_TESTS } from '@/lib/writing-tests';
+import { SPEAKING_CATEGORIES } from '@/lib/speaking-practice-data';
 
 interface TestCard {
   id: string;
@@ -19,127 +23,53 @@ interface TestCard {
   href: string;
 }
 
-const allTests: TestCard[] = [
-  {
-    id: 'c21-l-t3',
-    title: 'Cambridge IELTS 21 — Test 3 (Listening)',
-    subtitle: 'Digitised from the source book',
-    skill: 'listening',
-    duration: '33m',
-    volume: 'Cambridge 21',
-    href: '/listening/cambridge-21-test-3',
-  },
-  {
-    id: 'c21-l-t4',
-    title: 'Cambridge IELTS 21 — Test 4 (Listening)',
-    subtitle: 'Digitised from the source book',
-    skill: 'listening',
-    duration: '33m',
-    volume: 'Cambridge 21',
-    href: '/listening/cambridge-21-test-4',
-  },
-  {
-    id: 'c21-r-t1',
-    title: 'Cambridge IELTS 21 — Test 1 (Reading)',
-    subtitle: 'Digitised from the source book',
-    skill: 'reading',
-    duration: '60m',
-    volume: 'Cambridge 21',
-    href: '/test/t1',
-  },
-  {
-    id: 'c21-r-t2',
-    title: 'Cambridge IELTS 21 — Test 2 (Reading)',
-    subtitle: 'Digitised from the source book',
-    skill: 'reading',
-    duration: '60m',
-    volume: 'Cambridge 21',
-    href: '/test/t2',
-  },
-  {
-    id: 'c20-l-t1',
-    title: 'Cambridge IELTS 20 — Test 1 (Listening)',
-    subtitle: 'Digitised from the source book',
-    skill: 'listening',
-    duration: '33m',
-    volume: 'Cambridge 20',
-    href: '/listening/cambridge-21-test-3',
-  },
-  {
-    id: 'c20-r-t1',
-    title: 'Cambridge IELTS 20 — Test 1 (Academic Reading)',
-    subtitle: 'Digitised from the source book',
-    skill: 'reading',
-    duration: '60m',
-    volume: 'Cambridge 20',
-    href: '/test/t1',
-  },
-  {
-    id: 'c19-l-t1',
-    title: 'Cambridge IELTS 19 — Test 1 (Academic Listening)',
-    subtitle: 'Digitised from the source book',
-    skill: 'listening',
-    duration: '33m',
-    volume: 'Cambridge 19',
-    href: '/listening/cambridge-21-test-4',
-  },
-  {
-    id: 'c19-r-t1',
-    title: 'Cambridge IELTS 19 — Test 1 (Academic Reading)',
-    subtitle: 'Digitised from the source book',
-    skill: 'reading',
-    duration: '60m',
-    volume: 'Cambridge 19',
-    href: '/test/t2',
-  },
-  {
-    id: 'mock-academic',
-    title: 'Full Mock Exam — Academic',
-    subtitle: 'Complete IELTS simulation',
-    skill: 'reading',
-    duration: '180m',
-    volume: 'Mock Exam',
-    href: '/mock-exam',
-  },
-  {
-    id: 'mock-general',
-    title: 'Full Mock Exam — General Training',
-    subtitle: 'Complete IELTS simulation',
-    skill: 'reading',
-    duration: '180m',
-    volume: 'Mock Exam',
-    href: '/mock-exam',
-  },
-  {
-    id: 'writing-task1',
-    title: 'Academic Writing Task 1 — Data Description',
-    subtitle: 'Describe visual data in formal report',
-    skill: 'writing',
-    duration: '20m',
-    volume: 'Writing',
-    href: '/practice?skill=writing',
-  },
-  {
-    id: 'writing-task2',
-    title: 'Writing Task 2 — Opinion Essay',
-    subtitle: 'Write a formal opinion essay',
-    skill: 'writing',
-    duration: '40m',
-    volume: 'Writing',
-    href: '/practice?skill=writing',
-  },
-  {
-    id: 'speaking-mock',
-    title: 'Speaking Practice — Full Mock Interview',
-    subtitle: 'Part 1, Part 2, Part 3 with AI feedback',
-    skill: 'speaking',
-    duration: '15m',
-    volume: 'Speaking',
-    href: '/practice?skill=speaking',
-  },
+const listeningCards: TestCard[] = LISTENING_TESTS.map(t => ({
+    id: String(t.id),
+    title: t.title,
+    subtitle: t.category + ' · ' + t.difficulty,
+    skill: 'listening' as const,
+    duration: t.duration + 'm',
+    volume: t.category,
+    href: '/listening/' + t.slug,
+  }));
+
+const readingCards: TestCard[] = READING_TESTS.map(t => ({
+    id: String(t.id),
+    title: t.title,
+    subtitle: t.category + ' · ' + t.difficulty,
+    skill: 'reading' as const,
+    duration: t.duration + 'm',
+    volume: t.category,
+    href: '/reading/' + t.slug,
+  }));
+
+const writingCards: TestCard[] = WRITING_TESTS.map(t => ({
+  id: t.id,
+  title: t.name,
+  subtitle: t.task1.type + ' · ' + t.difficulty,
+  skill: 'writing' as const,
+  duration: t.duration + 'm',
+  volume: t.task1.type,
+  href: '/writing/test/' + t.slug,
+}));
+
+const speakingCards: TestCard[] = [];
+
+const skillTabs = [
+  { label: 'All', icon: null },
+  { label: 'Listening', icon: Headphones, color: 'bg-violet-500' },
+  { label: 'Reading', icon: BookOpen, color: 'bg-emerald-500' },
+  { label: 'Writing', icon: PenLine, color: 'bg-blue-500' },
+  { label: 'Speaking', icon: Mic, color: 'bg-amber-500' },
 ];
 
-const filterTabs = ['All', 'Cambridge 21', 'Cambridge 20', 'Cambridge 19', 'Mock Exam', 'Writing', 'Speaking'];
+const categoryTabsBySkill: Record<string, string[]> = {
+  All: ['All'],
+  Listening: ['All', ...LISTENING_CATEGORIES],
+  Reading: ['All', ...READING_CATEGORIES],
+  Writing: ['All', 'Bar Chart', 'Line Graph', 'Pie Chart', 'Table', 'Process', 'Map', 'Discussion', 'Opinion', 'Problem-Solution'],
+  Speaking: ['All', ...SPEAKING_CATEGORIES.filter(c => c !== 'All Topics')],
+};
 
 const skillStyles: Record<string, { badge: string; dot: string; icon: React.ElementType }> = {
   listening: { badge: 'bg-violet-100 text-violet-700 dark:bg-violet-900 dark:text-violet-300', dot: 'bg-violet-500', icon: Headphones },
@@ -154,7 +84,7 @@ function TestCardComponent({ test }: { test: TestCard }) {
 
   return (
     <Link href={test.href}>
-      <div className="group relative overflow-hidden rounded-2xl border border-border bg-card p-5 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/20 min-h-[170px] flex flex-col">
+      <div className="group relative overflow-hidden rounded-xl sm:rounded-2xl border border-border bg-card p-3 sm:p-5 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/20 min-h-[140px] sm:min-h-[170px] flex flex-col">
         {/* Decorative background icon */}
         <div className="absolute -bottom-4 -right-4 opacity-[0.06] transition-transform duration-500 group-hover:scale-110">
           <Icon className="h-32 w-32 text-foreground" strokeWidth={1} />
@@ -193,9 +123,14 @@ export default function PracticePage() {
   const searchParams = useSearchParams();
   const initialSkill = (searchParams.get('skill') as string) || 'All';
 
-  const [activeTab, setActiveTab] = useState(initialSkill === 'all' ? 'All' : initialSkill);
+  const [activeSkill, setActiveSkill] = useState<string>('All');
+  const [activeCategory, setActiveCategory] = useState<string>('All');
   const [search, setSearch] = useState('');
   const [results, setResults] = useState<TestResult[]>([]);
+
+  const categoryTabs = categoryTabsBySkill[activeSkill] || ['All'];
+
+  const allTests: TestCard[] = [...listeningCards, ...readingCards, ...writingCards, ...speakingCards];
 
   useEffect(() => {
     setResults(getTestResults());
@@ -203,24 +138,20 @@ export default function PracticePage() {
 
   const filteredTests = useMemo(() => {
     return allTests.filter((test) => {
-      // Tab filter
-      if (activeTab === 'All') return true;
-      if (activeTab === 'Cambridge 21') return test.volume === 'Cambridge 21';
-      if (activeTab === 'Cambridge 20') return test.volume === 'Cambridge 20';
-      if (activeTab === 'Cambridge 19') return test.volume === 'Cambridge 19';
-      if (activeTab === 'Mock Exam') return test.volume === 'Mock Exam';
-      if (activeTab === 'Writing') return test.volume === 'Writing';
-      if (activeTab === 'Speaking') return test.volume === 'Speaking';
-      // Skill filter from URL
-      if (activeTab === 'reading' || activeTab === 'listening' || activeTab === 'writing' || activeTab === 'speaking') {
-        return test.skill === activeTab;
+      // Skill filter
+      if (activeSkill !== 'All' && test.skill !== activeSkill.toLowerCase()) return false;
+      // Category filter
+      if (activeCategory !== 'All') {
+        const cat = test.volume.toLowerCase();
+        const active = activeCategory.toLowerCase();
+        if (!cat.includes(active)) return false;
       }
       return true;
     }).filter((test) => {
       if (!search) return true;
       return test.title.toLowerCase().includes(search.toLowerCase());
     });
-  }, [activeTab, search]);
+  }, [activeSkill, activeCategory, search, allTests.length]);
 
   // Recent results
   const recentResults = useMemo(() => {
@@ -232,34 +163,73 @@ export default function PracticePage() {
       {/* Skill Cards */}
       <SkillCardsGrid testCounts={{}} />
 
+      {/* Listening Quick Access */}
+      <Link href="/listening" className="group block rounded-xl sm:rounded-2xl border border-violet-200 bg-gradient-to-r from-violet-50 to-violet-100/50 p-4 sm:p-5 transition-all hover:shadow-lg hover:shadow-violet-500/10 hover:border-violet-300 dark:from-violet-950/50 dark:to-violet-900/30 dark:border-violet-800">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-violet-500 text-white">
+              <Headphones className="h-5 w-5 sm:h-6 sm:w-6" />
+            </div>
+            <div>
+              <h3 className="text-base sm:text-lg font-bold text-foreground">Listening Tests</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground">68 tests · Cambridge, Authentic, Pre-IELTS & more</p>
+            </div>
+          </div>
+          <ChevronRight className="h-5 w-5 text-violet-500 transition-transform group-hover:translate-x-1" />
+        </div>
+      </Link>
+
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Test Library</h1>
         <p className="mt-1 text-sm text-muted-foreground">{filteredTests.length} tests available</p>
       </div>
 
-      {/* Filter Tabs */}
-      <div className="relative">
-        <div className="flex gap-2 overflow-x-auto pb-2" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-          {filterTabs.map((tab) => (
+      {/* Skill Tabs */}
+      <div className="flex gap-1.5 sm:gap-2 overflow-x-auto pb-2 -mx-1 px-1" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        {skillTabs.map((tab) => {
+          const Icon = tab.icon;
+          return (
             <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
+              key={tab.label}
+              onClick={() => {
+                setActiveSkill(tab.label);
+                setActiveCategory('All');
+              }}
               className={cn(
-                'flex-shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200',
-                activeTab === tab
+                'flex-shrink-0 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200',
+                activeSkill === tab.label
                   ? 'bg-foreground text-background shadow-sm'
                   : 'bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground'
               )}
             >
-              {tab}
+              {Icon && <Icon className="h-4 w-4" />}
+              {tab.label}
             </button>
-          ))}
-        </div>
+          );
+        })}
+      </div>
+
+      {/* Category Tabs */}
+      <div className="flex gap-1.5 sm:gap-2 overflow-x-auto pb-2 -mx-1 px-1" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        {categoryTabs.map((tab: string) => (
+          <button
+            key={tab}
+            onClick={() => setActiveCategory(tab)}
+            className={cn(
+              'flex-shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200',
+              activeCategory === tab
+                ? 'bg-foreground text-background shadow-sm'
+                : 'bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground'
+            )}
+          >
+            {tab}
+          </button>
+        ))}
       </div>
 
       {/* Search */}
-      <div className="relative max-w-sm">
+      <div className="relative w-full sm:max-w-sm">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <input
           type="text"
@@ -271,16 +241,29 @@ export default function PracticePage() {
       </div>
 
       {/* Tests Grid */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div key={`${activeSkill}-${activeCategory}`} className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {filteredTests.map((test) => (
-          <TestCardComponent key={test.id} test={test} />
+          <TestCardComponent key={`${activeSkill}-${test.id}`} test={test} />
         ))}
       </div>
 
       {/* Empty state */}
       {filteredTests.length === 0 && (
         <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border py-16 text-center">
-          <p className="text-sm text-muted-foreground">No tests found.</p>
+          {activeSkill === 'Speaking' ? (
+            <Link href="/speaking" className="group flex flex-col items-center gap-3">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/30 group-hover:bg-amber-200 transition-colors">
+                <Mic className="h-7 w-7 text-amber-600 dark:text-amber-400" />
+              </div>
+              <p className="text-sm font-semibold text-foreground">Go to Speaking Practice</p>
+              <p className="text-xs text-muted-foreground">IELTS Speaking with Web Speech API — 15 topics with Part 1, 2, 3</p>
+              <span className="mt-1 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground group-hover:bg-primary/90 transition-colors">
+                Start Speaking →
+              </span>
+            </Link>
+          ) : (
+            <p className="text-sm text-muted-foreground">No tests found.</p>
+          )}
         </div>
       )}
 

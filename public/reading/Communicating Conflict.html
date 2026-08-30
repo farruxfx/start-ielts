@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>IELTS Reading – Communicating Conflict | @reading_cdi</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+
+:root{
+  --bg:#eef0f4;
+  --bg-blob-1:#ffd7dd; --bg-blob-2:#cfe4ff; --bg-blob-3:#dcffe9;
+  --panel:rgba(255,255,255,.62); --panel-solid:rgba(255,255,255,.92);
+  --text:#1c1c1e; --text2:#6e6e73; --text3:#98989d;
+  --border:rgba(60,60,67,.13); --hairline:rgba(60,60,67,.08);
+  --accent:#e31837; --accent-dark:#c11530; --accent-light:rgba(227,24,55,.10);
+  --green:#22a559; --green-bg:rgba(34,165,89,.14);
+  --redx:#ff3b30; --red-bg:rgba(255,59,48,.12);
+  --yellow:#ff9500; --yellow-bg:rgba(255,149,0,.15);
+  --tg:#0088cc;
+  --glass-hi:rgba(255,255,255,.85); --glass-lo:rgba(255,255,255,.18);
+  --shadow:0 10px 40px rgba(31,38,55,.10),0 1px 2px rgba(31,38,55,.06);
+  --blur:blur(26px) saturate(190%);
+  --radius-xl:26px;--radius-lg:20px;--radius-md:14px;--radius-sm:10px;
+}
+html[data-theme="dark"]{
+  --bg:#000000;
+  --bg-blob-1:#3a0a14; --bg-blob-2:#07182c; --bg-blob-3:#062015;
+  --panel:rgba(28,28,30,.58); --panel-solid:rgba(24,24,26,.92);
+  --text:#f2f2f7; --text2:#a9a9ae; --text3:#7c7c80;
+  --border:rgba(255,255,255,.13); --hairline:rgba(255,255,255,.08);
+  --accent:#ff4f68; --accent-dark:#ff2d4d; --accent-light:rgba(255,79,104,.16);
+  --green:#32d873; --green-bg:rgba(50,216,115,.16);
+  --redx:#ff453a; --red-bg:rgba(255,69,58,.16);
+  --yellow:#ff9f0a; --yellow-bg:rgba(255,159,10,.16);
+  --glass-hi:rgba(255,255,255,.16); --glass-lo:rgba(255,255,255,.03);
+  --shadow:0 10px 40px rgba(0,0,0,.55),0 1px 2px rgba(0,0,0,.4);
+}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','SF Pro Display','Segoe UI',Roboto,sans-serif;
+  background:var(--bg);color:var(--text);height:100%;overflow:hidden;
+  -webkit-font-smoothing:antialiased;transition:background .4s ease,color .3s ease;
+}
+.liquid-bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.liquid-bg span{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;animation:drift 22s ease-in-out infinite}
+.liquid-bg span:nth-child(1){width:46vw;height:46vw;background:var(--bg-blob-1);top:-14%;left:-10%;animation-delay:0s}
+.liquid-bg span:nth-child(2){width:38vw;height:38vw;background:var(--bg-blob-2);bottom:-16%;right:-8%;animation-delay:-7s}
+.liquid-bg span:nth-child(3){width:30vw;height:30vw;background:var(--bg-blob-3);bottom:20%;left:30%;animation-delay:-14s}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(4%,6%) scale(1.08)}66%{transform:translate(-5%,-3%) scale(.95)}}
+@media(prefers-reduced-motion:reduce){.liquid-bg span{animation:none}}
+
+.screen{display:none;position:relative;z-index:1}.screen.active{display:flex;flex-direction:column;height:100%}
+.glass{background:var(--panel);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-hi);box-shadow:var(--shadow)}
+
+/* ── LOGIN ── */
+#login-screen{align-items:center;justify-content:center;padding:30px 20px;overflow-y:auto}
+.login-card{border-radius:var(--radius-xl);padding:44px 38px;max-width:420px;width:100%;text-align:center}
+.login-logo{font-size:15px;font-weight:800;color:var(--accent);letter-spacing:-.01em}
+.login-logo span{font-size:12px;color:var(--text3);font-weight:600;display:block;margin-top:3px;letter-spacing:.05em;text-transform:uppercase}
+.login-card h1{font-size:23px;font-weight:800;color:var(--text);margin:16px 0 6px;line-height:1.28;letter-spacing:-.01em}
+.login-card p.login-sub{color:var(--text2);font-size:13.5px;margin-bottom:22px;line-height:1.55}
+.login-field{text-align:left;margin-bottom:14px}
+.login-field label{display:block;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);margin-bottom:6px}
+.login-input{width:100%;padding:13px 16px;border-radius:var(--radius-md);border:1.5px solid var(--border);background:var(--panel-solid);color:var(--text);font-size:15px;font-family:inherit;outline:none;transition:.15s}
+.login-input:focus{border-color:var(--accent);background:var(--panel-solid)}
+.login-input::placeholder{color:rgba(60,60,67,.28);font-weight:600;letter-spacing:.02em}
+html[data-theme="dark"] .login-input::placeholder{color:rgba(255,255,255,.22)}
+.login-error{color:var(--redx);font-size:12.5px;font-weight:600;margin:-4px 0 12px;display:none;text-align:left}
+.login-error.show{display:block}
+.login-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:14px 0;width:100%;font-size:15.5px;font-weight:700;cursor:pointer;transition:.2s;box-shadow:0 8px 22px rgba(227,24,55,.35);margin-top:6px}
+.login-btn:hover{background:var(--accent-dark);transform:translateY(-1px)}
+.login-btn:active{transform:scale(.98)}
+.login-hint{font-size:11.5px;color:var(--text3);margin-top:14px;line-height:1.5}
+
+/* ── HOME ── */
+#home-screen{align-items:center;justify-content:center;padding:30px 20px;overflow-y:auto}
+.home-card{border-radius:var(--radius-xl);padding:44px 38px;max-width:640px;width:100%;text-align:center}
+.home-logo{font-size:15px;font-weight:800;color:var(--accent);letter-spacing:-.01em}
+.home-logo span{font-size:12px;color:var(--text3);font-weight:600;display:block;margin-top:3px;letter-spacing:.05em;text-transform:uppercase}
+.home-badge{display:inline-flex;align-items:center;gap:8px;background:var(--accent-light);color:var(--accent);font-size:12.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:7px 16px;border-radius:99px;margin:18px 0}
+.home-card h1{font-size:26px;font-weight:800;color:var(--text);margin-bottom:8px;line-height:1.28;letter-spacing:-.01em}
+.home-card .home-sub{color:var(--text2);font-size:13.5px;margin-bottom:6px;font-style:italic}
+.home-card p{color:var(--text2);font-size:14.5px;margin-bottom:24px;line-height:1.6}
+.home-meta{display:flex;justify-content:center;gap:14px;margin-bottom:26px;flex-wrap:wrap}
+.home-meta-item{background:var(--panel-solid);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 20px;min-width:84px}
+.home-meta-item .val{font-size:20px;font-weight:800;color:var(--text)}
+.home-meta-item .lbl{font-size:10.5px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.start-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:15px 46px;font-size:16px;font-weight:700;cursor:pointer;transition:.2s;box-shadow:0 8px 22px rgba(227,24,55,.35)}
+.start-btn:hover{background:var(--accent-dark);transform:translateY(-1px)}
+.start-btn:active{transform:scale(.97)}
+
+
+.home-theme-btn{position:fixed;top:18px;right:18px;z-index:5}
+
+/* ── HEADER ── */
+#exam-screen{flex-direction:column;height:100%}
+.exam-header{flex:0 0 auto;margin:10px 12px 0;border-radius:var(--radius-lg);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:200}
+.header-left{display:flex;align-items:center;gap:12px}
+.exam-logo{font-size:14px;font-weight:800;color:var(--accent);letter-spacing:-.01em}
+.exam-sub{font-size:10.5px;color:var(--text3);margin-top:1px}
+.header-pills{display:flex;gap:8px}
+
+
+
+
+.header-right{display:flex;align-items:center;gap:8px}
+.timer-box{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--text);background:var(--panel-solid);border:1px solid var(--border);border-radius:99px;padding:6px 13px}
+.timer-box.urgent{color:var(--redx)}
+.timer-val{min-width:48px;font-variant-numeric:tabular-nums}
+.icon-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:var(--panel-solid);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text);transition:.2s;flex-shrink:0}
+.icon-btn:hover{background:var(--accent-light);color:var(--accent);transform:translateY(-1px)}
+.icon-btn:active{transform:scale(.92)}
+.exit-link{font-size:12.5px;color:var(--text3);cursor:pointer;white-space:nowrap;padding:6px 4px}
+.exit-link:hover{color:var(--accent)}
+
+.ios-switch{position:relative;width:50px;height:30px;border-radius:99px;background:#78788033;border:none;cursor:pointer;flex-shrink:0;transition:background .25s}
+.ios-switch.on{background:var(--accent)}
+.ios-switch .knob{position:absolute;top:2px;left:2px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:transform .25s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;justify-content:center;font-size:13px}
+.ios-switch.on .knob{transform:translateX(20px)}
+
+.part-banner{flex:0 0 auto;margin:10px 12px 0;border-radius:var(--radius-md);padding:10px 18px;font-size:13px;color:var(--text2)}
+.part-banner b{color:var(--text)}
+
+/* ── BODY: TWO PANES ── */
+.exam-body{display:flex;flex:1 1 auto;min-height:0;overflow:hidden;margin:10px 12px;gap:10px}
+.pane{min-width:0;min-height:0;overflow-y:auto;padding:26px 26px 90px;-webkit-overflow-scrolling:touch;border-radius:var(--radius-lg)}
+.pane-left{flex:1 1 50%;user-select:text;position:relative}
+.pane-right{flex:1 1 50%}
+.pane::-webkit-scrollbar{width:7px}
+.pane::-webkit-scrollbar-track{background:transparent}
+.pane::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
+.resizer{width:8px;cursor:col-resize;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.resizer::after{content:'';width:4px;height:44px;border-radius:99px;background:var(--border)}
+.resizer:hover::after{background:var(--accent)}
+
+.watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-25deg);font-size:50px;font-weight:800;color:rgba(227,24,55,.05);pointer-events:none;z-index:0;white-space:nowrap;letter-spacing:2px}
+html[data-theme="dark"] .watermark{color:rgba(255,79,104,.06)}
+.pane-left>*:not(.watermark){position:relative;z-index:1}
+
+.passage-label{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);background:var(--accent-light);display:inline-block;padding:4px 11px;border-radius:99px;margin-bottom:16px}
+.passage-title{font-size:19px;font-weight:800;color:var(--text);margin-bottom:4px;text-align:center;line-height:1.3}
+.passage-subtitle{font-size:12.5px;color:var(--text2);margin-bottom:20px;font-style:italic;text-align:center}
+.passage-para{margin-bottom:1.1em}
+.passage-text{font-size:14.6px;line-height:1.85;color:var(--text)}
+.section-tag{display:block;font-size:11px;font-weight:800;color:var(--accent);letter-spacing:.06em;margin:4px 0 6px}
+
+/* ── HIGHLIGHT TOOLBAR ── */
+.hl-toolbar{display:none;position:fixed;z-index:500;background:rgba(30,30,34,.85);backdrop-filter:blur(16px);border-radius:99px;padding:8px;box-shadow:0 6px 20px rgba(0,0,0,.3);gap:6px;align-items:center;border:1px solid rgba(255,255,255,.1)}
+.hl-toolbar.show{display:flex}
+.hl-dot{width:24px;height:24px;border-radius:50%;border:2px solid #fff;cursor:pointer}
+.hl-dot.y{background:#fde047}.hl-dot.g{background:#86efac}.hl-dot.p{background:#f9a8d4}.hl-dot.b{background:#93c5fd}
+.hl-remove-btn{background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:99px;padding:5px 12px;font-size:12px;cursor:pointer}
+mark.hl-y{background:#fde047}mark.hl-g{background:#86efac}mark.hl-p{background:#f9a8d4}mark.hl-b{background:#93c5fd}
+.ans-highlight{background:#ffeb3b;color:#000;padding:1px 3px;border-radius:3px;font-weight:600;cursor:pointer;border-bottom:2px dotted var(--accent-dark)}
+.ans-highlight::after{content:' 💡';font-size:11px}
+.inline-explain{display:none;background:var(--accent-light);border-left:3px solid var(--accent);border-radius:8px;padding:9px 12px;margin:8px 0;font-size:12.8px;color:var(--text);line-height:1.6}
+.inline-explain.show{display:block}
+.inline-explain b{color:var(--accent)}
+.inline-explain .ie-en{color:var(--text2);margin-bottom:4px}
+
+/* ── VOCAB / TRANSLATE ── */
+.vocab-word{border-bottom:2px dotted var(--accent);cursor:pointer;background:var(--accent-light);border-radius:3px;padding:0 1px}
+.vocab-word:hover{color:var(--accent)}
+.tooltip-box{display:none;position:fixed;z-index:9999;background:rgba(28,28,32,.88);backdrop-filter:blur(18px);color:#fff;border-radius:14px;padding:13px 16px;font-size:14px;max-width:270px;box-shadow:0 12px 30px rgba(0,0,0,.4);pointer-events:none;line-height:1.5;border:1px solid rgba(255,255,255,.1)}
+.t-word{font-size:15px;font-weight:700;color:#ff9fa8;margin-bottom:3px}
+.t-pron{font-size:12px;color:#9ca3af;margin-bottom:5px;font-style:italic}
+.t-uz{font-size:14px;color:#ffd479;font-weight:600;margin-bottom:4px}
+.t-def{font-size:12px;color:#d1d5db}
+
+/* ── QUESTIONS ── */
+.q-section-hdr{margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.q-section-hdr h3{font-size:14px;font-weight:800;color:var(--text);margin-bottom:4px}
+.q-section-hdr p{font-size:12.8px;color:var(--text2);line-height:1.6}
+
+.notes-block h4{font-size:12.5px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.04em;margin:18px 0 8px}
+.notes-block h4:first-child{margin-top:0}
+.notes-list{list-style:none;padding-left:0}
+.notes-list li{font-size:14px;line-height:1.9;color:var(--text);padding:10px 14px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--panel-solid);margin-bottom:10px}
+.notes-list li b{color:var(--accent);margin-right:2px}
+
+.sc-input{display:inline-block;min-width:130px;padding:6px 10px;border-radius:99px;border:1.5px solid var(--border);background:var(--panel);color:var(--text);font-size:13.5px;font-family:inherit;outline:none;transition:.15s;text-align:center;font-weight:700}
+.sc-input:focus{border-color:var(--accent);background:var(--panel-solid)}
+.sc-input.correct{border-color:var(--green);background:var(--green-bg);color:var(--green)}
+.sc-input.wrong{border-color:var(--redx);background:var(--red-bg);color:var(--redx)}
+
+/* ── TRUE/FALSE/NOT GIVEN ── */
+.tfng-item{padding:12px 14px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--panel-solid);margin-bottom:10px}
+.tfng-q{font-size:13.6px;line-height:1.6;color:var(--text);margin-bottom:10px}
+.tfng-q b{color:var(--accent);margin-right:4px}
+.tfng-btns{display:flex;flex-direction:column;gap:6px}
+.tfng-btn{width:100%;padding:9px 12px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--panel);color:var(--text2);font-size:12px;font-weight:700;cursor:pointer;transition:.15s;text-align:left;letter-spacing:.02em}
+.tfng-btn:hover{border-color:var(--accent);color:var(--accent)}
+.tfng-btn.selected{background:var(--accent);border-color:var(--accent);color:#fff}
+.tfng-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.tfng-btn.wrong{background:var(--redx);border-color:var(--redx);color:#fff}
+.tfng-btn.reveal-correct{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+
+/* ── MATCHING / DROPDOWN (headings & letters) ── */
+.list-headings-box{background:var(--panel-solid);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 14px;margin-bottom:16px}
+.list-headings-box h5{font-size:11.5px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.list-headings-box ol{padding-left:20px}
+.list-headings-box li{font-size:12.6px;line-height:1.75;color:var(--text2)}
+.list-headings-box li b{color:var(--text)}
+.match-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--panel-solid);margin-bottom:9px}
+.match-q{font-size:13.6px;color:var(--text);font-weight:600}
+.match-q b{color:var(--accent);margin-right:4px}
+.hm-select{padding:8px 10px;border-radius:99px;border:1.5px solid var(--border);background:var(--panel);color:var(--text);font-size:12.6px;font-family:inherit;outline:none;font-weight:700;min-width:130px;cursor:pointer}
+.hm-select:focus{border-color:var(--accent)}
+.hm-select.correct{border-color:var(--green);background:var(--green-bg);color:var(--green)}
+.hm-select.wrong{border-color:var(--redx);background:var(--red-bg);color:var(--redx)}
+
+/* ── MULTIPLE CHOICE ── */
+.mc-item{padding:12px 14px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--panel-solid);margin-bottom:10px}
+.mc-q{font-size:13.6px;line-height:1.6;color:var(--text);margin-bottom:10px}
+.mc-q b{color:var(--accent);margin-right:4px}
+.mc-btns{display:flex;flex-direction:column;gap:7px}
+.mc-btn{width:100%;padding:10px 12px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--panel);color:var(--text);font-size:12.6px;font-weight:600;cursor:pointer;transition:.15s;text-align:left;line-height:1.5}
+.mc-btn b{color:var(--accent);margin-right:6px}
+.mc-btn:hover{border-color:var(--accent)}
+.mc-btn.selected{background:var(--accent);border-color:var(--accent);color:#fff}
+.mc-btn.selected b{color:#fff}
+.mc-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.mc-btn.correct b{color:#fff}
+.mc-btn.wrong{background:var(--redx);border-color:var(--redx);color:#fff}
+.mc-btn.wrong b{color:#fff}
+.mc-btn.reveal-correct{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+
+/* ── FOOTER NAV ── */
+.exam-footer{position:fixed;bottom:10px;left:12px;right:12px;border-radius:var(--radius-lg);padding:9px 14px;display:flex;align-items:center;gap:10px;z-index:200}
+.q-nav-row{display:flex;gap:5px;flex:1;overflow-x:auto;align-items:center;scrollbar-width:none}
+.q-nav-row::-webkit-scrollbar{display:none}
+.q-nav-btn{width:30px;height:30px;border-radius:50%;border:1px solid var(--border);font-size:11.5px;font-weight:700;cursor:pointer;transition:.15s;background:var(--panel-solid);color:var(--text);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.q-nav-btn:hover{border-color:var(--accent)}
+.q-nav-btn.answered{background:var(--accent-light);border-color:var(--accent);color:var(--accent)}
+.q-nav-btn.correct{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+.q-nav-btn.wrong-nav{background:var(--red-bg);border-color:var(--redx);color:var(--redx)}
+.answered-count{font-size:11.5px;color:var(--text3);white-space:nowrap}
+.check-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:11px 22px;font-size:13px;font-weight:700;cursor:pointer;transition:.2s;flex-shrink:0;white-space:nowrap}
+.check-btn:hover{background:var(--accent-dark)}
+.check-btn.done{background:var(--green)}
+
+/* ── RESULT MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,10,14,.45);backdrop-filter:blur(6px);z-index:2000;display:flex;justify-content:center;align-items:center;padding:16px}
+.modal-overlay.hidden{display:none}
+.modal-box{background:var(--panel-solid);backdrop-filter:var(--blur);border-radius:var(--radius-xl);width:100%;max-width:720px;max-height:88vh;display:flex;flex-direction:column;border:1px solid var(--glass-hi);box-shadow:var(--shadow);color:var(--text);overflow:hidden}
+.modal-header{padding:20px 24px 14px;border-bottom:1px solid var(--hairline);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-header h2{font-size:18px;font-weight:800;color:var(--text)}
+.modal-close{background:var(--border);border:none;width:30px;height:30px;border-radius:50%;font-size:18px;cursor:pointer;color:var(--text2);line-height:1}
+.modal-score-row{display:flex;gap:10px;justify-content:center;padding:14px 22px;border-bottom:1px solid var(--hairline);flex-shrink:0;flex-wrap:wrap}
+.score-pill{background:var(--panel);border:1px solid var(--border);border-radius:99px;padding:7px 18px;font-size:13.5px;font-weight:700;color:var(--text)}
+.modal-body{overflow-y:auto;padding:16px 22px 22px;flex:1}
+.res-filter-bar{display:flex;gap:6px;margin-bottom:14px;background:var(--border);padding:4px;border-radius:99px;width:fit-content}
+.res-filter-btn{background:transparent;border:none;border-radius:99px;padding:6px 15px;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--text2);transition:.2s}
+.res-filter-btn.active{background:var(--panel-solid);color:var(--accent);box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.res-row{display:grid;grid-template-columns:44px 1fr 1fr 84px;gap:8px;padding:11px 6px;border-bottom:1px solid var(--hairline);font-size:13px;align-items:start}
+.res-row.is-correct{background:rgba(34,165,89,.05)}
+.res-row.is-wrong{background:rgba(255,59,48,.05)}
+.res-row.is-skipped{background:rgba(255,149,0,.06)}
+.res-num{font-weight:700;color:var(--text);background:var(--panel);border:1px solid var(--border);border-radius:8px;width:34px;height:27px;display:flex;align-items:center;justify-content:center}
+.res-user{background:var(--panel);border:1px solid var(--border);padding:3px 7px;border-radius:7px;color:var(--text);font-size:12.5px;word-break:break-word}
+.res-correct{color:var(--green);font-weight:600;background:var(--green-bg);border:1px solid rgba(34,165,89,.25);padding:3px 7px;border-radius:7px;font-size:12.5px;word-break:break-word}
+.res-badge{justify-self:end;padding:3px 10px;border-radius:99px;font-size:10.5px;font-weight:700;white-space:nowrap;align-self:center}
+.res-badge.ok{background:var(--green-bg);color:var(--green);border:1px solid rgba(34,165,89,.3)}
+.res-badge.bad{background:var(--red-bg);color:var(--redx);border:1px solid rgba(255,59,48,.3)}
+.res-badge.skip{background:var(--yellow-bg);color:var(--yellow);border:1px solid rgba(255,149,0,.3)}
+.res-explain-en{font-size:12.5px;color:var(--text2);line-height:1.5;background:var(--panel);border-radius:8px;padding:9px 11px;margin-top:6px;grid-column:1/-1}
+.res-explain-uz{font-size:12.5px;color:var(--text);line-height:1.5;background:var(--accent-light);border-radius:8px;padding:9px 11px;margin-top:4px;grid-column:1/-1;border-left:3px solid var(--accent)}
+.modal-actions{display:flex;gap:8px;justify-content:center;padding:14px 22px;border-top:1px solid var(--hairline);flex-shrink:0;flex-wrap:wrap}
+.modal-btn{padding:10px 20px;border-radius:99px;font-size:13.5px;font-weight:700;cursor:pointer;transition:.2s;border:1.5px solid var(--border);background:var(--panel);color:var(--text)}
+.modal-btn:hover{border-color:var(--accent);color:var(--accent)}
+.modal-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}.modal-btn.primary:hover{background:var(--accent-dark)}
+.modal-btn.tg{background:var(--tg);color:#fff;border-color:var(--tg)}.modal-btn.tg:hover{background:#0077b3}
+
+@media(max-width:700px){
+  .exam-body{flex-direction:column;margin:8px}
+  .pane-left,.pane-right{flex:1 1 auto;overflow-y:visible;min-height:260px}
+  .resizer{display:none}
+  .home-card,.login-card{padding:30px 20px}
+  .header-pills{display:none}
+  .exam-header{margin:8px 8px 0;padding:8px 12px}
+  .part-banner{margin:8px 8px 0}
+  .exam-footer{left:8px;right:8px}
+  .res-row{grid-template-columns:1fr}
+  .res-badge{justify-self:start}
+  .tfng-btn{font-size:10px;min-width:66px}
+  .match-item{flex-direction:column;align-items:flex-start}
+  .hm-select{width:100%}
+}
+:fullscreen .screen.active{height:100vh}
+::selection{background:rgba(227,24,55,.25)}
+</style>
+</head>
+<body>
+
+<div class="liquid-bg"><span></span><span></span><span></span></div>
+<div class="tooltip-box" id="tooltip"></div>
+<div class="hl-toolbar" id="hlToolbar">
+  <span class="hl-dot y" data-color="hl-y"></span>
+  <span class="hl-dot g" data-color="hl-g"></span>
+  <span class="hl-dot p" data-color="hl-p"></span>
+  <span class="hl-dot b" data-color="hl-b"></span>
+  <button class="hl-remove-btn" id="hlRemoveBtn">Remove</button>
+</div>
+
+<!-- ══ LOGIN ══ -->
+<div class="screen active" id="login-screen">
+  <button class="icon-btn home-theme-btn" id="theme-toggle-login" title="Dark mode">
+    <svg id="theme-icon-login" viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg>
+  </button>
+  <div class="login-card glass">
+    <div class="login-logo">IELTS<span>@reading_cdi · Kirish</span></div>
+    <h1>Xush kelibsiz 👋</h1>
+    <p class="login-sub">Testni boshlash uchun login va parolni kiriting</p>
+
+    <div class="login-field">
+      <label for="login-user">Login</label>
+      <input type="text" id="login-user" class="login-input" placeholder="reading_cdi" autocomplete="username">
+    </div>
+    <div class="login-field">
+      <label for="login-pass">Parol</label>
+      <input type="password" id="login-pass" class="login-input" placeholder="reading_cdi" autocomplete="current-password">
+    </div>
+    <div class="login-error" id="login-error">Login yoki parol noto'g'ri. Qaytadan urinib ko'ring.</div>
+
+    <button class="login-btn" onclick="checkLogin()">Kirish</button>
+
+    
+    <div class="login-hint">Barcha yangi testlar va materiallar Telegram kanalimizda</div>
+  </div>
+</div>
+
+<!-- ══ HOME ══ -->
+<div class="screen" id="home-screen">
+  <button class="icon-btn home-theme-btn" id="theme-toggle-home" title="Dark mode">
+    <svg id="theme-icon-home" viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg>
+  </button>
+  <div class="home-card glass">
+    <div class="home-logo">IELTS<span>@reading_cdi · Reading</span></div>
+    <div class="home-badge">📖 Academic Reading</div>
+    <h1>Communicating Conflict!</h1>
+    <p class="home-sub">Four temperaments, four communication styles — how understanding them helps resolve team conflict</p>
+    <p>14 questions · 20 minutes · Matching Headings + True/False/Not Given + Multiple Choice. Tap underlined words for instant Uzbek translation. Select text with your mouse and pick a colour to highlight it.</p>
+    <div class="home-meta">
+      <div class="home-meta-item"><div class="val">14</div><div class="lbl">Questions</div></div>
+      <div class="home-meta-item"><div class="val">20:00</div><div class="lbl">Time limit</div></div>
+      <div class="home-meta-item"><div class="val">3</div><div class="lbl">Types</div></div>
+    </div>
+    <br>
+    <button class="start-btn" onclick="startExam()">Start Test</button>
+    <br>
+    
+  </div>
+</div>
+
+<!-- ══ EXAM ══ -->
+<div class="screen" id="exam-screen">
+  <div class="exam-header glass">
+    <div class="header-left">
+      <div>
+        <div class="exam-logo">IELTS</div>
+        <div class="exam-sub">@reading_cdi</div>
+      </div>
+      <div class="header-pills">
+        
+        
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="exit-link" onclick="confirmExit()">Exit</span>
+      <div class="timer-box" id="timer-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        <span class="timer-val" id="timer-val">20:00</span>
+      </div>
+      <button class="icon-btn" id="timer-toggle" title="Pause/Resume">
+        <svg id="timer-icon" viewBox="0 0 24 24" width="15" height="15"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+      </button>
+      <button class="icon-btn" id="timer-reset" title="Reset Timer">
+        <svg viewBox="0 0 24 24" width="15" height="15"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+      </button>
+      <button class="icon-btn" onclick="toggleFullscreen()" title="Fullscreen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+      </button>
+      <button class="ios-switch" id="theme-toggle-exam" title="Dark mode"><span class="knob" id="theme-knob-exam">☀️</span></button>
+    </div>
+  </div>
+
+  <div class="part-banner glass"><b>Reading Passage</b> — Communicating Conflict! You should spend about 20 minutes on Questions 27–40.</div>
+
+  <div class="exam-body">
+    <!-- LEFT: PASSAGE -->
+    <div class="pane pane-left glass" id="pane-left">
+      <div class="watermark">@reading_cdi</div>
+      <div class="passage-label">READING PASSAGE 3</div>
+      <div class="passage-title">Communicating Conflict!</div>
+      <div class="passage-subtitle">How ancient ideas about temperament explain the way modern teams clash — and cooperate</div>
+
+      <div class="passage-para"><span class="section-tag">Section A</span><p class="passage-text">As far back as <span class="vocab-word" data-word="hippocrates">Hippocrates's</span> time (460-370 B.C.) people have tried to understand other people by <span class="vocab-word" data-word="characterizing">characterizing</span> them according to personality type or <span class="vocab-word" data-word="temperament">temperament</span>. Hippocrates believed there were four different body fluids that influenced four basic types of temperament. His work was further developed 500 years later by Galen. These days there are any number of self-assessment tools that relate to the basic descriptions developed by Galen, although we no longer believe the source to be the types of body fluid that dominate our systems.</p></div>
+
+      <div class="passage-para"><span class="section-tag">Section B</span><p class="passage-text">The values in self-assessments that help determine personality style, learning styles, communication styles, conflict-handling styles, or other aspects of individuals is that they help <span class="vocab-word" data-word="depersonalize">depersonalize</span> conflict in interpersonal relationships. The <span class="vocab-word" data-word="depersonalization">depersonalization</span> occurs when you realize that others aren't trying to be difficult, but they need different or more information than you do. They're not intending to be rude: they are so focused on the task they forget about greeting people. They would like to work faster but not at the risk of damaging the relationships needed to get the job done. They understand there is a job to do. But it can only be done right with the appropriate information, which takes time to collect. When used appropriately, understanding communication styles can help resolve conflict on teams. Very rarely are conflicts true personality issues. Usually they are issues of style, information needs, or focus.</p></div>
+
+      <div class="passage-para"><span class="section-tag">Section C</span><p class="passage-text">Hippocrates and later Galen determined there were four basic temperaments: <span class="vocab-word" data-word="sanguine">sanguine</span>, <span class="vocab-word" data-word="phlegmatic">phlegmatic</span>, <span class="vocab-word" data-word="melancholic">melancholic</span> and <span class="vocab-word" data-word="choleric">choleric</span>. These descriptions were developed centuries ago and are still somewhat apt, although you could update the wording. In today's world, they translate into the four fairly common communication styles described below:</p></div>
+
+      <div class="passage-para"><span class="section-tag">Section D</span><p class="passage-text">The sanguine person would be the expressive or <span class="vocab-word" data-word="spirited">spirited</span> style of communication. These people speak in pictures. They invest a lot of emotion and energy in their communication and often speak quickly, putting their whole body into it. They are easily <span class="vocab-word" data-word="sidetracked">sidetracked</span> onto a story that may or may not illustrate the point they are trying to make. Because of their enthusiasm, they are great team <span class="vocab-word" data-word="motivators">motivators</span>. They are concerned about people and relationships. Their high levels of energy can come on strong at times and their focus is usually on the bigger picture, which means they sometimes miss the details or the proper order of things. These people find conflict or differences of opinion <span class="vocab-word" data-word="invigorating">invigorating</span> and love to engage in a spirited discussion. They love change and are constantly looking for new and exciting adventures.</p></div>
+
+      <div class="passage-para"><span class="section-tag">Section E</span><p class="passage-text">The phlegmatic person – cool and <span class="vocab-word" data-word="persevering">persevering</span> – translates into the technical or systematic communication style. This style of communication is focused on facts and technical details. Phlegmatic people have an orderly <span class="vocab-word" data-word="methodical">methodical</span> way of approaching tasks, and their focus is very much on the task, not on the people, emotions, or concerns that the task may <span class="vocab-word" data-word="evoke">evoke</span>. The focus is also more on the details necessary to accomplish a task. Sometimes the details overwhelm the big picture and focus needs to be brought back to the context of the task. People with this style think the facts should speak for themselves, and they are not as comfortable with conflict. They need time to adapt to change and need to understand both the logic of it and the steps involved.</p></div>
+
+      <div class="passage-para"><span class="section-tag">Section F</span><p class="passage-text">The melancholic person who is softhearted and oriented toward doing things for others translates into the considerate or <span class="vocab-word" data-word="sympathetic">sympathetic</span> communication style. A person with this communication style is focused on people and relationships. They are good listeners and do things for other people – sometimes to the <span class="vocab-word" data-word="detriment">detriment</span> of getting things done for themselves. They want to <span class="vocab-word" data-word="solicit">solicit</span> everyone's opinion and make sure everyone is comfortable with whatever is required to get the job done. At times this focus on others can distract from the task at hand. Because they are so concerned with the needs of others and smoothing over issues, they do not like conflict. They believe that change threatens the <span class="vocab-word" data-word="status_quo">status quo</span> and tends to make people feel uneasy, so people with this communication style, like phlegmatic people, need time to consider the changes in order to adapt to them.</p></div>
+
+      <div class="passage-para"><span class="section-tag">Section G</span><p class="passage-text">The choleric temperament translates into the <span class="vocab-word" data-word="bold">bold</span> or direct style of communication. People with this style are brief in their communication – the fewer words the better. They are big picture thinkers and love to be involved in many things at once. They are focused on tasks and outcomes and often forget that the people involved in carrying out the tasks have needs. They don't do detail work easily and as a result can often underestimate how much time it takes to achieve the task. Because they are so direct, they often seem <span class="vocab-word" data-word="forceful">forceful</span> and can be very <span class="vocab-word" data-word="intimidating">intimidating</span> to others. They usually would welcome someone challenging them, but most other styles are afraid to do so. They also <span class="vocab-word" data-word="thrive">thrive</span> on change, the more the better.</p></div>
+
+      <div class="passage-para"><span class="section-tag">Section H</span><p class="passage-text">A well-functioning team should have all of these communication styles for true effectiveness. All teams need to focus on the task, and they need to take care of relationships in order to achieve those tasks. They need the big picture perspective or the context of their work, and they need the details to be identified and taken care of for success. We all have aspects of each style within us. Some of us can easily move from one style to another and adapt our style to the needs of the situation at hand – whether the focus is on tasks or relationships. For others, a dominant style is very evident, and it is more challenging to see the situation from the perspective of another style.</p>
+      <p class="passage-text" style="margin-top:12px">The work environment can influence communication styles either by the type of work that is required or by the predominance of one style reflected in that environment. Some people use one style at work and another at home. The good news about communication styles is that we have the ability to develop <span class="vocab-word" data-word="flexibility">flexibility</span> in our styles. The greater the flexibility we have, the more skilled we usually are at handling possible and actual conflicts. Usually it has to be relevant to us to do so, either because we think it is important or because there are <span class="vocab-word" data-word="incentives">incentives</span> in our environment to encourage it. The key is that we have to want to become flexible with our communication style. As Henry Ford said, "Whether you think you can or you can't, you're right!"</p></div>
+
+    </div>
+
+    <div class="resizer" id="resizer"></div>
+
+    <!-- RIGHT: QUESTIONS -->
+    <div class="pane pane-right glass" id="pane-right">
+      <div class="q-section-hdr">
+        <h3>Questions 27–34</h3>
+        <p>Reading Passage 3 has eight sections, A–H. Choose the correct heading for each section from the list of headings below.</p>
+      </div>
+
+      <div class="list-headings-box">
+        <h5>List of Headings</h5>
+        <ol type="i">
+          <li><b>i</b> Different personality types mentioned</li>
+          <li><b>ii</b> Recommendation of combined styles for group</li>
+          <li><b>iii</b> Historical explanation of understanding personality</li>
+          <li><b>iv</b> A lively and positive attitude person depicted</li>
+          <li><b>v</b> A personality likes challenge and direct communication</li>
+          <li><b>vi</b> Different characters illustrated</li>
+          <li><b>vii</b> Functions of understanding communication styles</li>
+          <li><b>viii</b> Cautious and considerable person cited</li>
+          <li><b>ix</b> Calm and factual personality illustrated</li>
+          <li><b>x</b> Self-assessment determines one's temperament</li>
+        </ol>
+      </div>
+
+      <div class="match-block" id="match-block-1">
+        <div class="match-item">
+          <div class="match-q"><b>27</b> Section A</div>
+          <select class="hm-select" id="hm-27" data-qnum="27">
+            <option value="">— choose —</option>
+            <option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option><option value="ix">ix</option><option value="x">x</option>
+          </select>
+        </div>
+        <div class="match-item">
+          <div class="match-q"><b>28</b> Section B</div>
+          <select class="hm-select" id="hm-28" data-qnum="28">
+            <option value="">— choose —</option>
+            <option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option><option value="ix">ix</option><option value="x">x</option>
+          </select>
+        </div>
+        <div class="match-item">
+          <div class="match-q"><b>29</b> Section C</div>
+          <select class="hm-select" id="hm-29" data-qnum="29">
+            <option value="">— choose —</option>
+            <option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option><option value="ix">ix</option><option value="x">x</option>
+          </select>
+        </div>
+        <div class="match-item">
+          <div class="match-q"><b>30</b> Section D</div>
+          <select class="hm-select" id="hm-30" data-qnum="30">
+            <option value="">— choose —</option>
+            <option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option><option value="ix">ix</option><option value="x">x</option>
+          </select>
+        </div>
+        <div class="match-item">
+          <div class="match-q"><b>31</b> Section E</div>
+          <select class="hm-select" id="hm-31" data-qnum="31">
+            <option value="">— choose —</option>
+            <option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option><option value="ix">ix</option><option value="x">x</option>
+          </select>
+        </div>
+        <div class="match-item">
+          <div class="match-q"><b>32</b> Section F</div>
+          <select class="hm-select" id="hm-32" data-qnum="32">
+            <option value="">— choose —</option>
+            <option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option><option value="ix">ix</option><option value="x">x</option>
+          </select>
+        </div>
+        <div class="match-item">
+          <div class="match-q"><b>33</b> Section G</div>
+          <select class="hm-select" id="hm-33" data-qnum="33">
+            <option value="">— choose —</option>
+            <option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option><option value="ix">ix</option><option value="x">x</option>
+          </select>
+        </div>
+        <div class="match-item">
+          <div class="match-q"><b>34</b> Section H</div>
+          <select class="hm-select" id="hm-34" data-qnum="34">
+            <option value="">— choose —</option>
+            <option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option><option value="ix">ix</option><option value="x">x</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="q-section-hdr" style="margin-top:26px">
+        <h3>Questions 35–39</h3>
+        <p>Do the following statements agree with the information given in Reading Passage 3?<br><b>TRUE</b> if the statement agrees, <b>FALSE</b> if it contradicts, <b>NOT GIVEN</b> if there is no information on this.</p>
+      </div>
+
+      <div class="tfng-block" id="tfng-block">
+        <div class="tfng-item">
+          <div class="tfng-q"><b>35</b> It is believed that sanguine people do not like variety.</div>
+          <div class="tfng-btns" data-qnum="35">
+            <button class="tfng-btn" data-val="TRUE">TRUE</button>
+            <button class="tfng-btn" data-val="FALSE">FALSE</button>
+            <button class="tfng-btn" data-val="NOT GIVEN">NOT GIVEN</button>
+          </div>
+        </div>
+        <div class="tfng-item">
+          <div class="tfng-q"><b>36</b> Melancholic and phlegmatic people have similar characteristics.</div>
+          <div class="tfng-btns" data-qnum="36">
+            <button class="tfng-btn" data-val="TRUE">TRUE</button>
+            <button class="tfng-btn" data-val="FALSE">FALSE</button>
+            <button class="tfng-btn" data-val="NOT GIVEN">NOT GIVEN</button>
+          </div>
+        </div>
+        <div class="tfng-item">
+          <div class="tfng-q"><b>37</b> It is the sanguine personality that is needed most in the workplace.</div>
+          <div class="tfng-btns" data-qnum="37">
+            <button class="tfng-btn" data-val="TRUE">TRUE</button>
+            <button class="tfng-btn" data-val="FALSE">FALSE</button>
+            <button class="tfng-btn" data-val="NOT GIVEN">NOT GIVEN</button>
+          </div>
+        </div>
+        <div class="tfng-item">
+          <div class="tfng-q"><b>38</b> It is possible for someone to change their type of personality.</div>
+          <div class="tfng-btns" data-qnum="38">
+            <button class="tfng-btn" data-val="TRUE">TRUE</button>
+            <button class="tfng-btn" data-val="FALSE">FALSE</button>
+            <button class="tfng-btn" data-val="NOT GIVEN">NOT GIVEN</button>
+          </div>
+        </div>
+        <div class="tfng-item">
+          <div class="tfng-q"><b>39</b> The work surroundings can affect which communication style is most effective.</div>
+          <div class="tfng-btns" data-qnum="39">
+            <button class="tfng-btn" data-val="TRUE">TRUE</button>
+            <button class="tfng-btn" data-val="FALSE">FALSE</button>
+            <button class="tfng-btn" data-val="NOT GIVEN">NOT GIVEN</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="q-section-hdr" style="margin-top:26px">
+        <h3>Question 40</h3>
+        <p>Choose the correct letter, A, B, C or D.</p>
+      </div>
+      <div class="mc-item">
+        <div class="mc-q"><b>40</b> The author thinks self-assessment tools can be able to</div>
+        <div class="mc-btns" data-qnum="40">
+          <button class="mc-btn" data-val="A"><b>A</b> assist to develop one's personality in a certain scenario.</button>
+          <button class="mc-btn" data-val="B"><b>B</b> help to understand colleagues and resolve problems.</button>
+          <button class="mc-btn" data-val="C"><b>C</b> improve relationship with the boss of a company.</button>
+          <button class="mc-btn" data-val="D"><b>D</b> change others' behaviour and personality.</button>
+        </div>
+      </div>
+    </div><!-- /pane-right -->
+  </div><!-- /exam-body -->
+
+  <div class="exam-footer glass">
+    <div class="q-nav-row" id="q-nav-row"></div>
+    <span class="answered-count" id="answered-count">0 / 14</span>
+    <button class="check-btn" id="check-btn" onclick="submitExam()">Check Answers</button>
+  </div>
+</div>
+
+<!-- ══ RESULTS MODAL ══ -->
+<div class="modal-overlay hidden" id="modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>📊 Results — Natijalar</h2>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-score-row">
+      
+      
+      
+      
+    </div>
+    <div class="modal-body">
+      <div class="res-filter-bar">
+        <button class="res-filter-btn active" onclick="setResFilter('all',this)">All 14</button>
+        <button class="res-filter-btn" onclick="setResFilter('wrong',this)">❌ Mistakes</button>
+        <button class="res-filter-btn" onclick="setResFilter('skipped',this)">⏭ Skipped</button>
+      </div>
+      <div id="res-details"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn primary" onclick="closeModal()">Close</button>
+      <button class="modal-btn" onclick="retryTest()">🔄 Retry</button>
+      
+      <button class="modal-btn" onclick="showScreen('home-screen');closeModal()">🏠 Home</button>
+    </div>
+  </div>
+</div>
+<script>
+// ══════════════════════════════════════
+//  LOGIN
+// ══════════════════════════════════════
+const VALID_USER='reading_cdi', VALID_PASS='reading_cdi';
+function checkLogin(){
+  const u=document.getElementById('login-user').value.trim();
+  const p=document.getElementById('login-pass').value.trim();
+  const err=document.getElementById('login-error');
+  if(u===VALID_USER && p===VALID_PASS){err.classList.remove('show');showScreen('home-screen');}
+  else{err.classList.add('show');}
+}
+document.getElementById('login-pass').addEventListener('keydown',e=>{if(e.key==='Enter')checkLogin();});
+document.getElementById('login-user').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('login-pass').focus();});
+
+// ══════════════════════════════════════
+//  THEME
+// ══════════════════════════════════════
+function applyTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  const on=t==='dark';
+  document.getElementById('theme-toggle-exam').classList.toggle('on',on);
+  document.getElementById('theme-knob-exam').textContent=on?'🌙':'☀️';
+  const iconPaths={
+    on:'<path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/>',
+    off:'<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>'
+  };
+  document.getElementById('theme-icon-home').innerHTML=on?iconPaths.on:iconPaths.off;
+  document.getElementById('theme-icon-login').innerHTML=on?iconPaths.on:iconPaths.off;
+  try{localStorage.setItem('cdi-theme',t);}catch(e){}
+}
+function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');}
+document.getElementById('theme-toggle-home').addEventListener('click',toggleTheme);
+document.getElementById('theme-toggle-exam').addEventListener('click',toggleTheme);
+document.getElementById('theme-toggle-login').addEventListener('click',toggleTheme);
+(function(){
+  let saved='light';
+  try{saved=localStorage.getItem('cdi-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');}catch(e){}
+  applyTheme(saved);
+})();
+
+// ══════════════════════════════════════
+//  VOCAB (advanced words — instant Uzbek translation)
+// ══════════════════════════════════════
+const VOCAB = {
+  "hippocrates":     {pron:"/hɪˈpɒkrətiːz/",     uz:"Gippokrat",                       def:"Ancient Greek physician, the 'father of medicine'"},
+  "characterizing":  {pron:"/ˈkærəktəraɪzɪŋ/",   uz:"tavsiflash, xarakterlash",        def:"Describing the distinctive nature of something"},
+  "temperament":     {pron:"/ˈtemprəmənt/",      uz:"tabiat, mijoz",                    def:"A person's nature, especially as it affects behaviour"},
+  "depersonalize":   {pron:"/diːˈpɜːsənəlaɪz/",  uz:"shaxsiylashtirmaslik",             def:"To remove the personal, emotional element from something"},
+  "depersonalization":{pron:"/diːˌpɜːsənəlaɪˈzeɪʃn/",uz:"shaxsiylikdan chetlashtirish", def:"The process of making something less personal"},
+  "sanguine":        {pron:"/ˈsæŋɡwɪn/",         uz:"quvnoq, optimist (temperament turi)", def:"Cheerfully optimistic, energetic and expressive"},
+  "phlegmatic":      {pron:"/flegˈmætɪk/",       uz:"sovuqqon, xotirjam (temperament turi)", def:"Calm, unemotional and not easily excited"},
+  "melancholic":     {pron:"/ˌmelənˈkɒlɪk/",     uz:"g'amgin, sentimental (temperament turi)", def:"Thoughtful, sensitive and prone to sadness"},
+  "choleric":        {pron:"/ˈkɒlərɪk/",         uz:"o'tkir, jahldor (temperament turi)", def:"Bad-tempered, irritable, direct and forceful"},
+  "spirited":        {pron:"/ˈspɪrɪtɪd/",        uz:"jonli, jasur",                     def:"Full of energy, courage and determination"},
+  "sidetracked":     {pron:"/ˈsaɪdtrækt/",       uz:"chalg'igan, mavzudan chetlashgan", def:"Distracted from the main topic"},
+  "motivators":      {pron:"/ˈməʊtɪveɪtəz/",     uz:"rag'batlantiruvchilar",           def:"People or things that inspire others to act"},
+  "invigorating":    {pron:"/ɪnˈvɪɡəreɪtɪŋ/",    uz:"jonlantiruvchi, ruh baxsh etuvchi", def:"Making one feel stronger and more energetic"},
+  "persevering":     {pron:"/ˌpɜːsɪˈvɪərɪŋ/",    uz:"qat'iyatli, sabr-toqatli",         def:"Continuing steadily despite difficulty"},
+  "methodical":      {pron:"/məˈθɒdɪkl/",        uz:"tartibli, izchil",                def:"Done in a systematic, orderly way"},
+  "evoke":           {pron:"/ɪˈvəʊk/",           uz:"uyg'otmoq, keltirib chiqarmoq",   def:"To bring a feeling or memory into the mind"},
+  "sympathetic":     {pron:"/ˌsɪmpəˈθetɪk/",     uz:"hamdard, mehribon",               def:"Showing understanding and care for others"},
+  "detriment":       {pron:"/ˈdetrɪmənt/",       uz:"zarar, ziyon",                    def:"Harm or damage caused to someone or something"},
+  "solicit":         {pron:"/səˈlɪsɪt/",         uz:"so'ramoq, iltimos qilmoq",        def:"To ask for or try to obtain something"},
+  "status_quo":      {pron:"/ˌsteɪtəs ˈkwəʊ/",   uz:"mavjud holat",                     def:"The existing state of affairs"},
+  "bold":            {pron:"/bəʊld/",            uz:"jasur, dadil",                     def:"Confident and courageous, not afraid to take risks"},
+  "forceful":        {pron:"/ˈfɔːsfl/",          uz:"kuchli, ta'sirchan",               def:"Powerful and assertive in manner"},
+  "intimidating":    {pron:"/ɪnˈtɪmɪdeɪtɪŋ/",    uz:"qo'rqinchli, bosim o'tkazuvchi",   def:"Making someone feel frightened or nervous"},
+  "thrive":          {pron:"/θraɪv/",            uz:"rivojlanmoq, gullab-yashnamoq",   def:"To grow or develop successfully"},
+  "flexibility":     {pron:"/ˌfleksəˈbɪləti/",   uz:"moslashuvchanlik",                def:"The ability to adapt to new conditions"},
+  "incentives":      {pron:"/ɪnˈsentɪvz/",       uz:"rag'batlar, undovlar",            def:"Things that motivate or encourage someone to do something"},
+};
+
+// ══════════════════════════════════════
+//  ANSWERS
+// ══════════════════════════════════════
+const HM_CORRECT = {27:"iii",28:"vii",29:"i",30:"iv",31:"ix",32:"viii",33:"v",34:"ii"};
+const TFNG_CORRECT = {35:"FALSE",36:"TRUE",37:"NOT GIVEN",38:"TRUE",39:"TRUE"};
+const MC_CORRECT = {40:"B"};
+const CORRECT={};
+Object.keys(HM_CORRECT).forEach(n=>CORRECT[n]=HM_CORRECT[n]);
+Object.keys(TFNG_CORRECT).forEach(n=>CORRECT[n]=TFNG_CORRECT[n]);
+Object.keys(MC_CORRECT).forEach(n=>CORRECT[n]=MC_CORRECT[n]);
+
+// ══════════════════════════════════════
+//  EXPLANATIONS
+// ══════════════════════════════════════
+const EXPLANATIONS = {
+  27:{en:"Section A opens with Hippocrates and Galen, explaining the historical origin of understanding personality through temperament.",
+      uz:"A qismi Gippokrat va Galen bilan boshlanib, temperament orqali shaxsni tushunishning tarixiy kelib chiqishini tushuntiradi."},
+  28:{en:"Section B explains what self-assessments are for — they depersonalize conflict and help resolve it on teams, i.e. their function.",
+      uz:"B qismida o'z-o'zini baholash vositalarining vazifasi — nizoni shaxsiylashtirmaslik va jamoada nizolarni hal qilishga yordam berish — tushuntiriladi."},
+  29:{en:"Section C simply lists the four basic temperaments: sanguine, phlegmatic, melancholic and choleric.",
+      uz:"C qismida to'rtta asosiy temperament turi — sanguine, phlegmatic, melancholic va choleric — sanab o'tiladi."},
+  30:{en:"Section D describes the sanguine/expressive style as energetic, enthusiastic and loving change — a lively, positive attitude.",
+      uz:"D qismida sanguine/ifodali uslub — energiya bilan to'la, ishtiyoqli va o'zgarishni sevuvchi, ya'ni jonli va ijobiy munosabat — tasvirlanadi."},
+  31:{en:"Section E describes the phlegmatic/technical style as focused on facts and details, calm and methodical.",
+      uz:"E qismida phlegmatic/texnik uslub — faktlarga va tafsilotlarga e'tiborli, xotirjam va tartibli — tasvirlanadi."},
+  32:{en:"Section F describes the melancholic/considerate style as cautious about conflict and change, and considerate of others.",
+      uz:"F qismida melancholic/e'tiborli uslub — nizo va o'zgarishlarga ehtiyotkor, boshqalarga e'tiborli — tasvirlanadi."},
+  33:{en:"Section G describes the choleric/bold style as direct and welcoming of challenge and confrontation.",
+      uz:"G qismida choleric/dadil uslub — to'g'ridan-to'g'ri va qiyinchilik hamda bahsni xush ko'ruvchi — tasvirlanadi."},
+  34:{en:"Section H recommends that a well-functioning team should combine all four communication styles.",
+      uz:"H qismida yaxshi ishlaydigan jamoa barcha to'rtta muloqot uslubini birlashtirishi kerakligi tavsiya etiladi."},
+  35:{en:"Sanguine people 'love change and are constantly looking for new and exciting adventures', so the opposite (not liking variety) is false.",
+      uz:"Sanguine tipidagi odamlar o'zgarishni sevadi va doim yangi tajribalar izlaydi, shuning uchun ular xilma-xillikni yoqtirmaydi degan fikr noto'g'ri."},
+  36:{en:"Both melancholic and phlegmatic people 'need time to consider the changes in order to adapt to them', showing a shared characteristic.",
+      uz:"Melancholic va phlegmatic ikkalasi ham o'zgarishlarga moslashish uchun vaqt kerak bo'ladi, bu ularning umumiy xususiyati."},
+  37:{en:"The passage argues a team needs ALL styles together for effectiveness; it never singles out sanguine as most needed.",
+      uz:"Matnda jamoa samaradorligi uchun barcha uslublar kerakligi aytiladi; sanguine eng zarur uslub deb alohida ta'kidlanmaydi."},
+  38:{en:"The passage states 'we have the ability to develop flexibility in our styles', meaning people can change/adapt their style.",
+      uz:"Matnda odamlar o'z uslubida moslashuvchanlikni rivojlantira olishi aytiladi, ya'ni shaxsni o'zgartirish mumkin."},
+  39:{en:"The passage explicitly says the work environment can influence which communication style predominates.",
+      uz:"Matnda ish muhiti qaysi muloqot uslubi ustunlik qilishiga ta'sir qilishi aniq aytiladi."},
+  40:{en:"Section B frames self-assessments as tools that help people understand colleagues and resolve team conflict, matching option B.",
+      uz:"B qismida o'z-o'zini baholash vositalari hamkasblarni tushunish va jamoadagi nizolarni hal qilishga yordam berishi B variantiga mos keladi."},
+};
+
+// ══════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════
+const TOTAL_Q=14;
+const Q_ORDER=[27,28,29,30,31,32,33,34,35,36,37,38,39,40];
+let userAnswers={},reviewed=false,timerSecs=1200,timerRunning=true,timerInterval,resFilter='all';
+
+// ══════════════════════════════════════
+//  VOCAB TOOLTIP
+// ══════════════════════════════════════
+const tooltip=document.getElementById('tooltip');
+let isTouchDev='ontouchstart' in window||navigator.maxTouchPoints>0;
+function posTip(x,y){if(x+280>window.innerWidth)x=window.innerWidth-285;if(x<8)x=8;if(y+140>window.innerHeight)y=y-150;if(y<8)y=8;tooltip.style.left=x+'px';tooltip.style.top=y+'px';}
+function showTip(w,e){const d=VOCAB[w];if(!d)return;tooltip.innerHTML=`<div class="t-word">${w.replace('_',' ')}</div><div class="t-pron">${d.pron}</div><div class="t-uz">🇺🇿 ${d.uz}</div><div class="t-def">${d.def}</div>`;tooltip.style.display='block';posTip(e.clientX+14,e.clientY+14);}
+function hideTip(){tooltip.style.display='none';}
+document.addEventListener('mousemove',e=>{if(isTouchDev)return;const w=e.target.closest('.vocab-word');if(!w){hideTip();return;}showTip(w.dataset.word,e);});
+document.addEventListener('click',e=>{if(!isTouchDev)return;const w=e.target.closest('.vocab-word');if(!w){if(!e.target.closest('.tooltip-box'))hideTip();return;}showTip(w.dataset.word,e);e.stopPropagation();});
+
+// ══════════════════════════════════════
+//  HIGHLIGHT TOOLBAR
+// ══════════════════════════════════════
+const hlToolbar=document.getElementById('hlToolbar');
+let activeRange=null;
+document.addEventListener('mouseup',e=>{
+  if(e.target.closest('.hl-toolbar'))return;
+  const sel=window.getSelection();
+  if(!sel||sel.isCollapsed||!sel.toString().trim()){hlToolbar.classList.remove('show');return;}
+  activeRange=sel.getRangeAt(0).cloneRange();
+  const rect=sel.getRangeAt(0).getBoundingClientRect();
+  hlToolbar.style.left=Math.max(8,rect.left)+'px';
+  hlToolbar.style.top=Math.max(8,rect.top-50)+'px';
+  hlToolbar.classList.add('show');
+});
+hlToolbar.querySelectorAll('.hl-dot').forEach(dot=>{dot.addEventListener('click',()=>{
+  if(!activeRange)return;
+  const mark=document.createElement('mark');mark.className=dot.dataset.color;
+  try{activeRange.surroundContents(mark);}catch(err){const f=activeRange.extractContents();mark.appendChild(f);activeRange.insertNode(mark);}
+  window.getSelection().removeAllRanges();hlToolbar.classList.remove('show');activeRange=null;
+});});
+document.getElementById('hlRemoveBtn').addEventListener('click',()=>{hlToolbar.classList.remove('show');activeRange=null;});
+document.addEventListener('click',e=>{if(!e.target.closest('.hl-toolbar'))hlToolbar.classList.remove('show');});
+
+// ══════════════════════════════════════
+//  MATCHING DROPDOWNS (Q27-34)
+// ══════════════════════════════════════
+document.querySelectorAll('.hm-select').forEach(sel=>{
+  sel.addEventListener('change',e=>{
+    if(reviewed)return;
+    userAnswers[e.target.dataset.qnum]=e.target.value;
+    updateNav();
+  });
+});
+
+// ══════════════════════════════════════
+//  TRUE/FALSE/NOT GIVEN BUTTONS (Q35-39)
+// ══════════════════════════════════════
+document.querySelectorAll('.tfng-btns').forEach(group=>{
+  const n=group.dataset.qnum;
+  group.querySelectorAll('.tfng-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      if(reviewed)return;
+      userAnswers[n]=btn.dataset.val;
+      group.querySelectorAll('.tfng-btn').forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected');
+      updateNav();
+    });
+  });
+});
+
+// ══════════════════════════════════════
+//  MULTIPLE CHOICE (Q40)
+// ══════════════════════════════════════
+document.querySelectorAll('.mc-btns').forEach(group=>{
+  const n=group.dataset.qnum;
+  group.querySelectorAll('.mc-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      if(reviewed)return;
+      userAnswers[n]=btn.dataset.val;
+      group.querySelectorAll('.mc-btn').forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected');
+      updateNav();
+    });
+  });
+});
+
+// ══════════════════════════════════════
+//  NAV ROW
+// ══════════════════════════════════════
+function buildNav(){
+  const row=document.getElementById('q-nav-row');row.innerHTML='';
+  Q_ORDER.forEach(n=>{
+    const b=document.createElement('button');
+    b.className='q-nav-btn';b.id=`nav-${n}`;b.textContent=n;
+    b.onclick=()=>scrollToQ(n);row.appendChild(b);
+  });
+  updateNav();
+}
+function updateNav(){
+  let count=0;
+  Q_ORDER.forEach(n=>{
+    const b=document.getElementById(`nav-${n}`);if(!b)return;
+    const v=userAnswers[n];
+    const has=v&&String(v).trim();
+    b.className='q-nav-btn'+(has?' answered':'');
+    if(has)count++;
+  });
+  document.getElementById('answered-count').textContent=`${count} / ${TOTAL_Q}`;
+}
+function scrollToQ(n){
+  let el;
+  if(n<=34)el=document.getElementById(`hm-${n}`);
+  else if(n<=39)el=document.querySelector(`.tfng-btns[data-qnum="${n}"]`);
+  else el=document.querySelector(`.mc-btns[data-qnum="${n}"]`);
+  if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+// ══════════════════════════════════════
+//  TIMER
+// ══════════════════════════════════════
+function fmtTime(s){const m=Math.floor(s/60);return `${String(m).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;}
+function tickTimer(){
+  if(!timerRunning)return;
+  timerSecs--;
+  document.getElementById('timer-val').textContent=fmtTime(timerSecs);
+  if(timerSecs<=180)document.getElementById('timer-box').classList.add('urgent');
+  if(timerSecs<=0){clearInterval(timerInterval);submitExam();}
+}
+function startTimer(){timerInterval=setInterval(tickTimer,1000);}
+document.getElementById('timer-toggle').addEventListener('click',()=>{
+  timerRunning=!timerRunning;
+  const icon=document.getElementById('timer-icon');
+  icon.innerHTML=timerRunning?'<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>':'<path d="M8 5v14l11-7L8 5z"/>';
+});
+document.getElementById('timer-reset').addEventListener('click',()=>{timerSecs=1200;document.getElementById('timer-val').textContent='20:00';document.getElementById('timer-box').classList.remove('urgent');});
+
+// ══════════════════════════════════════
+//  RESIZER
+// ══════════════════════════════════════
+(function(){
+  const resizer=document.getElementById('resizer');
+  const left=document.getElementById('pane-left');
+  let startX,startW;
+  resizer.addEventListener('mousedown',e=>{
+    startX=e.clientX;startW=left.offsetWidth;
+    const onMove=e=>{const nw=startW+e.clientX-startX;if(nw>200&&window.innerWidth-nw>200)left.style.flex=`0 0 ${nw}px`;};
+    const onUp=()=>{window.removeEventListener('mousemove',onMove);window.removeEventListener('mouseup',onUp);};
+    window.addEventListener('mousemove',onMove);window.addEventListener('mouseup',onUp);
+  });
+})();
+
+// ══════════════════════════════════════
+//  FULLSCREEN
+// ══════════════════════════════════════
+function toggleFullscreen(){if(!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{});else document.exitFullscreen();}
+
+// ══════════════════════════════════════
+//  SCREENS
+// ══════════════════════════════════════
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function confirmExit(){if(confirm('Exit the test?')){clearInterval(timerInterval);showScreen('home-screen');}}
+function startExam(){
+  userAnswers={};reviewed=false;timerSecs=1200;timerRunning=true;
+  document.getElementById('timer-val').textContent='20:00';
+  document.getElementById('timer-box').classList.remove('urgent');
+  document.getElementById('timer-icon').innerHTML='<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+  document.querySelectorAll('.hm-select').forEach(s=>{s.value='';s.classList.remove('correct','wrong');});
+  document.querySelectorAll('.tfng-btn').forEach(b=>b.classList.remove('selected','correct','wrong','reveal-correct'));
+  document.querySelectorAll('.mc-btn').forEach(b=>b.classList.remove('selected','correct','wrong','reveal-correct'));
+  showScreen('exam-screen');
+  buildNav();startTimer();
+  document.getElementById('check-btn').textContent='Check Answers';
+  document.getElementById('check-btn').className='check-btn';
+  document.getElementById('check-btn').onclick=submitExam;
+}
+function retryTest(){closeModal();startExam();}
+
+// ══════════════════════════════════════
+//  SCORING
+// ══════════════════════════════════════
+function normText(s){return String(s||'').trim().toLowerCase().replace(/[.,!?;:'"]+$/,'');}
+function checkAns(n){
+  const given=userAnswers[n];
+  if(!given||!String(given).trim())return null;
+  return normText(given)===normText(CORRECT[n]);
+}
+function estimateBand(s){if(s>=13)return 9;if(s>=12)return 8.5;if(s>=11)return 8;if(s>=10)return 7.5;if(s>=9)return 7;if(s>=8)return 6.5;if(s>=6)return 6;if(s>=5)return 5.5;if(s>=4)return 5;return 4.5;}
+
+function submitExam(){
+  clearInterval(timerInterval);reviewed=true;
+  let correct=0,wrong=0,skip=0;
+
+  Q_ORDER.forEach(n=>{
+    const r=checkAns(n);
+    if(r===null)skip++;else if(r)correct++;else wrong++;
+    const nb=document.getElementById(`nav-${n}`);
+    if(nb)nb.className='q-nav-btn '+(r===true?'correct':r===false?'wrong-nav':'');
+
+    if(n<=34){
+      const sel=document.getElementById(`hm-${n}`);
+      if(sel){if(r)sel.classList.add('correct');else if(userAnswers[n])sel.classList.add('wrong');}
+    }else if(n<=39){
+      const group=document.querySelector(`.tfng-btns[data-qnum="${n}"]`);
+      if(group){
+        group.querySelectorAll('.tfng-btn').forEach(b=>{
+          const isSelected=b.classList.contains('selected');
+          const isCorrectVal=normText(b.dataset.val)===normText(TFNG_CORRECT[n]);
+          b.classList.remove('correct','wrong','reveal-correct');
+          if(isSelected&&isCorrectVal)b.classList.add('correct');
+          else if(isSelected&&!isCorrectVal)b.classList.add('wrong');
+          else if(!isSelected&&isCorrectVal)b.classList.add('reveal-correct');
+        });
+      }
+    }else{
+      const group=document.querySelector(`.mc-btns[data-qnum="${n}"]`);
+      if(group){
+        group.querySelectorAll('.mc-btn').forEach(b=>{
+          const isSelected=b.classList.contains('selected');
+          const isCorrectVal=b.dataset.val===MC_CORRECT[n];
+          b.classList.remove('correct','wrong','reveal-correct');
+          if(isSelected&&isCorrectVal)b.classList.add('correct');
+          else if(isSelected&&!isCorrectVal)b.classList.add('wrong');
+          else if(!isSelected&&isCorrectVal)b.classList.add('reveal-correct');
+        });
+      }
+    }
+  });
+
+  document.getElementById('modal-score').textContent=`Score: ${correct} / ${TOTAL_Q}`;
+  document.getElementById('modal-band').textContent=`Band: ${estimateBand(correct)}`;
+  document.getElementById('modal-correct').textContent=`✓ Correct: ${correct}`;
+  document.getElementById('modal-wrong').textContent=`✗ Wrong: ${wrong}`;
+  renderResDetails();
+  document.getElementById('modal').classList.remove('hidden');
+  document.getElementById('check-btn').textContent='My Result';
+  document.getElementById('check-btn').className='check-btn done';
+  document.getElementById('check-btn').onclick=()=>document.getElementById('modal').classList.remove('hidden');
+  highlightPassage();
+}
+
+function highlightPassage(){
+  const targets=[
+    {q:35, txt:"they love change and are constantly looking for new and exciting adventures"},
+    {q:36, txt:"need time to consider the changes in order to adapt to them"},
+    {q:38, txt:"we have the ability to develop flexibility in our styles"},
+    {q:39, txt:"the work environment can influence communication styles"},
+    {q:40, txt:"understanding communication styles can help resolve conflict on teams"},
+  ];
+  document.querySelectorAll('#pane-left .passage-text').forEach(p=>{
+    targets.forEach(t=>{
+      if(p.innerHTML.toLowerCase().includes(t.txt.toLowerCase())&&!p.innerHTML.includes(`data-q="${t.q}"`)){
+        const esc=t.txt.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+        const expl=EXPLANATIONS[t.q]||{en:'',uz:''};
+        p.innerHTML=p.innerHTML.replace(new RegExp(esc,'i'),m=>
+          `<span class="ans-highlight" data-q="${t.q}">${m}</span>`+
+          `<span class="inline-explain" id="inline-explain-${t.q}"><div class="ie-en"><b>Q${t.q} — Why:</b> ${expl.en}</div><div><b>Tushuntirish:</b> ${expl.uz}</div></span>`
+        );
+      }
+    });
+  });
+  document.querySelectorAll('.ans-highlight').forEach(h=>{
+    h.addEventListener('click',()=>{
+      const note=document.getElementById('inline-explain-'+h.dataset.q);
+      if(note)note.classList.toggle('show');
+    });
+  });
+}
+
+// ══════════════════════════════════════
+//  REVIEW MODAL
+// ══════════════════════════════════════
+function setResFilter(f,btn){
+  resFilter=f;
+  document.querySelectorAll('.res-filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderResDetails();
+}
+function renderResDetails(){
+  const cont=document.getElementById('res-details');
+  let html='';
+  Q_ORDER.forEach(n=>{
+    const r=checkAns(n);
+    const status=r===true?'is-correct':r===false?'is-wrong':'is-skipped';
+    if(resFilter==='wrong'&&status!=='is-wrong')return;
+    if(resFilter==='skipped'&&status!=='is-skipped')return;
+    let given=userAnswers[n]||'—';
+    let correctDisp=CORRECT[n];
+    const badgeClass=status==='is-correct'?'ok':status==='is-skipped'?'skip':'bad';
+    const badgeText=status==='is-correct'?'Correct':status==='is-skipped'?'Skipped':'Incorrect';
+    const expl=EXPLANATIONS[n]||{en:'',uz:''};
+    html+=`<div class="res-row ${status}">
+      <span class="res-num">${n}</span>
+      <span class="res-user">${given}</span>
+      <span class="res-correct">${correctDisp}</span>
+      <span class="res-badge ${badgeClass}">${badgeText}</span>
+      <div class="res-explain-en"><b>Why:</b> ${expl.en}</div>
+      <div class="res-explain-uz"><b>Tushuntirish:</b> ${expl.uz}</div>
+    </div>`;
+  });
+  if(!html)html=`<p style="text-align:center;color:var(--text3);padding:30px">Nothing to show for this filter 🎉</p>`;
+  cont.innerHTML=html;
+}
+function closeModal(){document.getElementById('modal').classList.add('hidden');}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
+</script>
+</body>
+</html>

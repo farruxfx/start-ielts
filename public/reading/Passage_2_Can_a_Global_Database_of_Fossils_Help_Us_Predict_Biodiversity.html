@@ -1,0 +1,2028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Can a Global Database of Fossils Help Us Predict Biodiversity — @reading_cdi</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+    /* ── Liquid Glass tokens (light) ── */
+    --bg-color: #eef0f4;
+    --bg-blob-1: #ffd7dd;
+    --bg-blob-2: #cfe4ff;
+    --bg-blob-3: #dcffe9;
+    --panel: rgba(255,255,255,.62);
+    --panel-solid: rgba(255,255,255,.92);
+    --glass-hi: rgba(255,255,255,.85);
+    --blur: blur(26px) saturate(190%);
+    --shadow: 0 10px 40px rgba(31,38,55,.10), 0 1px 2px rgba(31,38,55,.06);
+    --radius-xl: 26px;
+    --radius-lg: 20px;
+    --radius-md: 14px;
+    --radius-sm: 10px;
+
+    --text-color: #1c1c1e;
+    --text-2: #6e6e73;
+    --text-3: #98989d;
+    --header-bg: rgba(255,255,255,.62);
+    --border-color: rgba(60,60,67,.13);
+    --hairline: rgba(60,60,67,.08);
+    --panel-bg: rgba(255,255,255,.62);
+    --question-bg: rgba(255,255,255,.92);
+    --input-bg: rgba(255,255,255,.92);
+    --input-border: rgba(60,60,67,.18);
+    --input-focus: #e31837;
+    --accent: #e31837;
+    --accent-dark: #c11530;
+    --accent-light: rgba(227,24,55,.10);
+    --accent-fill: rgba(227,24,55,.13);
+    --accent-fill-strong: rgba(227,24,55,.20);
+    --accent-ring: rgba(227,24,55,.30);
+    --correct-color: #22a559;
+    --correct-bg: rgba(34,165,89,.14);
+    --incorrect-color: #ff3b30;
+    --incorrect-bg: rgba(255,59,48,.12);
+    --highlight-bg: #fde047;
+    --modal-bg: rgba(255,255,255,.92);
+    --nav-bg: rgba(255,255,255,.62);
+    --resizer-bg: transparent;
+    --part-header-bg: rgba(255,255,255,.92);
+    --timer-bg: rgba(255,255,255,.92);
+    --link-color: #0f8fd6;
+    --shadow-color: rgba(31,38,55,.14);
+    --table-border: rgba(60,60,67,.13);
+    --table-header-bg: #e31837;
+    --table-cell-bg: rgba(255,255,255,.92);
+    --drop-zone-bg: rgba(255,255,255,.72);
+    --drag-item-bg: rgba(255,255,255,.92);
+    --logo-brightness: 1;
+}
+
+[data-theme="dark"] {
+    --bg-color: #000000;
+    --bg-blob-1: #3a0a14;
+    --bg-blob-2: #07182c;
+    --bg-blob-3: #062015;
+    --panel: rgba(28,28,30,.58);
+    --panel-solid: rgba(24,24,26,.92);
+    --glass-hi: rgba(255,255,255,.16);
+    --shadow: 0 10px 40px rgba(0,0,0,.55), 0 1px 2px rgba(0,0,0,.4);
+
+    --text-color: #f2f2f7;
+    --text-2: #a9a9ae;
+    --text-3: #7c7c80;
+    --header-bg: rgba(28,28,30,.58);
+    --border-color: rgba(255,255,255,.13);
+    --hairline: rgba(255,255,255,.08);
+    --panel-bg: rgba(28,28,30,.58);
+    --question-bg: rgba(24,24,26,.92);
+    --input-bg: rgba(44,44,48,.85);
+    --input-border: rgba(255,255,255,.16);
+    --input-focus: #ff4f68;
+    --accent: #ff4f68;
+    --accent-dark: #ff2d4d;
+    --accent-light: rgba(255,79,104,.16);
+    --accent-fill: rgba(255,79,104,.18);
+    --accent-fill-strong: rgba(255,79,104,.26);
+    --accent-ring: rgba(255,79,104,.40);
+    --correct-color: #32d873;
+    --correct-bg: rgba(50,216,115,.16);
+    --incorrect-color: #ff453a;
+    --incorrect-bg: rgba(255,69,58,.16);
+    --highlight-bg: #ffeb3b;
+    --modal-bg: rgba(24,24,26,.92);
+    --nav-bg: rgba(28,28,30,.58);
+    --resizer-bg: transparent;
+    --part-header-bg: rgba(44,44,48,.72);
+    --timer-bg: rgba(44,44,48,.85);
+    --link-color: #64b5f6;
+    --shadow-color: rgba(0,0,0,.5);
+    --table-border: rgba(255,255,255,.13);
+    --table-header-bg: #ff4f68;
+    --table-cell-bg: rgba(44,44,48,.85);
+    --drop-zone-bg: rgba(44,44,48,.6);
+    --drag-item-bg: rgba(44,44,48,.85);
+    --logo-brightness: 0;
+}
+
+html, body { height: 100%; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Segoe UI', Roboto, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.5;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color .4s ease, color .3s ease;
+}
+
+/* ── Animated liquid background ── */
+.liquid-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+.liquid-bg span {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: .55;
+    animation: drift 22s ease-in-out infinite;
+}
+.liquid-bg span:nth-child(1) { width: 46vw; height: 46vw; background: var(--bg-blob-1); top: -14%; left: -10%; animation-delay: 0s; }
+.liquid-bg span:nth-child(2) { width: 38vw; height: 38vw; background: var(--bg-blob-2); bottom: -16%; right: -8%; animation-delay: -7s; }
+.liquid-bg span:nth-child(3) { width: 30vw; height: 30vw; background: var(--bg-blob-3); bottom: 20%; left: 30%; animation-delay: -14s; }
+@keyframes drift {
+    0%, 100% { transform: translate(0,0) scale(1); }
+    33% { transform: translate(4%,6%) scale(1.08); }
+    66% { transform: translate(-5%,-3%) scale(.95); }
+}
+@media (prefers-reduced-motion: reduce) { .liquid-bg span { animation: none; } }
+
+/* ── HEADER ── */
+.header {
+    background-color: var(--header-bg);
+    backdrop-filter: var(--blur);
+    -webkit-backdrop-filter: var(--blur);
+    padding: 10px 18px;
+    border: 1px solid var(--glass-hi);
+    box-shadow: var(--shadow);
+    border-radius: var(--radius-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 10px;
+    left: 12px;
+    right: 12px;
+    z-index: 100;
+    height: 56px;
+    transition: background-color .4s ease, border-color .3s ease;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.ielts-logo {
+    height: 28px;
+    width: auto;
+    filter: brightness(var(--logo-brightness, 1));
+}
+
+.telegram-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    text-decoration: none;
+    color: #0f8fd6;
+    background: rgba(0,136,204,.12);
+    border: 1px solid rgba(0,136,204,.2);
+    border-radius: 99px;
+    padding: 6px 14px;
+    font-weight: 700;
+    font-size: 13px;
+    transition: background-color .2s, transform .15s;
+}
+
+.telegram-link:hover {
+    background: rgba(0,136,204,.2);
+    transform: translateY(-1px);
+    text-decoration: none;
+}
+
+.timer-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.timer-display {
+    font-weight: 700;
+    min-width: 62px;
+    font-variant-numeric: tabular-nums;
+    background: var(--panel-solid);
+    border: 1px solid var(--border-color);
+    border-radius: 99px;
+    padding: 6px 14px;
+    text-align: center;
+}
+
+.timer-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.timer-controls button,
+.dark-mode-btn {
+    background: var(--panel-solid);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-color);
+    transition: background-color .2s, transform .2s, color .2s;
+}
+
+.timer-controls button:hover,
+.dark-mode-btn:hover {
+    background: var(--accent-light);
+    color: var(--accent);
+    transform: translateY(-1px);
+}
+
+.timer-controls button:active,
+.dark-mode-btn:active { transform: scale(.92); }
+
+.timer-controls button svg,
+.dark-mode-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+    transition: fill .3s;
+}
+
+.dark-mode-btn svg[stroke],
+.dark-mode-btn .sun-icon,
+.dark-mode-btn .moon-icon { fill: none; }
+
+/* ── LAYOUT ── */
+.main-container {
+    margin-top: 66px;
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    height: calc(100vh - 66px);
+    position: relative;
+    z-index: 1;
+}
+
+.panels-container {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    margin: 10px 12px 92px;
+    gap: 4px;
+}
+
+.passage-panel,
+.questions-panel {
+    flex: 1;
+    padding: 24px 24px 40px;
+    overflow-y: auto;
+    min-width: 200px;
+    background-color: var(--panel-bg);
+    backdrop-filter: var(--blur);
+    -webkit-backdrop-filter: var(--blur);
+    border: 1px solid var(--glass-hi);
+    box-shadow: var(--shadow);
+    border-radius: var(--radius-lg);
+    -webkit-overflow-scrolling: touch;
+    transition: background-color .4s ease;
+}
+
+.questions-panel {
+    border-left: 1px solid var(--glass-hi);
+}
+
+.passage-panel::-webkit-scrollbar,
+.questions-panel::-webkit-scrollbar { width: 7px; }
+.passage-panel::-webkit-scrollbar-track,
+.questions-panel::-webkit-scrollbar-track { background: transparent; }
+.passage-panel::-webkit-scrollbar-thumb,
+.questions-panel::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+
+.resizer {
+    width: 10px;
+    cursor: col-resize;
+    background-color: transparent;
+    background-image: none;
+    flex-shrink: 0;
+    flex-grow: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color .3s;
+}
+
+.resizer::after {
+    content: '';
+    width: 4px;
+    height: 44px;
+    border-radius: 99px;
+    background: var(--border-color);
+    transition: background .2s;
+}
+
+.resizer:hover::after { background: var(--accent); }
+
+[data-theme="dark"] .resizer { background-image: none; }
+
+.text-center { text-align: center; }
+
+/* ── PASSAGE ── */
+.reading-passage h4 {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -.01em;
+    margin-bottom: 6px;
+    text-align: center;
+    color: var(--text-color);
+}
+
+.reading-passage h5 {
+    font-size: 14px;
+    font-weight: 500;
+    font-style: italic;
+    margin-bottom: 18px;
+    text-align: center;
+    color: var(--text-2);
+}
+
+.reading-passage p {
+    margin-bottom: 1.15em;
+    line-height: 1.85;
+    color: var(--text-color);
+}
+
+.reading-passage strong {
+    color: var(--accent);
+    font-weight: 800;
+    margin-right: 4px;
+}
+
+/* ── QUESTIONS ── */
+.question {
+    margin-bottom: 36px;
+}
+
+.question-prompt {
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--hairline);
+}
+
+.question-prompt p {
+    margin-bottom: 8px;
+    color: var(--text-2);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.question-prompt p:first-child {
+    color: var(--text-color);
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.question-prompt strong { color: var(--text-color); }
+
+.question ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.question ul li {
+    margin-bottom: 5px;
+    color: var(--text-color);
+}
+
+.answer-input {
+    border: 1.5px solid var(--input-border);
+    border-radius: 99px;
+    background-color: var(--input-bg);
+    padding: 4px 14px;
+    font-size: 15px;
+    font-family: inherit;
+    text-align: left;
+    font-weight: 700;
+    margin-right: 6px;
+    margin-left: 6px;
+    outline: none;
+    transition: border-color .2s ease, box-shadow .2s ease, background-color .3s, color .3s;
+    height: 32px;
+    min-width: 150px;
+    color: var(--text-color);
+}
+
+select.answer-input {
+    min-width: 80px;
+    cursor: pointer;
+    text-align: center;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.answer-input.active-input,
+.answer-input:focus {
+    border-color: var(--accent-ring);
+    border-width: 1.5px;
+    background-color: var(--accent-fill);
+    box-shadow: 0 0 0 3px var(--accent-light);
+    outline: none;
+}
+
+.answer-input::placeholder {
+    color: var(--text-3);
+    opacity: .8;
+    font-weight: 700;
+    text-align: center;
+}
+
+.answer-input.correct {
+    border-color: var(--correct-color);
+    background-color: var(--correct-bg);
+    color: var(--correct-color);
+}
+
+.answer-input.incorrect {
+    border-color: var(--incorrect-color);
+    background-color: var(--incorrect-bg);
+    color: var(--incorrect-color);
+}
+
+.part-header {
+    background-color: var(--part-header-bg);
+    backdrop-filter: var(--blur);
+    -webkit-backdrop-filter: var(--blur);
+    padding: 12px 18px;
+    line-height: 1.5;
+    border: 1px solid var(--border-color);
+    text-align: left;
+    margin: 10px 12px 0;
+    border-radius: var(--radius-md);
+    font-size: 13.5px;
+    color: var(--text-2);
+    transition: background-color .4s ease, border-color .3s ease;
+}
+
+.part-header p {
+    margin: 0;
+    color: var(--text-2);
+}
+
+.part-header p strong { color: var(--text-color); font-weight: 800; }
+
+.part-header p:first-child {
+    margin-bottom: 4px;
+}
+
+/* slim single-line passage banner */
+.part-header.passage-header {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    padding: 7px 16px;
+    font-size: 12.5px;
+    border-radius: var(--radius-sm);
+    margin: 8px 12px 0;
+}
+
+.part-header.passage-header p,
+.part-header.passage-header p:first-child {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.4;
+}
+
+.part-header.passage-header p:first-child strong {
+    font-size: 12.5px;
+    font-weight: 800;
+    letter-spacing: -.005em;
+}
+
+.headings-box {
+    margin: 0 0 20px 0;
+    padding: 14px 16px;
+    box-shadow: none;
+}
+
+.headings-box p {
+    margin-bottom: 6px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+.headings-box p strong { color: var(--accent); font-weight: 800; }
+
+.headings-box p:first-child {
+    margin-bottom: 10px;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+
+.headings-box p:first-child strong { color: var(--accent); }
+
+/* ── TRUE / FALSE + MATCHING ── */
+.tf-question {
+    margin-bottom: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--question-bg);
+    transition: border-color .3s, background-color .3s;
+}
+
+.tf-question-line {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    padding: 0;
+    border-radius: var(--radius-sm);
+}
+
+.tf-question-line:last-child { margin-bottom: 0; }
+
+.tf-question-number {
+    border: 1.5px solid var(--border-color);
+    padding: 2px 10px;
+    margin-right: 10px;
+    border-radius: 99px;
+    font-weight: 800;
+    font-size: 13px;
+    transition: border-color .3s, background-color .3s, color .3s;
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--accent-fill);
+    color: var(--accent);
+    white-space: nowrap;
+}
+
+.tf-question.active-question {
+    border-color: var(--accent-ring);
+    box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+.tf-question.active-question .tf-question-number {
+    border-color: var(--accent-ring);
+    background-color: var(--accent-fill-strong);
+    color: var(--accent);
+}
+
+.tf-question-text {
+    padding-top: 2px;
+    color: var(--text-color);
+    font-size: 14.5px;
+    line-height: 1.6;
+    font-weight: 600;
+    flex: 1;
+}
+
+.tf-options {
+    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.tf-option {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 10px 13px;
+    transition: background-color .2s ease, border-color .2s ease, color .2s ease;
+    background-color: var(--panel);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    margin-bottom: 0;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--text-2);
+}
+
+.tf-option:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background-color: var(--panel);
+}
+
+.tf-option:has(input[type="radio"]:checked) {
+    background-color: var(--accent-fill);
+    border-color: var(--accent-ring);
+    color: var(--accent);
+    box-shadow: inset 0 1px 0 var(--glass-hi);
+}
+
+.tf-option.correct {
+    background-color: var(--correct-bg) !important;
+    box-shadow: inset 0 1px 0 var(--glass-hi);
+    border-color: var(--correct-color) !important;
+    color: var(--correct-color) !important;
+}
+
+.tf-option.incorrect {
+    background-color: var(--incorrect-bg) !important;
+    box-shadow: inset 0 1px 0 var(--glass-hi);
+    border-color: var(--incorrect-color) !important;
+    color: var(--incorrect-color) !important;
+}
+
+.tf-option input[type="radio"] {
+    margin-right: 10px;
+    transform: scale(1.15);
+    accent-color: var(--accent);
+}
+
+/* ── MULTIPLE CHOICE ── */
+.multi-choice-question {
+    margin-bottom: 12px;
+    padding: 12px 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    background: var(--question-bg);
+    transition: border-color .3s, background-color .3s;
+}
+
+.multi-choice-option {
+    padding: 10px 13px;
+    background-color: var(--panel);
+    transition: background-color .2s ease, border-color .2s ease, color .2s ease;
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    margin-bottom: 6px;
+    color: var(--text-2);
+}
+
+.multi-choice-option:hover {
+    border-color: var(--accent);
+}
+
+.multi-choice-option:hover label { color: var(--accent); }
+
+.multi-choice-option:has(input:checked) {
+    background-color: var(--accent-fill);
+    border-color: var(--accent-ring);
+    box-shadow: inset 0 1px 0 var(--glass-hi);
+}
+
+.multi-choice-option:has(input:checked) label,
+.multi-choice-option:has(input:checked) label strong { color: var(--accent); }
+
+.multi-choice-option.correct {
+    background-color: var(--correct-bg) !important;
+    border-color: var(--correct-color) !important;
+}
+
+.multi-choice-option.correct label,
+.multi-choice-option.correct label strong { color: var(--correct-color) !important; }
+
+.multi-choice-option.incorrect {
+    background-color: var(--incorrect-bg) !important;
+    border-color: var(--incorrect-color) !important;
+}
+
+.multi-choice-option.incorrect label,
+.multi-choice-option.incorrect label strong { color: var(--incorrect-color) !important; }
+
+.multi-choice-option label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--text-color);
+    transition: color .2s;
+}
+
+.multi-choice-option label strong { color: var(--accent); margin-right: 2px; }
+
+.multi-choice-option input[type="radio"],
+.multi-choice-option input[type="checkbox"] {
+    margin-right: 12px;
+    transform: scale(1.2);
+    accent-color: var(--accent);
+    flex-shrink: 0;
+}
+
+/* ── NAV ARROWS ── */
+.nav-arrows {
+    position: fixed;
+    bottom: 104px;
+    right: 22px;
+    display: flex;
+    gap: 8px;
+    z-index: 101;
+}
+
+.nav-arrow {
+    width: 46px;
+    height: 46px;
+    border: 1px solid var(--glass-hi);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    transition: transform .15s ease, background-color .2s ease, box-shadow .2s ease;
+    box-shadow: 0 8px 22px var(--shadow-color);
+    outline: none;
+    border-radius: 50%;
+    backdrop-filter: var(--blur);
+    -webkit-backdrop-filter: var(--blur);
+}
+
+.nav-arrow.prev {
+    background-color: var(--panel-solid);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+.nav-arrow.next {
+    background-color: var(--accent-fill-strong);
+    color: var(--accent);
+    border-color: var(--accent-ring);
+    box-shadow: inset 0 1px 0 var(--glass-hi), 0 8px 22px rgba(227,24,55,.16);
+}
+
+[data-theme="dark"] .nav-arrow.prev { background-color: var(--panel-solid); color: var(--text-color); }
+[data-theme="dark"] .nav-arrow.next { background-color: var(--accent-fill-strong); color: var(--accent); }
+
+.nav-arrow:hover { transform: translateY(-2px); }
+.nav-arrow:active { transform: scale(.94); }
+
+/* ── FOOTER NAV ── */
+.nav-row {
+    position: fixed;
+    bottom: 10px;
+    left: 12px;
+    right: 12px;
+    background: var(--nav-bg);
+    backdrop-filter: var(--blur);
+    -webkit-backdrop-filter: var(--blur);
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    height: 72px;
+    z-index: 100;
+    border: 1px solid var(--glass-hi);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    transition: background-color .4s ease, border-color .3s ease;
+}
+
+.footer__questionWrapper___1tZ46 {
+    display: flex;
+    align-items: center;
+    margin-right: 16px;
+}
+
+.footer__questionNo___3WNct {
+    background: none;
+    border: 1px solid transparent;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: inherit;
+    color: var(--text-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color .2s, border-color .2s, color .2s;
+    border-radius: 99px;
+    white-space: nowrap;
+}
+
+.footer__questionNo___3WNct:hover {
+    background-color: var(--accent-light);
+    color: var(--accent);
+}
+
+.footer__questionWrapper___1tZ46.selected .footer__questionNo___3WNct {
+    background-color: var(--accent-fill);
+    border-color: var(--accent-ring);
+    color: var(--accent);
+}
+
+.section-prefix {
+    font-size: 14px;
+    color: inherit;
+}
+
+.sectionNr {
+    font-size: 14px;
+    font-weight: 800;
+    color: inherit;
+}
+
+.attemptedCount {
+    font-size: 12.5px;
+    color: var(--text-3);
+    margin-left: 5px;
+    font-weight: 500;
+}
+
+.footer__subquestionWrapper___9GgoP {
+    display: none;
+    gap: 5px;
+    margin-left: 10px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.footer__subquestionWrapper___9GgoP::-webkit-scrollbar { display: none; }
+
+.footer__questionWrapper___1tZ46.selected .footer__subquestionWrapper___9GgoP {
+    display: flex;
+}
+
+.subQuestion {
+    width: 31px;
+    height: 31px;
+    border: 1px solid var(--border-color);
+    background: var(--panel-solid);
+    color: var(--text-color);
+    font-size: 12px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .2s;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.subQuestion:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.subQuestion.answered {
+    background-color: var(--accent-light);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.subQuestion.correct {
+    background-color: var(--correct-bg);
+    color: var(--correct-color);
+    border-color: var(--correct-color);
+}
+
+.subQuestion.incorrect {
+    background-color: var(--incorrect-bg);
+    color: var(--incorrect-color);
+    border-color: var(--incorrect-color);
+}
+
+.subQuestion.active {
+    background-color: var(--accent-fill-strong);
+    color: var(--accent);
+    border-color: var(--accent-ring);
+}
+
+.footer__deliverButton___3FM07 {
+    margin-left: auto;
+    margin-right: 0;
+    background-color: var(--accent-fill-strong);
+    backdrop-filter: var(--blur);
+    -webkit-backdrop-filter: var(--blur);
+    color: var(--accent);
+    border: 1.5px solid var(--accent-ring);
+    padding: 11px 22px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    transition: transform .15s ease, background-color .2s ease;
+    min-width: 160px;
+    justify-content: center;
+    border-radius: 99px;
+    box-shadow: inset 0 1px 0 var(--glass-hi), 0 6px 18px rgba(227,24,55,.14);
+    flex-shrink: 0;
+}
+
+.footer__deliverButton___3FM07:hover {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.footer__deliverButton___3FM07:active {
+    transform: scale(.97);
+}
+
+.footer__deliverButton___3FM07:disabled {
+    background: var(--panel-solid);
+    opacity: .55;
+    color: var(--text-2);
+    cursor: not-allowed;
+    box-shadow: none;
+    border: 1px solid var(--border-color);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ── CONTEXT MENU ── */
+.context-menu {
+    position: absolute;
+    background: var(--modal-bg);
+    backdrop-filter: var(--blur);
+    -webkit-backdrop-filter: var(--blur);
+    border: 1px solid var(--glass-hi);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow);
+    z-index: 1000;
+    display: none;
+    min-width: 148px;
+    overflow: hidden;
+}
+
+.context-menu-item {
+    padding: 11px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--hairline);
+    transition: background-color .2s, color .2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-color);
+}
+
+.context-menu-item:hover {
+    background-color: var(--accent-light);
+    color: var(--accent);
+}
+
+.context-menu-item:last-child {
+    border-bottom: none;
+}
+
+.highlight {
+    background-color: var(--highlight-bg);
+    color: #000;
+    border-radius: 3px;
+    padding: 0 1px;
+}
+
+.comment-highlight {
+    background-color: #86efac;
+    position: relative;
+    cursor: help;
+    color: #000;
+    border-radius: 3px;
+    padding: 0 1px;
+}
+
+/* ── RESULTS MODAL ── */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10,10,14,.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+}
+
+.modal-overlay.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: var(--modal-bg);
+    backdrop-filter: var(--blur);
+    -webkit-backdrop-filter: var(--blur);
+    padding: 24px;
+    border-radius: var(--radius-xl);
+    width: 100%;
+    max-width: 780px;
+    max-height: 86vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border: 1px solid var(--glass-hi);
+    box-shadow: var(--shadow);
+    color: var(--text-color);
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: var(--border-color);
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--text-2);
+    transition: background .2s, color .2s;
+}
+
+.modal-close-btn:hover { background: var(--accent-light); color: var(--accent); }
+
+.modal-content h2 {
+    text-align: center;
+    margin-bottom: 18px;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -.01em;
+    color: var(--text-color);
+}
+
+.results-summary {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 16px;
+    text-align: center;
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 14px;
+    flex-wrap: wrap;
+}
+
+.results-summary p {
+    margin: 0;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text-2);
+    display: inline-flex;
+    align-items: center;
+}
+
+.results-summary p span {
+    display: inline-block;
+    padding: 6px 16px;
+    margin-left: 6px;
+    border-radius: 999px;
+    background: var(--panel);
+    border: 1px solid var(--border-color);
+    font-weight: 800;
+    color: var(--text-color);
+}
+
+.results-details-container {
+    overflow-y: auto;
+    padding-right: 8px;
+    border-radius: var(--radius-md);
+}
+
+.result-row {
+    display: grid;
+    grid-template-columns: 56px 1fr 1fr 120px;
+    gap: 10px;
+    padding: 11px 8px;
+    border-bottom: 1px solid var(--hairline);
+    font-size: 14px;
+    align-items: center;
+}
+
+.result-row.correct {
+    background-color: rgba(34,165,89,.06);
+}
+
+.result-row.incorrect {
+    background-color: rgba(255,59,48,.06);
+}
+
+.result-row .q-num {
+    font-weight: 800;
+    color: var(--text-color);
+    background: var(--panel);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    width: 42px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.result-row .user-ans {
+    color: var(--text-color);
+    background: var(--panel);
+    border: 1px solid var(--border-color);
+    padding: 4px 9px;
+    border-radius: var(--radius-sm);
+    word-break: break-word;
+}
+
+.result-row .correct-ans {
+    color: var(--correct-color);
+    font-weight: 700;
+    background: var(--correct-bg);
+    border: 1px solid rgba(34,165,89,.3);
+    padding: 4px 9px;
+    border-radius: var(--radius-sm);
+    word-break: break-word;
+}
+
+.status-badge {
+    justify-self: end;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 700;
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+
+.status-badge.ok {
+    background: var(--correct-bg);
+    color: var(--correct-color);
+    border-color: rgba(34,165,89,.3);
+}
+
+.status-badge.bad {
+    background: var(--incorrect-bg);
+    color: var(--incorrect-color);
+    border-color: rgba(255,59,48,.3);
+}
+
+.correct-answer-display {
+    font-weight: 700;
+    color: var(--correct-color);
+    margin-left: 10px;
+    font-size: 13.5px;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-20deg);
+    font-size: 60px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--text-color);
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 0;
+    white-space: nowrap;
+    transition: color 0.3s;
+}
+
+.dark-mode-btn {
+    position: relative;
+}
+
+.dark-mode-btn .sun-icon,
+.dark-mode-btn .moon-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s, transform 0.3s;
+    stroke: currentColor;
+}
+
+.dark-mode-btn .moon-icon {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+
+[data-theme="dark"] .dark-mode-btn .sun-icon {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(-90deg);
+}
+
+[data-theme="dark"] .dark-mode-btn .moon-icon {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+::selection { background: rgba(227,24,55,.25); }
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+.passage-section.hidden, .question-set.hidden { display: none !important; }
+.inline-completion { margin-bottom: 12px; line-height: 2.3; font-size: 14.5px; font-weight: 600; }
+.inline-completion .answer-input { min-width: 190px; }
+.inline-completion .tf-question-number { margin-right: 6px; }
+.compact-select { min-width: 82px !important; }
+.selection-row { display: flex; align-items: center; gap: 10px; margin: 10px 0; flex-wrap: wrap; }
+.selection-row .tf-question-number { margin-right: 0; }
+.question-note { font-style: italic; margin-top: 6px; color: var(--text-2); font-size: 13.5px; }
+
+/* ── Flower Power style explanations ── */
+.res-filter-bar {
+    display: flex;
+    gap: 6px;
+    background: var(--panel);
+    border: 1px solid var(--border-color);
+    padding: 4px;
+    border-radius: 99px;
+    width: fit-content;
+    margin-bottom: 14px;
+}
+
+.res-filter-btn {
+    background: transparent;
+    border: none;
+    border-radius: 99px;
+    padding: 6px 16px;
+    font-size: 12.5px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    color: var(--text-2);
+    transition: background .2s, color .2s;
+}
+
+.res-filter-btn.active {
+    background: var(--accent-fill-strong);
+    color: var(--accent);
+    box-shadow: inset 0 1px 0 var(--glass-hi);
+}
+
+.result-row { align-items: start; }
+.result-row.skipped { background-color: rgba(255,149,0,.07); }
+.status-badge.skip {
+    background: rgba(255,149,0,.16);
+    color: #ff9500;
+    border-color: rgba(255,149,0,.35);
+}
+
+.res-explain-en {
+    grid-column: 1 / -1;
+    font-size: 12.8px;
+    line-height: 1.6;
+    color: var(--text-2);
+    background: var(--panel);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 9px 12px;
+    margin-top: 8px;
+}
+
+.res-explain-uz {
+    grid-column: 1 / -1;
+    font-size: 12.8px;
+    line-height: 1.6;
+    color: var(--text-color);
+    background: var(--accent-light);
+    border-radius: var(--radius-sm);
+    padding: 9px 12px;
+    margin-top: 5px;
+    border-left: 3px solid var(--accent);
+}
+
+.res-explain-en b, .res-explain-uz b { color: var(--accent); }
+
+/* clickable proof sentences inside the passage */
+.ans-highlight {
+    background: rgba(253,224,71,.55);
+    color: var(--text-color);
+    padding: 1px 3px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 2px dotted var(--accent);
+}
+
+[data-theme="dark"] .ans-highlight { background: rgba(253,224,71,.22); }
+.ans-highlight::after { content: ' 💡'; font-size: 11px; }
+
+.inline-explain {
+    display: none;
+    background: var(--accent-light);
+    border: 1px solid var(--accent-ring);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius-sm);
+    padding: 10px 13px;
+    margin: 9px 0;
+    font-size: 12.8px;
+    color: var(--text-color);
+    line-height: 1.65;
+}
+
+.inline-explain.show { display: block; }
+.inline-explain b { color: var(--accent); }
+.inline-explain .ie-en { color: var(--text-2); margin-bottom: 5px; }
+
+.res-tabs {
+    display: flex;
+    gap: 6px;
+    background: var(--panel);
+    border: 1px solid var(--border-color);
+    padding: 4px;
+    border-radius: 99px;
+    width: fit-content;
+    margin: 0 auto 14px;
+    max-width: 100%;
+}
+
+.res-tab {
+    background: transparent;
+    border: none;
+    border-radius: 99px;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    color: var(--text-2);
+    transition: background .2s, color .2s;
+    white-space: nowrap;
+}
+
+.res-tab.active {
+    background: var(--accent-fill-strong);
+    color: var(--accent);
+    box-shadow: inset 0 1px 0 var(--glass-hi);
+}
+
+.analysis-controls {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+}
+
+.mini-btn {
+    background: var(--panel);
+    border: 1.5px solid var(--border-color);
+    border-radius: 99px;
+    padding: 7px 15px;
+    font-size: 12.5px;
+    font-weight: 700;
+    font-family: inherit;
+    color: var(--text-2);
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.mini-btn:hover { border-color: var(--accent-ring); color: var(--accent); }
+.mini-btn.active {
+    background: var(--accent-fill);
+    border-color: var(--accent-ring);
+    color: var(--accent);
+}
+
+.ana-card {
+    border: 1px solid var(--border-color);
+    background: var(--question-bg);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    box-shadow: inset 0 1px 0 var(--glass-hi);
+}
+
+.ana-card.is-correct { border-color: rgba(34,165,89,.3); background: var(--correct-bg); }
+
+.ana-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.ana-num {
+    background: var(--accent-fill-strong);
+    color: var(--accent);
+    border: 1px solid var(--accent-ring);
+    border-radius: 99px;
+    min-width: 34px;
+    height: 26px;
+    padding: 0 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 12.5px;
+}
+
+.ana-card.is-correct .ana-num {
+    background: var(--correct-bg);
+    color: var(--correct-color);
+    border-color: rgba(34,165,89,.35);
+}
+
+.ana-type {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--text-3);
+}
+
+.ana-loc {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-2);
+    margin-left: auto;
+}
+
+.ana-answers {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.ana-chip {
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 4px 11px;
+    border-radius: 99px;
+    border: 1px solid var(--border-color);
+    background: var(--panel);
+    color: var(--text-2);
+}
+
+.ana-chip b { font-weight: 800; }
+.ana-chip.yours { background: var(--incorrect-bg); border-color: rgba(255,59,48,.3); color: var(--incorrect-color); }
+.ana-chip.right { background: var(--correct-bg); border-color: rgba(34,165,89,.3); color: var(--correct-color); }
+
+.ana-key {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--text-color);
+    background: rgba(253,224,71,.22);
+    border-left: 3px solid #eab308;
+    border-radius: var(--radius-sm);
+    padding: 9px 12px;
+    margin-bottom: 10px;
+}
+
+.ana-exp {
+    font-size: 13.2px;
+    line-height: 1.7;
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    margin-bottom: 8px;
+}
+
+.ana-exp .flag {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin-right: 8px;
+    padding: 2px 8px;
+    border-radius: 99px;
+}
+
+.ana-en { background: var(--panel); border: 1px solid var(--border-color); color: var(--text-color); }
+.ana-en .flag { background: rgba(0,136,204,.14); color: #0f8fd6; }
+.ana-uz { background: var(--accent-light); border: 1px solid var(--accent-ring); color: var(--text-color); }
+.ana-uz .flag { background: var(--accent-fill-strong); color: var(--accent); }
+
+.ana-tip {
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--text-2);
+    border-top: 1px dashed var(--border-color);
+    padding-top: 9px;
+    margin-top: 2px;
+}
+
+.ana-tip b { color: var(--accent); }
+
+.ana-empty {
+    text-align: center;
+    padding: 30px 16px;
+    color: var(--text-2);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.ana-empty .big { font-size: 34px; display: block; margin-bottom: 8px; }
+
+.ana-summary {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.ana-stat {
+    flex: 1 1 130px;
+    background: var(--panel);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+}
+
+.ana-stat .v { font-size: 17px; font-weight: 800; color: var(--text-color); }
+.ana-stat .l { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-3); margin-top: 2px; }
+
+#fullscreen-btn .fs-close { display: none; }
+body.is-fullscreen #fullscreen-btn .fs-open { display: none; }
+body.is-fullscreen #fullscreen-btn .fs-close { display: block; }
+
+@media (max-width: 640px) {
+  .telegram-link { display: none; }
+  .res-tab { padding: 8px 12px; font-size: 12px; }
+  .ana-loc { margin-left: 0; width: 100%; }
+}
+
+@media (max-width: 900px) {
+  .header { left: 8px; right: 8px; padding: 8px 12px; }
+  .telegram-link { font-size: 12px; padding: 5px 10px; }
+  .header-left { gap: 10px; }
+  .header-right { gap: 8px; }
+  .timer-display { min-width: 56px; padding: 5px 10px; font-size: 14px; }
+  .panels-container { flex-direction: column; overflow-y: auto; margin: 8px 8px 96px; gap: 8px; }
+  .passage-panel, .questions-panel { min-height: 46vh; overflow-y: visible; padding: 20px 18px 30px; }
+  .questions-panel { border-left: 1px solid var(--glass-hi); }
+  .resizer { display: none; }
+  .part-header { margin: 8px 8px 0; }
+  .main-container { height: auto; min-height: calc(100vh - 66px); padding-bottom: 96px; }
+  .nav-row { overflow-x: auto; left: 8px; right: 8px; padding: 0 10px; }
+  .nav-arrows { bottom: 96px; right: 14px; }
+}
+
+.brand-logo {
+    height: 34px;
+    width: 34px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent-ring);
+    box-shadow: inset 0 1px 0 var(--glass-hi), 0 4px 12px rgba(227,24,55,.18);
+    background: #fff;
+    flex-shrink: 0;
+}
+</style>
+</head>
+
+<body data-theme="light">
+<div class="liquid-bg"><span></span><span></span><span></span></div>
+<div class="header">
+  <div class="header-left">
+    <img src="https://d2snzxottmona5.cloudfront.net/releases/3.46.0/images/logo/ielts.svg" alt="IELTS Logo" class="ielts-logo">
+    <img src="data:image/png;base64,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" alt="reading_cdi" class="brand-logo">
+    
+  </div>
+  <div class="header-right"><div class="timer-container"><span class="timer-display">20:00</span><div class="timer-controls">
+    <button id="timer-toggle-btn" title="Pause/Resume Timer"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8 5v14l11-7L8 5z"/></svg></button>
+    <button id="timer-reset-btn" title="Reset Timer"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg></button>
+  </div><button class="dark-mode-btn" id="fullscreen-btn" title="Fullscreen">
+  <svg class="fs-open" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <svg class="fs-close" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button><button class="dark-mode-btn" id="dark-mode-toggle" title="Toggle Dark Mode">
+  <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button></div></div>
+</div>
+<div class="main-container" id="main-container"><div id="passage-header-container">
+<div id="part-header-2" class="part-header passage-header"><p><strong>Reading Passage 2 — Can a global database of fossils help us predict the future of biodiversity on Earth?</strong></p><p>You should spend about 20 minutes on Questions 14–26.</p></div></div>
+<div class="panels-container"><div class="passage-panel" id="passage-panel">
+<div id="passage-text-2" class="reading-passage passage-section">
+<h4>Can a global database of fossils help us predict the future of biodiversity on Earth?</h4><p><em>The history of life on Earth includes five major extinction episodes, which have each destroyed at least three quarters of all species, followed by life’s resurgence. Whether we are now living through a sixth episode is not certain as we don’t have a clear picture of how life changes between extinction events, or what has happened in previous episodes. A new project aims to fill some of the gaps.</em></p>
+<p><strong>A</strong> The Paleobiology Database aims to be an online collection of information about every fossil* ever dug up. Its organisers hope that by recording the history of biodiversity they will gain an insight into how environmental changes have shaped life on Earth in the past, and how they might do so in the future. However, some experts believe the project to be seriously flawed, claiming that the fossil record is riddled with holes and biases. Others point out that, even if all current fossil finds were catalogued, they would provide an incomplete inventory of life because we are far from discovering every fossilised species. The disagreement has opened up a debate about the value of trying to measure biodiversity. Advocates of the Paleobiology Database acknowledge that the fossil record will always be incomplete, but they see value in looking for global patterns that show relative changes in biodiversity, claiming that an estimate of the rate of extinctions in the past provides a benchmark for determining the relative gravity of the mass extinction that is currently underway.</p>
+<p><strong>B</strong> To this end, scientists around the world regularly add information about fossil finds to the Paleobiology Database. Already the database has thrown up some surprising results. John Alroy and his colleagues from the National Centre for Ecological Analysis and Synthesis in Santa Barbara believe they have found evidence that biodiversity reached a plateau long ago, contrary to the received wisdom that species numbers have increased continuously between extinction events. This evidence suggests that only a certain number of species can live on Earth at one time, filling a prescribed number of niches. Once it is full, no more species can squeeze in, until extinctions free up new spaces. So the current extinction episode might lead to a rapid burst of evolution over the next few million years.</p>
+<p><strong>C</strong> Alroy has also used the database to check species names. He suggests that irregularities in classification inflate the overall number of species in the fossil record by between 32 and 44 per cent. Single species often end up with several names, he says, due to misidentification, or poor communication between taxonomists in different countries. Repetition can distort diversity curves. ‘If you have a really bad taxonomy in one short interval, it will look like a diversity spike – a big diversification followed by a big extinction – when all that has happened is a change in the quality of the names,’ says Alroy.</p>
+<p><strong>D</strong> The fossil record is undeniably patchy. Some places have been more thoroughly investigated than others. And certain types of creatures – those with hard parts that lived in oceans, for example – are more likely to leave a record behind, while others, like the jellyfish, will always remain a mystery. Alroy has tried to make allowances for this in his calculations. He estimates, for example, that only 41 percent of North American mammals that have ever lived are known from fossils, and he suspects that a similar proportion of fossils are missing from other groups such as fungi and insects.</p>
+<p><strong>E</strong> Not everyone is impressed with this mathematical wizardry. Jonathon Adrain from the University of Iowa points out that it is easy to misinterpret statistics and says that mistakes have been known to create mass extinctions where none occurred. For example, changes in sea level or inconsistent sampling methods can mimic major changes in biodiversity. Adrain believes that fancy analytical techniques are no substitute for hard evidence, but he has also seen how unhelpful historical collections can be. He claims the answer is to get out and search for new data.</p>
+<p><strong>F</strong> Other people argue that whatever the scale of the Paleobiology Database, simply counting and documenting past species will give little insight into the current diversity crisis. According to David Jablonsky from the University of Chicago, this approach fails to account for how species relate to each other and to the world around them. ‘I’m not claiming that every single beetle in the Amazon forest is essential,’ he says, ‘but some may be crucial as pollinators or links in the food chain. It’s all tied together.’ This suggests that even if species are not yet disappearing at the same rate as they did in past extinctions, disrupting the balance of nature may endanger entire ecosystems.</p>
+<p><strong>G</strong> A complete Paleobiology Database might allow scientists to compare today’s extinctions to patterns in the past. But predictions about what will happen next depend on our knowledge of the species alive today, which is far from certain. Fewer than two million species have been identified, but most experts suspect the total falls between 10 and 20 million. If they had a database of all living species, ecologists could start to put the current biodiversity crisis in historical perspective. Although creating such a list would be a task to rival the Paleobiology Database, it is exactly what the San Francisco-based ALL Species Foundation hopes to achieve in the next 25 years.</p>
+<p><em>* fossil: the remains of a former living thing preserved in rock</em></p>
+</div></div><div class="resizer" id="resizer"></div><div class="questions-panel" id="questions-panel">
+<div id="questions-2" class="question-set"><div class="questions-container">
+<div class="question" data-q-start="14" data-q-end="20"><div class="question-prompt"><p><strong>Questions 14–20</strong></p><p>Reading Passage 2 has seven paragraphs, <strong>A–G</strong>.</p><p>Choose the correct heading for each paragraph from the list of headings below.</p><p>Write the correct number, <strong>i–viii</strong>.</p></div><div class="part-header headings-box"><p><strong>List of Headings</strong></p><p><strong>i</strong>&nbsp; Why some species are not on the database</p><p><strong>ii</strong>&nbsp; One group’s unexpected findings</p><p><strong>iii</strong>&nbsp; Plans for a database of existing species</p><p><strong>iv</strong>&nbsp; The purpose of the fossil database</p><p><strong>v</strong>&nbsp; How publicity for the project is being created</p><p><strong>vi</strong>&nbsp; Why it is necessary to consider the role played by different species</p><p><strong>vii</strong>&nbsp; Inaccuracies caused by multiple entries for the same species</p><p><strong>viii</strong>&nbsp; Potential errors make it necessary to hunt for more real fossils</p></div><div class="tf-question" data-q-start="14" data-q-end="14">
+  <div class="tf-question-line"><span class="tf-question-number">14</span><span class="tf-question-text">Paragraph A</span>
+  <select class="answer-input compact-select" id="q14"><option value="">--</option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option></select></div></div><div class="tf-question" data-q-start="15" data-q-end="15">
+  <div class="tf-question-line"><span class="tf-question-number">15</span><span class="tf-question-text">Paragraph B</span>
+  <select class="answer-input compact-select" id="q15"><option value="">--</option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option></select></div></div><div class="tf-question" data-q-start="16" data-q-end="16">
+  <div class="tf-question-line"><span class="tf-question-number">16</span><span class="tf-question-text">Paragraph C</span>
+  <select class="answer-input compact-select" id="q16"><option value="">--</option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option></select></div></div><div class="tf-question" data-q-start="17" data-q-end="17">
+  <div class="tf-question-line"><span class="tf-question-number">17</span><span class="tf-question-text">Paragraph D</span>
+  <select class="answer-input compact-select" id="q17"><option value="">--</option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option></select></div></div><div class="tf-question" data-q-start="18" data-q-end="18">
+  <div class="tf-question-line"><span class="tf-question-number">18</span><span class="tf-question-text">Paragraph E</span>
+  <select class="answer-input compact-select" id="q18"><option value="">--</option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option></select></div></div><div class="tf-question" data-q-start="19" data-q-end="19">
+  <div class="tf-question-line"><span class="tf-question-number">19</span><span class="tf-question-text">Paragraph F</span>
+  <select class="answer-input compact-select" id="q19"><option value="">--</option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option></select></div></div><div class="tf-question" data-q-start="20" data-q-end="20">
+  <div class="tf-question-line"><span class="tf-question-number">20</span><span class="tf-question-text">Paragraph G</span>
+  <select class="answer-input compact-select" id="q20"><option value="">--</option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option></select></div></div></div><div class="question" data-q-start="21" data-q-end="22"><div class="question-prompt"><p><strong>Questions 21 and 22</strong></p><p>According to the article, which <strong>TWO</strong> of the following statements are true of the Paleobiology Database?</p><p>Choose <strong>TWO</strong> letters, <strong>A–E</strong>.</p></div><div class="part-header headings-box"><p><strong>A</strong>&nbsp; It contains a record of all known fossils.</p><p><strong>B</strong>&nbsp; It has produced mixed views among experts.</p><p><strong>C</strong>&nbsp; It has been rewritten several times.</p><p><strong>D</strong>&nbsp; It includes entries from many parts of the globe.</p><p><strong>E</strong>&nbsp; It indicates that species numbers are still rising.</p></div><div class="tf-question" data-q-start="21" data-q-end="21">
+  <div class="tf-question-line"><span class="tf-question-number">21</span><span class="tf-question-text">Select one of the TWO correct answers.</span>
+  <select class="answer-input compact-select" id="q21"><option value="">--</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option></select></div></div><div class="tf-question" data-q-start="22" data-q-end="22">
+  <div class="tf-question-line"><span class="tf-question-number">22</span><span class="tf-question-text">Select the other correct answer.</span>
+  <select class="answer-input compact-select" id="q22"><option value="">--</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option></select></div></div></div><div class="question" data-q-start="23" data-q-end="26"><div class="question-prompt"><p><strong>Questions 23–26</strong></p><p>Complete each sentence with the correct ending, <strong>A–F</strong>, below.</p></div><div class="part-header headings-box"><p><strong>Sentence Endings</strong></p><p><strong>A</strong>&nbsp; living animals rather than just fossils.</p><p><strong>B</strong>&nbsp; the range of species already contained in the fossil file.</p><p><strong>C</strong>&nbsp; creatures that exist in small numbers.</p><p><strong>D</strong>&nbsp; a species that is hard to detect in fossil form.</p><p><strong>E</strong>&nbsp; the danger of relying on data alone.</p><p><strong>F</strong>&nbsp; the effect of one species on others.</p></div><div class="tf-question" data-q-start="23" data-q-end="23">
+  <div class="tf-question-line"><span class="tf-question-number">23</span><span class="tf-question-text">The jellyfish is given as an example of</span>
+  <select class="answer-input compact-select" id="q23"><option value="">--</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option></select></div></div><div class="tf-question" data-q-start="24" data-q-end="24">
+  <div class="tf-question-line"><span class="tf-question-number">24</span><span class="tf-question-text">One thing Adrain highlights is</span>
+  <select class="answer-input compact-select" id="q24"><option value="">--</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option></select></div></div><div class="tf-question" data-q-start="25" data-q-end="25">
+  <div class="tf-question-line"><span class="tf-question-number">25</span><span class="tf-question-text">In Jablonsky’s opinion it is vital to investigate</span>
+  <select class="answer-input compact-select" id="q25"><option value="">--</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option></select></div></div><div class="tf-question" data-q-start="26" data-q-end="26">
+  <div class="tf-question-line"><span class="tf-question-number">26</span><span class="tf-question-text">The writer concludes that scientists should also focus on</span>
+  <select class="answer-input compact-select" id="q26"><option value="">--</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option></select></div></div></div>
+</div></div></div></div></div>
+<div class="nav-arrows"><button class="nav-arrow prev" onclick="previousQuestion()" id="prevBtn" aria-label="Previous question"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="nav-arrow next" onclick="nextQuestion()" id="nextBtn" aria-label="Next question"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+<nav class="nav-row perScorableItem" aria-label="Questions"><div class="footer__questionWrapper___1tZ46 selected multiple" role="tablist">
+    <button role="tab" class="footer__questionNo___3WNct" onclick="switchToPart(2)"><span><span aria-hidden="true" class="section-prefix">Passage </span><span class="sectionNr" aria-hidden="true">2</span><span class="attemptedCount" aria-hidden="true">0 of 13</span></span></button>
+    <div class="footer__subquestionWrapper___9GgoP"><button class="subQuestion scorable-item" onclick="goToQuestion(14)"><span class="sr-only">Question 14</span><span aria-hidden="true">14</span></button><button class="subQuestion scorable-item" onclick="goToQuestion(15)"><span class="sr-only">Question 15</span><span aria-hidden="true">15</span></button><button class="subQuestion scorable-item" onclick="goToQuestion(16)"><span class="sr-only">Question 16</span><span aria-hidden="true">16</span></button><button class="subQuestion scorable-item" onclick="goToQuestion(17)"><span class="sr-only">Question 17</span><span aria-hidden="true">17</span></button><button class="subQuestion scorable-item" onclick="goToQuestion(18)"><span class="sr-only">Question 18</span><span aria-hidden="true">18</span></button><button class="subQuestion scorable-item" onclick="goToQuestion(19)"><span class="sr-only">Question 19</span><span aria-hidden="true">19</span></button><button class="subQuestion scorable-item" onclick="goToQuestion(20)"><span class="sr-only">Question 20</span><span aria-hidden="true">20</span></button><button class="subQuestion scorable-item" onclick="goToQuestion(21)"><span class="sr-only">Question 21</span><span aria-hidden="true">21</span></button><button class="subQuestion scorable-item" onclick="goToQuestion(22)"><span class="sr-only">Question 22</span><span aria-hidden="true">22</span></button><button class="subQuestion scorable-item" onclick="goToQuestion(23)"><span class="sr-only">Question 23</span><span aria-hidden="true">23</span></button><button class="subQuestion scorable-item" onclick="goToQuestion(24)"><span class="sr-only">Question 24</span><span aria-hidden="true">24</span></button><button class="subQuestion scorable-item" onclick="goToQuestion(25)"><span class="sr-only">Question 25</span><span aria-hidden="true">25</span></button><button class="subQuestion scorable-item" onclick="goToQuestion(26)"><span class="sr-only">Question 26</span><span aria-hidden="true">26</span></button></div></div>
+<button id="deliver-button" aria-label="Check your answers" class="footer__deliverButton___3FM07"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg><span>Check Answers</span></button></nav>
+<div id="contextMenu" class="context-menu"><div id="menu-highlight" class="context-menu-item" onclick="highlightText()">Highlight</div><div id="menu-note" class="context-menu-item" onclick="addNote()">Note</div><div id="menu-clear" class="context-menu-item" onclick="clearHighlight()">Clear</div></div>
+<div id="results-modal" class="modal-overlay hidden"><div class="modal-content"><button class="modal-close-btn" onclick="closeResultsModal()">&times;</button><h2>Results</h2>
+<div class="results-summary"><p>Score: <span id="results-score"></span> / 13</p><p>Accuracy: <span id="results-band"></span></p><p>Mistakes: <span id="results-wrong"></span></p></div>
+<div class="res-tabs">
+  <button class="res-tab active" id="tab-results" onclick="showResultsTab()">Results</button>
+  <button class="res-tab" id="tab-analysis" onclick="showAnalysisTab()">Analysis &amp; Explanations</button>
+</div>
+<div class="res-filter-bar">
+  <button class="res-filter-btn active" data-filter="all" onclick="setResFilter('all',this)">All</button>
+  <button class="res-filter-btn" data-filter="incorrect" onclick="setResFilter('incorrect',this)">Wrong</button>
+  <button class="res-filter-btn" data-filter="skipped" onclick="setResFilter('skipped',this)">Skipped</button>
+</div>
+<div id="results-details" class="results-details-container"></div>
+<div id="analysis-details" class="results-details-container hidden">
+  <div class="analysis-controls">
+    <button class="mini-btn active" id="btn-only-wrong" onclick="setAnalysisScope('wrong')">My mistakes</button>
+    <button class="mini-btn" id="btn-all-q" onclick="setAnalysisScope('all')">All questions</button>
+  </div>
+  <div id="analysis-body"></div>
+</div>
+</div></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const FIRST_Q = 14, LAST_Q = 26, TOTAL_Q = 13, TEST_SECONDS = 1200;
+  let currentPassage = 2;
+  let currentQuestion = FIRST_Q;
+  let selectedRange = null;
+  let timeInSeconds = TEST_SECONDS;
+  let timerInterval = null;
+  let timerRunning = false;
+
+  const partRanges = {2:[FIRST_Q,LAST_Q]};
+  const correctAnswers = {14:"iv",15:"ii",16:"vii",17:"i",18:"viii",19:"vi",20:"iii",21:["B", "D"],22:["B", "D"],23:"D",24:"E",25:"F",26:"A"};
+
+
+  const explanations = {"14": {"type": "Matching Headings", "en": "iv — Paragraph A states what the database is for: 'Its organisers hope that by recording the history of biodiversity they will gain an insight into how environmental changes have shaped life on Earth in the past, and how they might do so in the future.' That is the purpose of the fossil database. Trap: 'i Why some species are not on the database' is touched on here, but it is only one objection — the paragraph as a whole is about aims.", "uz": "iv — A paragrafi ma'lumotlar bazasi nima uchun kerakligini aytadi: 'Tashkilotchilar bioxilma-xillik tarixini yozib borish orqali atrof-muhit o'zgarishlari o'tmishda Yerdagi hayotni qanday shakllantirgani va kelajakda qanday shakllantirishi mumkinligini tushunib olamiz deb umid qilishadi.' Bu — fotoqoldiqlar bazasining maqsadi. Tuzoq: 'i' bu yerda biroz tilga olinadi, lekin u faqat bitta e'tiroz — paragrafning o'zi maqsad haqida."}, "15": {"type": "Matching Headings", "en": "ii — Paragraph B reports a single team's surprising result: John Alroy and his colleagues 'believe they have found evidence that biodiversity reached a plateau long ago, contrary to the received wisdom that species numbers have increased continuously.' 'Contrary to the received wisdom' = unexpected findings by one group.", "uz": "ii — B paragrafi bitta jamoaning kutilmagan natijasini keltiradi: John Alroy va hamkasblari 'bioxilma-xillik ancha oldin barqaror darajaga chiqqani haqida dalil topdik deb hisoblashadi — bu turlar soni to'xtovsiz ortib borgan degan umumqabul qarashga zid.' 'Umumqabul qarashga zid' = bir guruhning kutilmagan topilmasi."}, "16": {"type": "Matching Headings", "en": "vii — Paragraph C is about duplicated names: 'Single species often end up with several names, he says, due to misidentification, or poor communication between taxonomists.' Several names for one species inflate the count by '32 and 44 per cent' — exactly 'inaccuracies caused by multiple entries for the same species'.", "uz": "vii — C paragrafi takrorlangan nomlar haqida: 'Bitta tur ko'pincha bir necha nom bilan qayd etiladi — noto'g'ri aniqlash yoki taksonomistlar orasidagi yomon aloqa tufayli.' Bitta turning bir necha nomi umumiy sonni '32 dan 44 foizgacha' shishiradi — bu aynan 'bir turning bir necha marta kiritilishi natijasidagi xatoliklar'."}, "17": {"type": "Matching Headings", "en": "i — Paragraph D explains the gaps: 'Some places have been more thoroughly investigated than others', and creatures with hard parts leave records 'while others, like the jellyfish, will always remain a mystery.' These are the reasons certain species never make it into the database.", "uz": "i — D paragrafi bo'shliqlarni tushuntiradi: 'Ba'zi joylar boshqalariga qaraganda puxtaroq o'rganilgan', qattiq qismli jonzotlar iz qoldiradi, 'meduza kabilar esa doim sir bo'lib qoladi.' Bular ayrim turlar bazaga umuman tushmasligining sabablari."}, "18": {"type": "Matching Headings", "en": "viii — Paragraph E is Adrain's objection plus his solution: statistics can 'create mass extinctions where none occurred', and 'He claims the answer is to get out and search for new data.' Possible statistical errors, therefore go and find real fossils.", "uz": "viii — E paragrafi Adrainning e'tirozi va uning yechimi: statistika 'aslida bo'lmagan ommaviy qirilishlarni yaratib qo'yishi' mumkin, va 'Uning fikricha, yechim — dala ishiga chiqib yangi ma'lumot izlash.' Ya'ni statistik xato ehtimoli borligi uchun haqiqiy fotoqoldiqlarni qidirish kerak."}, "19": {"type": "Matching Headings", "en": "vi — Paragraph F argues that counting is not enough: 'simply counting and documenting past species will give little insight into the current diversity crisis', because the approach 'fails to account for how species relate to each other'. Some species may be 'crucial as pollinators or links in the food chain' — that is why their role must be considered.", "uz": "vi — F paragrafi sanashning o'zi yetarli emasligini aytadi: 'o'tmish turlarini shunchaki sanash va qayd etish hozirgi xilma-xillik inqirozini tushunishga deyarli yordam bermaydi', chunki bu yondashuv 'turlar bir-biriga qanday bog'liqligini hisobga olmaydi'. Ayrim turlar 'changlatuvchi yoki oziq zanjiridagi bo'g'in sifatida hal qiluvchi' bo'lishi mumkin — shu bois ularning roli hisobga olinishi kerak."}, "20": {"type": "Matching Headings", "en": "iii — Paragraph G turns to a second, future database: 'creating such a list would be a task to rival the Paleobiology Database, it is exactly what the San Francisco-based ALL Species Foundation hopes to achieve in the next 25 years.' A planned list of all species alive today.", "uz": "iii — G paragrafi ikkinchi, kelajakdagi bazaga o'tadi: 'bunday ro'yxatni tuzish Paleobiology Database bilan bellasha oladigan vazifa bo'lardi, ammo aynan shuni San-Fransiskodagi ALL Species Foundation keyingi 25 yil ichida amalga oshirmoqchi.' Ya'ni bugungi tirik turlar ro'yxatini tuzish rejasi."}, "21": {"type": "Multiple Choice (choose TWO/THREE)", "en": "B (with D) — Paragraph A: 'However, some experts believe the project to be seriously flawed... Advocates of the Paleobiology Database acknowledge that the fossil record will always be incomplete, but they see value in looking for global patterns.' Critics on one side, advocates on the other = it has produced mixed views among experts.", "uz": "B (D bilan birga) — A paragrafi: 'Biroq ba'zi mutaxassislar loyihani jiddiy nuqsonli deb hisoblaydi... Paleobiology Database tarafdorlari esa fotoqoldiqlar yozuvi doim to'liqsiz bo'lishini tan olishadi, lekin global naqshlarni izlashda ma'no ko'rishadi.' Bir tomonda tanqidchilar, ikkinchi tomonda tarafdorlar = mutaxassislar fikri ikkiga bo'lingan."}, "22": {"type": "Multiple Choice (choose TWO/THREE)", "en": "D (with B) — Paragraph B: 'scientists around the world regularly add information about fossil finds to the Paleobiology Database.' Scientists around the world = entries from many parts of the globe. Trap A is wrong because the passage says 'we are far from discovering every fossilised species'; trap E is wrong because Alroy's evidence says diversity 'reached a plateau', i.e. numbers are NOT still rising.", "uz": "D (B bilan birga) — B paragrafi: 'dunyo bo'ylab olimlar Paleobiology Database ga fotoqoldiq topilmalari haqidagi ma'lumotni muntazam qo'shib boradi.' Dunyo bo'ylab olimlar = yer yuzining ko'p joylaridan kelgan yozuvlar. A tuzoq, chunki matnda 'biz har bir toshqotgan turni kashf etishdan hali uzoqmiz' deyilgan; E tuzoq, chunki Alroyning dalili xilma-xillik 'barqaror darajaga chiqqanini' aytadi, ya'ni son ortib bormayapti."}, "23": {"type": "Sentence Endings", "en": "D — Paragraph D: creatures with hard parts 'are more likely to leave a record behind, while others, like the jellyfish, will always remain a mystery.' A jellyfish has no hard parts, so it almost never fossilises = a species that is hard to detect in fossil form.", "uz": "D — D paragrafi: qattiq qismli jonzotlar 'iz qoldirishi ehtimoli yuqoriroq, meduza kabi boshqalari esa doim sir bo'lib qoladi.' Meduzada qattiq qism yo'q, shuning uchun u deyarli hech qachon toshqotmaydi = fotoqoldiq shaklida aniqlash qiyin bo'lgan tur."}, "24": {"type": "Sentence Endings", "en": "E — Paragraph E: Adrain 'points out that it is easy to misinterpret statistics and says that mistakes have been known to create mass extinctions where none occurred', and that 'fancy analytical techniques are no substitute for hard evidence.' That is the danger of relying on data alone.", "uz": "E — E paragrafi: Adrain 'statistikani noto'g'ri talqin qilish oson ekanini va xatolar aslida bo'lmagan ommaviy qirilishlarni yaratib qo'ygan hollari borligini ta'kidlaydi', hamda 'chiroyli tahliliy usullar qattiq dalilning o'rnini bosa olmaydi' deydi. Bu — faqat ma'lumotga tayanishning xavfi."}, "25": {"type": "Sentence Endings", "en": "F — Paragraph F: according to Jablonsky the counting approach 'fails to account for how species relate to each other and to the world around them', and some beetles 'may be crucial as pollinators or links in the food chain'. That is the effect of one species on others. Trap C ('creatures that exist in small numbers') is not his point — he is talking about relationships, not rarity.", "uz": "F — F paragrafi: Jablonskyning fikricha, sanashga asoslangan yondashuv 'turlar bir-biriga va atrofdagi olamga qanday bog'liqligini hisobga olmaydi', ba'zi qo'ng'izlar esa 'changlatuvchi yoki oziq zanjiridagi bo'g'in sifatida hal qiluvchi' bo'lishi mumkin. Bu — bir turning boshqalarga ta'siri. C tuzoq ('kam sonli jonzotlar') — u kamyoblik haqida emas, bog'liqlik haqida gapiryapti."}, "26": {"type": "Sentence Endings", "en": "A — Paragraph G: 'predictions about what will happen next depend on our knowledge of the species alive today' and 'If they had a database of all living species, ecologists could start to put the current biodiversity crisis in historical perspective.' So the writer concludes that living animals, not only fossils, must be catalogued.", "uz": "A — G paragrafi: 'keyin nima bo'lishi haqidagi bashoratlar bugun tirik bo'lgan turlar haqidagi bilimimizga bog'liq' va 'Agar ularda barcha tirik turlar bazasi bo'lsa, ekologlar hozirgi bioxilma-xillik inqirozini tarixiy nuqtai nazardan baholay boshlagan bo'lardi.' Demak, muallif nafaqat fotoqoldiqlar, balki tirik hayvonlar ham ro'yxatga olinishi kerak degan xulosaga keladi."}};
+  const HIGHLIGHTS = [{"q": 14, "txt": "Its organisers hope that by recording the history of biodiversity they will gain an insight"}, {"q": 15, "txt": "believe they have found evidence that biodiversity reached a plateau long ago"}, {"q": 16, "txt": "Single species often end up with several names"}, {"q": 17, "txt": "Some places have been more thoroughly investigated than others"}, {"q": 18, "txt": "He claims the answer is to get out and search for new data"}, {"q": 19, "txt": "simply counting and documenting past species will give little insight into the current diversity crisis"}, {"q": 20, "txt": "creating such a list would be a task to rival the Paleobiology Database"}, {"q": 21, "txt": "However, some experts believe the project to be seriously flawed"}, {"q": 22, "txt": "scientists around the world regularly add information about fossil finds to the Paleobiology Database"}, {"q": 23, "txt": "others, like the jellyfish, will always remain a mystery"}, {"q": 24, "txt": "it is easy to misinterpret statistics and says that mistakes have been known to create mass extinctions"}, {"q": 25, "txt": "fails to account for how species relate to each other and to the world around them"}, {"q": 26, "txt": "If they had a database of all living species, ecologists could start to put the current biodiversity crisis"}];
+  const typeTips = {"Matching Headings": {"en": "Read the first and last sentence of the paragraph first, then match the general idea — not a single repeated word.", "uz": "Avval paragrafning birinchi va oxirgi jumlasini o'qing, so'ng umumiy g'oyaga moslang — takrorlangan bitta so'zga emas."}, "True / False / Not Given": {"en": "FALSE needs the text to say the opposite. If the text simply does not mention it, it is NOT GIVEN.", "uz": "FALSE uchun matn teskarisini aytishi shart. Agar matnda umuman aytilmagan bo'lsa — NOT GIVEN."}, "Yes / No / Not Given": {"en": "These test the writer's OPINION. Look for evaluative words such as 'I am skeptical' or 'seems to be going too far'.", "uz": "Bu savollar muallif FIKRINI tekshiradi. 'I am skeptical', 'going too far' kabi baholovchi so'zlarni qidiring."}, "Multiple Choice": {"en": "Find the answer in the paragraph the question refers to, and reject options that add information the writer never gives.", "uz": "Javobni savol ko'rsatgan paragrafdan toping va muallif aytmagan ma'lumot qo'shgan variantlarni rad eting."}, "Matching Information (paragraphs)": {"en": "Look for the specific detail (a number, an example, a procedure), not the paragraph's main topic.", "uz": "Paragrafning asosiy mavzusini emas, aniq detalni (raqam, misol, jarayon) qidiring."}, "Matching Features (people)": {"en": "Underline each name in the passage first, then read only that person's sentences.", "uz": "Avval matndagi har bir ismni chizib chiqing, keyin faqat o'sha odamning jumlalarini o'qing."}, "Summary / Notes Completion": {"en": "Decide the word class needed (noun, plural, date) before you search, and copy the words exactly.", "uz": "Qidirishdan oldin qanday so'z turkumi kerakligini (ot, ko'plik, sana) aniqlang va so'zni aynan ko'chiring."}, "Summary with Word List": {"en": "Predict the meaning first, then find the word in the list that matches it and fits the grammar.", "uz": "Avval ma'noni taxmin qiling, so'ng ro'yxatdan mos keladigan va grammatikaga to'g'ri keladigan so'zni toping."}, "Sentence Endings": {"en": "Read the question stem and predict the meaning of the ending before looking at the options; then match grammar.", "uz": "Variantlarga qarashdan oldin jumla oxiri qanday ma'noda bo'lishini taxmin qiling; keyin grammatikaga moslang."}, "Multiple Choice (choose TWO/THREE)": {"en": "Check who did what: many wrong options are true facts, but about a different person or rejected by the writer.", "uz": "Kim nima qilganini tekshiring: ko'p noto'g'ri variantlar rost fakt, lekin boshqa odam haqida yoki muallif rad etgan."}};
+
+  const body = document.body;
+  const darkModeToggle = document.getElementById('dark-mode-toggle');
+  const fullscreenBtn = document.getElementById('fullscreen-btn');
+  const timerDisplay = document.querySelector('.timer-display');
+  const timerToggleButton = document.getElementById('timer-toggle-btn');
+  const timerResetButton = document.getElementById('timer-reset-btn');
+  const deliverButton = document.getElementById('deliver-button');
+  const resizer = document.getElementById('resizer');
+  const passagePanel = document.getElementById('passage-panel');
+  const questionsPanel = document.getElementById('questions-panel');
+  const contextMenu = document.getElementById('contextMenu');
+  const playIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8 5v14l11-7L8 5z"/></svg>';
+  const pauseIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+
+
+  function esc(str){ return String(str??'').replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+  function toggleFullscreen() {
+    const doc = document.documentElement;
+    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+      (doc.requestFullscreen || doc.webkitRequestFullscreen || (()=>{})).call(doc);
+    } else {
+      (document.exitFullscreen || document.webkitExitFullscreen || (()=>{})).call(document);
+    }
+  }
+  function syncFullscreenIcon() {
+    const on = !!(document.fullscreenElement || document.webkitFullscreenElement);
+    body.classList.toggle('is-fullscreen', on);
+    fullscreenBtn.title = on ? 'Exit fullscreen' : 'Fullscreen';
+  }
+  fullscreenBtn.addEventListener('click', toggleFullscreen);
+  document.addEventListener('fullscreenchange', syncFullscreenIcon);
+  document.addEventListener('webkitfullscreenchange', syncFullscreenIcon);
+  document.addEventListener('keydown', e => { if (e.key === 'F11') { e.preventDefault(); toggleFullscreen(); } });
+
+  let resFilter = 'all';
+  window.setResFilter = (f, btn) => {
+    resFilter = f;
+    document.querySelectorAll('.res-filter-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    let shown = 0;
+    document.querySelectorAll('#results-details .result-row').forEach(row => {
+      const hit = (f === 'all') || row.dataset.status === f;
+      row.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    });
+    const empty = document.getElementById('res-empty');
+    if (empty) empty.style.display = shown ? 'none' : 'block';
+  };
+
+  function highlightPassage() {
+    document.querySelectorAll('.reading-passage p').forEach(p => {
+      const html = p.innerHTML;
+      const hits = [];
+      HIGHLIGHTS.forEach(t => {
+        const idx = html.toLowerCase().indexOf(t.txt.toLowerCase());
+        if (idx !== -1) hits.push({idx, len: t.txt.length, q: t.q});
+      });
+      if (!hits.length) return;
+      hits.sort((a,b) => b.idx - a.idx);
+      let out = html;
+      hits.forEach(h => {
+        const ex = explanations[h.q] || {en:'',uz:''};
+        const piece = out.slice(h.idx, h.idx + h.len);
+        out = out.slice(0, h.idx) +
+          `<span class="ans-highlight" data-q="${h.q}">${piece}</span>` +
+          `<span class="inline-explain" id="inline-explain-${h.q}"><div class="ie-en"><b>Q${h.q} — Why:</b> ${esc(ex.en)}</div><div><b>Tushuntirish:</b> ${esc(ex.uz)}</div></span>` +
+          out.slice(h.idx + h.len);
+      });
+      p.innerHTML = out;
+    });
+    document.querySelectorAll('.ans-highlight').forEach(h => {
+      h.addEventListener('click', () => {
+        const note = document.getElementById('inline-explain-' + h.dataset.q);
+        if (note) note.classList.toggle('show');
+      });
+    });
+  }
+
+  let analysisScope = 'wrong';
+  let lastResults = [];
+
+  function renderAnalysis() {
+    const holder = document.getElementById('analysis-body');
+    const wrong = lastResults.filter(r => !r.ok);
+    const rows = analysisScope === 'wrong' ? wrong : lastResults;
+    const typeCount = {};
+    wrong.forEach(r => { const t = (explanations[r.q]||{}).type || 'Other'; typeCount[t] = (typeCount[t]||0)+1; });
+    const weakest = Object.entries(typeCount).sort((a,b)=>b[1]-a[1])[0];
+    const head = `<div class="ana-summary">
+        <div class="ana-stat"><div class="v">${lastResults.length - wrong.length} / ${lastResults.length}</div><div class="l">Correct</div></div>
+        <div class="ana-stat"><div class="v">${wrong.length}</div><div class="l">Mistakes</div></div>
+        <div class="ana-stat"><div class="v">${weakest ? esc(weakest[0]) : '—'}</div><div class="l">Weakest question type</div></div>
+      </div>`;
+    if (!rows.length) {
+      holder.innerHTML = head + `<div class="ana-empty"><span class="big">🎉</span><b>Perfect — no mistakes!</b><br>Xatosiz ishladingiz. Tabriklaymiz!<br><br>Switch to <b>All questions</b> to review every explanation.</div>`;
+      return;
+    }
+    holder.innerHTML = head + rows.map(r => {
+      const e = explanations[r.q] || {};
+      const tip = typeTips[e.type];
+      return `<div class="ana-card ${r.ok?'is-correct':''}">
+        <div class="ana-head">
+          <span class="ana-num">Q${r.q}</span>
+          <span class="ana-type">${esc(e.type||'')}</span>
+          <span class="ana-loc">💡 tap the yellow text in the passage</span>
+        </div>
+        <div class="ana-answers">
+          <span class="ana-chip ${r.ok?'right':'yours'}">Your answer: <b>${esc(r.user || 'Not answered')}</b></span>
+          <span class="ana-chip right">Correct: <b>${esc(r.correct)}</b></span>
+        </div>
+        <div class="ana-exp ana-en"><span class="flag">EN</span><b>Why:</b> ${esc(e.en||'')}</div>
+        <div class="ana-exp ana-uz"><span class="flag">UZ</span><b>Tushuntirish:</b> ${esc(e.uz||'')}</div>
+        ${tip ? `<div class="ana-tip"><b>Strategy / Strategiya:</b> ${esc(tip.en)} — ${esc(tip.uz)}</div>` : ''}
+      </div>`;
+    }).join('');
+  }
+
+  window.setAnalysisScope = scope => {
+    analysisScope = scope;
+    document.getElementById('btn-only-wrong').classList.toggle('active', scope==='wrong');
+    document.getElementById('btn-all-q').classList.toggle('active', scope==='all');
+    renderAnalysis();
+    document.getElementById('analysis-details').scrollTop = 0;
+  };
+  window.showResultsTab = () => {
+    document.getElementById('results-details').classList.remove('hidden');
+    document.querySelector('.res-filter-bar').classList.remove('hidden');
+    document.getElementById('analysis-details').classList.add('hidden');
+    document.getElementById('tab-results').classList.add('active');
+    document.getElementById('tab-analysis').classList.remove('active');
+  };
+  window.showAnalysisTab = () => {
+    document.getElementById('results-details').classList.add('hidden');
+    document.querySelector('.res-filter-bar').classList.add('hidden');
+    document.getElementById('analysis-details').classList.remove('hidden');
+    document.getElementById('tab-analysis').classList.add('active');
+    document.getElementById('tab-results').classList.remove('active');
+    renderAnalysis();
+  };
+
+  function normalize(value) {
+    return String(value ?? '').toUpperCase().replace(/[’‘`]/g,"'").replace(/[^A-Z0-9]+/g,' ').replace(/\s+/g,' ').trim();
+  }
+  function acceptedAnswer(q, value) {
+    const expected = correctAnswers[q];
+    const accepted = Array.isArray(expected) ? expected : [expected];
+    return accepted.some(item => normalize(item) === normalize(value));
+  }
+  function displayCorrect(q) {
+    const ans = correctAnswers[q];
+    return Array.isArray(ans) ? ans[0] : ans;
+  }
+
+  darkModeToggle.addEventListener('click', () => {
+    const isDark = body.getAttribute('data-theme') === 'dark';
+    body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    try { localStorage.setItem('theme', isDark ? 'light' : 'dark'); } catch(e){}
+  });
+
+  function switchToPart(partNumber, keepQuestion=false) {
+    currentPassage = partNumber;
+    passagePanel.scrollTop = 0;
+    questionsPanel.scrollTop = 0;
+    if (!keepQuestion) goToQuestion(partRanges[partNumber][0]);
+  }
+
+  function findQuestionBlock(q) { return document.querySelector(`.tf-question[data-q-start="${q}"]`) || document.querySelector(`[data-q-start="${q}"]`); }
+  function scrollIntoViewIfNeeded(element) {
+    if (!element) return;
+    const panel = element.closest('.questions-panel');
+    if (!panel) return;
+    const pr = panel.getBoundingClientRect(), er = element.getBoundingClientRect();
+    if (er.top < pr.top || er.bottom > pr.bottom) element.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  function goToQuestion(q) {
+    if (q < FIRST_Q || q > LAST_Q) return;
+    currentQuestion = q;
+    document.querySelectorAll('.active-question,.active-input').forEach(el => el.classList.remove('active-question','active-input'));
+    const direct = document.getElementById(`q${q}`);
+    const block = findQuestionBlock(q);
+    if (block) block.classList.add('active-question');
+    if (direct) direct.classList.add('active-input');
+    scrollIntoViewIfNeeded(direct || block);
+    updateNavigation();
+  }
+  function updateNavigation() {
+    document.querySelectorAll('.subQuestion').forEach(btn => btn.classList.remove('active'));
+    const active = document.querySelector(`.subQuestion[onclick="goToQuestion(${currentQuestion})"]`);
+    if (active) active.classList.add('active');
+  }
+  function isQuestionAnswered(q) {
+    const field = document.getElementById(`q${q}`);
+    if (field && String(field.value).trim()) return true;
+    return !!document.querySelector(`input[name="q${q}"]:checked`);
+  }
+  function updateAnsweredNav() {
+    for (let q=FIRST_Q;q<=LAST_Q;q++) {
+      const btn = document.querySelector(`.subQuestion[onclick="goToQuestion(${q})"]`);
+      if (btn) btn.classList.toggle('answered', isQuestionAnswered(q));
+    }
+  }
+  function updateAttemptedCounts() {
+    Object.entries(partRanges).forEach(([part,[start,end]]) => {
+      let count=0; for(let q=start;q<=end;q++) if(isQuestionAnswered(q)) count++;
+      const span = document.querySelector(`.footer__questionNo___3WNct[onclick="switchToPart(${part})"] .attemptedCount`);
+      if (span) span.textContent = `${count} of ${end-start+1}`;
+    });
+  }
+  function updateAllIndicators(){ updateAnsweredNav(); updateAttemptedCounts(); }
+
+  function renderTimer() {
+    if (timeInSeconds <= 0) { timerDisplay.textContent = "Time's up!"; return; }
+    const m=Math.floor(timeInSeconds/60), s=timeInSeconds%60;
+    timerDisplay.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  }
+  function startTimer() {
+    if (timerInterval) clearInterval(timerInterval);
+    timerRunning = true;
+    timerToggleButton.innerHTML = pauseIcon;
+    timerInterval = setInterval(() => { timeInSeconds--; renderTimer(); if(timeInSeconds<=0){clearInterval(timerInterval);timerRunning=false;timerToggleButton.innerHTML=playIcon;} },1000);
+  }
+  function pauseTimer(){ if(timerInterval) clearInterval(timerInterval); timerRunning=false; timerToggleButton.innerHTML=playIcon; }
+  function toggleTimer(){ timerRunning ? pauseTimer() : startTimer(); }
+  function resetTimer(){ timeInSeconds=TEST_SECONDS; renderTimer(); startTimer(); }
+
+  function getUserAnswer(q) {
+    const field = document.getElementById(`q${q}`);
+    if (field) return String(field.value).trim();
+    const checked = document.querySelector(`input[name="q${q}"]:checked`);
+    return checked ? checked.value : '';
+  }
+  function markQuestion(q,isCorrect) {
+    const field = document.getElementById(`q${q}`);
+    if (field) {
+      field.classList.add(isCorrect?'correct':'incorrect');
+      if(!isCorrect){ const span=document.createElement('span'); span.className='correct-answer-display'; span.innerHTML=`&nbsp;➜&nbsp;${displayCorrect(q)}`; field.insertAdjacentElement('afterend',span); }
+      return;
+    }
+    const block=findQuestionBlock(q), checked=document.querySelector(`input[name="q${q}"]:checked`);
+    if(checked){ const label=checked.closest('.tf-option,.multi-choice-option'); if(label) label.classList.add(isCorrect?'correct':'incorrect'); }
+    if(!isCorrect && block){ const right=block.querySelector(`input[name="q${q}"][value="${String(displayCorrect(q))}"]`); const label=right?.closest('.tf-option,.multi-choice-option'); if(label) label.classList.add('correct'); }
+  }
+  function checkAnswers() {
+    document.querySelectorAll('input,select,textarea').forEach(el=>el.disabled=true);
+    pauseTimer();
+    document.querySelectorAll('.correct,.incorrect').forEach(el=>el.classList.remove('correct','incorrect'));
+    document.querySelectorAll('.correct-answer-display').forEach(el=>el.remove());
+    let score=0;
+    lastResults=[];
+    const details=document.getElementById('results-details'); details.innerHTML='';
+    for(let q=FIRST_Q;q<=LAST_Q;q++){
+      const user=getUserAnswer(q), ok=acceptedAnswer(q,user); if(ok)score++;
+      markQuestion(q,ok);
+      const st = ok ? 'correct' : (user ? 'incorrect' : 'skipped');
+      const ex = explanations[q] || {en:'',uz:''};
+      lastResults.push({q, user, ok, correct: displayCorrect(q)});
+      details.insertAdjacentHTML('beforeend',`<div class="result-row ${st}" data-status="${st}"><span class="q-num">${q}</span><span class="user-ans">${user||'Not Answered'}</span><span class="correct-ans">${displayCorrect(q)}</span><span class="status-badge ${ok?'ok':(user?'bad':'skip')}">${ok?'Correct':(user?'Incorrect':'Skipped')}</span><div class="res-explain-en"><b>Why:</b> ${esc(ex.en)}</div><div class="res-explain-uz"><b>Tushuntirish:</b> ${esc(ex.uz)}</div></div>`);
+      const btn=document.querySelector(`.subQuestion[onclick="goToQuestion(${q})"]`); if(btn){btn.classList.remove('answered','active');btn.classList.add(ok?'correct':'incorrect');}
+    }
+    document.getElementById('results-score').textContent=score;
+    document.getElementById('results-band').textContent=Math.round((score/TOTAL_Q)*100)+'%';
+    document.getElementById('results-wrong').textContent=TOTAL_Q-score;
+    details.insertAdjacentHTML('beforeend','<p id="res-empty" style="display:none;text-align:center;color:var(--text-3);padding:26px">Nothing to show for this filter 🎉</p>');
+    showResultsTab();
+    setResFilter('all', document.querySelector('.res-filter-bar .res-filter-btn'));
+    setAnalysisScope('wrong');
+    highlightPassage();
+    document.getElementById('results-modal').classList.remove('hidden');
+    deliverButton.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg><span>My Result</span>';
+    deliverButton.style.backgroundColor='var(--correct-bg)';deliverButton.style.color='var(--correct-color)';deliverButton.style.borderColor='var(--correct-color)';deliverButton.style.boxShadow='inset 0 1px 0 var(--glass-hi)';
+    deliverButton.removeEventListener('click',checkAnswers);deliverButton.addEventListener('click',showResultsModal);
+  }
+  function showResultsModal(){document.getElementById('results-modal').classList.remove('hidden');}
+  window.closeResultsModal=()=>document.getElementById('results-modal').classList.add('hidden');
+
+  function initResize(e){
+    e.preventDefault(); const startX=e.clientX,startWidth=passagePanel.offsetWidth;
+    const move=ev=>{const w=startWidth+ev.clientX-startX;if(w>200 && document.body.clientWidth-w-resizer.offsetWidth>200)passagePanel.style.flex=`0 0 ${w}px`;};
+    const stop=()=>{window.removeEventListener('mousemove',move);window.removeEventListener('mouseup',stop);};
+    window.addEventListener('mousemove',move);window.addEventListener('mouseup',stop);
+  }
+  function initializeContextMenu(){
+    const panels=[passagePanel,questionsPanel];
+    document.addEventListener('selectionchange',()=>{const s=window.getSelection();if(s&&!s.isCollapsed&&s.toString().trim()){const r=s.getRangeAt(0);if(panels.some(p=>p.contains(r.commonAncestorContainer)))selectedRange=r;}});
+    const show=e=>{const hit=e.target.closest('.highlight,.comment-highlight'),has=selectedRange&&selectedRange.toString().trim();let visible=false;
+      if(hit){document.getElementById('menu-highlight').style.display='none';document.getElementById('menu-note').style.display='none';document.getElementById('menu-clear').style.display='block';contextMenu.targetElementForClear=hit;visible=true;}
+      else if(has){document.getElementById('menu-highlight').style.display='flex';document.getElementById('menu-note').style.display='flex';document.getElementById('menu-clear').style.display='none';visible=true;}
+      if(visible){e.preventDefault();contextMenu.style.display='block';contextMenu.style.left=`${Math.min(e.pageX,window.innerWidth-160)}px`;contextMenu.style.top=`${Math.max(5,e.pageY-120)}px`;}};
+    panels.forEach(p=>p.addEventListener('contextmenu',show));document.addEventListener('click',e=>{if(contextMenu.style.display==='block'&&!contextMenu.contains(e.target))closeContextMenu();});
+  }
+  function closeContextMenu(){contextMenu.style.display='none';selectedRange=null;}
+  function unwrap(el){const p=el.parentNode;if(!p)return;while(el.firstChild)p.insertBefore(el.firstChild,el);p.removeChild(el);p.normalize();}
+  window.highlightText=()=>{if(selectedRange&&!selectedRange.collapsed){const s=document.createElement('span');s.className='highlight';s.appendChild(selectedRange.extractContents());selectedRange.insertNode(s);}closeContextMenu();window.getSelection().removeAllRanges();};
+  window.addNote=()=>{const note=prompt('Enter your note:');if(note&&selectedRange&&!selectedRange.collapsed){const s=document.createElement('span');s.className='comment-highlight';s.title=note;s.appendChild(selectedRange.extractContents());selectedRange.insertNode(s);}closeContextMenu();window.getSelection().removeAllRanges();};
+  window.clearHighlight=()=>{if(contextMenu.targetElementForClear)unwrap(contextMenu.targetElementForClear);closeContextMenu();window.getSelection().removeAllRanges();};
+
+  document.body.addEventListener('input',updateAllIndicators);
+  document.body.addEventListener('change',e=>{updateAllIndicators();const el=e.target;const q=el.id?.match(/^q(\d+)$/)?.[1] || el.name?.match(/^q(\d+)$/)?.[1];if(q)goToQuestion(Number(q));});
+  document.querySelectorAll('.tf-question[data-q-start]').forEach(el=>el.addEventListener('click',(event)=>{event.stopPropagation();const q=Number(el.dataset.qStart);if(q)goToQuestion(q);}));
+  deliverButton.addEventListener('click',checkAnswers);
+  timerToggleButton.addEventListener('click',toggleTimer);
+  timerResetButton.addEventListener('click',resetTimer);
+  resizer.addEventListener('mousedown',initResize);
+  window.nextQuestion=()=>goToQuestion(Math.min(LAST_Q,currentQuestion+1));
+  window.previousQuestion=()=>goToQuestion(Math.max(FIRST_Q,currentQuestion-1));
+  window.goToQuestion=goToQuestion;
+  window.switchToPart=part=>switchToPart(part,false);
+
+  initializeContextMenu(); renderTimer(); startTimer(); updateAllIndicators(); goToQuestion(FIRST_Q);
+});
+</script>
+</body>
+</html>

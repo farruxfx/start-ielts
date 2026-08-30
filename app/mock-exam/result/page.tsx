@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Headphones, BookOpen, PenLine, Mic, TrendingUp, Target, Clock, ArrowRight } from 'lucide-react';
 import { bandToLevel, bandToDescription } from '@/lib/scoring';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 export default function MockExamResultPage() {
   const sp = useSearchParams();

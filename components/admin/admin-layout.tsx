@@ -15,6 +15,8 @@ import {
   X,
   ChevronRight,
   ShieldCheck,
+  Upload,
+  Clock,
 } from 'lucide-react';
 import { useAuth } from '@/components/auth/use-auth';
 import { cn } from '@/lib/utils';
@@ -22,8 +24,12 @@ import { cn } from '@/lib/utils';
 const adminNav = [
   { label: 'Overview', href: '/admin', icon: LayoutDashboard },
   { label: 'Exam Library', href: '/admin/exam-library', icon: BookOpen },
+  { label: 'Import Tests', href: '/admin/import-tests', icon: Upload },
+  { label: 'Import History', href: '/admin/import-history', icon: Clock },
   { label: 'Users', href: '/admin/users', icon: Users },
   { label: 'Subscriptions', href: '/admin/subscriptions', icon: CreditCard },
+  { label: 'Payment Methods', href: '/admin/payment-methods', icon: CreditCard },
+  { label: 'Payment Orders', href: '/admin/payment-orders', icon: CreditCard },
   { label: 'Settings', href: '/admin/settings', icon: Settings },
 ];
 

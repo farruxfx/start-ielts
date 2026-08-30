@@ -166,3 +166,39 @@ export interface PricingPlan {
   highlighted: boolean;
   cta: string;
 }
+
+// Mock Exam Types
+export type MockExamStatus = 'not_started' | 'in_progress' | 'completed';
+
+export interface MockExamDef {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  sections: ('listening' | 'reading' | 'writing' | 'speaking')[];
+  examType: ExamType;
+  difficulty: Difficulty;
+  totalMinutes: number;
+  htmlFile: string;
+  listeningAudioUrl?: string;
+  listeningBankId?: string;
+}
+
+export type MockExamSectionName = 'listening' | 'reading' | 'writing' | 'speaking';
+
+export interface MockExamSession {
+  id: string;
+  examId: string;
+  startedAt: string;
+  completedAt?: string;
+  status: MockExamStatus;
+  currentSection: MockExamSectionName;
+  timeSpentMinutes: number;
+  sectionScores: {
+    listening?: number;
+    reading?: number;
+    writing?: number;
+    speaking?: number;
+  };
+  overallBand?: number;
+}

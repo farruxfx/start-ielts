@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>@reading_cdi — IELTS Reading Practice: Optimism and Health</title>
+<style>
+:root {
+  --ielts-red:#c8102e;
+  --ielts-dark:#222;
+  --line:#d7d7d7;
+  --panel:#f4f4f2;
+  --blue:#3d8fe3;
+  --green:#118847;
+}
+* { box-sizing:border-box; }
+html,body { margin:0; height:100%; font-family:Arial, Helvetica, sans-serif; color:#111; background:#fff; }
+button, input, textarea, select { font-family:Arial, Helvetica, sans-serif; }
+a { color:inherit; }
+.hidden { display:none!important; }
+
+#login, #intro, #result { min-height:100vh; display:flex; align-items:center; justify-content:center; background:#f1f1ed; padding:24px; }
+.login-card, .intro-card, .result-card { background:#fff; border:1px solid #ddd; border-radius:4px; width:min(680px,96vw); padding:34px; box-shadow:0 8px 30px rgba(0,0,0,.12); }
+.brand { display:flex; align-items:center; gap:10px; text-decoration:none; font-weight:700; color:#111; }
+.login-card h1, .intro-card h1 { margin:20px 0 8px; font-size:24px; }
+.form-row { margin:14px 0; }
+.form-row label { display:block; margin-bottom:6px; font-size:13px; font-weight:700; }
+.form-row input { width:100%; padding:12px; border:1px solid #aaa; border-radius:3px; font-size:15px; }
+.main-btn { background:var(--ielts-red); color:#fff; border:0; border-radius:3px; padding:12px 22px; font-weight:700; cursor:pointer; }
+.main-btn:hover { background:#a70d25; }
+.main-btn:disabled { background:#ccc; cursor:not-allowed; }
+.secondary-btn { background:#f5f5f5; color:#111; border:1px solid #aaa; border-radius:3px; padding:11px 18px; font-weight:700; cursor:pointer; }
+.intro-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:24px 0; }
+.intro-box { border:1px solid #ddd; background:#fafafa; padding:16px; border-radius:3px; text-align:center; }
+.intro-box b { display:block; font-size:28px; margin-bottom:4px; }
+.intro-box span { font-size:12px; color:#555; }
+
+.test-options { display:flex; gap:16px; margin:22px 0; flex-wrap:wrap; }
+.test-option-card { flex:1; min-width:220px; border:2px solid #ddd; border-radius:6px; padding:20px; text-align:center; transition:all .2s ease; }
+.test-option-card .num { display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:var(--ielts-red); color:#fff; font-weight:900; margin-bottom:10px; }
+.test-option-card h3 { margin:6px 0; font-size:17px; }
+.test-option-card p { font-size:13px; color:#666; margin:6px 0 14px; }
+.test-option-card.active { border-color:var(--ielts-red); background:#fff7f7; }
+.test-option-card.locked { opacity:.55; }
+.test-option-card.locked .main-btn { background:#aaa; }
+.lock-icon { font-size:22px; }
+
+#examL, #exam { height:100vh; display:flex; flex-direction:column; background:#fff; }
+.topbar { height:54px; border-bottom:1px solid #cfcfcf; display:flex; align-items:center; justify-content:space-between; padding:0 18px; background:#fff; flex:0 0 auto; }
+.top-left { display:flex; gap:16px; align-items:center; }
+.top-right { display:flex; align-items:center; gap:6px; }
+.icon-btn { border:0; background:transparent; padding:7px; cursor:pointer; display:flex; align-items:center; justify-content:center; border-radius:4px; }
+.icon-btn:hover { background:#f2f2f2; }
+.topbar .brand { font-size:14px; }
+.candidate { font-size:13px; color:#444; }
+.timer { border:1px solid #bbb; background:#f8f8f8; padding:7px 14px; border-radius:3px; font-weight:700; min-width:88px; text-align:center; }
+.timer.warn { color:var(--ielts-red); border-color:var(--ielts-red); background:#fff3f3; }
+
+/* ---------- Settings / Fullscreen / Accessibility ---------- */
+.icon-btn svg { width:19px; height:19px; display:block; }
+#settingsPanel { position:fixed; top:58px; right:18px; width:250px; background:#fff; border:1px solid #ccc; border-radius:8px; box-shadow:0 10px 30px rgba(0,0,0,.18); padding:16px; z-index:500; }
+#settingsPanel h4 { margin:0 0 10px; font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:#777; }
+#settingsPanel .settings-row { margin-bottom:16px; }
+#settingsPanel .settings-row:last-child { margin-bottom:0; }
+.seg-group { display:flex; gap:6px; }
+.seg-btn { flex:1; border:1px solid #bbb; background:#fafafa; padding:8px 4px; border-radius:6px; cursor:pointer; font-weight:700; font-size:13px; color:#333; }
+.seg-btn.active { background:var(--ielts-red); border-color:var(--ielts-red); color:#fff; }
+.seg-btn:hover:not(.active) { background:#f0f0f0; }
+
+/* Text size scaling */
+html.fs-lg .passage-text, html.fs-lg .q-list, html.fs-lg .instruction, html.fs-lg .notes, html.fs-lg .form-table td, html.fs-lg .mi-label, html.fs-lg .ans-input, html.fs-lg .ans-select, html.fs-lg .paper-card h3, html.fs-lg .center-title { font-size:1.18em; }
+html.fs-lg .passage-text h2 { font-size:1.15em; }
+html.fs-xl .passage-text, html.fs-xl .q-list, html.fs-xl .instruction, html.fs-xl .notes, html.fs-xl .form-table td, html.fs-xl .mi-label, html.fs-xl .ans-input, html.fs-xl .ans-select, html.fs-xl .paper-card h3, html.fs-xl .center-title { font-size:1.38em; }
+html.fs-xl .passage-text h2 { font-size:1.25em; }
+
+/* Dark theme */
+html.theme-dark #examL, html.theme-dark #exam { background:#15171a; color:#e7e7e7; }
+html.theme-dark .topbar, html.theme-dark .section-banner { background:#1d2024; border-color:#33373d; }
+html.theme-dark .candidate, html.theme-dark .section-banner span { color:#b6b6b6; }
+html.theme-dark .brand { color:#f0f0f0; }
+html.theme-dark .timer { background:#25292e; border-color:#3c4046; color:#e7e7e7; }
+html.theme-dark .passage-nav button { background:#1d2024; border-color:#3c4046; color:#ddd; }
+html.theme-dark .passage-nav button.active { background:var(--ielts-red); border-color:var(--ielts-red); color:#fff; }
+html.theme-dark .paper-card { background:#1d2024; border-color:#33373d; }
+html.theme-dark .instruction { background:#25292e; border-left-color:var(--ielts-red); color:#ddd; }
+html.theme-dark .ans-input, html.theme-dark .ans-select { background:#25292e; border-color:#4a4f56; color:#eee; }
+html.theme-dark .qnav-btn { background:#1d2024; border-color:#4a4f56; color:#ddd; }
+html.theme-dark .qnav-btn.answered { background:#12321f; border-color:var(--green); color:#7fd8a4; }
+html.theme-dark .qnav-summary { color:#bbb; border-color:#3c4046; }
+html.theme-dark .dragbar { background:#25292e; color:#999; }
+html.theme-dark #settingsPanel { background:#1d2024; border-color:#3c4046; color:#eee; }
+html.theme-dark #settingsPanel h4 { color:#999; }
+html.theme-dark .seg-btn { background:#25292e; border-color:#4a4f56; color:#ddd; }
+html.theme-dark .icon-btn { color:#ddd; }
+html.theme-dark .icon-btn:hover { background:#2a2e33; }
+
+/* High contrast theme */
+html.theme-contrast #examL, html.theme-contrast #exam { background:#000; color:#fff; }
+html.theme-contrast .topbar, html.theme-contrast .section-banner { background:#000; border-color:#fff; }
+html.theme-contrast .candidate, html.theme-contrast .section-banner span, html.theme-contrast .brand { color:#fff; }
+html.theme-contrast .timer { background:#000; border:2px solid #ffe600; color:#ffe600; }
+html.theme-contrast .passage-nav button { background:#000; border:2px solid #fff; color:#fff; }
+html.theme-contrast .passage-nav button.active { background:#ffe600; border-color:#ffe600; color:#000; }
+html.theme-contrast .paper-card { background:#000; border:2px solid #fff; }
+html.theme-contrast .instruction { background:#000; border-left:5px solid #ffe600; color:#fff; }
+html.theme-contrast .ans-input, html.theme-contrast .ans-select { background:#000; border:2px solid #fff; color:#fff; }
+html.theme-contrast .qnav-btn { background:#000; border:2px solid #fff; color:#fff; }
+html.theme-contrast .qnav-btn.answered { background:#000; border:2px solid #ffe600; color:#ffe600; }
+html.theme-contrast .qnav-summary { color:#fff; border-color:#fff; }
+html.theme-contrast .icon-btn { color:#fff; }
+html.theme-contrast .icon-btn:hover { background:#222; }
+html.theme-contrast #settingsPanel { background:#000; color:#fff; border:2px solid #fff; }
+html.theme-contrast #settingsPanel h4 { color:#ccc; }
+html.theme-contrast .seg-btn { background:#000; border:2px solid #fff; color:#fff; }
+html.theme-contrast .seg-btn.active { background:#ffe600; border-color:#ffe600; color:#000; }
+.section-banner { background:#f4f4f2; border-bottom:1px solid #d4d4d4; padding:10px 18px; font-size:14px; flex:0 0 auto; display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;}
+.section-banner b { display:block; margin-bottom:3px; }
+.audio-status { font-size:13px; color:#333; display:flex; align-items:center; gap:8px; }
+.audio-status .dot { width:9px; height:9px; border-radius:50%; background:var(--ielts-red); animation:pulse 1.2s infinite; }
+@keyframes pulse { 0%{opacity:1;} 50%{opacity:.3;} 100%{opacity:1;} }
+.audio-progress-outer { width:160px; height:6px; background:#e2e2e2; border-radius:3px; overflow:hidden; }
+.audio-progress-inner { height:100%; width:0%; background:var(--ielts-red); }
+
+.exam-screen { display:none; flex:1; min-height:0; background:#fff; }
+.exam-screen.active { display:flex; flex-direction:column; }
+.scroll-area { flex:1; overflow:auto; padding:20px; }
+.paper-card { max-width:900px; margin:0 auto 18px; background:#fff; border:1px solid #ddd; padding:22px 28px; }
+.paper-card h2 { font-size:18px; margin:0 0 12px; }
+.paper-card h3 { font-size:16px; margin:16px 0 10px; }
+.center-title { text-align:center; }
+.instruction { background:#f5f5f5; border-left:4px solid var(--ielts-red); padding:10px 12px; margin:10px 0 16px; line-height:1.45; font-size:14px; }
+.q-list { padding-left:28px; line-height:2.0; }
+.q-list li { margin-bottom:8px; }
+.ans-input, .ans-select { border:1px solid #888; border-radius:2px; padding:5px 7px; font-size:14px; background:#fff; margin:0 4px; min-height:30px; }
+.ans-input:focus, .ans-select:focus { outline:2px solid rgba(200,16,46,.18); border-color:var(--ielts-red); }
+.question { border-top:1px solid #e2e2e2; padding-top:14px; margin-top:14px; }
+.notes { line-height:2.0; }
+.form-table { width:100%; max-width:720px; border-collapse:collapse; border:1px solid #999; margin:0 auto; }
+.form-table td { padding:9px 12px; border:none; vertical-align:top; line-height:2.0; }
+.form-table tr td:first-child { width:45%; }
+.form-table .form-headrow td { font-weight:700; border-bottom:1px solid #999; }
+.form-table .form-subhead td { font-weight:700; padding-top:16px; }
+.checkbox-group { display:flex; flex-direction:column; gap:8px; margin-top:10px; }
+.checkbox-group label { display:flex; align-items:center; gap:8px; padding:9px 12px; border:1px solid #ddd; border-radius:3px; cursor:pointer; }
+.checkbox-group label:hover { background:#fafafa; }
+.matching-box { border:1px solid #ddd; background:#fafafa; border-radius:4px; padding:14px 18px; margin:12px 0 18px; line-height:1.9; }
+.matching-box .mb-row { display:flex; gap:10px; }
+.matching-box .mb-letter { font-weight:700; width:22px; flex-shrink:0; }
+.matching-item { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.matching-item .mi-num { font-weight:700; min-width:26px; }
+.matching-item .mi-label { min-width:150px; }
+
+.bottom-submit { border-top:1px solid #cfcfcf; padding:10px 18px; display:flex; align-items:center; gap:14px; flex:0 0 auto; background:#fff; }
+.qnav { display:flex; align-items:center; gap:6px; flex-wrap:nowrap; overflow-x:auto; flex:1; }
+.qnav-part-label { font-size:11px; font-weight:700; color:#777; margin-right:2px; white-space:nowrap; }
+.qnav-btn { width:26px; height:26px; flex:0 0 auto; border:1px solid #aaa; background:#fff; font-size:11px; font-weight:700; cursor:pointer; border-radius:2px; color:#333; }
+.qnav-btn:hover { border-color:var(--ielts-red); }
+.qnav-btn.answered { background:#e8f5ec; border-color:var(--green); color:var(--green); }
+.qnav-btn.current { outline:2px solid var(--ielts-red); outline-offset:1px; }
+.qnav-summary { font-size:12px; color:#555; white-space:nowrap; flex:0 0 auto; border-left:1px solid #ddd; padding-left:12px; margin-left:2px; }
+
+.passage-nav { display:flex; gap:6px; padding:10px 18px; border-bottom:1px solid #ccc; background:#f4f4f4; }
+.passage-nav button { border:1px solid #aaa; background:#fff; padding:8px 14px; cursor:pointer; font-weight:700; }
+.passage-nav button.active { background:var(--ielts-red); color:#fff; border-color:var(--ielts-red); }
+
+.reading-main { flex:1; min-height:0; display:flex; overflow:hidden; }
+.read-pane { overflow:auto; padding:18px; }
+#readLeft { width:52%; min-width:300px; }
+#readRight { flex:1; min-width:330px; border-left:1px solid #cfcfcf; }
+.dragbar { width:8px; background:#e1e1e1; border-left:1px solid #c3c3c3; border-right:1px solid #c3c3c3; cursor:col-resize; display:flex; align-items:center; justify-content:center; color:#999; }
+.dragbar:hover, .dragbar.active { background:var(--ielts-red); color:#fff; }
+.passage-text { font-size:15px; line-height:1.72; max-width:780px; margin:0 auto; }
+.passage-text h2 { text-align:center; margin-top:0; font-size:20px; }
+.passage-text p { margin:0 0 14px; text-align:justify; }
+
+.result-card { width:min(980px,96vw); text-align:center; }
+.result-card h1 { margin:20px 0 10px; }
+.result-message { border:1px solid #ddd; background:#fafafa; padding:24px; margin:20px 0; }
+.score-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:18px 0; }
+.score-box { border:1px solid #ddd; border-radius:4px; padding:14px; background:#fff; }
+.score-box b { display:block; font-size:26px; }
+.score-box.total { background:#fff7f7; border-color:var(--ielts-red); }
+.score-box.total b { color:var(--ielts-red); }
+.result-footer { margin-top:16px; font-size:14px; color:#555; }
+.result-footer a { color:#229ED9; font-weight:700; }
+.result-actions { display:flex; justify-content:center; gap:10px; margin-top:20px; flex-wrap:wrap; }
+
+.review-box { display:none; margin-top:22px; text-align:left; border:1px solid #ddd; border-radius:4px; background:#fff; padding:16px; max-height:70vh; overflow:auto; }
+.review-box h2 { font-size:18px; margin:18px 0 12px; color:#111; }
+.review-box h2:first-child { margin-top:0; }
+.review-table { width:100%; border-collapse:collapse; font-size:13px; margin-bottom:6px; }
+.review-table th { background:#f2f2f2; border:1px solid #ddd; padding:7px; text-align:left; }
+.review-table td { border:1px solid #eee; padding:7px 8px; vertical-align:top; }
+.review-ok { color:#118847; font-weight:700; }
+.review-bad { color:#c8102e; font-weight:700; }
+.review-partial { color:#b9770e; font-weight:700; }
+.review-empty { color:#777; font-weight:700; }
+.expl-cell { color:#333; font-size:12.5px; line-height:1.5; max-width:320px; }
+.feedback-box { text-align:left; background:#fef9e8; border:1px solid #eadfa0; border-radius:4px; padding:18px; margin-top:20px; line-height:1.6; }
+.feedback-box h3 { margin-top:0; }
+
+.task-textarea { width:100%; min-height:320px; border:1px solid #999; border-radius:3px; padding:14px; font-size:15px; line-height:1.6; font-family:Arial,Helvetica,sans-serif; resize:vertical; }
+.task-textarea:focus { outline:2px solid rgba(200,16,46,.18); border-color:var(--ielts-red); }
+.word-count { font-size:13px; color:#555; margin-top:6px; }
+.word-count.low { color:var(--ielts-red); font-weight:700; }
+.task-prompt-box { background:#f5f5f5; border-left:4px solid var(--ielts-red); padding:14px 16px; margin-bottom:14px; line-height:1.5; }
+.task-image-wrap { text-align:center; margin:14px 0 20px; }
+.task-image-wrap img { max-width:100%; border:1px solid #ddd; border-radius:4px; }
+.writing-main, .speaking-main { flex:1; min-height:0; overflow:auto; padding:20px; }
+.writing-col { max-width:820px; margin:0 auto; }
+.cue-card { background:#fafafa; border:1px solid #ddd; border-radius:6px; padding:22px 26px; max-width:640px; margin:0 auto 20px; }
+.cue-card h3 { margin-top:0; }
+.cue-card ul { margin:10px 0 0; padding-left:20px; line-height:1.9; }
+.prep-timer { text-align:center; font-size:34px; font-weight:800; color:var(--ielts-red); margin:14px 0; }
+.speaking-q-block { max-width:720px; margin:0 auto 26px; border:1px solid #ddd; border-radius:6px; padding:18px 22px; background:#fff; }
+.speaking-q-block p.q-text { font-size:16px; font-weight:600; margin:0 0 12px; }
+.recorder-row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.rec-btn { border:1px solid var(--ielts-red); background:#fff; color:var(--ielts-red); border-radius:20px; padding:8px 16px; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:6px; }
+.rec-btn.recording { background:var(--ielts-red); color:#fff; }
+.rec-btn:hover { opacity:.9; }
+.rec-status { font-size:12px; color:#777; }
+.speaking-audio { margin-top:8px; max-width:320px; }
+@media(max-width:800px){
+  .task-textarea { min-height:220px; }
+  .intro-grid { grid-template-columns:1fr; }
+  .test-options { flex-direction:column; }
+  .reading-main { flex-direction:column; }
+  #readLeft { width:100%!important; min-height:45%; }
+  #readRight { border-left:0; border-top:1px solid #ccc; }
+  .dragbar { display:none; }
+  .score-grid { grid-template-columns:repeat(2,1fr); }
+}
+</style>
+</head>
+<body>
+
+<div id="settingsPanel" class="hidden">
+  <div class="settings-row">
+    <h4>Text Size</h4>
+    <div class="seg-group">
+      <button type="button" class="seg-btn active" data-fs="normal" onclick="setFontSize('normal')">A</button>
+      <button type="button" class="seg-btn" data-fs="lg" onclick="setFontSize('lg')">A+</button>
+      <button type="button" class="seg-btn" data-fs="xl" onclick="setFontSize('xl')">A++</button>
+    </div>
+  </div>
+  <div class="settings-row">
+    <h4>Contrast</h4>
+    <div class="seg-group">
+      <button type="button" class="seg-btn active" data-theme="light" onclick="setTheme('light')">Normal</button>
+      <button type="button" class="seg-btn" data-theme="dark" onclick="setTheme('dark')">Dark</button>
+      <button type="button" class="seg-btn" data-theme="contrast" onclick="setTheme('contrast')">High</button>
+    </div>
+  </div>
+</div>
+
+<div id="login">
+  <div class="login-card">
+    
+    <h1>IELTS Reading Practice — Optimism and Health</h1>
+    <p style="color:#555;line-height:1.5">1 passage, 13 questions, 20 minutes. Enter your candidate details to begin.</p>
+    <div class="form-row"><label>Candidate ID</label><input id="candId" placeholder="e.g. STUDENT"></div>
+    <div class="form-row"><label>Access code</label><input id="accessCode" placeholder="Enter access code" type="password" onkeydown="if(event.key==='Enter')showIntro()"></div>
+    <button class="main-btn" onclick="showIntro()">Start</button>
+  </div>
+</div>
+
+<div id="intro" class="hidden">
+  <div class="intro-card">
+    
+    <h1>IELTS Reading Practice</h1>
+    <p id="welcomeName" style="color:#555"></p>
+    <div class="intro-grid">
+      <div class="intro-box"><b>1</b><span>Passage</span></div>
+      <div class="intro-box"><b>13</b><span>Questions</span></div>
+      <div class="intro-box"><b>20m</b><span>Total Time</span></div>
+    </div>
+    <p style="color:#666">Read the passage "Optimism and Health" on the left and answer Questions 1–13 on the right. You have 20 minutes, with an early Submit option if you finish sooner. At the end you'll see your score with a full explanation for every question.</p>
+    <div class="test-options">
+      <div class="test-option-card active" id="cardReading">
+        <div class="num">1</div>
+        <h3>Reading Test</h3>
+        <p>Summary completion, sentence endings and YES/NO/NOT GIVEN.</p>
+        <button class="main-btn" onclick="beginReading()">Start Reading Test</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- READING TEST                                                  -->
+<!-- ============================================================ -->
+<div id="exam" class="hidden">
+  <div class="topbar">
+    <div class="top-left">
+      
+      <span class="candidate">ID: <b id="topCid">—</b></span>
+    </div>
+    <div class="top-right">
+      <button type="button" class="icon-btn" onclick="toggleSettingsPanel(event)" title="Settings" aria-label="Settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+      </button>
+      <button type="button" class="icon-btn" id="fsBtn" onclick="toggleFullscreen()" title="Fullscreen" aria-label="Toggle fullscreen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"></path></svg>
+      </button>
+      <div class="timer" id="timer">--:--</div>
+    </div>
+  </div>
+  <div class="section-banner"><b>Reading</b><span>You should spend about 20 minutes on Questions 1–13.</span></div>
+
+  <main id="reading" class="exam-screen active">
+    <div class="reading-main" id="readWrap">
+      <div class="read-pane" id="readLeft"><div id="passageText" class="passage-text"></div></div>
+      <div class="dragbar" id="dragbar">⋮</div>
+      <div class="read-pane" id="readRight">
+        <div id="rq1"></div>
+      </div>
+    </div>
+    <div class="bottom-submit">
+      <div class="qnav" id="qnavReading"></div>
+      <span class="qnav-summary" id="qnavReadingSummary"></span>
+      <button class="main-btn" onclick="submitTest()">Submit Answers</button>
+    </div>
+  </main>
+</div>
+
+<!-- ============================================================ -->
+<!-- RESULT                                                        -->
+<!-- ============================================================ -->
+<div id="result" class="hidden">
+  <div class="result-card">
+    
+    <h1>Test Submitted</h1>
+    <div class="result-message">
+      <div class="score-grid">
+        <div class="score-box total"><b id="scoreReading">0/13</b><span>Score</span></div>
+        <div class="score-box"><b id="bandReading">—</b><span>Percentage</span></div>
+      </div>
+      <div class="score-grid" style="grid-template-columns:1fr;">
+        <div class="score-box"><b id="bandOverall">—</b><span>Overall Result</span></div>
+      </div>
+      <div class="result-footer"> — for more real exam tests</div>
+    </div>
+    <p id="resultMeta" style="color:#555"></p>
+    <div class="result-actions">
+      <button class="secondary-btn" onclick="toggleReview()">Check Answers &amp; Explanations</button>
+      <button class="secondary-btn" onclick="window.print()">Print / Save PDF</button>
+      <button class="secondary-btn" onclick="location.reload()">Restart</button>
+    </div>
+    <div id="reviewBox" class="review-box"></div>
+  </div>
+</div>
+
+<audio id="audioPlayer" preload="none"></audio>
+
+<script>
+// ===================== SETTINGS: TEXT SIZE / CONTRAST / FULLSCREEN =====================
+(function(){
+  const savedFs = localStorage.getItem('cdi_fontsize') || 'normal';
+  const savedTheme = localStorage.getItem('cdi_theme') || 'light';
+  applyFontSize(savedFs);
+  applyTheme(savedTheme);
+})();
+
+function applyFontSize(size){
+  document.documentElement.classList.remove('fs-lg','fs-xl');
+  if(size === 'lg') document.documentElement.classList.add('fs-lg');
+  if(size === 'xl') document.documentElement.classList.add('fs-xl');
+  document.querySelectorAll('#settingsPanel [data-fs]').forEach(b=>{
+    b.classList.toggle('active', b.dataset.fs === size);
+  });
+}
+function setFontSize(size){
+  applyFontSize(size);
+  localStorage.setItem('cdi_fontsize', size);
+}
+
+function applyTheme(theme){
+  document.documentElement.classList.remove('theme-dark','theme-contrast');
+  if(theme === 'dark') document.documentElement.classList.add('theme-dark');
+  if(theme === 'contrast') document.documentElement.classList.add('theme-contrast');
+  document.querySelectorAll('#settingsPanel [data-theme]').forEach(b=>{
+    b.classList.toggle('active', b.dataset.theme === theme);
+  });
+}
+function setTheme(theme){
+  applyTheme(theme);
+  localStorage.setItem('cdi_theme', theme);
+}
+
+function toggleSettingsPanel(e){
+  if(e) e.stopPropagation();
+  document.getElementById('settingsPanel').classList.toggle('hidden');
+}
+document.addEventListener('click', function(e){
+  const panel = document.getElementById('settingsPanel');
+  if(!panel.classList.contains('hidden') && !panel.contains(e.target) && !e.target.closest('.icon-btn')){
+    panel.classList.add('hidden');
+  }
+});
+
+function toggleFullscreen(){
+  if(!document.fullscreenElement){
+    document.documentElement.requestFullscreen?.().catch(()=>{});
+  } else {
+    document.exitFullscreen?.().catch(()=>{});
+  }
+}
+document.addEventListener('fullscreenchange', function(){
+  const icon = document.fullscreenElement
+    ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3M16 3v3a2 2 0 0 0 2 2h3M8 21v-3a2 2 0 0 0-2-2H3M16 21v-3a2 2 0 0 1 2-2h3"></path></svg>'
+    : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"></path></svg>';
+  ['fsBtnL','fsBtn'].forEach(id=>{
+    const b = document.getElementById(id);
+    if(b) b.innerHTML = icon;
+  });
+});
+
+// ===================== READING PASSAGE TEXTS =====================
+const PASSAGES = {
+1: { html: `
+<h2>Optimism and Health</h2>
+<p><i>If you have a positive outlook, the likelihood is that you will lead a longer life. John Nash examines the link between optimism and good health.</i></p>
+<p>Medical studies are concluding that optimists really do have something to be cheerful about. Coincidental links between optimism and improved general health have been found by researchers. Recently, a Yale University psychologists' study of 660 volunteers aged 50 and above was published. It found that thinking positively about ageing adds an average of seven years to a person's life. The team, led by Dr Becca Levy, suggests that having an optimistic attitude can bolster the will to live, though they admit that they cannot explain it fully.</p>
+<p>Another American research team, however, says they have identified a physical mechanism behind the phenomenon. Their eight-year study of 670 men aged about 63 found that the optimists had significantly better lung function than men who were more pessimistic. This is the first study to show such a link. The research team at Brigham &amp; Women's Hospital and Harvard Medical School believes that attitude somehow strengthens the immune system, and that adopting a more positive outlook may reverse physical decline. 'Preliminary studies on heart patients suggest that by changing a person's outlook, you can improve their mortality risk,' says Dr Rosalind Wright.</p>
+<p>The role of optimism in good health has long been noted but often sidelined. Sigmund Freud, the influential psychologist, equated optimism with ignorance, and from 1970 to 2000 there were 46,000 psychology papers on depression and only 40 on joy.</p>
+<p>Part of that negativity may be blamed on optimists themselves. They are not necessarily fun to have around, says Brice Pitt, the Emeritus Professor of the Psychiatry of Old Age at Imperial College, London. 'Optimists tend to be insufferable people. Always jolly, always up, and, frankly, they have a hopelessly rosy outlook,' he says. 'Depressive people see things as they really are, and that is a disadvantage from an evolutionary point of view. Optimism is a piece of evolutionary equipment that has carried us a long way through millennia of setbacks.'</p>
+<p>Studies show that optimists do better than pessimists in work, school and sports, suffer less depression, achieve more goals, respond better to stress and fight disease better. Among people aged from their mid-nineties into their hundreds, researchers generally fail to find consistencies in diet or exercise (and some still smoke). What the super-aged do tend to share, however, is a positive, optimistic outlook.</p>
+<p>Toshihiko Maruta, of the Mayo Institute, headed an earlier American medical study to find a link between optimism and longevity. Her study found that optimists live about 19 per cent longer than people with grim outlooks. 'It tells us that mind and body are linked and that attitude has an impact on the final outcome: death,' she says. That simple message might have far more effect than exhortations to eat fresh fruit and warnings to stay out of the sun.</p>
+<p>Despite the benefits of unprecedented material wealth, the World Health Organisation estimates that depression is soon to become the second leading cause of disability. Popular wisdom blames this on our frenetically busy society. According to social forecasters at the Henley Centre, while people in developed countries are 65 per cent better off financially today than they were 15 years ago, there is no evidence that they are any more content with their lives. While much of this is down to the perception among many of being rushed and pressured for time and space, it is the perception not the reality that counts, they say.</p>
+<p>The Henley researchers found that if people think they have enough time, space or money, they feel more relaxed about life, regardless of how much of these things they actually have. 'In terms of money, some of the people who "feel" wealthiest, and some of those who "feel" poorest, actually have almost the same amount of money at their disposal. Their attitudes and behaviour patterns, however, are different from one another,' says Chad Wallens, a researcher.</p>
+<p>Few studies have tried to ascertain the proportion of optimists in the world. But a 1995 nationwide survey conducted in the USA for the American magazine <i>Adweek</i> found that about half the population counted themselves as optimists, with women slightly more apt than men (53 per cent versus 48 per cent) to identify themselves thus. That attitude drops, however, to less than a third of people between the ages of 55 and 64, which supports research showing that men, in particular, tend to become more irritable as they get older. Lynn Myers, a psychotherapist, points out, however, that too much optimism can be a bad thing: 'You can be what is called a cock-eyed optimist, the sort of person who smokes but is convinced they will never get lung cancer.' Curiously, though, the Brigham &amp; Women's Hospital study found that optimism was linked to improved lung function even after smoking was taken into account.</p>
+<p>Myers is skeptical about whether there is a simple way that people can become optimistic in order to improve their health chances. 'I certainly would not suggest that there is anything like "six easy lessons to change your outlook". But if you can lower your anxiety levels, it tends to make you more optimistic. Conversely, people who are highly anxious tend to be pessimistic,' she says.</p>
+` }
+};
+
+const QUESTIONS = {
+1: `
+<section class="paper-card">
+<h2>Questions 1–13</h2>
+<div class="instruction">Questions 1–5<br>Complete the summary below.<br>Choose <b>NO MORE THAN TWO WORDS AND/OR A NUMBER</b> from the passage for each answer.</div>
+<div class="notes" style="line-height:1.9;">
+<p>Studies at Yale University have shown that a positive attitude can lengthen someone's lifespan by approximately <b>1</b> <input class="ans-input" data-q="q1" type="text" placeholder="answer">. Another US research team claims to have found a physical reason why this happens. As a result of an eight-year study on <b>2</b> <input class="ans-input" data-q="q2" type="text" placeholder="answer"> male subjects of a certain age, they have noted differences in the <b>3</b> <input class="ans-input" data-q="q3" type="text" placeholder="answer"> among positive and negative thinkers. This discovery has led them to conclude that positive thinking makes the body's entire <b>4</b> <input class="ans-input" data-q="q4" type="text" placeholder="answer"> stronger, which, in turn, reduces ageing. Rosalind Wright cites some early research on <b>5</b> <input class="ans-input" data-q="q5" type="text" placeholder="answer"> in support of this view.</p>
+</div>
+<div class="instruction">Questions 6–10<br>Complete each sentence with the correct ending, <b>A–H</b>, below.</div>
+<div class="matching-box">
+<div class="mb-row"><span class="mb-letter">A</span><span>optimists have an unrealistic view of life.</span></div>
+<div class="mb-row"><span class="mb-letter">B</span><span>long life is also linked to diet and exercise.</span></div>
+<div class="mb-row"><span class="mb-letter">C</span><span>excessive optimism may have negative consequences.</span></div>
+<div class="mb-row"><span class="mb-letter">D</span><span>optimism has not been considered a worthy research topic.</span></div>
+<div class="mb-row"><span class="mb-letter">E</span><span>a hectic lifestyle can lead to poor health.</span></div>
+<div class="mb-row"><span class="mb-letter">F</span><span>happiness is not linked to material wealth and comfort.</span></div>
+<div class="mb-row"><span class="mb-letter">G</span><span>levels of optimism can decrease with age.</span></div>
+<div class="mb-row"><span class="mb-letter">H</span><span>optimism can have a positive effect on pessimists.</span></div>
+</div>
+<div class="matching-item"><span class="mi-num">6.</span><span class="mi-label">The writer's reference to Sigmund Freud illustrates the point that</span><select class="ans-select" data-q="q6"><option value="">—</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+<div class="matching-item"><span class="mi-num">7.</span><span class="mi-label">According to Brice Pitt of Imperial College, London,</span><select class="ans-select" data-q="q7"><option value="">—</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+<div class="matching-item"><span class="mi-num">8.</span><span class="mi-label">Researchers at the Henley Centre have shown that</span><select class="ans-select" data-q="q8"><option value="">—</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+<div class="matching-item"><span class="mi-num">9.</span><span class="mi-label">The 1995 <i>Adweek</i> survey found that across the USA</span><select class="ans-select" data-q="q9"><option value="">—</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+<div class="matching-item"><span class="mi-num">10.</span><span class="mi-label">The psychotherapist Lynn Myers suggests that</span><select class="ans-select" data-q="q10"><option value="">—</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+<div class="instruction" style="margin-top:20px;">Questions 11–13<br>Do the following statements agree with the claims of the writer?<br><br>
+<b>YES</b> if the statement agrees with the claims of the writer<br><b>NO</b> if the statement contradicts the claims of the writer<br><b>NOT GIVEN</b> if it is impossible to say what the writer thinks about this</div>
+<ol class="q-list" start="11">
+<li>It has been known for some time that there is a link between optimism and good health. <select class="ans-select" data-q="q11"><option value="">—</option><option>YES</option><option>NO</option><option>NOT GIVEN</option></select></li>
+<li>Optimists have better personal relationships with others than pessimists. <select class="ans-select" data-q="q12"><option value="">—</option><option>YES</option><option>NO</option><option>NOT GIVEN</option></select></li>
+<li>People who live to be over ninety-five are known to take the same amount of regular exercise. <select class="ans-select" data-q="q13"><option value="">—</option><option>YES</option><option>NO</option><option>NOT GIVEN</option></select></li>
+</ol>
+</section>`
+};
+
+const ANSWERS_R = {
+q1:["seven years"],q2:["670"],q3:["lung function"],q4:["immune system"],q5:["heart patients"],
+q6:["D"],q7:["A"],q8:["F"],q9:["G"],q10:["C"],
+q11:["YES"],q12:["NOT GIVEN"],q13:["NO"]
+};
+const DISPLAY_R = {
+q1:"seven years",q2:"670",q3:"lung function",q4:"immune system",q5:"heart patients",
+q6:"D",q7:"A",q8:"F",q9:"G",q10:"C",
+q11:"YES",q12:"NOT GIVEN",q13:"NO"
+};
+const EXPL_R = {
+q1:"The Yale study found that 'thinking positively about ageing adds an average of seven years to a person's life'.",
+q2:"The follow-up study was an 'eight-year study of 670 men aged about 63'.",
+q3:"Optimists 'had significantly better lung function than men who were more pessimistic'.",
+q4:"Researchers believe 'attitude somehow strengthens the immune system'.",
+q5:"Rosalind Wright mentions 'preliminary studies on heart patients' as early supporting evidence.",
+q6:"Freud 'equated optimism with ignorance', and the huge imbalance in papers on depression vs joy shows optimism 'has not been considered a worthy research topic' (D).",
+q7:"Brice Pitt says optimists 'have a hopelessly rosy outlook' — an unrealistic view of life (A).",
+q8:"The Henley Centre found wealth increased but people were 'no... more content with their lives' — happiness isn't linked to material wealth (F).",
+q9:"The Adweek survey found optimism 'drops... to less than a third of people between the ages of 55 and 64' — levels decrease with age (G).",
+q10:"Myers gives the 'cock-eyed optimist' example of someone who smokes but ignores the risk — excessive optimism can have negative consequences (C).",
+q11:"'The role of optimism in good health has long been noted but often sidelined' — this has been known for some time, so YES.",
+q12:"The passage never compares optimists' and pessimists' personal relationships — NOT GIVEN.",
+q13:"'Researchers generally fail to find consistencies in diet or exercise' among the super-aged — this contradicts the statement, so NO."
+};
+const CATEGORY_R = {
+q1:'vocab',q2:'vocab',q3:'vocab',q4:'vocab',q5:'vocab',
+q6:'match',q7:'match',q8:'match',q9:'match',q10:'match',
+q11:'tfng',q12:'tfng',q13:'tfng'
+};
+const PASSAGE_GROUPS = [ {label:'Passage 1', from:1, to:13} ];
+
+// ===================== LISTENING QUESTIONS =====================
+// ===================== STATE =====================
+let candidate='STUDENT';
+let timerInt=null, remaining=0;
+let listenTimerInt=null, listenSeconds=0;
+let listeningEnded=false;
+
+function showIntro(){
+  candidate = document.getElementById('candId').value.trim() || 'STUDENT';
+  document.getElementById('login').classList.add('hidden');
+  document.getElementById('intro').classList.remove('hidden');
+  document.getElementById('welcomeName').textContent = 'Candidate ID: ' + candidate;
+}
+
+function beginReading(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('exam').classList.remove('hidden');
+  document.getElementById('topCid').textContent = candidate;
+  showReadingPassage(1);
+  startTimer(20*60);
+  refreshPalette();
+}
+
+function startTimer(secs){
+  clearInterval(timerInt);
+  remaining=secs;
+  updateTimer();
+  timerInt=setInterval(()=>{
+    remaining--;
+    updateTimer();
+    if(remaining<=0){ clearInterval(timerInt); submitTest(true); }
+  },1000);
+}
+function updateTimer(){
+  const t=document.getElementById('timer');
+  const m=Math.max(0, Math.floor(remaining/60));
+  const s=Math.max(0, remaining%60);
+  t.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  t.classList.toggle('warn', remaining<=180);
+}
+function showReadingPassage(n){
+  document.getElementById('passageText').innerHTML = PASSAGES[n].html;
+  document.getElementById('rq1').innerHTML = QUESTIONS[n];
+  document.getElementById('readLeft').scrollTop = 0;
+  refreshPalette();
+}
+function getAnswer(q){
+  const radios=document.querySelectorAll(`input[type=radio][data-q="${q}"]`);
+  if(radios.length){ const c=[...radios].find(r=>r.checked); return c? [c.value] : []; }
+  const el=document.querySelector(`[data-q="${q}"]`);
+  if(!el) return [];
+  if(el.tagName==='SELECT') return el.value ? [el.value] : [];
+  return el.value.trim() ? [el.value.trim()] : [];
+}
+function norm(s){ return String(s||'').trim().toLowerCase().replace(/\s+/g,' ').replace(/[.,;]+$/,''); }
+function isCorrect(q){
+  const got=getAnswer(q).map(norm);
+  if(!got.length || !got[0]) return false;
+  return (ANSWERS_R[q]||[]).map(norm).includes(got[0]);
+}
+function qResult(q){
+  const got=getAnswer(q);
+  if(!got.length || !got[0]) return 'empty';
+  return isCorrect(q) ? 'correct' : 'wrong';
+}
+function buildPalette(){
+  const container=document.getElementById('qnavReading');
+  const summaryEl=document.getElementById('qnavReadingSummary');
+  const frag=document.createDocumentFragment();
+  let answered=0;
+  for(let i=1;i<=13;i++){
+    const q='q'+i;
+    const btn=document.createElement('button');
+    btn.type='button'; btn.className='qnav-btn'; btn.textContent=i;
+    if(getAnswer(q).length && getAnswer(q)[0]){ btn.classList.add('answered'); answered++; }
+    btn.addEventListener('click', ()=>jumpToQuestion(i));
+    frag.appendChild(btn);
+  }
+  container.innerHTML=''; container.appendChild(frag);
+  if(summaryEl) summaryEl.textContent = answered+' of 13 answered';
+}
+function refreshPalette(){ buildPalette(); }
+function jumpToQuestion(num){
+  setTimeout(()=>{
+    const el=document.querySelector(`[data-q="q${num}"]`);
+    if(el){
+      const target = el.closest('.question') || el.closest('li') || el;
+      target.scrollIntoView({behavior:'smooth', block:'center'});
+      if(el.matches('input,select')) el.focus({preventScroll:true});
+    }
+  },20);
+}
+
+// ===================== SUBMIT / SCORING =====================
+function submitTest(auto=false){
+  if(!auto){
+    const answeredCount = Object.keys(ANSWERS_R).filter(q=>getAnswer(q).length && getAnswer(q)[0]).length;
+    const unanswered = 13 - answeredCount;
+    const msg = unanswered>0 ? `You have ${unanswered} unanswered question(s). Submit anyway?` : 'Submit the test now?';
+    if(!confirm(msg)) return;
+  }
+  clearInterval(timerInt);
+  document.getElementById('exam').classList.add('hidden');
+  document.getElementById('result').classList.remove('hidden');
+  finishScoring();
+}
+function gradeLabel(pct){
+  if(pct>=85) return 'Excellent';
+  if(pct>=70) return 'Good';
+  if(pct>=50) return 'Fair';
+  return 'Needs more practice';
+}
+function finishScoring(){
+  let readingScore=0;
+  for(let i=1;i<=13;i++){ if(qResult('q'+i)==='correct') readingScore++; }
+  const pct = Math.round((readingScore/13)*100);
+
+  document.getElementById('scoreReading').textContent = readingScore+'/13';
+  document.getElementById('bandReading').textContent = pct+'%';
+  document.getElementById('bandOverall').textContent = gradeLabel(pct);
+  document.getElementById('resultMeta').textContent = `Candidate ID: ${candidate} | Score: ${readingScore}/13 (${pct}%)`;
+
+  buildReview(readingScore);
+}
+function answerText(q){ const a=getAnswer(q); return a.length && a[0] ? a[0] : '—'; }
+function escapeHTML(s){ return String(s||'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function statusLabel(res){
+  if(res==='correct') return '<span class="review-ok">&#10004; Correct</span>';
+  if(res==='wrong') return '<span class="review-bad">&#10008; Incorrect</span>';
+  return '<span class="review-empty">Blank</span>';
+}
+function buildReview(readingScore){
+  const box=document.getElementById('reviewBox');
+  let html='';
+
+  html += `<h2>Reading — Optimism and Health (1\u201313)</h2><table class="review-table"><thead><tr><th>Q</th><th>Your answer</th><th>Correct answer</th><th>Result</th><th>Explanation</th></tr></thead><tbody>`;
+  for(let i=1;i<=13;i++){
+    const q='q'+i, res=qResult(q);
+    html+=`<tr><td>${i}</td><td>${escapeHTML(answerText(q))}</td><td>${escapeHTML(DISPLAY_R[q])}</td><td>${statusLabel(res)}</td><td class="expl-cell">${escapeHTML(EXPL_R[q])}</td></tr>`;
+  }
+  html+='</tbody></table>';
+
+  // Discipline feedback
+  const cats={vocab:{c:0,t:0}, tfng:{c:0,t:0}, match:{c:0,t:0}};
+  Object.keys(CATEGORY_R).forEach(q=>{ const cat=CATEGORY_R[q]; cats[cat].t++; if(qResult(q)==='correct') cats[cat].c++; });
+  const pct = k => cats[k].t ? (cats[k].c/cats[k].t*100) : 100;
+  const scores = { vocab:pct('vocab'), tfng:pct('tfng'), match:pct('match') };
+  let weakest='vocab', weakestPct=scores.vocab;
+  Object.keys(scores).forEach(k=>{ if(scores[k]<weakestPct){ weakest=k; weakestPct=scores[k]; } });
+
+  const advice = {
+    vocab: `<b>Focus on vocabulary, spelling and precise scanning.</b> Summary-completion questions (${cats.vocab.c}/${cats.vocab.t} correct, ${scores.vocab.toFixed(0)}%) require finding the exact word or number in the passage and copying it precisely, within the given word limit. Practise scanning for key terms and double-checking spelling.`,
+    tfng: `<b>Focus on careful reading and concentration.</b> Your weakest area was YES/NO/NOT GIVEN questions (${cats.tfng.c}/${cats.tfng.t} correct, ${scores.tfng.toFixed(0)}%). These test whether a statement matches the writer's claims, contradicts them, or isn't mentioned at all — read each statement closely against the exact wording of the passage.`,
+    match: `<b>Focus on paraphrasing and understanding overall meaning.</b> Sentence-ending matching questions (${cats.match.c}/${cats.match.t} correct, ${scores.match.toFixed(0)}%) test your ability to recognise the same idea expressed in different words. Read the whole surrounding sentence, not just isolated keywords, before choosing an ending.`
+  };
+
+  html += `<div class="feedback-box"><h3>\ud83d\udcca Skill breakdown &amp; what to train next</h3>
+  <p>Vocabulary/summary completion: ${cats.vocab.c}/${cats.vocab.t} (${scores.vocab.toFixed(0)}%) — YES/NO/NOT GIVEN: ${cats.tfng.c}/${cats.tfng.t} (${scores.tfng.toFixed(0)}%) — Sentence matching: ${cats.match.c}/${cats.match.t} (${scores.match.toFixed(0)}%)</p>
+  <p>${advice[weakest]}</p>
+  <p>Overall result: <b>${readingScore}/13</b> correct (${Math.round(readingScore/13*100)}%). Keep practising regularly — steady improvement comes from consistent, focused review of your weak areas!</p>
+  </div>`;
+
+  box.innerHTML=html;
+}
+function toggleReview(){
+  const box=document.getElementById('reviewBox');
+  box.style.display = box.style.display==='block' ? 'none' : 'block';
+}
+
+// ===================== DRAG BAR (resize split) =====================
+(function(){
+  const bar=document.getElementById('dragbar');
+  const left=document.getElementById('readLeft');
+  const wrap=document.getElementById('readWrap');
+  let dragging=false;
+  bar.addEventListener('mousedown', ()=>{ dragging=true; bar.classList.add('active'); });
+  document.addEventListener('mouseup', ()=>{ dragging=false; bar.classList.remove('active'); });
+  document.addEventListener('mousemove', e=>{
+    if(!dragging) return;
+    const rect=wrap.getBoundingClientRect();
+    let pct=((e.clientX-rect.left)/rect.width)*100;
+    pct=Math.max(25,Math.min(75,pct));
+    left.style.width=pct+'%';
+  });
+})();
+</script>
+</body>
+</html>

@@ -93,6 +93,9 @@ export function addTestResult(result: TestResult): void {
   // Update streak
   updateStreak();
   
+  // Update progress history for charts
+  addProgressEntry(result.overallBand);
+  
   // Check achievements
   checkAchievements();
 }
@@ -273,6 +276,17 @@ function checkAchievements(): void {
   if (readingResults.some(r => r.accuracy === 100)) unlockAchievement('a9'); // Perfect Reading
 }
 
+// Mock Exam helpers (import from mock-exam-data)
+function getCompletedMockCount(): number {
+  if (typeof window === 'undefined') return 0;
+  try {
+    const sessions = safeGet<any[]>('ieltspro_mock_sessions', []);
+    return sessions.filter((s: any) => s.status === 'completed').length;
+  } catch {
+    return 0;
+  }
+}
+
 // Full Dashboard Data Builder
 export function buildDashboardData() {
   const profile = getUserProfile();
@@ -302,6 +316,10 @@ export function buildDashboardData() {
     .filter(s => s.band > 0)
     .sort((a, b) => (a.band - a.target) - (b.band - b.target))[0]?.skill || 'writing';
   
+  // Mock exam stats
+  const mockCount = getCompletedMockCount();
+  const practiceCount = totalTests - mockCount;
+  
   return {
     userName: getUserName(),
     targetBand: getTargetBand(),
@@ -310,6 +328,8 @@ export function buildDashboardData() {
     skillBands,
     progressHistory: getProgressHistory(),
     totalTests,
+    mockExamsCompleted: mockCount,
+    practiceTestsCompleted: practiceCount,
     averageBand,
     bestBand,
     weakestSkill,
@@ -327,4 +347,5 @@ export function clearAllData(): void {
   if (typeof window === 'undefined') return;
   Object.values(KEYS).forEach(key => localStorage.removeItem(key));
   localStorage.removeItem('ieltspro_progress_history');
+  localStorage.removeItem('ieltspro_mock_sessions');
 }

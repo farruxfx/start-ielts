@@ -42,6 +42,7 @@ import {
   setUserProfile,
 } from '@/lib/store';
 import { useAuth } from '@/components/auth/use-auth';
+import { SubscriptionWidget } from '@/components/subscription/subscription-widget';
 
 const skillConfig: Record<string, { icon: typeof BookOpen; bg: string }> = {
   reading: { icon: BookOpen, bg: 'bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-700' },
@@ -153,6 +154,9 @@ export default function DashboardPage() {
           </Link>
         </div>
       </div>
+
+      {/* Subscription Widget */}
+      <SubscriptionWidget />
 
       {/* Settings Panel */}
       {showSettings && (
@@ -425,6 +429,37 @@ export default function DashboardPage() {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Mock Exam Section */}
+      {hasData && (
+        <div className="rounded-2xl border border-border bg-gradient-to-br from-card to-muted/30 p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="font-semibold">Mock Exam Progress</h3>
+              <p className="text-sm text-muted-foreground">
+                {data.mockExamsCompleted} exam{data.mockExamsCompleted !== 1 ? 's' : ''} completed • {data.practiceTestsCompleted} practice tests taken
+              </p>
+            </div>
+            <Link href="/mock-exam" className="text-sm font-medium text-primary hover:underline">
+              Take a mock exam →
+            </Link>
+          </div>
+          <div className="mt-4 grid grid-cols-3 gap-4">
+            <div className="rounded-xl border border-border bg-card p-4 text-center">
+              <div className="text-2xl font-bold">{data.mockExamsCompleted}</div>
+              <div className="text-xs text-muted-foreground">Mock Exams</div>
+            </div>
+            <div className="rounded-xl border border-border bg-card p-4 text-center">
+              <div className="text-2xl font-bold">{data.bestBand > 0 ? data.bestBand.toFixed(1) : '—'}</div>
+              <div className="text-xs text-muted-foreground">Best Overall</div>
+            </div>
+            <div className="rounded-xl border border-border bg-card p-4 text-center">
+              <div className="text-2xl font-bold">{data.accuracy > 0 ? data.accuracy + '%' : '—'}</div>
+              <div className="text-xs text-muted-foreground">Accuracy</div>
+            </div>
+          </div>
         </div>
       )}
 

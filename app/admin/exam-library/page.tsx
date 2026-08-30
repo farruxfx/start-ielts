@@ -36,6 +36,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { cn } from '@/lib/utils';
+import { LISTENING_TESTS } from '@/lib/listening-tests';
 
 interface TestRow {
   id: string;
@@ -100,31 +101,52 @@ export default function ExamLibraryPage() {
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [deleteTitle, setDeleteTitle] = useState('');
 
-  const fetchTests = useCallback(async () => {
+    const fetchTests = useCallback(async () => {
     setLoading(true);
-    let query = supabase
-      .from('tests')
-      .select('*', { count: 'exact' })
-      .order('created_at', { ascending: false })
-      .range(page * pageSize, (page + 1) * pageSize - 1);
 
-    if (skillFilter !== 'all') {
-      query = query.eq('skill', skillFilter);
+    // Local listening tests from registry
+    const localTests: TestRow[] = LISTENING_TESTS.map(t => ({
+      id: 'local-' + t.id,
+      title: t.title,
+      description: t.category + ' listening test',
+      skill: 'listening',
+      exam_type: 'academic',
+      difficulty: t.difficulty,
+      question_count: t.questionCount,
+      estimated_minutes: t.duration || 33,
+      status: 'published',
+      created_at: '2026-01-01T00:00:00Z',
+    }));
+
+    // Try supabase, but don't fail if it errors
+    let dbTests: TestRow[] = [];
+    try {
+      let query = supabase.from('tests').select('*').order('created_at', { ascending: false });
+      const { data } = await query;
+      dbTests = (data || []) as TestRow[];
+    } catch {
+      // Supabase not configured — ignore
     }
 
-    const { data, count } = await query;
-    setTests((data || []) as TestRow[]);
-    setTotal(count || 0);
+    let combined = [...dbTests, ...localTests];
+
+    if (skillFilter !== 'all') {
+      combined = combined.filter(t => t.skill === skillFilter);
+    }
+    if (search) {
+      combined = combined.filter(t => t.title.toLowerCase().includes(search.toLowerCase()));
+    }
+
+    setTotal(combined.length);
+    setTests(combined.slice(page * pageSize, (page + 1) * pageSize));
     setLoading(false);
-  }, [page, skillFilter]);
+  }, [page, skillFilter, search]);
 
   useEffect(() => {
     fetchTests();
   }, [fetchTests]);
 
-  const filteredTests = tests.filter((t) =>
-    !search || t.title.toLowerCase().includes(search.toLowerCase())
-  );
+  // Already filtered in fetchTests
 
   const openAddForm = () => {
     setEditingId(null);
@@ -261,7 +283,7 @@ export default function ExamLibraryPage() {
                     Loading tests...
                   </td>
                 </tr>
-              ) : filteredTests.length === 0 ? (
+              ) : tests.length === 0 ? (
                 <tr>
                   <td colSpan={8} className="px-4 py-12">
                     <div className="flex flex-col items-center text-center">
@@ -275,7 +297,7 @@ export default function ExamLibraryPage() {
                   </td>
                 </tr>
               ) : (
-                filteredTests.map((test) => (
+                tests.map((test) => (
                   <tr key={test.id} className="hover:bg-muted/30 transition-colors">
                     <td className="px-4 py-3">
                       <div className="font-medium text-sm">{test.title}</div>

@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>IELTS Reading – Flower Power | @reading_cdi</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+
+:root{
+  --bg:#eef0f4;
+  --bg-blob-1:#ffd7dd; --bg-blob-2:#cfe4ff; --bg-blob-3:#dcffe9;
+  --panel:rgba(255,255,255,.62); --panel-solid:rgba(255,255,255,.92);
+  --text:#1c1c1e; --text2:#6e6e73; --text3:#98989d;
+  --border:rgba(60,60,67,.13); --hairline:rgba(60,60,67,.08);
+  --accent:#e31837; --accent-dark:#c11530; --accent-light:rgba(227,24,55,.10);
+  --green:#22a559; --green-bg:rgba(34,165,89,.14);
+  --redx:#ff3b30; --red-bg:rgba(255,59,48,.12);
+  --yellow:#ff9500; --yellow-bg:rgba(255,149,0,.15);
+  --tg:#0088cc;
+  --glass-hi:rgba(255,255,255,.85); --glass-lo:rgba(255,255,255,.18);
+  --shadow:0 10px 40px rgba(31,38,55,.10),0 1px 2px rgba(31,38,55,.06);
+  --blur:blur(26px) saturate(190%);
+  --radius-xl:26px;--radius-lg:20px;--radius-md:14px;--radius-sm:10px;
+}
+html[data-theme="dark"]{
+  --bg:#000000;
+  --bg-blob-1:#3a0a14; --bg-blob-2:#07182c; --bg-blob-3:#062015;
+  --panel:rgba(28,28,30,.58); --panel-solid:rgba(24,24,26,.92);
+  --text:#f2f2f7; --text2:#a9a9ae; --text3:#7c7c80;
+  --border:rgba(255,255,255,.13); --hairline:rgba(255,255,255,.08);
+  --accent:#ff4f68; --accent-dark:#ff2d4d; --accent-light:rgba(255,79,104,.16);
+  --green:#32d873; --green-bg:rgba(50,216,115,.16);
+  --redx:#ff453a; --red-bg:rgba(255,69,58,.16);
+  --yellow:#ff9f0a; --yellow-bg:rgba(255,159,10,.16);
+  --glass-hi:rgba(255,255,255,.16); --glass-lo:rgba(255,255,255,.03);
+  --shadow:0 10px 40px rgba(0,0,0,.55),0 1px 2px rgba(0,0,0,.4);
+}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','SF Pro Display','Segoe UI',Roboto,sans-serif;
+  background:var(--bg);color:var(--text);height:100%;overflow:hidden;
+  -webkit-font-smoothing:antialiased;transition:background .4s ease,color .3s ease;
+}
+.liquid-bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.liquid-bg span{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;animation:drift 22s ease-in-out infinite}
+.liquid-bg span:nth-child(1){width:46vw;height:46vw;background:var(--bg-blob-1);top:-14%;left:-10%;animation-delay:0s}
+.liquid-bg span:nth-child(2){width:38vw;height:38vw;background:var(--bg-blob-2);bottom:-16%;right:-8%;animation-delay:-7s}
+.liquid-bg span:nth-child(3){width:30vw;height:30vw;background:var(--bg-blob-3);bottom:20%;left:30%;animation-delay:-14s}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(4%,6%) scale(1.08)}66%{transform:translate(-5%,-3%) scale(.95)}}
+@media(prefers-reduced-motion:reduce){.liquid-bg span{animation:none}}
+
+.screen{display:none;position:relative;z-index:1}.screen.active{display:flex;flex-direction:column;height:100%}
+.glass{background:var(--panel);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-hi);box-shadow:var(--shadow)}
+
+/* ── LOGIN ── */
+#login-screen{align-items:center;justify-content:center;padding:30px 20px;overflow-y:auto}
+.login-card{border-radius:var(--radius-xl);padding:44px 38px;max-width:420px;width:100%;text-align:center}
+.login-logo{font-size:15px;font-weight:800;color:var(--accent);letter-spacing:-.01em}
+.login-logo span{font-size:12px;color:var(--text3);font-weight:600;display:block;margin-top:3px;letter-spacing:.05em;text-transform:uppercase}
+.login-card h1{font-size:23px;font-weight:800;color:var(--text);margin:16px 0 6px;line-height:1.28;letter-spacing:-.01em}
+.login-card p.login-sub{color:var(--text2);font-size:13.5px;margin-bottom:22px;line-height:1.55}
+.login-field{text-align:left;margin-bottom:14px}
+.login-field label{display:block;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);margin-bottom:6px}
+.login-input{width:100%;padding:13px 16px;border-radius:var(--radius-md);border:1.5px solid var(--border);background:var(--panel-solid);color:var(--text);font-size:15px;font-family:inherit;outline:none;transition:.15s}
+.login-input:focus{border-color:var(--accent);background:var(--panel-solid)}
+.login-input::placeholder{color:rgba(60,60,67,.28);font-weight:600;letter-spacing:.02em}
+html[data-theme="dark"] .login-input::placeholder{color:rgba(255,255,255,.22)}
+.login-error{color:var(--redx);font-size:12.5px;font-weight:600;margin:-4px 0 12px;display:none;text-align:left}
+.login-error.show{display:block}
+.login-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:14px 0;width:100%;font-size:15.5px;font-weight:700;cursor:pointer;transition:.2s;box-shadow:0 8px 22px rgba(227,24,55,.35);margin-top:6px}
+.login-btn:hover{background:var(--accent-dark);transform:translateY(-1px)}
+.login-btn:active{transform:scale(.98)}
+.login-hint{font-size:11.5px;color:var(--text3);margin-top:14px;line-height:1.5}
+
+/* ── HOME ── */
+#home-screen{align-items:center;justify-content:center;padding:30px 20px;overflow-y:auto}
+.home-card{border-radius:var(--radius-xl);padding:44px 38px;max-width:640px;width:100%;text-align:center}
+.home-logo{font-size:15px;font-weight:800;color:var(--accent);letter-spacing:-.01em}
+.home-logo span{font-size:12px;color:var(--text3);font-weight:600;display:block;margin-top:3px;letter-spacing:.05em;text-transform:uppercase}
+.home-badge{display:inline-flex;align-items:center;gap:8px;background:var(--accent-light);color:var(--accent);font-size:12.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:7px 16px;border-radius:99px;margin:18px 0}
+.home-card h1{font-size:26px;font-weight:800;color:var(--text);margin-bottom:8px;line-height:1.28;letter-spacing:-.01em}
+.home-card .home-sub{color:var(--text2);font-size:13.5px;margin-bottom:6px;font-style:italic}
+.home-card p{color:var(--text2);font-size:14.5px;margin-bottom:24px;line-height:1.6}
+.home-meta{display:flex;justify-content:center;gap:14px;margin-bottom:26px;flex-wrap:wrap}
+.home-meta-item{background:var(--panel-solid);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 20px;min-width:84px}
+.home-meta-item .val{font-size:20px;font-weight:800;color:var(--text)}
+.home-meta-item .lbl{font-size:10.5px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.start-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:15px 46px;font-size:16px;font-weight:700;cursor:pointer;transition:.2s;box-shadow:0 8px 22px rgba(227,24,55,.35)}
+.start-btn:hover{background:var(--accent-dark);transform:translateY(-1px)}
+.start-btn:active{transform:scale(.97)}
+
+
+.home-theme-btn{position:fixed;top:18px;right:18px;z-index:5}
+
+/* ── HEADER ── */
+#exam-screen{flex-direction:column;height:100%}
+.exam-header{flex:0 0 auto;margin:10px 12px 0;border-radius:var(--radius-lg);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:200}
+.header-left{display:flex;align-items:center;gap:12px}
+.exam-logo{font-size:14px;font-weight:800;color:var(--accent);letter-spacing:-.01em}
+.exam-sub{font-size:10.5px;color:var(--text3);margin-top:1px}
+.header-pills{display:flex;gap:8px}
+
+
+
+
+.header-right{display:flex;align-items:center;gap:8px}
+.timer-box{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--text);background:var(--panel-solid);border:1px solid var(--border);border-radius:99px;padding:6px 13px}
+.timer-box.urgent{color:var(--redx)}
+.timer-val{min-width:48px;font-variant-numeric:tabular-nums}
+.icon-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:var(--panel-solid);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text);transition:.2s;flex-shrink:0}
+.icon-btn:hover{background:var(--accent-light);color:var(--accent);transform:translateY(-1px)}
+.icon-btn:active{transform:scale(.92)}
+.exit-link{font-size:12.5px;color:var(--text3);cursor:pointer;white-space:nowrap;padding:6px 4px}
+.exit-link:hover{color:var(--accent)}
+
+.ios-switch{position:relative;width:50px;height:30px;border-radius:99px;background:#78788033;border:none;cursor:pointer;flex-shrink:0;transition:background .25s}
+.ios-switch.on{background:var(--accent)}
+.ios-switch .knob{position:absolute;top:2px;left:2px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:transform .25s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;justify-content:center;font-size:13px}
+.ios-switch.on .knob{transform:translateX(20px)}
+
+.part-banner{flex:0 0 auto;margin:10px 12px 0;border-radius:var(--radius-md);padding:10px 18px;font-size:13px;color:var(--text2)}
+.part-banner b{color:var(--text)}
+
+/* ── BODY: TWO PANES ── */
+.exam-body{display:flex;flex:1 1 auto;min-height:0;overflow:hidden;margin:10px 12px;gap:10px}
+.pane{min-width:0;min-height:0;overflow-y:auto;padding:26px 26px 90px;-webkit-overflow-scrolling:touch;border-radius:var(--radius-lg)}
+.pane-left{flex:1 1 50%;user-select:text;position:relative}
+.pane-right{flex:1 1 50%;user-select:text}
+.pane::-webkit-scrollbar{width:7px}
+.pane::-webkit-scrollbar-track{background:transparent}
+.pane::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
+.resizer{width:8px;cursor:col-resize;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.resizer::after{content:'';width:4px;height:44px;border-radius:99px;background:var(--border)}
+.resizer:hover::after{background:var(--accent)}
+
+.watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-25deg);font-size:50px;font-weight:800;color:rgba(227,24,55,.05);pointer-events:none;z-index:0;white-space:nowrap;letter-spacing:2px}
+html[data-theme="dark"] .watermark{color:rgba(255,79,104,.06)}
+.pane-left>*:not(.watermark){position:relative;z-index:1}
+
+.passage-label{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);background:var(--accent-light);display:inline-block;padding:4px 11px;border-radius:99px;margin-bottom:16px}
+.passage-title{font-size:19px;font-weight:800;color:var(--text);margin-bottom:4px;text-align:center;line-height:1.3}
+.passage-subtitle{font-size:12.5px;color:var(--text2);margin-bottom:20px;font-style:italic;text-align:center}
+.passage-para{margin-bottom:1.1em}
+.passage-text{font-size:14.6px;line-height:1.85;color:var(--text)}
+.passage-text .para-tag{font-weight:800;color:var(--accent);margin-right:8px}
+
+/* ── HIGHLIGHT TOOLBAR ── */
+.hl-toolbar{display:none;position:fixed;z-index:500;background:rgba(30,30,34,.85);backdrop-filter:blur(16px);border-radius:99px;padding:8px;box-shadow:0 6px 20px rgba(0,0,0,.3);gap:6px;align-items:center;border:1px solid rgba(255,255,255,.1)}
+.hl-toolbar.show{display:flex}
+.hl-dot{width:24px;height:24px;border-radius:50%;border:2px solid #fff;cursor:pointer}
+.hl-dot.y{background:#fde047}.hl-dot.g{background:#86efac}.hl-dot.p{background:#f9a8d4}.hl-dot.b{background:#93c5fd}
+.hl-remove-btn{background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:99px;padding:5px 12px;font-size:12px;cursor:pointer}
+mark.hl-y{background:#fde047;color:#000}mark.hl-g{background:#86efac;color:#000}mark.hl-p{background:#f9a8d4;color:#000}mark.hl-b{background:#93c5fd;color:#000}
+.ans-highlight{background:#ffeb3b;color:#000;padding:1px 3px;border-radius:3px;font-weight:600;cursor:pointer;border-bottom:2px dotted var(--accent-dark)}
+.ans-highlight::after{content:' 💡';font-size:11px}
+.inline-explain{display:none;background:var(--accent-light);border-left:3px solid var(--accent);border-radius:8px;padding:9px 12px;margin:8px 0;font-size:12.8px;color:var(--text);line-height:1.6}
+.inline-explain.show{display:block}
+.inline-explain b{color:var(--accent)}
+.inline-explain .ie-en{color:var(--text2);margin-bottom:4px}
+
+/* ── VOCAB / TRANSLATE ── */
+.vocab-word{border-bottom:2px dotted var(--accent);cursor:pointer;background:var(--accent-light);border-radius:3px;padding:0 1px}
+.vocab-word:hover{color:var(--accent)}
+.tooltip-box{display:none;position:fixed;z-index:9999;background:rgba(28,28,32,.88);backdrop-filter:blur(18px);color:#fff;border-radius:14px;padding:13px 16px;font-size:14px;max-width:270px;box-shadow:0 12px 30px rgba(0,0,0,.4);pointer-events:none;line-height:1.5;border:1px solid rgba(255,255,255,.1)}
+.t-word{font-size:15px;font-weight:700;color:#ff9fa8;margin-bottom:3px}
+.t-pron{font-size:12px;color:#9ca3af;margin-bottom:5px;font-style:italic}
+.t-uz{font-size:14px;color:#ffd479;font-weight:600;margin-bottom:4px}
+.t-def{font-size:12px;color:#d1d5db}
+
+/* ── QUESTIONS ── */
+.q-section-hdr{margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.q-section-hdr h3{font-size:14px;font-weight:800;color:var(--text);margin-bottom:4px}
+.q-section-hdr p{font-size:12.8px;color:var(--text2);line-height:1.6}
+
+.notes-subhdr{font-size:13.5px;font-weight:800;color:var(--text);margin:16px 0 8px}
+.notes-lead{font-size:12.8px;color:var(--text2);margin-bottom:8px}
+
+.notes-list{list-style:none;padding-left:0}
+.notes-list li{font-size:14px;line-height:1.9;color:var(--text);padding:10px 14px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--panel-solid);margin-bottom:10px}
+.notes-list li b{color:var(--accent);margin-right:2px}
+
+.sc-input{display:inline-block;min-width:130px;padding:6px 10px;border-radius:99px;border:1.5px solid var(--border);background:var(--panel);color:var(--text);font-size:13.5px;font-family:inherit;outline:none;transition:.15s;text-align:center;font-weight:700}
+.sc-input:focus{border-color:var(--accent);background:var(--panel-solid)}
+.sc-input.correct{border-color:var(--green);background:var(--green-bg);color:var(--green)}
+.sc-input.wrong{border-color:var(--redx);background:var(--red-bg);color:var(--redx)}
+
+/* ── FOOTER NAV ── */
+.exam-footer{position:fixed;bottom:10px;left:12px;right:12px;border-radius:var(--radius-lg);padding:9px 14px;display:flex;align-items:center;gap:10px;z-index:200}
+.q-nav-row{display:flex;gap:5px;flex:1;overflow-x:auto;align-items:center;scrollbar-width:none}
+.q-nav-row::-webkit-scrollbar{display:none}
+.q-nav-btn{width:30px;height:30px;border-radius:50%;border:1px solid var(--border);font-size:11.5px;font-weight:700;cursor:pointer;transition:.15s;background:var(--panel-solid);color:var(--text);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.q-nav-btn:hover{border-color:var(--accent)}
+.q-nav-btn.answered{background:var(--accent-light);border-color:var(--accent);color:var(--accent)}
+.q-nav-btn.correct{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+.q-nav-btn.wrong-nav{background:var(--red-bg);border-color:var(--redx);color:var(--redx)}
+.answered-count{font-size:11.5px;color:var(--text3);white-space:nowrap}
+.check-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:11px 22px;font-size:13px;font-weight:700;cursor:pointer;transition:.2s;flex-shrink:0;white-space:nowrap}
+.check-btn:hover{background:var(--accent-dark)}
+.check-btn.done{background:var(--green)}
+
+/* ── RESULT MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,10,14,.45);backdrop-filter:blur(6px);z-index:2000;display:flex;justify-content:center;align-items:center;padding:16px}
+.modal-overlay.hidden{display:none}
+.modal-box{background:var(--panel-solid);backdrop-filter:var(--blur);border-radius:var(--radius-xl);width:100%;max-width:720px;max-height:88vh;display:flex;flex-direction:column;border:1px solid var(--glass-hi);box-shadow:var(--shadow);color:var(--text);overflow:hidden}
+.modal-header{padding:20px 24px 14px;border-bottom:1px solid var(--hairline);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-header h2{font-size:18px;font-weight:800;color:var(--text)}
+.modal-close{background:var(--border);border:none;width:30px;height:30px;border-radius:50%;font-size:18px;cursor:pointer;color:var(--text2);line-height:1}
+.modal-score-row{display:flex;gap:10px;justify-content:center;padding:14px 22px;border-bottom:1px solid var(--hairline);flex-shrink:0;flex-wrap:wrap}
+.score-pill{background:var(--panel);border:1px solid var(--border);border-radius:99px;padding:7px 18px;font-size:13.5px;font-weight:700;color:var(--text)}
+.modal-body{overflow-y:auto;padding:16px 22px 22px;flex:1}
+.res-filter-bar{display:flex;gap:6px;margin-bottom:14px;background:var(--border);padding:4px;border-radius:99px;width:fit-content}
+.res-filter-btn{background:transparent;border:none;border-radius:99px;padding:6px 15px;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--text2);transition:.2s}
+.res-filter-btn.active{background:var(--panel-solid);color:var(--accent);box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.res-row{display:grid;grid-template-columns:44px 1fr 1fr 84px;gap:8px;padding:11px 6px;border-bottom:1px solid var(--hairline);font-size:13px;align-items:start}
+.res-row.is-correct{background:rgba(34,165,89,.05)}
+.res-row.is-wrong{background:rgba(255,59,48,.05)}
+.res-row.is-skipped{background:rgba(255,149,0,.06)}
+.res-num{font-weight:700;color:var(--text);background:var(--panel);border:1px solid var(--border);border-radius:8px;width:34px;height:27px;display:flex;align-items:center;justify-content:center}
+.res-user{background:var(--panel);border:1px solid var(--border);padding:3px 7px;border-radius:7px;color:var(--text);font-size:12.5px;word-break:break-word}
+.res-correct{color:var(--green);font-weight:600;background:var(--green-bg);border:1px solid rgba(34,165,89,.25);padding:3px 7px;border-radius:7px;font-size:12.5px;word-break:break-word}
+.res-badge{justify-self:end;padding:3px 10px;border-radius:99px;font-size:10.5px;font-weight:700;white-space:nowrap;align-self:center}
+.res-badge.ok{background:var(--green-bg);color:var(--green);border:1px solid rgba(34,165,89,.3)}
+.res-badge.bad{background:var(--red-bg);color:var(--redx);border:1px solid rgba(255,59,48,.3)}
+.res-badge.skip{background:var(--yellow-bg);color:var(--yellow);border:1px solid rgba(255,149,0,.3)}
+.res-explain-en{font-size:12.5px;color:var(--text2);line-height:1.5;background:var(--panel);border-radius:8px;padding:9px 11px;margin-top:6px;grid-column:1/-1}
+.res-explain-uz{font-size:12.5px;color:var(--text);line-height:1.5;background:var(--accent-light);border-radius:8px;padding:9px 11px;margin-top:4px;grid-column:1/-1;border-left:3px solid var(--accent)}
+.modal-actions{display:flex;gap:8px;justify-content:center;padding:14px 22px;border-top:1px solid var(--hairline);flex-shrink:0;flex-wrap:wrap}
+.modal-btn{padding:10px 20px;border-radius:99px;font-size:13.5px;font-weight:700;cursor:pointer;transition:.2s;border:1.5px solid var(--border);background:var(--panel);color:var(--text)}
+.modal-btn:hover{border-color:var(--accent);color:var(--accent)}
+.modal-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}.modal-btn.primary:hover{background:var(--accent-dark)}
+.modal-btn.tg{background:var(--tg);color:#fff;border-color:var(--tg)}.modal-btn.tg:hover{background:#0077b3}
+
+@media(max-width:700px){
+  .exam-body{flex-direction:column;margin:8px}
+  .pane-left,.pane-right{flex:1 1 auto;overflow-y:visible;min-height:260px}
+  .resizer{display:none}
+  .home-card,.login-card{padding:30px 20px}
+  .header-pills{display:none}
+  .exam-header{margin:8px 8px 0;padding:8px 12px}
+  .part-banner{margin:8px 8px 0}
+  .exam-footer{left:8px;right:8px}
+  .res-row{grid-template-columns:1fr}
+  .res-badge{justify-self:start}
+}
+:fullscreen .screen.active{height:100vh}
+::selection{background:rgba(227,24,55,.25)}
+
+/* ── QUESTION TYPES (@reading_cdi engine) ── */
+.q-block{margin-bottom:6px}
+.q-item{padding:12px 14px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--panel-solid);margin-bottom:10px}
+.q-item .q-text{font-size:13.8px;line-height:1.65;color:var(--text);margin-bottom:10px;font-weight:700}
+.q-item .q-text b{color:var(--accent);margin-right:4px}
+
+.opt-btns{display:flex;flex-direction:column;gap:6px}
+.opt-btns.row{flex-direction:row;flex-wrap:wrap}
+.opt-btns.row .opt-btn{width:auto;flex:1 1 auto;min-width:64px;text-align:center}
+.opt-btn{width:100%;padding:9px 12px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--panel);color:var(--text2);font-size:12px;font-weight:700;cursor:pointer;transition:.15s;text-align:left;letter-spacing:.02em;font-family:inherit}
+.opt-btn:hover{border-color:var(--accent);color:var(--accent)}
+.opt-btn.selected{background:var(--accent);border-color:var(--accent);color:#fff}
+.opt-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.opt-btn.wrong{background:var(--redx);border-color:var(--redx);color:#fff}
+.opt-btn.reveal-correct{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+
+.sel-input{min-width:104px;padding:8px 12px;border-radius:99px;border:1.5px solid var(--border);background:var(--panel-solid);color:var(--text);font-size:13.5px;font-weight:700;font-family:inherit;outline:none;cursor:pointer;transition:.15s}
+.sel-input:focus{border-color:var(--accent)}
+.sel-input.correct{border-color:var(--green);background:var(--green-bg);color:var(--green)}
+.sel-input.wrong{border-color:var(--redx);background:var(--red-bg);color:var(--redx)}
+.q-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--panel-solid);margin-bottom:9px}
+.q-row .q-label{font-size:13.8px;font-weight:700;color:var(--text)}
+.q-row .q-label b{color:var(--accent);margin-right:6px}
+.q-row .q-sub{display:block;font-size:12.4px;color:var(--text2);font-weight:500;margin-top:3px;line-height:1.5}
+
+.ref-box{border:1px solid var(--border);border-radius:var(--radius-md);background:var(--panel-solid);padding:14px 16px;margin-bottom:16px}
+.ref-box .ref-title{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:9px}
+.ref-box ul{list-style:none;padding:0}
+.ref-box li{font-size:13.2px;line-height:1.65;color:var(--text);margin-bottom:6px;display:flex;gap:9px;font-weight:600}
+.ref-box li span.rn{font-weight:800;color:var(--accent);min-width:26px;flex-shrink:0}
+
+.summary-box{border:1px solid var(--border);border-radius:var(--radius-md);background:var(--panel-solid);padding:16px 18px;font-size:14px;line-height:2.35;color:var(--text);font-weight:700}
+.summary-box b.gapnum{color:var(--accent);margin:0 2px}
+.summary-title{text-align:center;font-size:14px;font-weight:800;margin-bottom:12px;color:var(--text)}
+
+.para-tag{font-weight:800;color:var(--accent);margin-right:8px}
+.notes-list li .sc-input{margin:0 3px}
+@media(max-width:700px){
+  .q-row{flex-direction:column;align-items:stretch;gap:9px}
+  .sel-input{width:100%}
+}
+</style>
+</head>
+<body>
+
+<div class="liquid-bg"><span></span><span></span><span></span></div>
+<div class="tooltip-box" id="tooltip"></div>
+<div class="hl-toolbar" id="hlToolbar">
+  <span class="hl-dot y" data-color="hl-y"></span>
+  <span class="hl-dot g" data-color="hl-g"></span>
+  <span class="hl-dot p" data-color="hl-p"></span>
+  <span class="hl-dot b" data-color="hl-b"></span>
+  <button class="hl-remove-btn" id="hlRemoveBtn">Remove</button>
+</div>
+
+<!-- ══ LOGIN ══ -->
+<div class="screen active" id="login-screen">
+  <button class="icon-btn home-theme-btn" id="theme-toggle-login" title="Dark mode">
+    <svg id="theme-icon-login" viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg>
+  </button>
+  <div class="login-card glass">
+    <div class="login-logo">IELTS<span>@reading_cdi · Kirish</span></div>
+    <h1>Xush kelibsiz 👋</h1>
+    <p class="login-sub">Testni boshlash uchun login va parolni kiriting</p>
+
+    <div class="login-field">
+      <label for="login-user">Login</label>
+      <input type="text" id="login-user" class="login-input" placeholder="reading_cdi" autocomplete="username">
+    </div>
+    <div class="login-field">
+      <label for="login-pass">Parol</label>
+      <input type="password" id="login-pass" class="login-input" placeholder="reading_cdi" autocomplete="current-password">
+    </div>
+    <div class="login-error" id="login-error">Login yoki parol noto'g'ri. Qaytadan urinib ko'ring.</div>
+
+    <button class="login-btn" onclick="checkLogin()">Kirish</button>
+
+    
+    <div class="login-hint">Barcha yangi testlar va materiallar Telegram kanalimizda</div>
+  </div>
+</div>
+
+<!-- ══ HOME ══ -->
+<div class="screen" id="home-screen">
+  <button class="icon-btn home-theme-btn" id="theme-toggle-home" title="Dark mode">
+    <svg id="theme-icon-home" viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg>
+  </button>
+  <div class="home-card glass">
+    <div class="home-logo">IELTS<span>@reading_cdi · Reading</span></div>
+    <div class="home-badge">📖 Academic Reading · Passage 3</div>
+    <h1>Flower Power</h1>
+    <p class="home-sub">Why flowers move us — and what psychologists found when they gave them away</p>
+    <p>14 questions · 20 minutes · Matching Headings + Classification + Summary Completion. Tap underlined words for instant Uzbek translation. Select any text — passage or question — and pick a colour to highlight it.</p>
+    <div class="home-meta">
+      <div class="home-meta-item"><div class="val">14</div><div class="lbl">Questions</div></div>
+      <div class="home-meta-item"><div class="val">20:00</div><div class="lbl">Time limit</div></div>
+      <div class="home-meta-item"><div class="val">3</div><div class="lbl">Types</div></div>
+    </div>
+    <br>
+    <button class="start-btn" onclick="startExam()">Start Test</button>
+    <br>
+    
+  </div>
+</div>
+
+<!-- ══ EXAM ══ -->
+<div class="screen" id="exam-screen">
+  <div class="exam-header glass">
+    <div class="header-left">
+      <div>
+        <div class="exam-logo">IELTS</div>
+        <div class="exam-sub">@reading_cdi</div>
+      </div>
+      <div class="header-pills">
+        
+        
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="exit-link" onclick="confirmExit()">Exit</span>
+      <div class="timer-box" id="timer-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        <span class="timer-val" id="timer-val">20:00</span>
+      </div>
+      <button class="icon-btn" id="timer-toggle" title="Pause/Resume">
+        <svg id="timer-icon" viewBox="0 0 24 24" width="15" height="15"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+      </button>
+      <button class="icon-btn" id="timer-reset" title="Reset Timer">
+        <svg viewBox="0 0 24 24" width="15" height="15"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+      </button>
+      <button class="icon-btn" onclick="toggleFullscreen()" title="Fullscreen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+      </button>
+      <button class="ios-switch" id="theme-toggle-exam" title="Dark mode"><span class="knob" id="theme-knob-exam">☀️</span></button>
+    </div>
+  </div>
+
+  <div class="part-banner glass"><b>Reading Passage 3</b> — Flower Power. You should spend about 20 minutes on Questions 27–40.</div>
+
+  <div class="exam-body">
+    <!-- LEFT: PASSAGE -->
+    <div class="pane pane-left glass" id="pane-left">
+      <div class="watermark">@reading_cdi</div>
+      <div class="passage-label">READING PASSAGE 3</div>
+      <div class="passage-title">Flower Power</div>
+      <div class="passage-subtitle">Why flowers move us — and what psychologists found when they gave them away</div>
+
+      <div class="passage-para"><p class="passage-text" id="para-A"><span class="para-tag">A</span>Why do we give people flowers? To offer <span class="vocab-word" data-word="condolence">condolence</span> to those who are grieving. To celebrate. To <span class="vocab-word" data-word="woo">woo</span>. To ask for forgiveness. We all know <span class="vocab-word" data-word="intuitively">intuitively</span> that there is something psychologically powerful about giving flowers; in fact, few objects provoke such a universal emotional response. In the US alone, the flower industry is now worth about $5bn a year – which suggests that, at the very least, they service a <span class="vocab-word" data-word="compelling">compelling</span> human need.</p></div>
+
+      <div class="passage-para"><p class="passage-text" id="para-B"><span class="para-tag">B</span>Recent studies at the Department of Psychology at Rutgers State University of New Jersey investigated claims that flowers are unique among living organisms in their ability to <span class="vocab-word" data-word="induce">induce</span> profound changes in our emotional state. As the first part of their research, the Rutgers team visited 150 women in their homes. Each was presented with a variety of gifts such as flowers, fruit or sweets. The women were unaware that the study was about the effect of the flowers on their emotions. They were told that it was a study about their daily moods, and that they would receive a gift in return for taking part. Following the presentation of the gift, those receiving flowers were assessed as displaying a much more positive mood than those who got other gifts, and this effect lasted for several days. After receiving flowers, they were also more willing to answer questions concerning their social circle and <span class="vocab-word" data-word="intimate">intimate</span> conversations with friends and family. The results suggest that flowers influence our secondary socio-emotional behaviours, as well as having a strong effect on our immediate emotional expression.</p></div>
+
+      <div class="passage-para"><p class="passage-text" id="para-C"><span class="para-tag">C</span>In the second study, the psychologists observed participants being handed single flowers, or alternative gifts, in a <span class="vocab-word" data-word="constrained">constrained</span> and stressful situation – inside an elevator. Contrary to predictions regarding gender differences, both men and women presented with flowers were more likely to smile, to stand closer and to initiate conversation. Several subjects who were given the alternative gift then learnt that flowers were also being handed out, and returned to the elevator and demanded a flower. The scientists used elevators for this study precisely because the most typical behaviour in <span class="vocab-word" data-word="sparsely">sparsely</span> occupied elevators is for people to <span class="vocab-word" data-word="retreat">retreat</span> to opposite corners. The subjects who received flowers, however, closed up that space to a considerable extent – indicating that the flowers not only induced a strong positive mood, but brought a significant <span class="vocab-word" data-word="affiliation">affiliation</span> among people who had never previously met.</p></div>
+
+      <div class="passage-para"><p class="passage-text" id="para-D"><span class="para-tag">D</span>The third study involved regularly sending flowers to a selected sample of men and women. The researchers found not only a profound elevation of mood, but also reliable improvements in other measures of <span class="vocab-word" data-word="cognitive">cognitive</span> function, like memory. In this series of experiments, some participants produced such extraordinary emotional displays that the psychologists were totally unprepared for them. Subjects gave <span class="vocab-word" data-word="spontaneous">spontaneous</span> hugs and kisses to the people who delivered the flowers, and sent invitations to the psychologists to come to their homes for refreshments.</p></div>
+
+      <div class="passage-para"><p class="passage-text" id="para-E"><span class="para-tag">E</span>Various evolutionary <span class="vocab-word" data-word="hypothesis">hypotheses</span> attempt to explain the remarkably powerful psychological effect of flowers. One is that our <span class="vocab-word" data-word="aesthetic">aesthetic</span> preferences for fertile locations and growing things stem from prehistory, when these clues in our environment could mean the difference between starvation and survival. We may have become <span class="vocab-word" data-word="hardwired">hardwired</span> to respond positively to flowers because for early man, finding them in a particular location predicted future food supplies and possibly a better place to <span class="vocab-word" data-word="rear">rear</span> children. Yet the <span class="vocab-word" data-word="flaw">flaw</span> in this argument is that the <span class="vocab-word" data-word="showy">showy</span> flowers which humans seem to find most visually attractive are generally found on those plants which yield no <span class="vocab-word" data-word="edible">edible</span> products.</p></div>
+
+      <div class="passage-para"><p class="passage-text" id="para-F"><span class="para-tag">F</span>The Rutgers psychologists' findings show that the various physical <span class="vocab-word" data-word="attribute">attributes</span> of flowers combine to directly affect our emotions through multi-channel interactions. We have evolved preferences for the particular colours, textures, patterned <span class="vocab-word" data-word="symmetry">symmetries</span> and specific floral <span class="vocab-word" data-word="odour">odours</span> which influence our moods. Indeed, previous research has established that popular perfumes, which often have a floral 'top-note', will actually reduce depression. The origins of these <span class="vocab-word" data-word="inclination">inclinations</span> may well be as the evolutionary theories suggest: the patterned symmetries of flowers can be detected easily as a recognisable signal within a wide variety of visual arrays, and a response to certain colour tones is important in finding ripe fruit against a leafy background. But, claim the Rutgers team, these preferences have long been separated from their primary evolutionary use, and become rewarding to us more generally. Thus plants with preferred colours, shapes and odours – despite having no other products – would therefore be protected and <span class="vocab-word" data-word="disperse">dispersed</span>.</p></div>
+
+      <div class="passage-para"><p class="passage-text" id="para-G"><span class="para-tag">G</span>The Rutgers study suggests that flowers may have actually evolved to <span class="vocab-word" data-word="exploit">exploit</span> their peculiar impact on humans. The team's theory proposes a plant-human co-evolution, or even <span class="vocab-word" data-word="domestication">domestication</span>, based on the intense emotional rewards that flowers provide. The idea that flowering plants, with no known food or other basic survival value to man, have co-evolved with us by exploiting an emotional <span class="vocab-word" data-word="niche">niche</span> instead, is very much like the scenario presented for the evolution of dogs. Flowers may be the plant equivalent of 'companion animals'. If this is true, then there is a very real sense in which, when you next give flowers, they are using you just as much as you are using them.</p></div>
+
+    </div>
+
+    <div class="resizer" id="resizer"></div>
+
+    <!-- RIGHT: QUESTIONS -->
+    <div class="pane pane-right glass" id="pane-right">
+      <div class="q-section-hdr">
+        <h3>Questions 27–33 · Matching Headings</h3>
+        <p>The passage has seven paragraphs, <b>A–G</b>. Choose the correct heading for each paragraph from the list of headings below. Write the correct number <b>i–viii</b> in boxes 27–33.</p>
+      </div>
+
+      <div class="ref-box">
+        <div class="ref-title">List of Headings</div>
+        <ul>
+          <li><span class="rn">i</span> A negative reaction to receiving flowers</li>
+          <li><span class="rn">ii</span> Some surprisingly strong responses to flowers</li>
+          <li><span class="rn">iii</span> A mutually beneficial relationship?</li>
+          <li><span class="rn">iv</span> Becoming more open about personal matters</li>
+          <li><span class="rn">v</span> Some common social functions of flowers</li>
+          <li><span class="rn">vi</span> Sensory appeal versus practical purpose of flowers</li>
+          <li><span class="rn">vii</span> Bridging the gap between strangers in an enclosed space</li>
+          <li><span class="rn">viii</span> An imperfect theory</li>
+        </ul>
+      </div>
+
+      <div class="q-block">
+        <div class="q-row" data-qanchor="27">
+          <span class="q-label"><b>27</b> Paragraph A</span>
+          <select class="sel-input" data-qnum="27" id="sel-27">
+            <option value="">—</option><option>i</option><option>ii</option><option>iii</option><option>iv</option><option>v</option><option>vi</option><option>vii</option><option>viii</option>
+          </select>
+        </div>
+        <div class="q-row" data-qanchor="28">
+          <span class="q-label"><b>28</b> Paragraph B</span>
+          <select class="sel-input" data-qnum="28" id="sel-28">
+            <option value="">—</option><option>i</option><option>ii</option><option>iii</option><option>iv</option><option>v</option><option>vi</option><option>vii</option><option>viii</option>
+          </select>
+        </div>
+        <div class="q-row" data-qanchor="29">
+          <span class="q-label"><b>29</b> Paragraph C</span>
+          <select class="sel-input" data-qnum="29" id="sel-29">
+            <option value="">—</option><option>i</option><option>ii</option><option>iii</option><option>iv</option><option>v</option><option>vi</option><option>vii</option><option>viii</option>
+          </select>
+        </div>
+        <div class="q-row" data-qanchor="30">
+          <span class="q-label"><b>30</b> Paragraph D</span>
+          <select class="sel-input" data-qnum="30" id="sel-30">
+            <option value="">—</option><option>i</option><option>ii</option><option>iii</option><option>iv</option><option>v</option><option>vi</option><option>vii</option><option>viii</option>
+          </select>
+        </div>
+        <div class="q-row" data-qanchor="31">
+          <span class="q-label"><b>31</b> Paragraph E</span>
+          <select class="sel-input" data-qnum="31" id="sel-31">
+            <option value="">—</option><option>i</option><option>ii</option><option>iii</option><option>iv</option><option>v</option><option>vi</option><option>vii</option><option>viii</option>
+          </select>
+        </div>
+        <div class="q-row" data-qanchor="32">
+          <span class="q-label"><b>32</b> Paragraph F</span>
+          <select class="sel-input" data-qnum="32" id="sel-32">
+            <option value="">—</option><option>i</option><option>ii</option><option>iii</option><option>iv</option><option>v</option><option>vi</option><option>vii</option><option>viii</option>
+          </select>
+        </div>
+        <div class="q-row" data-qanchor="33">
+          <span class="q-label"><b>33</b> Paragraph G</span>
+          <select class="sel-input" data-qnum="33" id="sel-33">
+            <option value="">—</option><option>i</option><option>ii</option><option>iii</option><option>iv</option><option>v</option><option>vi</option><option>vii</option><option>viii</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="q-section-hdr" style="margin-top:26px">
+        <h3>Questions 34–37 · Classification</h3>
+        <p>Classify the following statements as referring to <b>A</b> the first study, <b>B</b> the second study, or <b>C</b> the third study. Write the correct letter in boxes 34–37.</p>
+      </div>
+
+      <div class="ref-box">
+        <div class="ref-title">Studies</div>
+        <ul>
+          <li><span class="rn">A</span> the first study</li>
+          <li><span class="rn">B</span> the second study</li>
+          <li><span class="rn">C</span> the third study</li>
+        </ul>
+      </div>
+
+      <div class="q-item" data-qanchor="34">
+        <div class="q-text"><b>34</b> The study focused on participants' short-term reaction to receiving flowers.</div>
+        <div class="opt-btns row" data-qnum="34">
+          <button class="opt-btn" data-val="A">A</button>
+          <button class="opt-btn" data-val="B">B</button>
+          <button class="opt-btn" data-val="C">C</button>
+        </div>
+      </div>
+      <div class="q-item" data-qanchor="35">
+        <div class="q-text"><b>35</b> Participants were deliberately misled as to the aim of the study.</div>
+        <div class="opt-btns row" data-qnum="35">
+          <button class="opt-btn" data-val="A">A</button>
+          <button class="opt-btn" data-val="B">B</button>
+          <button class="opt-btn" data-val="C">C</button>
+        </div>
+      </div>
+      <div class="q-item" data-qanchor="36">
+        <div class="q-text"><b>36</b> Receiving flowers had a notable effect on participants' mental capacities.</div>
+        <div class="opt-btns row" data-qnum="36">
+          <button class="opt-btn" data-val="A">A</button>
+          <button class="opt-btn" data-val="B">B</button>
+          <button class="opt-btn" data-val="C">C</button>
+        </div>
+      </div>
+      <div class="q-item" data-qanchor="37">
+        <div class="q-text"><b>37</b> Male and female responses were more uniform than expected.</div>
+        <div class="opt-btns row" data-qnum="37">
+          <button class="opt-btn" data-val="A">A</button>
+          <button class="opt-btn" data-val="B">B</button>
+          <button class="opt-btn" data-val="C">C</button>
+        </div>
+      </div>
+
+      <div class="q-section-hdr" style="margin-top:26px">
+        <h3>Questions 38–40 · Summary Completion</h3>
+        <p>Complete the summary below. Choose <b>ONE WORD ONLY</b> from the passage for each answer.</p>
+      </div>
+
+      <div class="summary-box">
+        <div class="summary-title">A possible explanation for the appeal of flowers</div>
+        It has been suggested that our intense response to flowers originates in prehistoric times. The presence of flowers might indicate a potential source of
+        <b class="gapnum">38</b> <input type="text" class="sc-input" id="sc-38" data-qnum="38" autocomplete="off" data-qanchor="38">
+        in a particular location, and primitive humans would search for such signs when looking for a suitable site to raise their
+        <b class="gapnum">39</b> <input type="text" class="sc-input" id="sc-39" data-qnum="39" autocomplete="off" data-qanchor="39">.
+        The interpretation of these signs was essential for the survival of our ancestors. However, the problem with this idea is that the plants producing the most attractive flowers do not usually have fruit which is
+        <b class="gapnum">40</b> <input type="text" class="sc-input" id="sc-40" data-qnum="40" autocomplete="off" data-qanchor="40">.
+      </div>
+
+    </div><!-- /pane-right -->
+  </div><!-- /exam-body -->
+
+  <div class="exam-footer glass">
+    <div class="q-nav-row" id="q-nav-row"></div>
+    <span class="answered-count" id="answered-count">0 / 14</span>
+    <button class="check-btn" id="check-btn" onclick="submitExam()">Check Answers</button>
+  </div>
+</div>
+
+<!-- ══ RESULTS MODAL ══ -->
+<div class="modal-overlay hidden" id="modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>📊 Results — Natijalar</h2>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-score-row">
+      
+      
+      
+      
+    </div>
+    <div class="modal-body">
+      <div class="res-filter-bar">
+        <button class="res-filter-btn active" onclick="setResFilter('all',this)">All 14</button>
+        <button class="res-filter-btn" onclick="setResFilter('wrong',this)">❌ Mistakes</button>
+        <button class="res-filter-btn" onclick="setResFilter('skipped',this)">⏭ Skipped</button>
+      </div>
+      <div id="res-details"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn primary" onclick="closeModal()">Close</button>
+      <button class="modal-btn" onclick="retryTest()">🔄 Retry</button>
+      
+      <button class="modal-btn" onclick="showScreen('home-screen');closeModal()">🏠 Home</button>
+    </div>
+  </div>
+</div>
+<script>
+// ══════════════════════════════════════
+//  TEST DATA
+// ══════════════════════════════════════
+const QNUMS=[27,28,29,30,31,32,33,34,35,36,37,38,39,40];
+const ANSWERS={"27":["v"],"28":["iv"],"29":["vii"],"30":["ii"],"31":["viii"],"32":["vi"],"33":["iii"],"34":["B"],"35":["A"],"36":["C"],"37":["B"],"38":["food"],"39":["children"],"40":["edible"]};
+const MULTI=[];
+const VOCAB={
+ "condolence": { "pron": "/kənˈdoʊləns/", "uz": "ta'ziya, hamdardlik", "def": "An expression of sympathy to someone who is grieving" },
+ "woo": { "pron": "/wuː/", "uz": "sevgisini qozonmoq, ko'ngil olmoq", "def": "To try to win someone's romantic affection" },
+ "intuitively": { "pron": "/ɪnˈtuːɪtɪvli/", "uz": "ich-ichidan sezib, tuyg'u bilan", "def": "In a way based on feeling rather than conscious reasoning" },
+ "compelling": { "pron": "/kəmˈpelɪŋ/", "uz": "kuchli, e'tiborni tortadigan", "def": "Strong and powerful; impossible to ignore" },
+ "induce": { "pron": "/ɪnˈduːs/", "uz": "keltirib chiqarmoq, yuzaga keltirmoq", "def": "To cause something to happen" },
+ "intimate": { "pron": "/ˈɪntɪmət/", "uz": "yaqin, samimiy, shaxsiy", "def": "Very personal or private; closely connected" },
+ "constrained": { "pron": "/kənˈstreɪnd/", "uz": "cheklangan, siqilgan", "def": "Restricted, with limited freedom or space" },
+ "sparsely": { "pron": "/ˈspɑːrsli/", "uz": "siyrak, kam sonli", "def": "Thinly; with only a small number spread over an area" },
+ "retreat": { "pron": "/rɪˈtriːt/", "uz": "chekinmoq, orqaga tortilmoq", "def": "To move back or withdraw from a position" },
+ "affiliation": { "pron": "/əˌfɪliˈeɪʃn/", "uz": "yaqinlashuv, bog'lanish", "def": "A close connection or sense of belonging with others" },
+ "cognitive": { "pron": "/ˈkɑːɡnətɪv/", "uz": "aqliy, bilishga oid", "def": "Relating to thinking, memory and understanding" },
+ "spontaneous": { "pron": "/spɑːnˈteɪniəs/", "uz": "beixtiyor, o'z-o'zidan", "def": "Happening naturally, without being planned" },
+ "hypothesis": { "pron": "/haɪˈpɑːθəsɪs/", "uz": "farazi, gipoteza", "def": "An idea suggested as an explanation, not yet proved" },
+ "aesthetic": { "pron": "/esˈθetɪk/", "uz": "estetik, go'zallikka oid", "def": "Concerned with beauty and the appreciation of it" },
+ "hardwired": { "pron": "/ˌhɑːrdˈwaɪərd/", "uz": "tug'ma dasturlangan", "def": "Built into a person or animal from birth; instinctive" },
+ "rear": { "pron": "/rɪr/", "uz": "tarbiyalamoq, boqmoq", "def": "To care for and bring up children or young animals" },
+ "flaw": { "pron": "/flɔː/", "uz": "kamchilik, nuqson", "def": "A weakness or fault in an argument or object" },
+ "showy": { "pron": "/ˈʃoʊi/", "uz": "ko'zga tashlanadigan, yorqin", "def": "Very noticeable and attractive in a bright, striking way" },
+ "edible": { "pron": "/ˈedəbl/", "uz": "yeyish mumkin bo'lgan", "def": "Safe or suitable to be eaten" },
+ "attribute": { "pron": "/ˈætrɪbjuːt/", "uz": "xususiyat, belgi", "def": "A quality or feature of something" },
+ "symmetry": { "pron": "/ˈsɪmətri/", "uz": "simmetriya, muvozanat", "def": "An exact match in shape on both sides of a line or centre" },
+ "odour": { "pron": "/ˈoʊdər/", "uz": "hid, is", "def": "A smell, especially a distinctive one" },
+ "inclination": { "pron": "/ˌɪnklɪˈneɪʃn/", "uz": "moyillik, mayl", "def": "A natural tendency to act or feel in a particular way" },
+ "disperse": { "pron": "/dɪˈspɜːrs/", "uz": "tarqatmoq", "def": "To scatter or spread over a wide area" },
+ "exploit": { "pron": "/ɪkˈsplɔɪt/", "uz": "foydalanmoq, ishlatib olmoq", "def": "To use something for one's own advantage" },
+ "domestication": { "pron": "/dəˌmestɪˈkeɪʃn/", "uz": "xonakilashtirish", "def": "The process of taming plants or animals for human use" },
+ "niche": { "pron": "/niːʃ/", "uz": "o'ziga xos o'rin, joy", "def": "A specialised position or role within a system" }
+};
+const EXPLANATIONS={
+ "27": {
+  "en": "v — Paragraph A opens with the everyday social uses of flowers: 'To offer condolence... To celebrate. To woo. To ask for forgiveness.' These are common social functions, so heading v fits the whole paragraph.",
+  "uz": "v — A paragrafi gullarning kundalik ijtimoiy vazifalari bilan boshlanadi: ta'ziya bildirish, nishonlash, ko'ngil olish, kechirim so'rash. Bular umumiy ijtimoiy funksiyalar, shuning uchun v sarlavhasi mos keladi."
+ },
+ "28": {
+  "en": "iv — Paragraph B reports that after receiving flowers people were 'more willing to answer questions concerning their social circle and intimate conversations'. That is becoming more open about personal matters.",
+  "uz": "iv — B paragrafida gul olgan odamlar 'o'z ijtimoiy doirasi va yaqin suhbatlari haqidagi savollarga javob berishga ko'proq tayyor' bo'lgani aytiladi. Bu shaxsiy masalalarda ochilib ketishdir."
+ },
+ "29": {
+  "en": "vii — Paragraph C is the elevator study: strangers normally 'retreat to opposite corners', but those given flowers 'closed up that space' and formed 'a significant affiliation among people who had never previously met'.",
+  "uz": "vii — C paragrafi lift tajribasi: odatda notanishlar 'qarama-qarshi burchaklarga tortiladi', lekin gul olganlar 'bu masofani qisqartirgan' va 'avval tanish bo'lmagan odamlar o'rtasida yaqinlik' paydo bo'lgan."
+ },
+ "30": {
+  "en": "ii — Paragraph D describes reactions the psychologists 'were totally unprepared for' — spontaneous hugs, kisses and invitations home. These are surprisingly strong responses.",
+  "uz": "ii — D paragrafida psixologlar 'umuman kutmagan' reaksiyalar tasvirlangan: beixtiyor quchoqlash, o'pish va uyga taklif qilish. Bu kutilmaganda kuchli javoblardir."
+ },
+ "31": {
+  "en": "viii — Paragraph E gives one evolutionary theory and then states 'Yet the flaw in this argument is...'. A theory presented together with its weakness = an imperfect theory.",
+  "uz": "viii — E paragrafida bitta evolyutsion nazariya beriladi, keyin 'Lekin bu dalilning kamchiligi shundaki...' deyiladi. Kamchiligi bilan birga berilgan nazariya = nomukammal nazariya."
+ },
+ "32": {
+  "en": "vi — Paragraph F contrasts our sensory preferences (colours, textures, symmetries, odours) with the fact that such plants have 'no other products'. That is sensory appeal versus practical purpose.",
+  "uz": "vi — F paragrafi bizning sezgi afzalliklarimizni (rang, tekstura, simmetriya, hid) o'sha o'simliklarning 'boshqa mahsuloti yo'q'ligi bilan qiyoslaydi. Ya'ni sezgi jozibasi va amaliy foyda qarama-qarshiligi."
+ },
+ "33": {
+  "en": "iii — Paragraph G proposes 'a plant-human co-evolution' in which flowers use us as much as we use them. Both sides gain, so heading iii (a mutually beneficial relationship?) fits.",
+  "uz": "iii — G paragrafi 'o'simlik-inson birgalikdagi evolyutsiyasi'ni taklif qiladi: gullar bizdan, biz gullardan foydalanamiz. Ikkala tomon ham yutadi, shuning uchun iii mos."
+ },
+ "34": {
+  "en": "B — The second study watched what people did immediately when handed a flower in an elevator (smiling, standing closer, starting conversation). That is a short-term, on-the-spot reaction.",
+  "uz": "B — Ikkinchi tadqiqotda liftda gul berilgan zahoti odamlar nima qilgani kuzatilgan (tabassum, yaqinroq turish, suhbat boshlash). Bu qisqa muddatli, o'sha payturdagi reaksiya."
+ },
+ "35": {
+  "en": "A — In the first study 'The women were unaware that the study was about the effect of the flowers... They were told that it was a study about their daily moods.' They were deliberately misled.",
+  "uz": "A — Birinchi tadqiqotda 'ayollar tadqiqot gullarning ta'siri haqida ekanini bilishmagan... ularga bu kundalik kayfiyat haqidagi tadqiqot deyilgan.' Ya'ni ataylab chalg'itilgan."
+ },
+ "36": {
+  "en": "C — The third study found 'reliable improvements in other measures of cognitive function, like memory'. Cognitive function = mental capacities.",
+  "uz": "C — Uchinchi tadqiqotda 'xotira kabi kognitiv funksiya ko'rsatkichlarida ishonchli yaxshilanish' topilgan. Kognitiv funksiya = aqliy qobiliyatlar."
+ },
+ "37": {
+  "en": "B — In the second study, 'Contrary to predictions regarding gender differences, both men and women... were more likely to smile, to stand closer and to initiate conversation.' The responses were more alike than predicted.",
+  "uz": "B — Ikkinchi tadqiqotda 'jins farqlari haqidagi bashoratlarga qarshi o'laroq, erkaklar ham, ayollar ham' bir xil tarzda reaksiya bildirgan. Javoblar kutilganidan ko'ra o'xshashroq bo'lgan."
+ },
+ "38": {
+  "en": "FOOD — Paragraph E: 'finding them in a particular location predicted future food supplies'. The gap needs one noun: food.",
+  "uz": "FOOD — E paragrafi: 'ularni ma'lum bir joyda topish kelajakdagi oziq-ovqat zaxiralarini bashorat qilgan.' Bo'sh joyga bitta ot kerak: food (oziq-ovqat)."
+ },
+ "39": {
+  "en": "CHILDREN — Paragraph E: 'possibly a better place to rear children'. 'Rear' in the passage = 'raise' in the summary, so the answer is children.",
+  "uz": "CHILDREN — E paragrafi: 'bolalarni tarbiyalash uchun yaxshiroq joy bo'lishi mumkin.' Matndagi 'rear' xulosadagi 'raise' bilan bir xil, javob — children."
+ },
+ "40": {
+  "en": "EDIBLE — Paragraph E: attractive flowers grow on 'plants which yield no edible products'. The summary needs the adjective: edible.",
+  "uz": "EDIBLE — E paragrafi: chiroyli gullar 'yeyish mumkin bo'lgan mahsulot bermaydigan o'simliklarda' o'sadi. Xulosaga sifat kerak: edible."
+ }
+};
+const HIGHLIGHTS=[
+ { "q": 27, "txt": "to those who are grieving. To celebrate. To" },
+ { "q": 28, "txt": "they were also more willing to answer questions concerning their social circle" },
+ { "q": 29, "txt": "The subjects who received flowers, however, closed up that space to a considerable extent" },
+ { "q": 30, "txt": "some participants produced such extraordinary emotional displays that the psychologists were totally unprepared for them" },
+ { "q": 31, "txt": "in this argument is that the" },
+ { "q": 32, "txt": "of flowers combine to directly affect our emotions through multi-channel interactions" },
+ { "q": 33, "txt": "The team's theory proposes a plant-human co-evolution" },
+ { "q": 34, "txt": "In the second study, the psychologists observed participants being handed single flowers" },
+ { "q": 35, "txt": "The women were unaware that the study was about the effect of the flowers on their emotions" },
+ { "q": 36, "txt": "reliable improvements in other measures of" },
+ { "q": 37, "txt": "Contrary to predictions regarding gender differences, both men and women presented with flowers" },
+ { "q": 38, "txt": "predicted future food supplies" },
+ { "q": 39, "txt": "possibly a better place to" },
+ { "q": 40, "txt": "which yield no" }
+];
+
+// ══════════════════════════════════════
+//  LOGIN
+// ══════════════════════════════════════
+const VALID_USER='reading_cdi', VALID_PASS='reading_cdi';
+function checkLogin(){
+  const u=document.getElementById('login-user').value.trim();
+  const p=document.getElementById('login-pass').value.trim();
+  const err=document.getElementById('login-error');
+  if(u===VALID_USER && p===VALID_PASS){err.classList.remove('show');showScreen('home-screen');}
+  else{err.classList.add('show');}
+}
+document.getElementById('login-pass').addEventListener('keydown',e=>{if(e.key==='Enter')checkLogin();});
+document.getElementById('login-user').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('login-pass').focus();});
+
+// ══════════════════════════════════════
+//  THEME
+// ══════════════════════════════════════
+function applyTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  const on=t==='dark';
+  document.getElementById('theme-toggle-exam').classList.toggle('on',on);
+  document.getElementById('theme-knob-exam').textContent=on?'🌙':'☀️';
+  const iconPaths={
+    on:'<path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/>',
+    off:'<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>'
+  };
+  document.getElementById('theme-icon-home').innerHTML=on?iconPaths.on:iconPaths.off;
+  document.getElementById('theme-icon-login').innerHTML=on?iconPaths.on:iconPaths.off;
+  try{localStorage.setItem('cdi-theme',t);}catch(e){}
+}
+function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');}
+document.getElementById('theme-toggle-home').addEventListener('click',toggleTheme);
+document.getElementById('theme-toggle-exam').addEventListener('click',toggleTheme);
+document.getElementById('theme-toggle-login').addEventListener('click',toggleTheme);
+(function(){
+  let saved='light';
+  try{saved=localStorage.getItem('cdi-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');}catch(e){}
+  applyTheme(saved);
+})();
+
+// ══════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════
+const TOTAL_Q=QNUMS.length;
+let userAnswers={},userMulti={},reviewed=false,timerSecs=1200,timerRunning=true,timerInterval,resFilter='all';
+function multiOf(n){return MULTI.find(m=>m.qnums.includes(n))||null;}
+
+// ══════════════════════════════════════
+//  VOCAB TOOLTIP (instant Uzbek translation)
+// ══════════════════════════════════════
+const tooltip=document.getElementById('tooltip');
+let isTouchDev='ontouchstart' in window||navigator.maxTouchPoints>0;
+function posTip(x,y){if(x+280>window.innerWidth)x=window.innerWidth-285;if(x<8)x=8;if(y+140>window.innerHeight)y=y-150;if(y<8)y=8;tooltip.style.left=x+'px';tooltip.style.top=y+'px';}
+function showTip(w,e){const d=VOCAB[w];if(!d)return;tooltip.innerHTML=`<div class="t-word">${w}</div><div class="t-pron">${d.pron}</div><div class="t-uz">🇺🇿 ${d.uz}</div><div class="t-def">${d.def}</div>`;tooltip.style.display='block';posTip(e.clientX+14,e.clientY+14);}
+function hideTip(){tooltip.style.display='none';}
+document.addEventListener('mousemove',e=>{if(isTouchDev)return;const w=e.target.closest('.vocab-word');if(!w){hideTip();return;}showTip(w.dataset.word,e);});
+document.addEventListener('click',e=>{if(!isTouchDev)return;const w=e.target.closest('.vocab-word');if(!w){if(!e.target.closest('.tooltip-box'))hideTip();return;}showTip(w.dataset.word,e);e.stopPropagation();});
+
+// ══════════════════════════════════════
+//  HIGHLIGHT TOOLBAR (works in BOTH panes)
+// ══════════════════════════════════════
+const hlToolbar=document.getElementById('hlToolbar');
+let activeRange=null;
+document.addEventListener('mouseup',e=>{
+  if(e.target.closest('.hl-toolbar'))return;
+  const sel=window.getSelection();
+  if(!sel||sel.isCollapsed||!sel.toString().trim()){hlToolbar.classList.remove('show');return;}
+  activeRange=sel.getRangeAt(0).cloneRange();
+  const rect=sel.getRangeAt(0).getBoundingClientRect();
+  hlToolbar.style.left=Math.max(8,rect.left)+'px';
+  hlToolbar.style.top=Math.max(8,rect.top-50)+'px';
+  hlToolbar.classList.add('show');
+});
+hlToolbar.querySelectorAll('.hl-dot').forEach(dot=>{dot.addEventListener('click',()=>{
+  if(!activeRange)return;
+  const mark=document.createElement('mark');mark.className=dot.dataset.color;
+  try{activeRange.surroundContents(mark);}catch(err){const f=activeRange.extractContents();mark.appendChild(f);activeRange.insertNode(mark);}
+  window.getSelection().removeAllRanges();hlToolbar.classList.remove('show');activeRange=null;
+});});
+document.getElementById('hlRemoveBtn').addEventListener('click',()=>{
+  const sel=window.getSelection();
+  let node=sel&&sel.anchorNode?(sel.anchorNode.nodeType===1?sel.anchorNode:sel.anchorNode.parentElement):null;
+  const mk=node?node.closest('mark[class^="hl-"]'):null;
+  if(mk)mk.replaceWith(...mk.childNodes);
+  hlToolbar.classList.remove('show');activeRange=null;
+});
+document.addEventListener('click',e=>{if(!e.target.closest('.hl-toolbar'))hlToolbar.classList.remove('show');});
+// click an existing highlight to re-open the toolbar (change colour / remove)
+document.addEventListener('click',e=>{
+  const mk=e.target.closest('mark[class^="hl-"]');
+  if(!mk)return;
+  const r=document.createRange();r.selectNodeContents(mk);
+  const s=window.getSelection();s.removeAllRanges();s.addRange(r);
+  activeRange=r.cloneRange();
+  const rect=mk.getBoundingClientRect();
+  hlToolbar.style.left=Math.max(8,rect.left)+'px';
+  hlToolbar.style.top=Math.max(8,rect.top-50)+'px';
+  hlToolbar.classList.add('show');
+  e.stopPropagation();
+});
+
+// ══════════════════════════════════════
+//  ANSWER INPUTS
+// ══════════════════════════════════════
+document.querySelectorAll('.sc-input').forEach(inp=>{
+  inp.addEventListener('input',e=>{
+    if(reviewed){e.target.value=userAnswers[e.target.dataset.qnum]||'';return;}
+    userAnswers[e.target.dataset.qnum]=e.target.value;
+    updateNav();
+  });
+});
+document.querySelectorAll('.sel-input').forEach(sel=>{
+  sel.addEventListener('change',e=>{
+    if(reviewed){e.target.value=userAnswers[e.target.dataset.qnum]||'';return;}
+    userAnswers[e.target.dataset.qnum]=e.target.value;
+    updateNav();
+  });
+});
+document.querySelectorAll('.opt-btns').forEach(group=>{
+  const n=group.dataset.qnum;
+  group.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      if(reviewed)return;
+      userAnswers[n]=btn.dataset.val;
+      group.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected');
+      updateNav();
+    });
+  });
+});
+
+// ══════════════════════════════════════
+//  NAV ROW
+// ══════════════════════════════════════
+function buildNav(){
+  const row=document.getElementById('q-nav-row');row.innerHTML='';
+  QNUMS.forEach(n=>{
+    const b=document.createElement('button');
+    b.className='q-nav-btn';b.id=`nav-${n}`;b.textContent=n;
+    b.onclick=()=>scrollToQ(n);row.appendChild(b);
+  });
+  updateNav();
+}
+function updateNav(){
+  let count=0;
+  QNUMS.forEach(n=>{
+    const b=document.getElementById(`nav-${n}`);if(!b)return;
+    const v=userAnswers[n];
+    const has=v&&String(v).trim();
+    b.className='q-nav-btn'+(has?' answered':'');
+    if(has)count++;
+  });
+  document.getElementById('answered-count').textContent=`${count} / ${TOTAL_Q}`;
+}
+function scrollToQ(n){
+  const el=document.querySelector(`[data-qanchor="${n}"]`);
+  if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+// ══════════════════════════════════════
+//  TIMER
+// ══════════════════════════════════════
+function fmtTime(s){const m=Math.floor(s/60);return `${String(m).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;}
+function tickTimer(){
+  if(!timerRunning)return;
+  timerSecs--;
+  document.getElementById('timer-val').textContent=fmtTime(timerSecs);
+  if(timerSecs<=180)document.getElementById('timer-box').classList.add('urgent');
+  if(timerSecs<=0){clearInterval(timerInterval);submitExam();}
+}
+function startTimer(){clearInterval(timerInterval);timerInterval=setInterval(tickTimer,1000);}
+document.getElementById('timer-toggle').addEventListener('click',()=>{
+  timerRunning=!timerRunning;
+  const icon=document.getElementById('timer-icon');
+  icon.innerHTML=timerRunning?'<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>':'<path d="M8 5v14l11-7L8 5z"/>';
+});
+document.getElementById('timer-reset').addEventListener('click',()=>{timerSecs=1200;document.getElementById('timer-val').textContent='20:00';document.getElementById('timer-box').classList.remove('urgent');});
+
+// ══════════════════════════════════════
+//  RESIZER
+// ══════════════════════════════════════
+(function(){
+  const resizer=document.getElementById('resizer');
+  const left=document.getElementById('pane-left');
+  let startX,startW;
+  resizer.addEventListener('mousedown',e=>{
+    startX=e.clientX;startW=left.offsetWidth;
+    const onMove=e=>{const nw=startW+e.clientX-startX;if(nw>200&&window.innerWidth-nw>200)left.style.flex=`0 0 ${nw}px`;};
+    const onUp=()=>{window.removeEventListener('mousemove',onMove);window.removeEventListener('mouseup',onUp);};
+    window.addEventListener('mousemove',onMove);window.addEventListener('mouseup',onUp);
+  });
+})();
+
+// ══════════════════════════════════════
+//  FULLSCREEN / SCREENS
+// ══════════════════════════════════════
+function toggleFullscreen(){if(!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{});else document.exitFullscreen();}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function confirmExit(){if(confirm('Exit the test?')){clearInterval(timerInterval);showScreen('home-screen');}}
+function startExam(){
+  userAnswers={};userMulti={};reviewed=false;timerSecs=1200;timerRunning=true;
+  document.getElementById('timer-val').textContent='20:00';
+  document.getElementById('timer-box').classList.remove('urgent');
+  document.getElementById('timer-icon').innerHTML='<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+  document.querySelectorAll('.sc-input').forEach(i=>{i.value='';i.classList.remove('correct','wrong');});
+  document.querySelectorAll('.sel-input').forEach(s=>{s.value='';s.classList.remove('correct','wrong');});
+  document.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('selected','correct','wrong','reveal-correct'));
+  document.querySelectorAll('.ans-highlight').forEach(h=>{h.replaceWith(...h.childNodes);});
+  document.querySelectorAll('.inline-explain').forEach(x=>x.remove());
+  showScreen('exam-screen');
+  buildNav();startTimer();
+  const cb=document.getElementById('check-btn');
+  cb.textContent='Check Answers';cb.className='check-btn';cb.onclick=submitExam;
+}
+function retryTest(){closeModal();startExam();}
+
+// ══════════════════════════════════════
+//  SCORING
+// ══════════════════════════════════════
+function normText(s){return String(s||'').trim().toLowerCase().replace(/[.,!?;:'"]+$/,'').replace(/\s+/g,' ');}
+function checkAns(n){
+  const given=userAnswers[n];
+  if(given===undefined||!String(given).trim())return null;
+  return ANSWERS[n].map(normText).includes(normText(given));
+}
+function estimateBand(s){const p=s/TOTAL_Q;if(p>=.98)return 9;if(p>=.92)return 8.5;if(p>=.85)return 8;if(p>=.77)return 7.5;if(p>=.69)return 7;if(p>=.59)return 6.5;if(p>=.46)return 6;if(p>=.38)return 5.5;if(p>=.30)return 5;if(p>=.23)return 4.5;return 4;}
+
+function submitExam(){
+  clearInterval(timerInterval);reviewed=true;
+  let correct=0,wrong=0,skip=0;
+
+  QNUMS.forEach(n=>{
+    const r=checkAns(n);
+    if(r===null)skip++;else if(r)correct++;else wrong++;
+    const nb=document.getElementById(`nav-${n}`);
+    if(nb)nb.className='q-nav-btn '+(r===true?'correct':r===false?'wrong-nav':'');
+
+    const group=document.querySelector(`.opt-btns[data-qnum="${n}"]`);
+    if(group){
+      group.querySelectorAll('.opt-btn').forEach(b=>{
+        const isSel=b.classList.contains('selected');
+        const isRight=ANSWERS[n].map(normText).includes(normText(b.dataset.val));
+        b.classList.remove('correct','wrong','reveal-correct');
+        if(isSel&&isRight)b.classList.add('correct');
+        else if(isSel&&!isRight)b.classList.add('wrong');
+        else if(!isSel&&isRight)b.classList.add('reveal-correct');
+      });
+    }
+    const sel=document.querySelector(`.sel-input[data-qnum="${n}"]`);
+    if(sel){if(r===true)sel.classList.add('correct');else if(r===false)sel.classList.add('wrong');}
+    const inp=document.querySelector(`.sc-input[data-qnum="${n}"]`);
+    if(inp){if(r===true)inp.classList.add('correct');else if(r===false)inp.classList.add('wrong');}
+  });
+
+  document.getElementById('modal-score').textContent=`Score: ${correct} / ${TOTAL_Q}`;
+  document.getElementById('modal-band').textContent=`Band: ${estimateBand(correct)}`;
+  document.getElementById('modal-correct').textContent=`✓ Correct: ${correct}`;
+  document.getElementById('modal-wrong').textContent=`✗ Wrong: ${wrong}`;
+  renderResDetails();
+  document.getElementById('modal').classList.remove('hidden');
+  const cb=document.getElementById('check-btn');
+  cb.textContent='My Result';cb.className='check-btn done';
+  cb.onclick=()=>document.getElementById('modal').classList.remove('hidden');
+  highlightPassage();
+}
+
+function highlightPassage(){
+  document.querySelectorAll('#pane-left .passage-text').forEach(p=>{
+    HIGHLIGHTS.forEach(t=>{
+      if(p.innerHTML.toLowerCase().includes(t.txt.toLowerCase())&&!p.innerHTML.includes(`data-q="${t.q}"`)){
+        const esc=t.txt.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+        const expl=EXPLANATIONS[t.q]||{en:'',uz:''};
+        p.innerHTML=p.innerHTML.replace(new RegExp(esc,'i'),m=>
+          `<span class="ans-highlight" data-q="${t.q}">${m}</span>`+
+          `<span class="inline-explain" id="inline-explain-${t.q}"><div class="ie-en"><b>Q${t.q} — Why:</b> ${expl.en}</div><div><b>Tushuntirish:</b> ${expl.uz}</div></span>`
+        );
+      }
+    });
+  });
+  document.querySelectorAll('.ans-highlight').forEach(h=>{
+    h.addEventListener('click',()=>{
+      const note=document.getElementById('inline-explain-'+h.dataset.q);
+      if(note)note.classList.toggle('show');
+    });
+  });
+}
+
+// ══════════════════════════════════════
+//  REVIEW MODAL
+// ══════════════════════════════════════
+function setResFilter(f,btn){
+  resFilter=f;
+  document.querySelectorAll('.res-filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderResDetails();
+}
+function renderResDetails(){
+  const cont=document.getElementById('res-details');
+  let html='';
+  QNUMS.forEach(n=>{
+    const r=checkAns(n);
+    const status=r===true?'is-correct':r===false?'is-wrong':'is-skipped';
+    if(resFilter==='wrong'&&status!=='is-wrong')return;
+    if(resFilter==='skipped'&&status!=='is-skipped')return;
+    const given=userAnswers[n]||'—';
+    const correctDisp=ANSWERS[n].join(' / ');
+    const badgeClass=status==='is-correct'?'ok':status==='is-skipped'?'skip':'bad';
+    const badgeText=status==='is-correct'?'Correct':status==='is-skipped'?'Skipped':'Incorrect';
+    const expl=EXPLANATIONS[n]||{en:'',uz:''};
+    html+=`<div class="res-row ${status}">
+      <span class="res-num">${n}</span>
+      <span class="res-user">${given}</span>
+      <span class="res-correct">${correctDisp}</span>
+      <span class="res-badge ${badgeClass}">${badgeText}</span>
+      <div class="res-explain-en"><b>Why:</b> ${expl.en}</div>
+      <div class="res-explain-uz"><b>Tushuntirish:</b> ${expl.uz}</div>
+    </div>`;
+  });
+  if(!html)html=`<p style="text-align:center;color:var(--text3);padding:30px">Nothing to show for this filter 🎉</p>`;
+  cont.innerHTML=html;
+}
+function closeModal(){document.getElementById('modal').classList.add('hidden');}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
+
+</script>
+</body>
+</html>

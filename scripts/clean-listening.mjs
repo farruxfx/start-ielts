@@ -1,49 +1,67 @@
-import { readFileSync, writeFileSync } from 'fs';
-import { basename } from 'path';
+import { readFileSync, writeFileSync, readdirSync } from 'fs';
 
-const sourceDir = 'C:\\Users\\user\\Documents\\apps\\ielts platform\\exam files for platform\\listening';
-const outDir = 'public/listening';
+const dir = 'public/listening';
+const files = readdirSync(dir).filter(f => f.endsWith('.html'));
 
-const files = [
-  { src: `${sourceDir}\\Cambridge 21 Test 3 Listening @shohrukhposts.html`, out: 'cambridge-21-test-3.html', title: 'Cambridge 21 - Test 3' },
-  { src: `${sourceDir}\\Cambridge 21 Test 4 @shohrukhposts.html`, out: 'cambridge-21-test-4.html', title: 'Cambridge 21 - Test 4' },
-];
-
-for (const file of files) {
-  let html = readFileSync(file.src, 'utf-8');
-
-  // 1. Remove premium modal (from <!-- Premium Modal --> to its closing </div>)
-  html = html.replace(/<!-- Premium Modal -->[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/m, '');
-
-  // 2. Remove telegram channel link in header-icons
-  html = html.replace(/<a\s+href="https:\/\/t\.me\/shohrukhposts"[\s\S]*?<\/a>/g, '');
-
-  // 3. Remove VIP Pack button
-  html = html.replace(/<button[\s\S]*?id="premium-btn"[\s\S]*?<\/button>/g, '');
-
-  // 4. Remove telegram support button
-  html = html.replace(/<a[\s\S]*?class="telegram-button"[\s\S]*?<\/a>/g, '');
-
-  // 5. Remove any remaining shohrukh/shohrukhposts references in text
-  html = html.replace(/@shohrukhposts/g, '');
-  html = html.replace(/shohrukh/gi, '');
-  html = html.replace(/Shohrukh/gi, '');
-
-  // 6. Clean title
-  html = html.replace(/<title>.*?<\/title>/, `<title>${file.title} - IELTS Listening Test</title>`);
-
-  // 7. Remove html2canvas script (not needed)
-  html = html.replace(/<script src="https:\/\/cdnjs\.cloudflare\.com\/ajax\/libs\/html2canvas[\s\S]*?<\/script>/, '');
-
-  // 8. Remove any remaining telegram links
-  html = html.replace(/https?:\/\/t\.me\/[^\s"')]+/g, '#');
-
-  // 9. Clean the audio source URL - remove the @posts part from display but keep functional URL
-  // The actual audio files still have the old URL, so we keep the src attribute as-is
-  // but remove any visible text mentions
-
-  writeFileSync(`${outDir}/${file.out}`, html);
-  console.log(`Created ${outDir}/${file.out}`);
+function cleanHtml(content, filename) {
+  // Remove telegram links/buttons
+  content = content.replace(/<a[^>]*t\.me[^>]*>.*?<\/a>/gis, '');
+  content = content.replace(/<a[^>]*telegram[^>]*>.*?<\/a>/gis, '');
+  content = content.replace(/<button[^>]*telegram[^>]*>.*?<\/button>/gis, '');
+  
+  // Remove VIP buttons and modals
+  content = content.replace(/<button[^>]*vip[^>]*>.*?<\/button>/gis, '');
+  content = content.replace(/<div[^>]*premium-modal[^>]*>[\s\S]*?<\/div>\s*<\/div>/gi, '');
+  
+  // Remove channel-link references
+  content = content.replace(/<a[^>]*channel-link[^>]*>.*?<\/a>/gis, '');
+  
+  // Remove @shohrukhposts text from visible content (not in scripts)
+  content = content.replace(/@shohrukhposts/gi, '');
+  content = content.replace(/shohrukh/gi, '');
+  
+  // Remove telegram button class
+  content = content.replace(/\.telegram-button[^}]*\}/g, '');
+  
+  // Remove VIP button class
+  content = content.replace(/\.vip-pack-btn[^}]*\}/g, '');
+  content = content.replace(/\.premium-btn[^}]*\}/g, '');
+  
+  // Remove login screens
+  content = content.replace(/function doLogin\(\)\s*\{[^}]*\}/g, 
+    'function doLogin() { const l=document.getElementById("login");if(l)l.style.display="none";const i=document.getElementById("intro");if(i)i.style.display="block"; }');
+  
+  // Force hide login
+  content = content.replace(/id="login"[^>]*style="([^"]*)"/g, 'id="login" style="$1;display:none!important"');
+  content = content.replace(/id="login"/g, 'id="login" style="display:none!important"');
+  
+  // Remove footer links to external sites
+  content = content.replace(/<footer[\s\S]*?<\/footer>/gi, '');
+  
+  // Remove any remaining external links (t.me, telegram, vip)
+  content = content.replace(/href="https?:\/\/t\.me[^"]*"/gi, 'href="#"');
+  content = content.replace(/href="https?:\/\/[^"]*telegram[^"]*"/gi, 'href="#"');
+  
+  // Remove premium modal overlay if exists
+  content = content.replace(/<div[^>]*id="premium-modal-bg"[^>]*>[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/gi, '');
+  
+  return content;
 }
 
-console.log('Done!');
+let cleaned = 0;
+for (const file of files) {
+  try {
+    const path = `${dir}/${file}`;
+    let content = readFileSync(path, 'utf8');
+    const original = content;
+    content = cleanHtml(content, file);
+    if (content !== original) {
+      writeFileSync(path, content, 'utf8');
+      cleaned++;
+    }
+  } catch (e) {
+    console.error(`Error cleaning ${file}: ${e.message}`);
+  }
+}
+
+console.log(`Cleaned ${cleaned}/${files.length} files`);

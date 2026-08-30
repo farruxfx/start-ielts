@@ -1,8 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSpeakingFeedback } from '@/lib/ai';
+import { getSpeakingFeedback, isAIConfigured } from '@/lib/ai';
 
 export async function POST(req: NextRequest) {
   try {
+    if (!isAIConfigured()) {
+      return NextResponse.json(
+        { error: 'AI not configured. Add GROQ_API_KEY to .env.local.', offline: true },
+        { status: 503 }
+      );
+    }
+
     const body = await req.json();
     const { question, answer, part, userData } = body;
 

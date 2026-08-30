@@ -21,6 +21,7 @@ import {
   X,
   Bell,
   ShieldCheck,
+  ClipboardList,
 } from 'lucide-react';
 import { useAuth } from '@/components/auth/use-auth';
 import { cn } from '@/lib/utils';
@@ -29,6 +30,7 @@ import { Button } from '@/components/ui/button';
 const navItems = [
   { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { label: 'Practice', href: '/practice', icon: BookOpen },
+  { label: 'Mock Exam', href: '/mock-exam', icon: ClipboardList },
   { label: 'Analytics', href: '/analytics', icon: BarChart3 },
   { label: 'Vocabulary', href: '/vocabulary', icon: BookMarked },
   { label: 'AI Coach', href: '/ai-coach', icon: Brain },

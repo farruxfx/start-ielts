@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Brain, Send, Sparkles, TrendingUp, Mic, MicOff, Volume2, Play, Pause, Target, BookOpen, Headphones, PenLine, Calendar, Lock, ChevronRight, MessageSquare, Wifi, WifiOff } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { buildDashboardData, getTestResults } from '@/lib/store';
@@ -13,6 +13,17 @@ interface Message {
   timestamp: Date;
   isSpeaking?: boolean;
   isAI?: boolean;
+}
+
+/** Safely render markdown-ish text as React elements (no dangerouslySetInnerHTML). */
+function renderMarkdown(text: string): React.ReactNode {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={i}>{part.slice(2, -2)}</strong>;
+    }
+    return <span key={i}>{part}</span>;
+  });
 }
 
 const skillConfig: Record<string, { icon: typeof BookOpen; color: string; bg: string; trackBg: string }> = {
@@ -93,7 +104,7 @@ export default function AICoachPage() {
     // Check AI API status
     fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: 'ping' }) })
       .then(r => r.json())
-      .then(d => setAiStatus(d.error ? 'offline' : 'online'))
+      .then(d => setAiStatus(d.offline ? 'offline' : d.error ? 'offline' : 'online'))
       .catch(() => setAiStatus('offline'));
   }, []);
 
@@ -155,12 +166,14 @@ export default function AICoachPage() {
         setMessages(prev => [...prev, aiMsg]);
       }
     } else {
-      // Offline mode
+      // Offline mode — keep typing indicator visible while "thinking"
       setTimeout(() => {
         const response = generateFallbackResponse(text, data);
         const aiMsg: Message = { id: 'a' + Date.now(), role: 'assistant', content: response + '\n\n*(Offline mode — add GROQ_API_KEY for personalized AI responses)*', timestamp: new Date() };
         setMessages(prev => [...prev, aiMsg]);
+        setIsTyping(false);
       }, 500 + Math.random() * 500);
+      return; // setIsTyping(false) will run inside the callback
     }
     setIsTyping(false);
   };
@@ -377,7 +390,7 @@ export default function AICoachPage() {
                 </div>
               )}
               <div className={cn('max-w-[85%] rounded-2xl px-4 py-2.5 text-sm', msg.role === 'user' ? 'bg-blue-600 text-white' : 'bg-muted/50')}>
-                <div className="whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: msg.content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>') }} />
+                <div className="whitespace-pre-wrap">{renderMarkdown(msg.content)}</div>
               </div>
             </div>
           ))}

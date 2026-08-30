@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>IELTS Reading – What if everything had a barcode? | @reading_cdi</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+
+:root{
+  --bg:#eef0f4;
+  --bg-blob-1:#ffd7dd; --bg-blob-2:#cfe4ff; --bg-blob-3:#dcffe9;
+  --panel:rgba(255,255,255,.62); --panel-solid:rgba(255,255,255,.92);
+  --text:#1c1c1e; --text2:#6e6e73; --text3:#98989d;
+  --border:rgba(60,60,67,.13); --hairline:rgba(60,60,67,.08);
+  --accent:#e31837; --accent-dark:#c11530; --accent-light:rgba(227,24,55,.10);
+  --green:#22a559; --green-bg:rgba(34,165,89,.14);
+  --redx:#ff3b30; --red-bg:rgba(255,59,48,.12);
+  --yellow:#ff9500; --yellow-bg:rgba(255,149,0,.15);
+  --tg:#0088cc;
+  --glass-hi:rgba(255,255,255,.85); --glass-lo:rgba(255,255,255,.18);
+  --shadow:0 10px 40px rgba(31,38,55,.10),0 1px 2px rgba(31,38,55,.06);
+  --blur:blur(26px) saturate(190%);
+  --radius-xl:26px;--radius-lg:20px;--radius-md:14px;--radius-sm:10px;
+}
+html[data-theme="dark"]{
+  --bg:#000000;
+  --bg-blob-1:#3a0a14; --bg-blob-2:#07182c; --bg-blob-3:#062015;
+  --panel:rgba(28,28,30,.58); --panel-solid:rgba(24,24,26,.92);
+  --text:#f2f2f7; --text2:#a9a9ae; --text3:#7c7c80;
+  --border:rgba(255,255,255,.13); --hairline:rgba(255,255,255,.08);
+  --accent:#ff4f68; --accent-dark:#ff2d4d; --accent-light:rgba(255,79,104,.16);
+  --green:#32d873; --green-bg:rgba(50,216,115,.16);
+  --redx:#ff453a; --red-bg:rgba(255,69,58,.16);
+  --yellow:#ff9f0a; --yellow-bg:rgba(255,159,10,.16);
+  --glass-hi:rgba(255,255,255,.16); --glass-lo:rgba(255,255,255,.03);
+  --shadow:0 10px 40px rgba(0,0,0,.55),0 1px 2px rgba(0,0,0,.4);
+}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','SF Pro Display','Segoe UI',Roboto,sans-serif;
+  background:var(--bg);color:var(--text);height:100%;overflow:hidden;
+  -webkit-font-smoothing:antialiased;transition:background .4s ease,color .3s ease;
+}
+.liquid-bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.liquid-bg span{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;animation:drift 22s ease-in-out infinite}
+.liquid-bg span:nth-child(1){width:46vw;height:46vw;background:var(--bg-blob-1);top:-14%;left:-10%;animation-delay:0s}
+.liquid-bg span:nth-child(2){width:38vw;height:38vw;background:var(--bg-blob-2);bottom:-16%;right:-8%;animation-delay:-7s}
+.liquid-bg span:nth-child(3){width:30vw;height:30vw;background:var(--bg-blob-3);bottom:20%;left:30%;animation-delay:-14s}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(4%,6%) scale(1.08)}66%{transform:translate(-5%,-3%) scale(.95)}}
+@media(prefers-reduced-motion:reduce){.liquid-bg span{animation:none}}
+
+.screen{display:none;position:relative;z-index:1}.screen.active{display:flex;flex-direction:column;height:100%}
+.glass{background:var(--panel);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-hi);box-shadow:var(--shadow)}
+
+/* ── LOGIN ── */
+#login-screen{align-items:center;justify-content:center;padding:30px 20px;overflow-y:auto}
+.login-card{border-radius:var(--radius-xl);padding:44px 38px;max-width:420px;width:100%;text-align:center}
+.login-logo{font-size:15px;font-weight:800;color:var(--accent);letter-spacing:-.01em}
+.login-logo span{font-size:12px;color:var(--text3);font-weight:600;display:block;margin-top:3px;letter-spacing:.05em;text-transform:uppercase}
+.login-card h1{font-size:23px;font-weight:800;color:var(--text);margin:16px 0 6px;line-height:1.28;letter-spacing:-.01em}
+.login-card p.login-sub{color:var(--text2);font-size:13.5px;margin-bottom:22px;line-height:1.55}
+.login-field{text-align:left;margin-bottom:14px}
+.login-field label{display:block;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);margin-bottom:6px}
+.login-input{width:100%;padding:13px 16px;border-radius:var(--radius-md);border:1.5px solid var(--border);background:var(--panel-solid);color:var(--text);font-size:15px;font-family:inherit;outline:none;transition:.15s}
+.login-input:focus{border-color:var(--accent);background:var(--panel-solid)}
+.login-input::placeholder{color:rgba(60,60,67,.28);font-weight:600;letter-spacing:.02em}
+html[data-theme="dark"] .login-input::placeholder{color:rgba(255,255,255,.22)}
+.login-error{color:var(--redx);font-size:12.5px;font-weight:600;margin:-4px 0 12px;display:none;text-align:left}
+.login-error.show{display:block}
+.login-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:14px 0;width:100%;font-size:15.5px;font-weight:700;cursor:pointer;transition:.2s;box-shadow:0 8px 22px rgba(227,24,55,.35);margin-top:6px}
+.login-btn:hover{background:var(--accent-dark);transform:translateY(-1px)}
+.login-btn:active{transform:scale(.98)}
+.login-hint{font-size:11.5px;color:var(--text3);margin-top:14px;line-height:1.5}
+
+/* ── HOME ── */
+#home-screen{align-items:center;justify-content:center;padding:30px 20px;overflow-y:auto}
+.home-card{border-radius:var(--radius-xl);padding:44px 38px;max-width:640px;width:100%;text-align:center}
+.home-logo{font-size:15px;font-weight:800;color:var(--accent);letter-spacing:-.01em}
+.home-logo span{font-size:12px;color:var(--text3);font-weight:600;display:block;margin-top:3px;letter-spacing:.05em;text-transform:uppercase}
+.home-badge{display:inline-flex;align-items:center;gap:8px;background:var(--accent-light);color:var(--accent);font-size:12.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:7px 16px;border-radius:99px;margin:18px 0}
+.home-card h1{font-size:26px;font-weight:800;color:var(--text);margin-bottom:8px;line-height:1.28;letter-spacing:-.01em}
+.home-card .home-sub{color:var(--text2);font-size:13.5px;margin-bottom:6px;font-style:italic}
+.home-card p{color:var(--text2);font-size:14.5px;margin-bottom:24px;line-height:1.6}
+.home-meta{display:flex;justify-content:center;gap:14px;margin-bottom:26px;flex-wrap:wrap}
+.home-meta-item{background:var(--panel-solid);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 20px;min-width:84px}
+.home-meta-item .val{font-size:20px;font-weight:800;color:var(--text)}
+.home-meta-item .lbl{font-size:10.5px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.start-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:15px 46px;font-size:16px;font-weight:700;cursor:pointer;transition:.2s;box-shadow:0 8px 22px rgba(227,24,55,.35)}
+.start-btn:hover{background:var(--accent-dark);transform:translateY(-1px)}
+.start-btn:active{transform:scale(.97)}
+
+
+.home-theme-btn{position:fixed;top:18px;right:18px;z-index:5}
+
+/* ── HEADER ── */
+#exam-screen{flex-direction:column;height:100%}
+.exam-header{flex:0 0 auto;margin:10px 12px 0;border-radius:var(--radius-lg);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:200}
+.header-left{display:flex;align-items:center;gap:12px}
+.exam-logo{font-size:14px;font-weight:800;color:var(--accent);letter-spacing:-.01em}
+.exam-sub{font-size:10.5px;color:var(--text3);margin-top:1px}
+.header-pills{display:flex;gap:8px}
+
+
+
+
+.header-right{display:flex;align-items:center;gap:8px}
+.timer-box{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--text);background:var(--panel-solid);border:1px solid var(--border);border-radius:99px;padding:6px 13px}
+.timer-box.urgent{color:var(--redx)}
+.timer-val{min-width:48px;font-variant-numeric:tabular-nums}
+.icon-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:var(--panel-solid);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text);transition:.2s;flex-shrink:0}
+.icon-btn:hover{background:var(--accent-light);color:var(--accent);transform:translateY(-1px)}
+.icon-btn:active{transform:scale(.92)}
+.exit-link{font-size:12.5px;color:var(--text3);cursor:pointer;white-space:nowrap;padding:6px 4px}
+.exit-link:hover{color:var(--accent)}
+
+.ios-switch{position:relative;width:50px;height:30px;border-radius:99px;background:#78788033;border:none;cursor:pointer;flex-shrink:0;transition:background .25s}
+.ios-switch.on{background:var(--accent)}
+.ios-switch .knob{position:absolute;top:2px;left:2px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:transform .25s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;justify-content:center;font-size:13px}
+.ios-switch.on .knob{transform:translateX(20px)}
+
+.part-banner{flex:0 0 auto;margin:10px 12px 0;border-radius:var(--radius-md);padding:10px 18px;font-size:13px;color:var(--text2)}
+.part-banner b{color:var(--text)}
+
+/* ── BODY: TWO PANES ── */
+.exam-body{display:flex;flex:1 1 auto;min-height:0;overflow:hidden;margin:10px 12px;gap:10px}
+.pane{min-width:0;min-height:0;overflow-y:auto;padding:26px 26px 90px;-webkit-overflow-scrolling:touch;border-radius:var(--radius-lg)}
+.pane-left{flex:1 1 50%;user-select:text;position:relative}
+.pane-right{flex:1 1 50%;user-select:text}
+.pane::-webkit-scrollbar{width:7px}
+.pane::-webkit-scrollbar-track{background:transparent}
+.pane::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
+.resizer{width:8px;cursor:col-resize;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.resizer::after{content:'';width:4px;height:44px;border-radius:99px;background:var(--border)}
+.resizer:hover::after{background:var(--accent)}
+
+.watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-25deg);font-size:50px;font-weight:800;color:rgba(227,24,55,.05);pointer-events:none;z-index:0;white-space:nowrap;letter-spacing:2px}
+html[data-theme="dark"] .watermark{color:rgba(255,79,104,.06)}
+.pane-left>*:not(.watermark){position:relative;z-index:1}
+
+.passage-label{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);background:var(--accent-light);display:inline-block;padding:4px 11px;border-radius:99px;margin-bottom:16px}
+.passage-title{font-size:19px;font-weight:800;color:var(--text);margin-bottom:4px;text-align:center;line-height:1.3}
+.passage-subtitle{font-size:12.5px;color:var(--text2);margin-bottom:20px;font-style:italic;text-align:center}
+.passage-para{margin-bottom:1.1em}
+.passage-text{font-size:14.6px;line-height:1.85;color:var(--text)}
+.passage-text .para-tag{font-weight:800;color:var(--accent);margin-right:8px}
+
+/* ── HIGHLIGHT TOOLBAR ── */
+.hl-toolbar{display:none;position:fixed;z-index:500;background:rgba(30,30,34,.85);backdrop-filter:blur(16px);border-radius:99px;padding:8px;box-shadow:0 6px 20px rgba(0,0,0,.3);gap:6px;align-items:center;border:1px solid rgba(255,255,255,.1)}
+.hl-toolbar.show{display:flex}
+.hl-dot{width:24px;height:24px;border-radius:50%;border:2px solid #fff;cursor:pointer}
+.hl-dot.y{background:#fde047}.hl-dot.g{background:#86efac}.hl-dot.p{background:#f9a8d4}.hl-dot.b{background:#93c5fd}
+.hl-remove-btn{background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:99px;padding:5px 12px;font-size:12px;cursor:pointer}
+mark.hl-y{background:#fde047;color:#000}mark.hl-g{background:#86efac;color:#000}mark.hl-p{background:#f9a8d4;color:#000}mark.hl-b{background:#93c5fd;color:#000}
+.ans-highlight{background:#ffeb3b;color:#000;padding:1px 3px;border-radius:3px;font-weight:600;cursor:pointer;border-bottom:2px dotted var(--accent-dark)}
+.ans-highlight::after{content:' 💡';font-size:11px}
+.inline-explain{display:none;background:var(--accent-light);border-left:3px solid var(--accent);border-radius:8px;padding:9px 12px;margin:8px 0;font-size:12.8px;color:var(--text);line-height:1.6}
+.inline-explain.show{display:block}
+.inline-explain b{color:var(--accent)}
+.inline-explain .ie-en{color:var(--text2);margin-bottom:4px}
+
+/* ── VOCAB / TRANSLATE ── */
+.vocab-word{border-bottom:2px dotted var(--accent);cursor:pointer;background:var(--accent-light);border-radius:3px;padding:0 1px}
+.vocab-word:hover{color:var(--accent)}
+.tooltip-box{display:none;position:fixed;z-index:9999;background:rgba(28,28,32,.88);backdrop-filter:blur(18px);color:#fff;border-radius:14px;padding:13px 16px;font-size:14px;max-width:270px;box-shadow:0 12px 30px rgba(0,0,0,.4);pointer-events:none;line-height:1.5;border:1px solid rgba(255,255,255,.1)}
+.t-word{font-size:15px;font-weight:700;color:#ff9fa8;margin-bottom:3px}
+.t-pron{font-size:12px;color:#9ca3af;margin-bottom:5px;font-style:italic}
+.t-uz{font-size:14px;color:#ffd479;font-weight:600;margin-bottom:4px}
+.t-def{font-size:12px;color:#d1d5db}
+
+/* ── QUESTIONS ── */
+.q-section-hdr{margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.q-section-hdr h3{font-size:14px;font-weight:800;color:var(--text);margin-bottom:4px}
+.q-section-hdr p{font-size:12.8px;color:var(--text2);line-height:1.6}
+
+.notes-subhdr{font-size:13.5px;font-weight:800;color:var(--text);margin:16px 0 8px}
+.notes-lead{font-size:12.8px;color:var(--text2);margin-bottom:8px}
+
+.notes-list{list-style:none;padding-left:0}
+.notes-list li{font-size:14px;line-height:1.95;color:var(--text);padding:10px 14px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--panel-solid);margin-bottom:10px;font-weight:700}
+.notes-list li b{color:var(--accent);margin-right:2px}
+
+.sc-input{display:inline-block;min-width:150px;padding:6px 10px;border-radius:99px;border:1.5px solid var(--border);background:var(--panel);color:var(--text);font-size:13.5px;font-family:inherit;outline:none;transition:.15s;text-align:center;font-weight:700}
+.sc-input:focus{border-color:var(--accent);background:var(--panel-solid)}
+.sc-input.correct{border-color:var(--green);background:var(--green-bg);color:var(--green)}
+.sc-input.wrong{border-color:var(--redx);background:var(--red-bg);color:var(--redx)}
+
+/* ── FLOW CHART ── */
+.flow-title{text-align:center;font-size:14px;font-weight:800;margin-bottom:12px;color:var(--text)}
+.flow-box{border:1.5px solid var(--border);border-radius:var(--radius-md);background:var(--panel-solid);padding:13px 15px;font-size:13.8px;line-height:1.95;color:var(--text);font-weight:700}
+.flow-arrow{display:flex;justify-content:center;color:var(--accent);font-size:20px;line-height:1;margin:7px 0;font-weight:800}
+.flow-box b{color:var(--accent);margin-right:2px}
+
+/* ── TFNG ── */
+.tfng-item{padding:12px 14px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--panel-solid);margin-bottom:10px}
+.tfng-q{font-size:13.8px;line-height:1.65;color:var(--text);margin-bottom:10px;font-weight:700}
+.tfng-q b{color:var(--accent);margin-right:4px}
+
+/* ── FOOTER NAV ── */
+.exam-footer{position:fixed;bottom:10px;left:12px;right:12px;border-radius:var(--radius-lg);padding:9px 14px;display:flex;align-items:center;gap:10px;z-index:200}
+.q-nav-row{display:flex;gap:5px;flex:1;overflow-x:auto;align-items:center;scrollbar-width:none}
+.q-nav-row::-webkit-scrollbar{display:none}
+.q-nav-btn{width:30px;height:30px;border-radius:50%;border:1px solid var(--border);font-size:11.5px;font-weight:700;cursor:pointer;transition:.15s;background:var(--panel-solid);color:var(--text);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.q-nav-btn:hover{border-color:var(--accent)}
+.q-nav-btn.answered{background:var(--accent-light);border-color:var(--accent);color:var(--accent)}
+.q-nav-btn.correct{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+.q-nav-btn.wrong-nav{background:var(--red-bg);border-color:var(--redx);color:var(--redx)}
+.answered-count{font-size:11.5px;color:var(--text3);white-space:nowrap}
+.check-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:11px 22px;font-size:13px;font-weight:700;cursor:pointer;transition:.2s;flex-shrink:0;white-space:nowrap}
+.check-btn:hover{background:var(--accent-dark)}
+.check-btn.done{background:var(--green)}
+
+/* ── RESULT MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,10,14,.45);backdrop-filter:blur(6px);z-index:2000;display:flex;justify-content:center;align-items:center;padding:16px}
+.modal-overlay.hidden{display:none}
+.modal-box{background:var(--panel-solid);backdrop-filter:var(--blur);border-radius:var(--radius-xl);width:100%;max-width:720px;max-height:88vh;display:flex;flex-direction:column;border:1px solid var(--glass-hi);box-shadow:var(--shadow);color:var(--text);overflow:hidden}
+.modal-header{padding:20px 24px 14px;border-bottom:1px solid var(--hairline);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-header h2{font-size:18px;font-weight:800;color:var(--text)}
+.modal-close{background:var(--border);border:none;width:30px;height:30px;border-radius:50%;font-size:18px;cursor:pointer;color:var(--text2);line-height:1}
+.modal-score-row{display:flex;gap:10px;justify-content:center;padding:14px 22px;border-bottom:1px solid var(--hairline);flex-shrink:0;flex-wrap:wrap}
+.score-pill{background:var(--panel);border:1px solid var(--border);border-radius:99px;padding:7px 18px;font-size:13.5px;font-weight:700;color:var(--text)}
+.modal-body{overflow-y:auto;padding:16px 22px 22px;flex:1}
+.res-filter-bar{display:flex;gap:6px;margin-bottom:14px;background:var(--border);padding:4px;border-radius:99px;width:fit-content}
+.res-filter-btn{background:transparent;border:none;border-radius:99px;padding:6px 15px;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--text2);transition:.2s}
+.res-filter-btn.active{background:var(--panel-solid);color:var(--accent);box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.res-row{display:grid;grid-template-columns:44px 1fr 1fr 84px;gap:8px;padding:11px 6px;border-bottom:1px solid var(--hairline);font-size:13px;align-items:start}
+.res-row.is-correct{background:rgba(34,165,89,.05)}
+.res-row.is-wrong{background:rgba(255,59,48,.05)}
+.res-row.is-skipped{background:rgba(255,149,0,.06)}
+.res-num{font-weight:700;color:var(--text);background:var(--panel);border:1px solid var(--border);border-radius:8px;width:34px;height:27px;display:flex;align-items:center;justify-content:center}
+.res-user{background:var(--panel);border:1px solid var(--border);padding:3px 7px;border-radius:7px;color:var(--text);font-size:12.5px;word-break:break-word}
+.res-correct{color:var(--green);font-weight:600;background:var(--green-bg);border:1px solid rgba(34,165,89,.25);padding:3px 7px;border-radius:7px;font-size:12.5px;word-break:break-word}
+.res-badge{justify-self:end;padding:3px 10px;border-radius:99px;font-size:10.5px;font-weight:700;white-space:nowrap;align-self:center}
+.res-badge.ok{background:var(--green-bg);color:var(--green);border:1px solid rgba(34,165,89,.3)}
+.res-badge.bad{background:var(--red-bg);color:var(--redx);border:1px solid rgba(255,59,48,.3)}
+.res-badge.skip{background:var(--yellow-bg);color:var(--yellow);border:1px solid rgba(255,149,0,.3)}
+.res-explain-en{font-size:12.5px;color:var(--text2);line-height:1.5;background:var(--panel);border-radius:8px;padding:9px 11px;margin-top:6px;grid-column:1/-1}
+.res-explain-uz{font-size:12.5px;color:var(--text);line-height:1.5;background:var(--accent-light);border-radius:8px;padding:9px 11px;margin-top:4px;grid-column:1/-1;border-left:3px solid var(--accent)}
+.modal-actions{display:flex;gap:8px;justify-content:center;padding:14px 22px;border-top:1px solid var(--hairline);flex-shrink:0;flex-wrap:wrap}
+.modal-btn{padding:10px 20px;border-radius:99px;font-size:13.5px;font-weight:700;cursor:pointer;transition:.2s;border:1.5px solid var(--border);background:var(--panel);color:var(--text)}
+.modal-btn:hover{border-color:var(--accent);color:var(--accent)}
+.modal-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}.modal-btn.primary:hover{background:var(--accent-dark)}
+.modal-btn.tg{background:var(--tg);color:#fff;border-color:var(--tg)}.modal-btn.tg:hover{background:#0077b3}
+
+@media(max-width:700px){
+  .exam-body{flex-direction:column;margin:8px}
+  .pane-left,.pane-right{flex:1 1 auto;overflow-y:visible;min-height:260px}
+  .resizer{display:none}
+  .home-card,.login-card{padding:30px 20px}
+  .header-pills{display:none}
+  .exam-header{margin:8px 8px 0;padding:8px 12px}
+  .part-banner{margin:8px 8px 0}
+  .exam-footer{left:8px;right:8px}
+  .res-row{grid-template-columns:1fr}
+  .res-badge{justify-self:start}
+}
+:fullscreen .screen.active{height:100vh}
+::selection{background:rgba(227,24,55,.25)}
+
+/* ── QUESTION TYPES (@reading_cdi engine) ── */
+.q-block{margin-bottom:6px}
+.opt-btns{display:flex;flex-direction:column;gap:6px}
+.opt-btns.row{flex-direction:row;flex-wrap:wrap}
+.opt-btns.row .opt-btn{width:auto;flex:1 1 auto;min-width:64px;text-align:center}
+.opt-btn{width:100%;padding:9px 12px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--panel);color:var(--text2);font-size:12px;font-weight:700;cursor:pointer;transition:.15s;text-align:left;letter-spacing:.02em;font-family:inherit}
+.opt-btn:hover{border-color:var(--accent);color:var(--accent)}
+.opt-btn.selected{background:var(--accent);border-color:var(--accent);color:#fff}
+.opt-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.opt-btn.wrong{background:var(--redx);border-color:var(--redx);color:#fff}
+.opt-btn.reveal-correct{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+
+.ref-box{border:1px solid var(--border);border-radius:var(--radius-md);background:var(--panel-solid);padding:14px 16px;margin-bottom:16px}
+.ref-box .ref-title{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:9px}
+.ref-box ul{list-style:none;padding:0}
+.ref-box li{font-size:13.2px;line-height:1.65;color:var(--text);margin-bottom:6px;display:flex;gap:9px;font-weight:600}
+.ref-box li span.rn{font-weight:800;color:var(--accent);min-width:76px;flex-shrink:0}
+.notes-list li .sc-input{margin:0 3px}
+</style>
+</head>
+<body>
+
+<div class="liquid-bg"><span></span><span></span><span></span></div>
+<div class="tooltip-box" id="tooltip"></div>
+<div class="hl-toolbar" id="hlToolbar">
+  <span class="hl-dot y" data-color="hl-y"></span>
+  <span class="hl-dot g" data-color="hl-g"></span>
+  <span class="hl-dot p" data-color="hl-p"></span>
+  <span class="hl-dot b" data-color="hl-b"></span>
+  <button class="hl-remove-btn" id="hlRemoveBtn">Remove</button>
+</div>
+
+<!-- ══ LOGIN ══ -->
+<div class="screen active" id="login-screen">
+  <button class="icon-btn home-theme-btn" id="theme-toggle-login" title="Dark mode">
+    <svg id="theme-icon-login" viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg>
+  </button>
+  <div class="login-card glass">
+    <div class="login-logo">IELTS<span>@reading_cdi · Kirish</span></div>
+    <h1>Xush kelibsiz 👋</h1>
+    <p class="login-sub">Testni boshlash uchun login va parolni kiriting</p>
+
+    <div class="login-field">
+      <label for="login-user">Login</label>
+      <input type="text" id="login-user" class="login-input" placeholder="reading_cdi" autocomplete="username">
+    </div>
+    <div class="login-field">
+      <label for="login-pass">Parol</label>
+      <input type="password" id="login-pass" class="login-input" placeholder="reading_cdi" autocomplete="current-password">
+    </div>
+    <div class="login-error" id="login-error">Login yoki parol noto'g'ri. Qaytadan urinib ko'ring.</div>
+
+    <button class="login-btn" onclick="checkLogin()">Kirish</button>
+
+    
+    <div class="login-hint">Barcha yangi testlar va materiallar Telegram kanalimizda</div>
+  </div>
+</div>
+
+<!-- ══ HOME ══ -->
+<div class="screen" id="home-screen">
+  <button class="icon-btn home-theme-btn" id="theme-toggle-home" title="Dark mode">
+    <svg id="theme-icon-home" viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg>
+  </button>
+  <div class="home-card glass">
+    <div class="home-logo">IELTS<span>@reading_cdi · Reading</span></div>
+    <div class="home-badge">📖 Academic Reading · Passage 1</div>
+    <h1>What if everything had a barcode?</h1>
+    <p class="home-sub">A vast new database will let us catalogue every plant and animal on the planet, and identify them in seconds</p>
+    <p>13 questions · 20 minutes · Note Completion + Flow-chart Completion + True/False/Not Given. Tap underlined words for instant Uzbek translation. Select any text — passage or question — and pick a colour to highlight it.</p>
+    <div class="home-meta">
+      <div class="home-meta-item"><div class="val">13</div><div class="lbl">Questions</div></div>
+      <div class="home-meta-item"><div class="val">20:00</div><div class="lbl">Time limit</div></div>
+      <div class="home-meta-item"><div class="val">3</div><div class="lbl">Types</div></div>
+    </div>
+    <br>
+    <button class="start-btn" onclick="startExam()">Start Test</button>
+    <br>
+    
+  </div>
+</div>
+
+<!-- ══ EXAM ══ -->
+<div class="screen" id="exam-screen">
+  <div class="exam-header glass">
+    <div class="header-left">
+      <div>
+        <div class="exam-logo">IELTS</div>
+        <div class="exam-sub">@reading_cdi</div>
+      </div>
+      <div class="header-pills">
+        
+        
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="exit-link" onclick="confirmExit()">Exit</span>
+      <div class="timer-box" id="timer-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        <span class="timer-val" id="timer-val">20:00</span>
+      </div>
+      <button class="icon-btn" id="timer-toggle" title="Pause/Resume">
+        <svg id="timer-icon" viewBox="0 0 24 24" width="15" height="15"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+      </button>
+      <button class="icon-btn" id="timer-reset" title="Reset Timer">
+        <svg viewBox="0 0 24 24" width="15" height="15"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+      </button>
+      <button class="icon-btn" onclick="toggleFullscreen()" title="Fullscreen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+      </button>
+      <button class="ios-switch" id="theme-toggle-exam" title="Dark mode"><span class="knob" id="theme-knob-exam">☀️</span></button>
+    </div>
+  </div>
+
+  <div class="part-banner glass"><b>Reading Passage 1</b> — What if everything had a barcode? You should spend about 20 minutes on Questions 1–13.</div>
+
+  <div class="exam-body">
+    <!-- LEFT: PASSAGE -->
+    <div class="pane pane-left glass" id="pane-left">
+      <div class="watermark">@reading_cdi</div>
+      <div class="passage-label">READING PASSAGE 1</div>
+      <div class="passage-title">What if everything had a barcode?</div>
+      <div class="passage-subtitle">A vast new database will let us catalogue every plant and animal on the planet, and identify them in seconds</div>
+
+      <div class="passage-para"><p class="passage-text"><span class="para-tag">1</span>Imagine going for a walk and spotting a wild flower. Its beauty and fragrance delight you, but the name <span class="vocab-word" data-word="elude">eludes</span> you. No problem. You whip out a hand-held scanner, about the size of a mobile phone, and pop a <span class="vocab-word" data-word="fragment">fragment</span> of a leaf into the device. A few seconds, and the read-out tells you that you're looking at a pyramidal orchid. Satisfied, you continue on your way.</p></div>
+
+      <div class="passage-para"><p class="passage-text"><span class="para-tag">2</span>Sound <span class="vocab-word" data-word="far-fetched">far-fetched</span>? Not at all. Scientists are currently creating a DNA barcode for every species of plant and animal on the planet. It won't be long before everyone, from experts to <span class="vocab-word" data-word="amateur">amateurs</span>, will be able to scan the world's <span class="vocab-word" data-word="flora">flora</span> and fauna as if they were checking out groceries at a supermarket, to look up or confirm their identities.</p></div>
+
+      <div class="passage-para"><p class="passage-text"><span class="para-tag">3</span>There are numerous practical uses too. Such a device would let you scan fish at the fishmonger's to check if it's been labelled properly, work out exactly what is in your mixed vegetable dish, and confirm whether a piece of furniture really has come from a <span class="vocab-word" data-word="renewable">renewable</span> forest, as the retailer claims. It would also assist <span class="vocab-word" data-word="forensic">forensic</span> science teams, who could quickly identify the pollen on a suspect, to link him to a particular location; customs officials, in their efforts to prevent disease-carrying pests being taken across national borders; and environmental inspectors assessing water quality, who need to work out what <span class="vocab-word" data-word="microbe">microbes</span> are lurking in a particular sample.</p></div>
+
+      <div class="passage-para"><p class="passage-text"><span class="para-tag">4</span>It was Professor Paul Hebert, a biologist from the University of Guelph in Canada, who came up with the idea of DNA barcoding the natural world. The inspiration came while he was walking up and down the aisles of a supermarket, <span class="vocab-word" data-word="marvel">marvelling</span> at the ability of the store to keep track of all the lines stocked and sold using the thick and thin lines that make up a barcode. Could scientists, he wondered, <span class="vocab-word" data-word="exploit">exploit</span> a barcode system to record the millions of species on earth via their DNA?</p></div>
+
+      <div class="passage-para"><p class="passage-text"><span class="para-tag">5</span>The compilation of a planetary inventory began more than 250 years ago, with the Swedish life classifier Carl Linnaeus. In 1758, he founded the science of <span class="vocab-word" data-word="taxonomy">taxonomy</span> – a method of classifying living things – based on physical and behavioural characteristics. To date, scientists have classified about 1.7 million organisms, a small fraction of the total number of species, which has been estimated at anywhere between 5 and 30 million. But taxonomy is difficult and time-consuming. Many species, such as the different kinds of flies, look remarkably similar. Only an expert who has spent years examining a particular group can distinguish one from another. Even the experts can be <span class="vocab-word" data-word="stumped">stumped</span>, however, when presented with an egg, an embryo, a seedling or a root. The next problem is that we are running out of time in which to complete the <span class="vocab-word" data-word="inventory">inventory</span>. The International Union for the Conservation of Nature estimates that a quarter of the world's mammals are threatened with extinction.</p></div>
+
+      <div class="passage-para"><p class="passage-text"><span class="para-tag">6</span>So, Hebert's idea centred on finding a fragment of DNA that would <span class="vocab-word" data-word="disclose">disclose</span> the identity of a species without having to <span class="vocab-word" data-word="decode">decode</span> its entire genetic code. He <span class="vocab-word" data-word="envisage">envisaged</span> a 'DNA barcode reader', similar to the scanners at retail checkouts. Outlining his idea in <i>Scientific American</i>, Hebert writes: 'An inspector at a busy seaport, a hiker on a mountain trail, or a scientist in a lab could insert a sample containing DNA – a <span class="vocab-word" data-word="snippet">snippet</span> of whisker, say, or the leg of an insect – into the device, which would detect the sequence of nucleic acids in the barcode segment. This information would be instantly <span class="vocab-word" data-word="relay">relayed</span> to a reference database, a public library of DNA barcodes. Anyone, anywhere, could identify species.'</p></div>
+
+      <div class="passage-para"><p class="passage-text"><span class="para-tag">7</span>To create the barcode, Hebert proposed the use of a section of DNA, from the energy-producing units found in all cells. He selected a gene that gives rise to an <span class="vocab-word" data-word="enzyme">enzyme</span> known as CO1. This gene is small enough to be quickly and easily <span class="vocab-word" data-word="decipher">deciphered</span>, but has sufficient variation for us to be able to tell most animal species apart. You and I, for instance, will have different versions of CO1, but they will be similar enough to show that we're both humans and not chimpanzees.</p></div>
+
+      <div class="passage-para"><p class="passage-text"><span class="para-tag">8</span>In 2003, Hebert and his team published their first results. They showed that the barcode system could identify the group an animal came from (for example, whether it was a <span class="vocab-word" data-word="vertebrate">vertebrate</span>, a worm or an insect) and even the species when it was stored in the barcode library. After five more years of work, results indicate that animals can now be identified by their barcodes in 98 per cent of cases. Early results have confirmed the additional benefits of the new system: for example, caterpillars of the tropical butterfly <i>Astraptes fulgerator</i>, which was first recognised as a species in 1775, all look very similar, and were assumed to belong to a single species. Barcoding has shown there are 10 different kinds.</p></div>
+
+      <div class="passage-para"><p class="passage-text"><span class="para-tag">9</span>Of course, the value of the system depends on a <span class="vocab-word" data-word="comprehensive">comprehensive</span> reference library of the DNA (CO1) barcodes of established species. The Barcode of Life Data (Bold) systems is an enormous international <span class="vocab-word" data-word="collaboration">collaboration</span> supported by 150 institutions in 45 countries. To date, it has compiled more than 500,000 records from 50,000 species. The <span class="vocab-word" data-word="consortium">consortium</span> is hoping that the world's birds will be barcoded by 2011. 'People have watched birds for so long that they might think every different tweet has been heard, every different colour observed, but barcoding may prove otherwise,' says Professor Mark Stoeckle, professor of the human environment at Rockefeller University, New York, who works with Hebert. He estimates that out of the world's 10,000 bird species, DNA barcoding will <span class="vocab-word" data-word="distinguish">distinguish</span> at least 1,000 new ones.</p></div>
+
+    </div>
+
+    <div class="resizer" id="resizer"></div>
+
+    <!-- RIGHT: QUESTIONS -->
+    <div class="pane pane-right glass" id="pane-right">
+      <div class="q-section-hdr">
+        <h3>Questions 1–3 · Note Completion</h3>
+        <p>Choose <b>NO MORE THAN ONE WORD AND/OR A NUMBER</b> from the passage for each answer. Write your answers in boxes 1–3.</p>
+      </div>
+
+      <div class="notes-subhdr">Problems with taxonomy</div>
+      <ul class="notes-list">
+        <li data-qanchor="1">only <b>1</b> <input type="text" class="sc-input" id="sc-1" data-qnum="1" autocomplete="off"> species have been classified so far</li>
+        <li data-qanchor="2">difficult to distinguish between species of certain creatures, for example <b>2</b> <input type="text" class="sc-input" id="sc-2" data-qnum="2" autocomplete="off"></li>
+        <li data-qanchor="3">possibility of a large number of species of <b>3</b> <input type="text" class="sc-input" id="sc-3" data-qnum="3" autocomplete="off"> dying out soon</li>
+      </ul>
+
+      <div class="q-section-hdr" style="margin-top:26px">
+        <h3>Questions 4–8 · Flow-chart Completion</h3>
+        <p>Complete the flow-chart below. Choose <b>NO MORE THAN THREE WORDS AND/OR A NUMBER</b> from the passage for each answer. Write your answers in boxes 4–8.</p>
+      </div>
+
+      <div class="flow-title">Hebert's system</div>
+      <div class="flow-box" data-qanchor="4">decided to create a device called a <b>4</b> <input type="text" class="sc-input" id="sc-4" data-qnum="4" autocomplete="off">, like ones used in shops</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box" data-qanchor="5">chose a <b>5</b> <input type="text" class="sc-input" id="sc-5" data-qnum="5" autocomplete="off"> that produces a substance called CO1</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box" data-qanchor="6">samples of CO1 read by the device and matched with those kept in the <b>6</b> <input type="text" class="sc-input" id="sc-6" data-qnum="6" autocomplete="off"></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box" data-qanchor="7">current results show that <b>7</b> <input type="text" class="sc-input" id="sc-7" data-qnum="7" autocomplete="off"> of animal species can be identified in this way</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box" data-qanchor="8">results show different species being identified, eg of <b>8</b> <input type="text" class="sc-input" id="sc-8" data-qnum="8" autocomplete="off"></div>
+
+      <div class="q-section-hdr" style="margin-top:26px">
+        <h3>Questions 9–13 · True / False / Not Given</h3>
+        <p>Do the following statements agree with the information given in Reading Passage 1?</p>
+      </div>
+
+      <div class="ref-box">
+        <div class="ref-title">How to answer</div>
+        <ul>
+          <li><span class="rn">TRUE</span> if the statement agrees with the information</li>
+          <li><span class="rn">FALSE</span> if the statement contradicts the information</li>
+          <li><span class="rn">NOT GIVEN</span> if there is no information on this</li>
+        </ul>
+      </div>
+
+      <div class="tfng-item" data-qanchor="9">
+        <div class="tfng-q"><b>9</b> The writer believes that the barcode system will be widely used by the general public.</div>
+        <div class="opt-btns" data-qnum="9">
+          <button class="opt-btn" data-val="TRUE">TRUE</button>
+          <button class="opt-btn" data-val="FALSE">FALSE</button>
+          <button class="opt-btn" data-val="NOT GIVEN">NOT GIVEN</button>
+        </div>
+      </div>
+      <div class="tfng-item" data-qanchor="10">
+        <div class="tfng-q"><b>10</b> It is likely that the barcode device will show that many foods and goods have not been correctly described.</div>
+        <div class="opt-btns" data-qnum="10">
+          <button class="opt-btn" data-val="TRUE">TRUE</button>
+          <button class="opt-btn" data-val="FALSE">FALSE</button>
+          <button class="opt-btn" data-val="NOT GIVEN">NOT GIVEN</button>
+        </div>
+      </div>
+      <div class="tfng-item" data-qanchor="11">
+        <div class="tfng-q"><b>11</b> Hebert got the idea for DNA barcoding from someone who worked at a supermarket.</div>
+        <div class="opt-btns" data-qnum="11">
+          <button class="opt-btn" data-val="TRUE">TRUE</button>
+          <button class="opt-btn" data-val="FALSE">FALSE</button>
+          <button class="opt-btn" data-val="NOT GIVEN">NOT GIVEN</button>
+        </div>
+      </div>
+      <div class="tfng-item" data-qanchor="12">
+        <div class="tfng-q"><b>12</b> The number of organisations supporting Hebert's barcoding project is growing all the time.</div>
+        <div class="opt-btns" data-qnum="12">
+          <button class="opt-btn" data-val="TRUE">TRUE</button>
+          <button class="opt-btn" data-val="FALSE">FALSE</button>
+          <button class="opt-btn" data-val="NOT GIVEN">NOT GIVEN</button>
+        </div>
+      </div>
+      <div class="tfng-item" data-qanchor="13">
+        <div class="tfng-q"><b>13</b> A large number of new bird species have already been identified by the DNA barcode system.</div>
+        <div class="opt-btns" data-qnum="13">
+          <button class="opt-btn" data-val="TRUE">TRUE</button>
+          <button class="opt-btn" data-val="FALSE">FALSE</button>
+          <button class="opt-btn" data-val="NOT GIVEN">NOT GIVEN</button>
+        </div>
+      </div>
+
+    </div><!-- /pane-right -->
+  </div><!-- /exam-body -->
+
+  <div class="exam-footer glass">
+    <div class="q-nav-row" id="q-nav-row"></div>
+    <span class="answered-count" id="answered-count">0 / 13</span>
+    <button class="check-btn" id="check-btn" onclick="submitExam()">Check Answers</button>
+  </div>
+</div>
+
+<!-- ══ RESULTS MODAL ══ -->
+<div class="modal-overlay hidden" id="modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>📊 Results — Natijalar</h2>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-score-row">
+      
+      
+      
+      
+    </div>
+    <div class="modal-body">
+      <div class="res-filter-bar">
+        <button class="res-filter-btn active" onclick="setResFilter('all',this)">All 13</button>
+        <button class="res-filter-btn" onclick="setResFilter('wrong',this)">❌ Mistakes</button>
+        <button class="res-filter-btn" onclick="setResFilter('skipped',this)">⏭ Skipped</button>
+      </div>
+      <div id="res-details"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn primary" onclick="closeModal()">Close</button>
+      <button class="modal-btn" onclick="retryTest()">🔄 Retry</button>
+      
+      <button class="modal-btn" onclick="showScreen('home-screen');closeModal()">🏠 Home</button>
+    </div>
+  </div>
+</div>
+<script>
+// ══════════════════════════════════════
+//  TEST DATA
+// ══════════════════════════════════════
+const QNUMS=[1,2,3,4,5,6,7,8,9,10,11,12,13];
+const ANSWERS={
+ "1":["1.7 million","1.7million"],
+ "2":["flies","flys"],
+ "3":["mammals","mammal"],
+ "4":["DNA barcode reader","barcode reader","DNA barcode-reader"],
+ "5":["gene"],
+ "6":["reference database","a reference database","database"],
+ "7":["98 per cent","98 percent","98%","98 per-cent"],
+ "8":["Astraptes fulgerator","astraptes fulgerator"],
+ "9":["TRUE"],"10":["TRUE"],"11":["FALSE"],"12":["NOT GIVEN"],"13":["FALSE"]
+};
+const VOCAB={
+ "elude": { "pron": "/iˈluːd/", "uz": "esga kelmaslik, qochib qutulmoq", "def": "To fail to be remembered or understood by someone" },
+ "fragment": { "pron": "/ˈfræɡmənt/", "uz": "bo'lak, parcha", "def": "A small piece broken off something" },
+ "far-fetched": { "pron": "/ˌfɑːrˈfetʃt/", "uz": "ishonish qiyin, haqiqatdan yiroq", "def": "Hard to believe; unlikely to be true" },
+ "amateur": { "pron": "/ˈæmətər/", "uz": "havaskor", "def": "Someone who does something for pleasure, not as a profession" },
+ "flora": { "pron": "/ˈflɔːrə/", "uz": "o'simlik dunyosi", "def": "The plants of a particular region ('fauna' = the animals)" },
+ "renewable": { "pron": "/rɪˈnuːəbl/", "uz": "qayta tiklanadigan", "def": "Able to be replaced naturally, so it is not used up" },
+ "forensic": { "pron": "/fəˈrenzɪk/", "uz": "sud-tibbiy, ekspertizaga oid", "def": "Relating to scientific methods used to solve crimes" },
+ "microbe": { "pron": "/ˈmaɪkroʊb/", "uz": "mikrob", "def": "An extremely small living thing, such as bacteria" },
+ "marvel": { "pron": "/ˈmɑːrvl/", "uz": "hayratlanmoq", "def": "To be filled with wonder or admiration" },
+ "exploit": { "pron": "/ɪkˈsplɔɪt/", "uz": "foydalanmoq, ishlatib olmoq", "def": "To make full use of something for an advantage" },
+ "taxonomy": { "pron": "/tækˈsɑːnəmi/", "uz": "taksonomiya, tasniflash ilmi", "def": "The science of classifying living things into groups" },
+ "stumped": { "pron": "/stʌmpt/", "uz": "boshi qotgan, javob topolmagan", "def": "Unable to answer or solve something" },
+ "inventory": { "pron": "/ˈɪnvəntɔːri/", "uz": "ro'yxat, inventar", "def": "A complete list of items or things present" },
+ "disclose": { "pron": "/dɪsˈkloʊz/", "uz": "oshkor qilmoq, aniqlab bermoq", "def": "To make information known; to reveal" },
+ "decode": { "pron": "/ˌdiːˈkoʊd/", "uz": "shifrini ochmoq", "def": "To convert a coded message into understandable form" },
+ "envisage": { "pron": "/ɪnˈvɪzɪdʒ/", "uz": "tasavvur qilmoq, ko'z oldiga keltirmoq", "def": "To imagine something as a future possibility" },
+ "snippet": { "pron": "/ˈsnɪpɪt/", "uz": "kichik bo'lak, qirqim", "def": "A small piece or short extract of something" },
+ "relay": { "pron": "/ˈriːleɪ/", "uz": "uzatmoq, yetkazmoq", "def": "To pass information on to someone else" },
+ "enzyme": { "pron": "/ˈenzaɪm/", "uz": "ferment, enzim", "def": "A substance produced by living cells that causes chemical change" },
+ "decipher": { "pron": "/dɪˈsaɪfər/", "uz": "o'qib olmoq, shifrini yechmoq", "def": "To work out the meaning of something difficult to read" },
+ "vertebrate": { "pron": "/ˈvɜːrtɪbrət/", "uz": "umurtqali hayvon", "def": "An animal that has a backbone" },
+ "comprehensive": { "pron": "/ˌkɑːmprɪˈhensɪv/", "uz": "keng qamrovli, to'liq", "def": "Including everything that is needed; complete" },
+ "collaboration": { "pron": "/kəˌlæbəˈreɪʃn/", "uz": "hamkorlik", "def": "The act of working together with others" },
+ "consortium": { "pron": "/kənˈsɔːrtiəm/", "uz": "konsorsium, uyushma", "def": "A group of organisations working together on a project" },
+ "distinguish": { "pron": "/dɪˈstɪŋɡwɪʃ/", "uz": "farqlamoq, ajratmoq", "def": "To recognise a difference between things" }
+};
+const EXPLANATIONS={
+ "1": {
+  "en": "1.7 MILLION — Paragraph 5: 'To date, scientists have classified about 1.7 million organisms, a small fraction of the total number of species.' The note says 'only ... species have been classified so far', which matches this figure.",
+  "uz": "1.7 MILLION — 5-paragraf: 'Bugungi kunga qadar olimlar taxminan 1.7 million organizmni tasniflagan, bu turlarning umumiy sonining kichik qismi.' Eslatmadagi 'hozirgacha faqat ... tur tasniflangan' shu raqamga mos keladi."
+ },
+ "2": {
+  "en": "FLIES — Paragraph 5: 'Many species, such as the different kinds of flies, look remarkably similar.' 'such as' in the passage = 'for example' in the note.",
+  "uz": "FLIES — 5-paragraf: 'Ko'p turlar, masalan turli xil pashshalar, bir-biriga juda o'xshaydi.' Matndagi 'such as' eslatmadagi 'for example' bilan bir xil."
+ },
+ "3": {
+  "en": "MAMMALS — Paragraph 5: 'The International Union for the Conservation of Nature estimates that a quarter of the world's mammals are threatened with extinction.' 'threatened with extinction' = 'dying out soon'.",
+  "uz": "MAMMALS — 5-paragraf: 'Tabiatni Muhofaza Qilish Xalqaro Ittifoqi dunyodagi sutemizuvchilarning chorak qismi yo'q bo'lib ketish xavfi ostida deb hisoblaydi.' 'Yo'qolish xavfi' = 'tez orada qirilib ketish'."
+ },
+ "4": {
+  "en": "DNA BARCODE READER — Paragraph 6: 'He envisaged a \"DNA barcode reader\", similar to the scanners at retail checkouts.' 'similar to the scanners at retail checkouts' = 'like ones used in shops'.",
+  "uz": "DNA BARCODE READER — 6-paragraf: 'U do'kon kassalaridagi skanerlarga o'xshash \"DNK shtrix-kod o'qigich\"ni tasavvur qildi.' 'Do'kon kassalaridagi skanerlarga o'xshash' = 'do'konlarda ishlatiladiganlarga o'xshash'."
+ },
+ "5": {
+  "en": "GENE — Paragraph 7: 'He selected a gene that gives rise to an enzyme known as CO1.' 'gives rise to' = 'produces'.",
+  "uz": "GENE — 7-paragraf: 'U CO1 deb nomlanuvchi fermentni hosil qiluvchi genni tanladi.' 'Gives rise to' = 'hosil qiladi'."
+ },
+ "6": {
+  "en": "REFERENCE DATABASE — Paragraph 6: 'This information would be instantly relayed to a reference database, a public library of DNA barcodes.' The samples are matched against records kept there.",
+  "uz": "REFERENCE DATABASE — 6-paragraf: 'Bu ma'lumot bir zumda ma'lumotnoma bazasiga — DNK shtrix-kodlarining ochiq kutubxonasiga uzatiladi.' Namunalar shu yerdagi yozuvlar bilan solishtiriladi."
+ },
+ "7": {
+  "en": "98 PER CENT — Paragraph 8: 'results indicate that animals can now be identified by their barcodes in 98 per cent of cases.'",
+  "uz": "98 PER CENT — 8-paragraf: 'Natijalar shuni ko'rsatadiki, hayvonlarni shtrix-kodlari orqali 98 foiz holatda aniqlash mumkin.'"
+ },
+ "8": {
+  "en": "ASTRAPTES FULGERATOR — Paragraph 8: 'caterpillars of the tropical butterfly Astraptes fulgerator... all look very similar... Barcoding has shown there are 10 different kinds.' This is the example of different species being identified.",
+  "uz": "ASTRAPTES FULGERATOR — 8-paragraf: 'Astraptes fulgerator tropik kapalagining qurtlari... hammasi juda o'xshash ko'rinadi... Shtrix-kodlash 10 xil turi borligini ko'rsatdi.' Bu turli turlarning aniqlanishiga misol."
+ },
+ "9": {
+  "en": "TRUE — Paragraph 2: 'It won't be long before everyone, from experts to amateurs, will be able to scan the world's flora and fauna.' 'everyone, from experts to amateurs' shows the writer expects wide public use.",
+  "uz": "TRUE — 2-paragraf: 'Ko'p o'tmay hamma, mutaxassisdan havaskorgacha, dunyo o'simlik va hayvonot dunyosini skanerlay oladi.' 'Hamma — mutaxassisdan havaskorgacha' yozuvchi keng ommaviy foydalanishni kutayotganini ko'rsatadi."
+ },
+ "10": {
+  "en": "TRUE — Paragraph 3: the device would let you 'scan fish at the fishmonger's to check if it's been labelled properly' and 'confirm whether a piece of furniture really has come from a renewable forest, as the retailer claims'. The writer implies mislabelling will be exposed.",
+  "uz": "TRUE — 3-paragraf: qurilma 'baliqni to'g'ri yorliqlanganini tekshirish' va 'mebel haqiqatan ham sotuvchi da'vo qilgan o'rmondan kelganini tasdiqlash' imkonini beradi. Ya'ni noto'g'ri tavsiflangan mahsulotlar fosh bo'lishi nazarda tutilgan."
+ },
+ "11": {
+  "en": "FALSE — Paragraph 4: 'The inspiration came while HE was walking up and down the aisles of a supermarket.' The idea came to Hebert himself in a supermarket — not from a person who worked there.",
+  "uz": "FALSE — 4-paragraf: 'Ilhom UNGA supermarket javonlari orasida yurganida keldi.' G'oya Hebertning o'ziga kelgan, u yerda ishlaydigan odamdan emas."
+ },
+ "12": {
+  "en": "NOT GIVEN — Paragraph 9 gives the current number ('150 institutions in 45 countries'), but says nothing about whether that number is increasing over time.",
+  "uz": "NOT GIVEN — 9-paragrafda hozirgi son beriladi ('45 mamlakatdagi 150 muassasa'), lekin bu son vaqt o'tishi bilan ortayotgani haqida hech narsa aytilmagan."
+ },
+ "13": {
+  "en": "FALSE — Paragraph 9: Stoeckle 'ESTIMATES that... DNA barcoding WILL distinguish at least 1,000 new ones.' This is a future prediction, not species already identified.",
+  "uz": "FALSE — 9-paragraf: Stoekl 'DNK shtrix-kodlash kamida 1000 ta yangi turni ajratib BERADI deb TAXMIN qiladi.' Bu kelajakka oid bashorat, allaqachon aniqlangan turlar emas."
+ }
+};
+const HIGHLIGHTS=[
+ { "q": 1, "txt": "scientists have classified about 1.7 million organisms" },
+ { "q": 2, "txt": "such as the different kinds of flies, look remarkably similar" },
+ { "q": 3, "txt": "estimates that a quarter of the world's mammals are threatened with extinction" },
+ { "q": 4, "txt": "a 'DNA barcode reader', similar to the scanners at retail checkouts" },
+ { "q": 5, "txt": "He selected a gene that gives rise to an" },
+ { "q": 6, "txt": "would be instantly" },
+ { "q": 7, "txt": "animals can now be identified by their barcodes in 98 per cent of cases" },
+ { "q": 8, "txt": "caterpillars of the tropical butterfly <i>Astraptes fulgerator</i>" },
+ { "q": 9, "txt": "It won't be long before everyone, from experts to" },
+ { "q": 10, "txt": "Such a device would let you scan fish at the fishmonger's to check if it's been labelled properly" },
+ { "q": 11, "txt": "The inspiration came while he was walking up and down the aisles of a supermarket" },
+ { "q": 12, "txt": "supported by 150 institutions in 45 countries" },
+ { "q": 13, "txt": "He estimates that out of the world's 10,000 bird species, DNA barcoding will" }
+];
+
+// ══════════════════════════════════════
+//  LOGIN
+// ══════════════════════════════════════
+const VALID_USER='reading_cdi', VALID_PASS='reading_cdi';
+function checkLogin(){
+  const u=document.getElementById('login-user').value.trim();
+  const p=document.getElementById('login-pass').value.trim();
+  const err=document.getElementById('login-error');
+  if(u===VALID_USER && p===VALID_PASS){err.classList.remove('show');showScreen('home-screen');}
+  else{err.classList.add('show');}
+}
+document.getElementById('login-pass').addEventListener('keydown',e=>{if(e.key==='Enter')checkLogin();});
+document.getElementById('login-user').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('login-pass').focus();});
+
+// ══════════════════════════════════════
+//  THEME
+// ══════════════════════════════════════
+function applyTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  const on=t==='dark';
+  document.getElementById('theme-toggle-exam').classList.toggle('on',on);
+  document.getElementById('theme-knob-exam').textContent=on?'🌙':'☀️';
+  const iconPaths={
+    on:'<path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/>',
+    off:'<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>'
+  };
+  document.getElementById('theme-icon-home').innerHTML=on?iconPaths.on:iconPaths.off;
+  document.getElementById('theme-icon-login').innerHTML=on?iconPaths.on:iconPaths.off;
+  try{localStorage.setItem('cdi-theme',t);}catch(e){}
+}
+function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');}
+document.getElementById('theme-toggle-home').addEventListener('click',toggleTheme);
+document.getElementById('theme-toggle-exam').addEventListener('click',toggleTheme);
+document.getElementById('theme-toggle-login').addEventListener('click',toggleTheme);
+(function(){
+  let saved='light';
+  try{saved=localStorage.getItem('cdi-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');}catch(e){}
+  applyTheme(saved);
+})();
+
+// ══════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════
+const TOTAL_Q=QNUMS.length;
+let userAnswers={},reviewed=false,timerSecs=1200,timerRunning=true,timerInterval,resFilter='all';
+
+// ══════════════════════════════════════
+//  VOCAB TOOLTIP (instant Uzbek translation)
+// ══════════════════════════════════════
+const tooltip=document.getElementById('tooltip');
+let isTouchDev='ontouchstart' in window||navigator.maxTouchPoints>0;
+function posTip(x,y){if(x+280>window.innerWidth)x=window.innerWidth-285;if(x<8)x=8;if(y+140>window.innerHeight)y=y-150;if(y<8)y=8;tooltip.style.left=x+'px';tooltip.style.top=y+'px';}
+function showTip(w,e){const d=VOCAB[w];if(!d)return;tooltip.innerHTML=`<div class="t-word">${w}</div><div class="t-pron">${d.pron}</div><div class="t-uz">🇺🇿 ${d.uz}</div><div class="t-def">${d.def}</div>`;tooltip.style.display='block';posTip(e.clientX+14,e.clientY+14);}
+function hideTip(){tooltip.style.display='none';}
+document.addEventListener('mousemove',e=>{if(isTouchDev)return;const w=e.target.closest('.vocab-word');if(!w){hideTip();return;}showTip(w.dataset.word,e);});
+document.addEventListener('click',e=>{if(!isTouchDev)return;const w=e.target.closest('.vocab-word');if(!w){if(!e.target.closest('.tooltip-box'))hideTip();return;}showTip(w.dataset.word,e);e.stopPropagation();});
+
+// ══════════════════════════════════════
+//  HIGHLIGHT TOOLBAR (works in BOTH panes)
+// ══════════════════════════════════════
+const hlToolbar=document.getElementById('hlToolbar');
+let activeRange=null;
+document.addEventListener('mouseup',e=>{
+  if(e.target.closest('.hl-toolbar'))return;
+  const sel=window.getSelection();
+  if(!sel||sel.isCollapsed||!sel.toString().trim()){hlToolbar.classList.remove('show');return;}
+  activeRange=sel.getRangeAt(0).cloneRange();
+  const rect=sel.getRangeAt(0).getBoundingClientRect();
+  hlToolbar.style.left=Math.max(8,rect.left)+'px';
+  hlToolbar.style.top=Math.max(8,rect.top-50)+'px';
+  hlToolbar.classList.add('show');
+});
+hlToolbar.querySelectorAll('.hl-dot').forEach(dot=>{dot.addEventListener('click',()=>{
+  if(!activeRange)return;
+  const mark=document.createElement('mark');mark.className=dot.dataset.color;
+  try{activeRange.surroundContents(mark);}catch(err){const f=activeRange.extractContents();mark.appendChild(f);activeRange.insertNode(mark);}
+  window.getSelection().removeAllRanges();hlToolbar.classList.remove('show');activeRange=null;
+});});
+document.getElementById('hlRemoveBtn').addEventListener('click',()=>{
+  const sel=window.getSelection();
+  let node=sel&&sel.anchorNode?(sel.anchorNode.nodeType===1?sel.anchorNode:sel.anchorNode.parentElement):null;
+  const mk=node?node.closest('mark[class^="hl-"]'):null;
+  if(mk)mk.replaceWith(...mk.childNodes);
+  hlToolbar.classList.remove('show');activeRange=null;
+});
+document.addEventListener('click',e=>{if(!e.target.closest('.hl-toolbar'))hlToolbar.classList.remove('show');});
+document.addEventListener('click',e=>{
+  const mk=e.target.closest('mark[class^="hl-"]');
+  if(!mk)return;
+  const r=document.createRange();r.selectNodeContents(mk);
+  const s=window.getSelection();s.removeAllRanges();s.addRange(r);
+  activeRange=r.cloneRange();
+  const rect=mk.getBoundingClientRect();
+  hlToolbar.style.left=Math.max(8,rect.left)+'px';
+  hlToolbar.style.top=Math.max(8,rect.top-50)+'px';
+  hlToolbar.classList.add('show');
+  e.stopPropagation();
+});
+
+// ══════════════════════════════════════
+//  ANSWER INPUTS
+// ══════════════════════════════════════
+document.querySelectorAll('.sc-input').forEach(inp=>{
+  inp.addEventListener('input',e=>{
+    if(reviewed){e.target.value=userAnswers[e.target.dataset.qnum]||'';return;}
+    userAnswers[e.target.dataset.qnum]=e.target.value;
+    updateNav();
+  });
+});
+document.querySelectorAll('.opt-btns').forEach(group=>{
+  const n=group.dataset.qnum;
+  group.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      if(reviewed)return;
+      userAnswers[n]=btn.dataset.val;
+      group.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected');
+      updateNav();
+    });
+  });
+});
+
+// ══════════════════════════════════════
+//  NAV ROW
+// ══════════════════════════════════════
+function buildNav(){
+  const row=document.getElementById('q-nav-row');row.innerHTML='';
+  QNUMS.forEach(n=>{
+    const b=document.createElement('button');
+    b.className='q-nav-btn';b.id=`nav-${n}`;b.textContent=n;
+    b.onclick=()=>scrollToQ(n);row.appendChild(b);
+  });
+  updateNav();
+}
+function updateNav(){
+  let count=0;
+  QNUMS.forEach(n=>{
+    const b=document.getElementById(`nav-${n}`);if(!b)return;
+    const v=userAnswers[n];
+    const has=v&&String(v).trim();
+    b.className='q-nav-btn'+(has?' answered':'');
+    if(has)count++;
+  });
+  document.getElementById('answered-count').textContent=`${count} / ${TOTAL_Q}`;
+}
+function scrollToQ(n){
+  const el=document.querySelector(`[data-qanchor="${n}"]`);
+  if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+// ══════════════════════════════════════
+//  TIMER
+// ══════════════════════════════════════
+function fmtTime(s){const m=Math.floor(s/60);return `${String(m).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;}
+function tickTimer(){
+  if(!timerRunning)return;
+  timerSecs--;
+  document.getElementById('timer-val').textContent=fmtTime(timerSecs);
+  if(timerSecs<=180)document.getElementById('timer-box').classList.add('urgent');
+  if(timerSecs<=0){clearInterval(timerInterval);submitExam();}
+}
+function startTimer(){clearInterval(timerInterval);timerInterval=setInterval(tickTimer,1000);}
+document.getElementById('timer-toggle').addEventListener('click',()=>{
+  timerRunning=!timerRunning;
+  const icon=document.getElementById('timer-icon');
+  icon.innerHTML=timerRunning?'<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>':'<path d="M8 5v14l11-7L8 5z"/>';
+});
+document.getElementById('timer-reset').addEventListener('click',()=>{timerSecs=1200;document.getElementById('timer-val').textContent='20:00';document.getElementById('timer-box').classList.remove('urgent');});
+
+// ══════════════════════════════════════
+//  RESIZER
+// ══════════════════════════════════════
+(function(){
+  const resizer=document.getElementById('resizer');
+  const left=document.getElementById('pane-left');
+  let startX,startW;
+  resizer.addEventListener('mousedown',e=>{
+    startX=e.clientX;startW=left.offsetWidth;
+    const onMove=e=>{const nw=startW+e.clientX-startX;if(nw>200&&window.innerWidth-nw>200)left.style.flex=`0 0 ${nw}px`;};
+    const onUp=()=>{window.removeEventListener('mousemove',onMove);window.removeEventListener('mouseup',onUp);};
+    window.addEventListener('mousemove',onMove);window.addEventListener('mouseup',onUp);
+  });
+})();
+
+// ══════════════════════════════════════
+//  FULLSCREEN / SCREENS
+// ══════════════════════════════════════
+function toggleFullscreen(){if(!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{});else document.exitFullscreen();}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function confirmExit(){if(confirm('Exit the test?')){clearInterval(timerInterval);showScreen('home-screen');}}
+function startExam(){
+  userAnswers={};reviewed=false;timerSecs=1200;timerRunning=true;
+  document.getElementById('timer-val').textContent='20:00';
+  document.getElementById('timer-box').classList.remove('urgent');
+  document.getElementById('timer-icon').innerHTML='<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+  document.querySelectorAll('.sc-input').forEach(i=>{i.value='';i.classList.remove('correct','wrong');});
+  document.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('selected','correct','wrong','reveal-correct'));
+  document.querySelectorAll('.ans-highlight').forEach(h=>{h.replaceWith(...h.childNodes);});
+  document.querySelectorAll('.inline-explain').forEach(x=>x.remove());
+  showScreen('exam-screen');
+  buildNav();startTimer();
+  const cb=document.getElementById('check-btn');
+  cb.textContent='Check Answers';cb.className='check-btn';cb.onclick=submitExam;
+}
+function retryTest(){closeModal();startExam();}
+
+// ══════════════════════════════════════
+//  SCORING
+// ══════════════════════════════════════
+function normText(s){return String(s||'').trim().toLowerCase().replace(/[.,!?;:'"]+$/,'').replace(/\s+/g,' ');}
+function checkAns(n){
+  const given=userAnswers[n];
+  if(given===undefined||!String(given).trim())return null;
+  return ANSWERS[n].map(normText).includes(normText(given));
+}
+function estimateBand(s){const p=s/TOTAL_Q;if(p>=.98)return 9;if(p>=.92)return 8.5;if(p>=.85)return 8;if(p>=.77)return 7.5;if(p>=.69)return 7;if(p>=.59)return 6.5;if(p>=.46)return 6;if(p>=.38)return 5.5;if(p>=.30)return 5;if(p>=.23)return 4.5;return 4;}
+
+function submitExam(){
+  clearInterval(timerInterval);reviewed=true;
+  let correct=0,wrong=0,skip=0;
+
+  QNUMS.forEach(n=>{
+    const r=checkAns(n);
+    if(r===null)skip++;else if(r)correct++;else wrong++;
+    const nb=document.getElementById(`nav-${n}`);
+    if(nb)nb.className='q-nav-btn '+(r===true?'correct':r===false?'wrong-nav':'');
+
+    const group=document.querySelector(`.opt-btns[data-qnum="${n}"]`);
+    if(group){
+      group.querySelectorAll('.opt-btn').forEach(b=>{
+        const isSel=b.classList.contains('selected');
+        const isRight=ANSWERS[n].map(normText).includes(normText(b.dataset.val));
+        b.classList.remove('correct','wrong','reveal-correct');
+        if(isSel&&isRight)b.classList.add('correct');
+        else if(isSel&&!isRight)b.classList.add('wrong');
+        else if(!isSel&&isRight)b.classList.add('reveal-correct');
+      });
+    }
+    const inp=document.querySelector(`.sc-input[data-qnum="${n}"]`);
+    if(inp){if(r===true)inp.classList.add('correct');else if(r===false)inp.classList.add('wrong');}
+  });
+
+  document.getElementById('modal-score').textContent=`Score: ${correct} / ${TOTAL_Q}`;
+  document.getElementById('modal-band').textContent=`Band: ${estimateBand(correct)}`;
+  document.getElementById('modal-correct').textContent=`✓ Correct: ${correct}`;
+  document.getElementById('modal-wrong').textContent=`✗ Wrong: ${wrong}`;
+  renderResDetails();
+  document.getElementById('modal').classList.remove('hidden');
+  const cb=document.getElementById('check-btn');
+  cb.textContent='My Result';cb.className='check-btn done';
+  cb.onclick=()=>document.getElementById('modal').classList.remove('hidden');
+  highlightPassage();
+}
+
+function highlightPassage(){
+  document.querySelectorAll('#pane-left .passage-text').forEach(p=>{
+    HIGHLIGHTS.forEach(t=>{
+      if(p.innerHTML.toLowerCase().includes(t.txt.toLowerCase())&&!p.innerHTML.includes(`data-q="${t.q}"`)){
+        const esc=t.txt.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+        const expl=EXPLANATIONS[t.q]||{en:'',uz:''};
+        p.innerHTML=p.innerHTML.replace(new RegExp(esc,'i'),m=>
+          `<span class="ans-highlight" data-q="${t.q}">${m}</span>`+
+          `<span class="inline-explain" id="inline-explain-${t.q}"><div class="ie-en"><b>Q${t.q} — Why:</b> ${expl.en}</div><div><b>Tushuntirish:</b> ${expl.uz}</div></span>`
+        );
+      }
+    });
+  });
+  document.querySelectorAll('.ans-highlight').forEach(h=>{
+    h.addEventListener('click',()=>{
+      const note=document.getElementById('inline-explain-'+h.dataset.q);
+      if(note)note.classList.toggle('show');
+    });
+  });
+}
+
+// ══════════════════════════════════════
+//  REVIEW MODAL
+// ══════════════════════════════════════
+function setResFilter(f,btn){
+  resFilter=f;
+  document.querySelectorAll('.res-filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderResDetails();
+}
+function renderResDetails(){
+  const cont=document.getElementById('res-details');
+  let html='';
+  QNUMS.forEach(n=>{
+    const r=checkAns(n);
+    const status=r===true?'is-correct':r===false?'is-wrong':'is-skipped';
+    if(resFilter==='wrong'&&status!=='is-wrong')return;
+    if(resFilter==='skipped'&&status!=='is-skipped')return;
+    const given=userAnswers[n]||'—';
+    const correctDisp=ANSWERS[n][0];
+    const badgeClass=status==='is-correct'?'ok':status==='is-skipped'?'skip':'bad';
+    const badgeText=status==='is-correct'?'Correct':status==='is-skipped'?'Skipped':'Incorrect';
+    const expl=EXPLANATIONS[n]||{en:'',uz:''};
+    html+=`<div class="res-row ${status}">
+      <span class="res-num">${n}</span>
+      <span class="res-user">${given}</span>
+      <span class="res-correct">${correctDisp}</span>
+      <span class="res-badge ${badgeClass}">${badgeText}</span>
+      <div class="res-explain-en"><b>Why:</b> ${expl.en}</div>
+      <div class="res-explain-uz"><b>Tushuntirish:</b> ${expl.uz}</div>
+    </div>`;
+  });
+  if(!html)html=`<p style="text-align:center;color:var(--text3);padding:30px">Nothing to show for this filter 🎉</p>`;
+  cont.innerHTML=html;
+}
+function closeModal(){document.getElementById('modal').classList.add('hidden');}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
+
+</script>
+</body>
+</html>

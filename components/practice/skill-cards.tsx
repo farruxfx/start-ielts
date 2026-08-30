@@ -37,7 +37,7 @@ interface SkillCardProps {
   return (
     <Link href={linkHref}>
       <div
-        className={`group relative overflow-hidden rounded-3xl ${gradient} p-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl sm:p-8`}
+        className={`group relative overflow-hidden rounded-2xl sm:rounded-3xl ${gradient} p-4 sm:p-6 md:p-8 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl`}
       >
         {/* Decorative Background Icon */}
         <div className="absolute -bottom-6 -right-6 opacity-20 transition-transform duration-500 group-hover:scale-110 group-hover:opacity-30">
@@ -53,13 +53,13 @@ interface SkillCardProps {
         </div>
 
         {/* Title */}
-        <h3 className="mt-4 text-3xl font-bold text-white sm:text-4xl">{title}</h3>
+        <h3 className="mt-3 sm:mt-4 text-2xl sm:text-3xl md:text-4xl font-bold text-white">{title}</h3>
 
         {/* Status */}
-        <p className="mt-2 text-base font-medium text-white/80">{statusText}</p>
+        <p className="mt-1.5 sm:mt-2 text-sm sm:text-base font-medium text-white/80">{statusText}</p>
 
         {/* Practice Button */}
-        <div className="mt-6 inline-flex items-center gap-2.5 rounded-full bg-white/20 px-7 py-3 text-base font-bold text-white backdrop-blur-sm transition-all duration-300 group-hover:bg-white/30 group-hover:gap-3">
+        <div className="mt-4 sm:mt-6 inline-flex items-center gap-2 sm:gap-2.5 rounded-full bg-white/20 px-5 sm:px-7 py-2.5 sm:py-3 text-sm sm:text-base font-bold text-white backdrop-blur-sm transition-all duration-300 group-hover:bg-white/30 group-hover:gap-3">
           Practice
           <svg
             className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1"
@@ -102,12 +102,13 @@ const skills = [
   {
     skill: 'writing' as TestType,
     title: 'Writing',
-    description: 'AI-powered evaluation for Task 1 & Task 2',
+    description: 'Task 1 & Task 2 — Full IELTS writing test',
     gradient: 'bg-gradient-to-br from-rose-500 via-pink-500 to-fuchsia-600',
     badgeColor: 'bg-white/20 text-white',
     iconBg: 'text-white',
     iconColor: 'text-white',
     DecorativeIcon: PenLine,
+    href: '/writing',
   },
   {
     skill: 'speaking' as TestType,
@@ -127,7 +128,7 @@ interface SkillCardsGridProps {
 
 export function SkillCardsGrid({ testCounts }: SkillCardsGridProps) {
   return (
-    <div className="grid gap-5 sm:grid-cols-2">
+    <div className="grid gap-3 sm:gap-5 grid-cols-1 sm:grid-cols-2">
       {skills.map((skill) => {
         const counts = testCounts[skill.skill] || { total: 0, completed: 0 };
         return (
@@ -149,7 +150,7 @@ export function MockExamCard({ testCount, completedCount }: { testCount: number;
 
   return (
     <Link href="/mock-exam">
-      <div className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl sm:p-8">
+      <div className="group relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-gray-800 via-gray-900 to-black p-4 sm:p-6 md:p-8 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
         {/* Decorative Background Icon */}
         <div className="absolute -bottom-6 -right-6 opacity-15 transition-transform duration-500 group-hover:scale-110 group-hover:opacity-25">
           <FileCheck className="h-32 w-32 sm:h-40 sm:w-40 text-white" />
