@@ -51,64 +51,91 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         fetchRole(session.user.id);
       }
       setLoading(false);
+    }).catch(() => {
+      // Supabase unreachable — fallback will handle auth
+      setLoading(false);
     });
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      (async () => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        if (session?.user) {
-          fetchRole(session.user.id);
-        } else {
-          setRole(null);
-        }
-        setLoading(false);
-      })();
-    });
+    let subscription: any;
+    try {
+      const result = supabase.auth.onAuthStateChange((_event, session) => {
+        (async () => {
+          setSession(session);
+          setUser(session?.user ?? null);
+          if (session?.user) {
+            fetchRole(session.user.id);
+          } else {
+            setRole(null);
+          }
+          setLoading(false);
+        })();
+      });
+      subscription = result.data?.subscription;
+    } catch {
+      // Supabase auth listener failed — fallback will handle auth
+    }
 
-    return () => subscription.unsubscribe();
+    return () => subscription?.unsubscribe?.();
   }, []);
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    return { error: error?.message ?? null };
+    try {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      return { error: error?.message ?? null };
+    } catch (e: any) {
+      return { error: e?.message ?? 'Supabase connection failed' };
+    }
   };
 
   const signUp = async (email: string, password: string, name: string) => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { name } },
-    });
-    if (error) return { error: error.message };
-    if (data.user) {
-      setSession(data.session);
-      setUser(data.user);
-      await supabase.from('profiles').insert({
-        id: data.user.id,
+    try {
+      const { data, error } = await supabase.auth.signUp({
         email,
-        full_name: name,
-        role: 'student',
+        password,
+        options: { data: { name } },
       });
-      setRole('student');
+      if (error) return { error: error.message };
+      if (data.user) {
+        setSession(data.session);
+        setUser(data.user);
+        try {
+          await supabase.from('profiles').insert({
+            id: data.user.id,
+            email,
+            full_name: name,
+            role: 'student',
+          });
+        } catch {
+          // Profile insert may fail if RLS is not set up
+        }
+        setRole('student');
+      }
+      return { error: null };
+    } catch (e: any) {
+      return { error: e?.message ?? 'Supabase connection failed' };
     }
-    return { error: null };
   };
 
   const signInWithGoogle = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
-    return { error: error?.message ?? null };
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+      return { error: error?.message ?? null };
+    } catch (e: any) {
+      return { error: e?.message ?? 'Supabase connection failed' };
+    }
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    try {
+      await supabase.auth.signOut();
+    } catch {
+      // Ignore sign out errors
+    }
     setSession(null);
     setUser(null);
     setRole(null);

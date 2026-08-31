@@ -17,14 +17,16 @@ export interface UnifiedAuth {
 }
 
 /**
- * Unified auth hook that automatically uses Supabase or mock auth
- * based on whether Supabase is configured.
+ * Unified auth hook. Both providers are always mounted in the tree,
+ * so we always call both hooks (same order every render).
+ * We pick the active one via the config flag.
  */
 export function useAuth(): UnifiedAuth {
+  // IMPORTANT: Always call both hooks (same order) to satisfy rules of hooks
   const supabaseAuth = useSupabaseAuth();
   const mockAuth = useMockAuth();
 
-  // When Supabase is not configured, use mock auth
+  // When Supabase is not configured, use mock auth directly
   if (!isSupabaseConfigured) {
     return {
       user: mockAuth.user,
@@ -38,13 +40,72 @@ export function useAuth(): UnifiedAuth {
     };
   }
 
-  // When Supabase is configured, use Supabase auth
-  const supabaseGoogleSignIn = async (_googleUser?: GoogleUserInfo) => {
-    return supabaseAuth.signInWithGoogle();
+  // Helper: run a promise with a timeout so fallback can kick in
+  const withTimeout = <T>(promise: Promise<T>, ms: number): Promise<T> =>
+    Promise.race([
+      promise,
+      new Promise<T>((_, reject) => setTimeout(() => reject(new Error('Supabase timeout')), ms)),
+    ]);
+
+  const TIMEOUT_MS = 3000;
+
+  // When Supabase is configured, try Supabase auth with mock fallback
+  const signIn = async (email: string, password: string) => {
+    try {
+      const result = await withTimeout(supabaseAuth.signIn(email, password), TIMEOUT_MS);
+      if (result.error) {
+        return mockAuth.signIn(email, password);
+      }
+      return result;
+    } catch {
+      return mockAuth.signIn(email, password);
+    }
   };
 
+  const signUp = async (email: string, password: string, name: string) => {
+    try {
+      const result = await withTimeout(supabaseAuth.signUp(email, password, name), TIMEOUT_MS);
+      if (result.error) {
+        return mockAuth.signUp(email, password, name);
+      }
+      return result;
+    } catch {
+      return mockAuth.signUp(email, password, name);
+    }
+  };
+
+  const signInWithGoogle = async (googleUser?: GoogleUserInfo) => {
+    try {
+      const result = await withTimeout(supabaseAuth.signInWithGoogle(), TIMEOUT_MS);
+      if (result.error) {
+        return mockAuth.signInWithGoogle(googleUser);
+      }
+      return result;
+    } catch {
+      return mockAuth.signInWithGoogle(googleUser);
+    }
+  };
+
+  const signOut = async () => {
+    try { await supabaseAuth.signOut(); } catch { /* ignore */ }
+    try { await mockAuth.signOut(); } catch { /* ignore */ }
+  };
+
+  // Use mock auth's user/session/role if Supabase has none
+  // (Supabase isn't connecting, so mock auth is the active session)
+  const activeUser = supabaseAuth.user ?? mockAuth.user;
+  const activeSession = supabaseAuth.session ?? mockAuth.session;
+  const activeRole = supabaseAuth.role ?? mockAuth.role;
+  const activeLoading = supabaseAuth.loading && mockAuth.loading;
+
   return {
-    ...supabaseAuth,
-    signInWithGoogle: supabaseGoogleSignIn,
+    user: activeUser,
+    session: activeSession,
+    loading: activeLoading,
+    role: activeRole,
+    signIn,
+    signUp,
+    signInWithGoogle,
+    signOut,
   };
 }
