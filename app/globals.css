@@ -44,6 +44,32 @@
   }
 }
 
+/* ── Copy Protection ── */
+.no-select, .passage, .q-item, .notes, .banner, .p-intro, .p-title, .q-head, .q-sub, .q-instr, .tfkey {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Disable text selection globally except inputs */
+body:not(.allow-select) *:not(input):not(textarea):not([contenteditable]) {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Allow selection in inputs only */
+input, textarea, [contenteditable="true"] {
+  -webkit-user-select: text !important;
+  user-select: text !important;
+}
+
+/* Disable print styling */
+@media print {
+  body { display: none !important; }
+  body::before { content: 'Printing is not allowed'; display: block; text-align: center; padding: 50px; font-size: 24px; }
+}
+
 /* Selection */
 ::selection {
   background: rgba(59, 130, 246, 0.2);

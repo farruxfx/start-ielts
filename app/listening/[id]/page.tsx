@@ -37,7 +37,7 @@ export default function ListeningTestPage({ params }: { params: { id: string } }
     const doc = iframe.contentDocument;
 
     try {
-      // Inject CSS to permanently hide branding and login
+      // Inject CSS to permanently hide branding and add copy protection
       const style = doc.createElement('style');
       style.textContent = `
         .tglink, .tg-home-btn, .pill-tg, .pill-vip, .pill, .watermark, .login-hint,
@@ -50,6 +50,10 @@ export default function ListeningTestPage({ params }: { params: { id: string } }
         #welcome-modal-bg, #welcome-modal, #premium-modal-bg,
         [id*="welcome"], [id*="premium"] { display: none !important; }
         #exam-screen, #scTest { display: flex !important; flex-direction: column; height: 100%; visibility: visible !important; }
+        /* Copy Protection */
+        * { -webkit-user-select: none !important; -moz-user-select: none !important; -ms-user-select: none !important; user-select: none !important; }
+        input, textarea { -webkit-user-select: text !important; user-select: text !important; }
+        body { -webkit-touch-callout: none; } @media print { body { display: none !important; } }
       `;
       (doc.head || doc.documentElement).appendChild(style);
 
