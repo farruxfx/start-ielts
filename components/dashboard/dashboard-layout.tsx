@@ -23,6 +23,7 @@ import {
   ClipboardList,
   Crown,
   ArrowRight,
+  ClipboardEdit,
 } from 'lucide-react';
 import { useAuth } from '@/components/auth/use-auth';
 import { cn } from '@/lib/utils';
@@ -137,6 +138,15 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         </nav>
 
         <div className="border-t border-border p-4">
+          {(role === 'admin' || role === 'teacher') && (
+            <Link
+              href="/teacher"
+              className="mb-1 flex items-center gap-3 rounded-lg bg-blue-50 px-3 py-2.5 text-sm font-medium text-blue-700 transition-colors hover:bg-blue-100"
+            >
+              <ClipboardEdit className="h-4 w-4" />
+              Teacher Panel
+            </Link>
+          )}
           {role === 'admin' && (
             <Link
               href="/admin"
@@ -201,6 +211,16 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               ))}
             </nav>
             <div className="border-t border-border p-4">
+              {(role === 'admin' || role === 'teacher') && (
+                <Link
+                  href="/teacher"
+                  onClick={() => setSidebarOpen(false)}
+                  className="mb-1 flex items-center gap-3 rounded-lg bg-blue-50 px-3 py-2.5 text-sm font-medium text-blue-700 transition-colors hover:bg-blue-100"
+                >
+                  <ClipboardEdit className="h-4 w-4" />
+                  Teacher Panel
+                </Link>
+              )}
               {role === 'admin' && (
                 <Link
                   href="/admin"
