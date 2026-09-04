@@ -280,7 +280,7 @@ export default function AICoachPage() {
         'bg-muted text-muted-foreground'
       )}>
         {aiStatus === 'online' ? <Wifi className="h-3 w-3" /> : aiStatus === 'offline' ? <WifiOff className="h-3 w-3" /> : null}
-        {aiStatus === 'online' ? 'AI Online — Groq (Llama 3.3 70B)' : aiStatus === 'offline' ? 'Offline Mode — Add GROQ_API_KEY for AI' : 'Checking AI status...'}
+        {aiStatus === 'online' ? 'AI Online — Groq (GPT OSS 120B)' : aiStatus === 'offline' ? 'Offline Mode — Add GROQ_API_KEY for AI' : 'Checking AI status...'}
       </div>
 
       {/* Predicted Band Banner */}

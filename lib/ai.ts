@@ -3,7 +3,7 @@
 
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const GROQ_API_KEY = process.env.GROQ_API_KEY || '';
-const GROQ_MODEL = 'llama-3.3-70b-versatile';
+const GROQ_MODEL = 'openai/gpt-oss-120b';
 
 const IELTS_SYSTEM_PROMPT = `You are an expert IELTS preparation coach with 15+ years of experience helping students achieve band 7-9. You have deep knowledge of:
 
