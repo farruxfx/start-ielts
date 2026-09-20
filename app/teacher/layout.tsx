@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils';
 
 const navItems = [
   { label: 'Dashboard', href: '/teacher', icon: LayoutDashboard },
-  { label: 'Create Test', href: '/teacher/create', icon: PlusCircle },
+  { label: 'Groups', href: '/teacher/groups', icon: Users },
 ];
 
 export default function TeacherLayout({ children }: { children: React.ReactNode }) {

@@ -4,69 +4,44 @@ import type { Skill } from './types';
 
 // ── Types ────────────────────────────────────────────────────────
 
-export type TeacherQuestionType =
-  | 'multiple_choice'
-  | 'true_false_not_given'
-  | 'yes_no_not_given'
-  | 'short_answer'
-  | 'fill_blank'
-  | 'essay'
-  | 'matching'
-  | 'sentence_completion';
-
-export interface TeacherQuestion {
+export interface StudentGroup {
   id: string;
-  type: TeacherQuestionType;
-  number: number;
-  text: string;
-  options?: string[];          // for MC, matching
-  correctAnswer: string;       // for auto-grading
-  points: number;
-  rubric?: string;             // for essay/writing
-  partLabel?: string;          // e.g. "Part 1", "Part 2"
+  name: string;
+  description: string;
+  studentEmails: string[];
+  createdBy: string;
+  createdAt: string;
+  color: string;
 }
 
-export interface TeacherPassage {
+export interface TestAssignment {
   id: string;
-  title: string;
-  content: string;
-}
-
-export interface AccessSettings {
+  testId: string;              // original test id from platform
+  testType: 'reading' | 'listening' | 'writing' | 'speaking';
+  testTitle: string;           // display title
+  code: string;                // unique short code for URL
+  password?: string;           // optional password
+  groupId?: string;            // assigned group
+  assignedTo: string[];        // individual student emails
   visibility: 'anyone' | 'students_only' | 'selected_groups';
-  groups?: string[];
-  maxAttempts: number;
   timeLimitMinutes: number;
   showResultAfterSubmit: boolean;
-  allowRetake: boolean;
-}
-
-export interface TeacherTest {
-  id: string;
-  code: string;                 // unique short code for URL
-  title: string;
-  skill: Skill;
-  description: string;
-  questions: TeacherQuestion[];
-  passages?: TeacherPassage[];
-  access: AccessSettings;
-  status: 'active' | 'inactive' | 'draft';
-  createdBy: string;            // teacher email
+  status: 'active' | 'inactive';
+  createdBy: string;
   createdAt: string;
-  updatedAt: string;
+  submissions: TestSubmission[];
 }
 
 export interface TestSubmission {
   id: string;
-  testId: string;
-  testCode: string;
+  assignmentId: string;
   studentName: string;
   studentEmail: string;
-  answers: Record<string, string>;   // questionId → answer
-  score: number;                     // 0-100
+  answers: Record<string, string>;
+  score: number;
   correctCount: number;
   totalQuestions: number;
-  band: number;                      // estimated IELTS band
+  band: number;
   timeSpentSeconds: number;
   status: 'auto_graded' | 'pending_review' | 'reviewed';
   teacherFeedback?: string;
@@ -76,8 +51,8 @@ export interface TestSubmission {
 // ── localStorage helpers ─────────────────────────────────────────
 
 const KEYS = {
-  TESTS: 'ieltspro_teacher_tests',
-  SUBMISSIONS: 'ieltspro_test_submissions',
+  ASSIGNMENTS: 'ieltspro_test_assignments',
+  GROUPS: 'ieltspro_student_groups',
 };
 
 function safeGet<T>(key: string, fallback: T): T {
@@ -101,7 +76,7 @@ function safeSet<T>(key: string, value: T): void {
 
 function generateCode(): string {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
-  const existing = new Set(getAllTests().map(t => t.code));
+  const existing = new Set(getAllAssignments().map(a => a.code));
   let code: string;
   do {
     code = Array.from({ length: 8 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
@@ -109,126 +84,185 @@ function generateCode(): string {
   return code;
 }
 
-// ── Tests CRUD ───────────────────────────────────────────────────
+// ── Groups CRUD ─────────────────────────────────────────────────
 
-export function getAllTests(): TeacherTest[] {
-  return safeGet<TeacherTest[]>(KEYS.TESTS, []);
+export function getAllGroups(): StudentGroup[] {
+  return safeGet<StudentGroup[]>(KEYS.GROUPS, []);
 }
 
-export function getTestById(id: string): TeacherTest | undefined {
-  return getAllTests().find(t => t.id === id);
+export function getGroupsByTeacher(email: string): StudentGroup[] {
+  return getAllGroups().filter(g => g.createdBy === email);
 }
 
-export function getTestByCode(code: string): TeacherTest | undefined {
-  return getAllTests().find(t => t.code === code);
-}
-
-export function getTestsByTeacher(email: string): TeacherTest[] {
-  return getAllTests().filter(t => t.createdBy === email);
-}
-
-export function createTest(test: Omit<TeacherTest, 'id' | 'code' | 'createdAt' | 'updatedAt'>): TeacherTest {
-  const all = getAllTests();
-  const newTest: TeacherTest = {
-    ...test,
+export function createGroup(group: Omit<StudentGroup, 'id' | 'createdAt'>): StudentGroup {
+  const all = getAllGroups();
+  const newGroup: StudentGroup = {
+    ...group,
     id: crypto.randomUUID(),
-    code: generateCode(),
     createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
   };
-  all.push(newTest);
-  safeSet(KEYS.TESTS, all);
-  return newTest;
+  all.push(newGroup);
+  safeSet(KEYS.GROUPS, all);
+  return newGroup;
 }
 
-export function updateTest(id: string, updates: Partial<TeacherTest>): TeacherTest | null {
-  const all = getAllTests();
-  const idx = all.findIndex(t => t.id === id);
+export function updateGroup(id: string, updates: Partial<StudentGroup>): StudentGroup | null {
+  const all = getAllGroups();
+  const idx = all.findIndex(g => g.id === id);
   if (idx < 0) return null;
-  all[idx] = { ...all[idx], ...updates, updatedAt: new Date().toISOString() };
-  safeSet(KEYS.TESTS, all);
+  all[idx] = { ...all[idx], ...updates };
+  safeSet(KEYS.GROUPS, all);
   return all[idx];
 }
 
-export function deleteTest(id: string): boolean {
-  const all = getAllTests();
-  const filtered = all.filter(t => t.id !== id);
+export function deleteGroup(id: string): boolean {
+  const all = getAllGroups();
+  const filtered = all.filter(g => g.id !== id);
   if (filtered.length === all.length) return false;
-  safeSet(KEYS.TESTS, filtered);
-  // Also delete submissions for this test
-  const subs = getAllSubmissions().filter(s => s.testId !== id);
-  safeSet(KEYS.SUBMISSIONS, subs);
+  safeSet(KEYS.GROUPS, filtered);
   return true;
 }
 
-export function toggleTestStatus(id: string): TeacherTest | null {
-  const test = getTestById(id);
-  if (!test) return null;
-  return updateTest(id, { status: test.status === 'active' ? 'inactive' : 'active' });
+export function addStudentToGroup(groupId: string, email: string): StudentGroup | null {
+  const group = getAllGroups().find(g => g.id === groupId);
+  if (!group) return null;
+  if (group.studentEmails.includes(email)) return group;
+  return updateGroup(groupId, { studentEmails: [...group.studentEmails, email] });
+}
+
+export function removeStudentFromGroup(groupId: string, email: string): StudentGroup | null {
+  const group = getAllGroups().find(g => g.id === groupId);
+  if (!group) return null;
+  return updateGroup(groupId, { studentEmails: group.studentEmails.filter(e => e !== email) });
+}
+
+// ── Assignments CRUD ────────────────────────────────────────────
+
+export function getAllAssignments(): TestAssignment[] {
+  return safeGet<TestAssignment[]>(KEYS.ASSIGNMENTS, []);
+}
+
+export function getAssignmentById(id: string): TestAssignment | undefined {
+  return getAllAssignments().find(a => a.id === id);
+}
+
+export function getAssignmentByCode(code: string): TestAssignment | undefined {
+  return getAllAssignments().find(a => a.code === code);
+}
+
+export function getAssignmentsByTeacher(email: string): TestAssignment[] {
+  return getAllAssignments().filter(a => a.createdBy === email);
+}
+
+export function createAssignment(data: {
+  testId: string;
+  testType: 'reading' | 'listening' | 'writing' | 'speaking';
+  testTitle: string;
+  password?: string;
+  groupId?: string;
+  assignedTo?: string[];
+  visibility: 'anyone' | 'students_only' | 'selected_groups';
+  timeLimitMinutes: number;
+  showResultAfterSubmit: boolean;
+  createdBy: string;
+}): TestAssignment {
+  const all = getAllAssignments();
+  const newAssignment: TestAssignment = {
+    ...data,
+    id: crypto.randomUUID(),
+    code: generateCode(),
+    assignedTo: data.assignedTo || [],
+    status: 'active',
+    createdAt: new Date().toISOString(),
+    submissions: [],
+  };
+  all.push(newAssignment);
+  safeSet(KEYS.ASSIGNMENTS, all);
+  return newAssignment;
+}
+
+export function updateAssignment(id: string, updates: Partial<TestAssignment>): TestAssignment | null {
+  const all = getAllAssignments();
+  const idx = all.findIndex(a => a.id === id);
+  if (idx < 0) return null;
+  all[idx] = { ...all[idx], ...updates };
+  safeSet(KEYS.ASSIGNMENTS, all);
+  return all[idx];
+}
+
+export function deleteAssignment(id: string): boolean {
+  const all = getAllAssignments();
+  const filtered = all.filter(a => a.id !== id);
+  if (filtered.length === all.length) return false;
+  safeSet(KEYS.ASSIGNMENTS, filtered);
+  return true;
+}
+
+export function toggleAssignmentStatus(id: string): TestAssignment | null {
+  const assignment = getAssignmentById(id);
+  if (!assignment) return null;
+  return updateAssignment(id, { status: assignment.status === 'active' ? 'inactive' : 'active' });
 }
 
 // ── Submissions ──────────────────────────────────────────────────
 
-export function getAllSubmissions(): TestSubmission[] {
-  return safeGet<TestSubmission[]>(KEYS.SUBMISSIONS, []);
-}
+export function addSubmissionToAssignment(
+  assignmentId: string,
+  sub: Omit<TestSubmission, 'id' | 'submittedAt' | 'assignmentId'>
+): TestSubmission | null {
+  const all = getAllAssignments();
+  const idx = all.findIndex(a => a.id === assignmentId);
+  if (idx < 0) return null;
 
-export function getSubmissionsForTest(testId: string): TestSubmission[] {
-  return getAllSubmissions().filter(s => s.testId === testId);
-}
-
-export function getSubmissionsByStudent(email: string): TestSubmission[] {
-  return getAllSubmissions().filter(s => s.studentEmail === email);
-}
-
-export function addSubmission(sub: Omit<TestSubmission, 'id' | 'submittedAt'>): TestSubmission {
-  const all = getAllSubmissions();
   const newSub: TestSubmission = {
     ...sub,
     id: crypto.randomUUID(),
+    assignmentId,
     submittedAt: new Date().toISOString(),
   };
-  all.push(newSub);
-  safeSet(KEYS.SUBMISSIONS, all);
+
+  all[idx].submissions.push(newSub);
+  safeSet(KEYS.ASSIGNMENTS, all);
   return newSub;
 }
 
-export function updateSubmission(id: string, updates: Partial<TestSubmission>): TestSubmission | null {
-  const all = getAllSubmissions();
-  const idx = all.findIndex(s => s.id === id);
-  if (idx < 0) return null;
-  all[idx] = { ...all[idx], ...updates };
-  safeSet(KEYS.SUBMISSIONS, all);
-  return all[idx];
+export function getSubmissionsForAssignment(assignmentId: string): TestSubmission[] {
+  const assignment = getAssignmentById(assignmentId);
+  return assignment?.submissions || [];
 }
 
-// ── Auto-Grading ─────────────────────────────────────────────────
+export function updateSubmission(
+  assignmentId: string,
+  submissionId: string,
+  updates: Partial<TestSubmission>
+): TestSubmission | null {
+  const all = getAllAssignments();
+  const aIdx = all.findIndex(a => a.id === assignmentId);
+  if (aIdx < 0) return null;
 
-export function autoGradeTest(
-  test: TeacherTest,
-  answers: Record<string, string>,
-): { score: number; correctCount: number; band: number } {
-  let correct = 0;
-  let total = 0;
+  const sIdx = all[aIdx].submissions.findIndex(s => s.id === submissionId);
+  if (sIdx < 0) return null;
 
-  for (const q of test.questions) {
-    if (['essay', 'short_answer'].includes(q.type) && test.skill === 'writing') continue;
-    total++;
-    const userAnswer = (answers[q.id] || '').trim().toLowerCase();
-    const correctAnswer = q.correctAnswer.trim().toLowerCase();
-    if (userAnswer === correctAnswer) {
-      correct++;
-    }
+  all[aIdx].submissions[sIdx] = { ...all[aIdx].submissions[sIdx], ...updates };
+  safeSet(KEYS.ASSIGNMENTS, all);
+  return all[aIdx].submissions[sIdx];
+}
+
+// ── Stats ────────────────────────────────────────────────────────
+
+export function getAssignmentStats(assignmentId: string) {
+  const subs = getSubmissionsForAssignment(assignmentId);
+  if (subs.length === 0) {
+    return { total: 0, avgScore: 0, avgBand: 0, avgTime: 0 };
   }
-
-  const score = total > 0 ? Math.round((correct / total) * 100) : 0;
-  const band = scoreToBand(score);
-
-  return { score, correctCount: correct, band };
+  const total = subs.length;
+  const avgScore = Math.round(subs.reduce((a, s) => a + s.score, 0) / total);
+  const avgBand = Math.round((subs.reduce((a, s) => a + s.band, 0) / total) * 10) / 10;
+  const avgTime = Math.round(subs.reduce((a, s) => a + s.timeSpentSeconds, 0) / total);
+  return { total, avgScore, avgBand, avgTime };
 }
 
-function scoreToBand(score: number): number {
-  // IELTS band approximation from percentage
+export function scoreToBand(score: number): number {
   if (score >= 95) return 9.0;
   if (score >= 90) return 8.5;
   if (score >= 83) return 8.0;
@@ -242,18 +276,4 @@ function scoreToBand(score: number): number {
   if (score >= 15) return 4.0;
   if (score >= 8) return 3.5;
   return 3.0;
-}
-
-// ── Stats helpers ────────────────────────────────────────────────
-
-export function getTestStats(testId: string) {
-  const subs = getSubmissionsForTest(testId);
-  if (subs.length === 0) {
-    return { total: 0, avgScore: 0, avgBand: 0, avgTime: 0 };
-  }
-  const total = subs.length;
-  const avgScore = Math.round(subs.reduce((a, s) => a + s.score, 0) / total);
-  const avgBand = Math.round((subs.reduce((a, s) => a + s.band, 0) / total) * 10) / 10;
-  const avgTime = Math.round(subs.reduce((a, s) => a + s.timeSpentSeconds, 0) / total);
-  return { total, avgScore, avgBand, avgTime };
 }
