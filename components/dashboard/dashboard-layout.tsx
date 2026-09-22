@@ -89,14 +89,16 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#f5f7fa]">
+    <div className="flex min-h-screen bg-[#f5f7fa] overflow-x-hidden">
       {/* Desktop sidebar */}
       <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-border bg-card md:flex">
         <div className="flex h-16 items-center gap-2 border-b border-border px-6">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <GraduationCap className="h-4 w-4" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M17 7C14 7 12 9 12 12C12 15 14 17 17 17C20 17 22 15 22 12" stroke="white" strokeWidth="3" strokeLinecap="round"/>
+            </svg>
           </div>
-          <span className="font-bold tracking-tight">IELTS PRO</span>
+          <span className="font-bold tracking-tight">StartIELTS</span>
         </div>
 
         <nav className="flex-1 space-y-1 overflow-y-auto p-4">
@@ -183,10 +185,12 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           <aside className="absolute inset-y-0 left-0 flex w-64 flex-col border-r border-border bg-card shadow-2xl">
             <div className="flex h-16 items-center justify-between border-b border-border px-6">
               <div className="flex items-center gap-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                  <GraduationCap className="h-4 w-4" />
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path d="M17 7C14 7 12 9 12 12C12 15 14 17 17 17C20 17 22 15 22 12" stroke="white" strokeWidth="3" strokeLinecap="round"/>
+                  </svg>
                 </div>
-                <span className="font-bold tracking-tight">IELTS PRO</span>
+                <span className="font-bold tracking-tight">StartIELTS</span>
               </div>
               <button onClick={() => setSidebarOpen(false)}>
                 <X className="h-5 w-5" />
@@ -244,7 +248,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       )}
 
       {/* Main content area */}
-      <div className="flex-1 md:pl-64">
+      <div className="flex-1 min-w-0 overflow-x-hidden md:pl-64">
         {/* Mobile top bar */}
         <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-border/50 bg-white/80 px-4 backdrop-blur-xl md:hidden">
           <button
@@ -254,10 +258,12 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             <Menu className="h-4 w-4" />
           </button>
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary text-white shadow-sm">
-              <GraduationCap className="h-4 w-4" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-blue-500 shadow-sm">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M17 7C14 7 12 9 12 12C12 15 14 17 17 17C20 17 22 15 22 12" stroke="white" strokeWidth="3" strokeLinecap="round"/>
+              </svg>
             </div>
-            <span className="text-sm font-bold tracking-tight">IELTS PRO</span>
+            <span className="text-sm font-bold tracking-tight">StartIELTS</span>
           </div>
           <div className="flex items-center gap-1.5">
             <ThemeToggle />
@@ -276,7 +282,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         </header>
 
         {/* Page content with bottom padding for mobile tab bar */}
-        <main className="p-4 pb-24 sm:p-6 md:pb-8 lg:p-8">{children}</main>
+        <main className="p-3 pb-24 sm:p-4 md:p-6 lg:p-8 md:pb-8">{children}</main>
       </div>
 
       {/* Mobile Bottom Tab Bar */}

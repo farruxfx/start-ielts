@@ -98,6 +98,7 @@ const skills = [
     iconBg: 'text-white',
     iconColor: 'text-white',
     DecorativeIcon: BookOpen,
+    href: '/reading',
   },
   {
     skill: 'writing' as TestType,

@@ -34,9 +34,8 @@ export function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-500 shadow-sm shadow-blue-500/20 transition-all group-hover:shadow-blue-500/30 group-hover:scale-105">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-                <path d="M6 12v5c3 3 9 3 12 0v-5" />
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M17 7C14 7 12 9 12 12C12 15 14 17 17 17C20 17 22 15 22 12" stroke="white" strokeWidth="3" strokeLinecap="round"/>
               </svg>
             </div>
             <span className="text-[16px] font-bold tracking-tight text-slate-900">StartIELTS</span>

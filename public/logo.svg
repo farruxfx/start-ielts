@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200">
+  <defs>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6"/>
+      <stop offset="100%" style="stop-color:#2563eb"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Stylized S Icon -->
+  <g transform="translate(160, 10)">
+    <path d="M40 20 C20 20 5 35 5 55 C5 75 20 90 40 95 C60 100 75 115 75 135 C75 155 60 170 40 170 C20 170 5 155 5 135" 
+          stroke="url(#blueGrad)" 
+          stroke-width="28" 
+          fill="none" 
+          stroke-linecap="round"/>
+  </g>
+  
+  <!-- StartIELTS Text -->
+  <text x="200" y="130" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700">
+    <tspan fill="#1e293b">Start</tspan><tspan fill="#3b82f6">IELTS</tspan>
+  </text>
+</svg>

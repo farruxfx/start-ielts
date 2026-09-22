@@ -22,9 +22,8 @@ export function Footer() {
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2.5">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-                  <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M17 7C14 7 12 9 12 12C12 15 14 17 17 17C20 17 22 15 22 12" stroke="white" strokeWidth="3" strokeLinecap="round"/>
                 </svg>
               </div>
               <span className="text-[15px] font-bold text-slate-900">StartIELTS</span>

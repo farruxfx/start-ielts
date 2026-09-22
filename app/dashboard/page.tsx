@@ -31,11 +31,45 @@ import {
 } from '@/lib/store';
 import { useAuth } from '@/components/auth/use-auth';
 import { SubscriptionWidget } from '@/components/subscription/subscription-widget';
-import { DailyGoalsWidget } from '@/components/dashboard/daily-goals-widget';
-import { AchievementsWidget } from '@/components/dashboard/achievements-widget';
-import { StudyPlanCard } from '@/components/dashboard/study-plan-card';
-import { ProgressCharts } from '@/components/dashboard/progress-charts';
-import { ExamCountdown } from '@/components/dashboard/exam-countdown';
+import dynamic from 'next/dynamic';
+import { Skeleton } from '@/components/ui/skeleton';
+
+// Phase 6: heavy widgets load lazily to shrink the initial bundle
+const DailyGoalsWidget = dynamic(
+  () => import('@/components/dashboard/daily-goals-widget').then(m => m.DailyGoalsWidget),
+  { loading: () => <WidgetSkeleton /> }
+);
+const StudyPlanCard = dynamic(
+  () => import('@/components/dashboard/study-plan-card').then(m => m.StudyPlanCard),
+  { loading: () => <WidgetSkeleton /> }
+);
+const ProgressCharts = dynamic(
+  () => import('@/components/dashboard/progress-charts').then(m => m.ProgressCharts),
+  { loading: () => <ChartSkeleton /> }
+);
+const ExamCountdown = dynamic(
+  () => import('@/components/dashboard/exam-countdown').then(m => m.ExamCountdown),
+  { loading: () => <WidgetSkeleton /> }
+);
+
+function WidgetSkeleton() {
+  return (
+    <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
+      <Skeleton className="h-5 w-32" />
+      <Skeleton className="mt-3 h-4 w-full" />
+      <Skeleton className="mt-2 h-4 w-2/3" />
+    </div>
+  );
+}
+
+function ChartSkeleton() {
+  return (
+    <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
+      <Skeleton className="h-5 w-40" />
+      <Skeleton className="mt-3 h-[260px] w-full" />
+    </div>
+  );
+}
 
 const skillConfig: Record<string, { icon: typeof BookOpen; color: string; bg: string; ring: string }> = {
   listening: { icon: Headphones, color: 'text-violet-600', bg: 'bg-violet-100', ring: 'ring-violet-200' },
@@ -71,7 +105,12 @@ export default function DashboardPage() {
     if (user) {
       const existing = getUserProfile();
       const userEmail = user.email || '';
-      const userName = (user as any).name || userEmail.split('@')[0] || 'Student';
+      const anyUser = user as any;
+      const userName =
+        anyUser.name ||
+        anyUser.user_metadata?.name ||
+        userEmail.split('@')[0] ||
+        'Student';
       if (!existing || existing.email !== userEmail) {
         setUserProfile({
           name: userName,
@@ -104,7 +143,7 @@ export default function DashboardPage() {
   const hasData = data.totalTests > 0;
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 overflow-hidden">
       {/* ═══ Greeting Card ═══ */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-600 p-5 text-white shadow-lg shadow-blue-500/20 sm:p-6">
         <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/10" />

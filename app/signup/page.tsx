@@ -7,6 +7,7 @@ import { GraduationCap, Mail, Lock, User, ArrowRight, AlertCircle, Check } from 
 import { useAuth } from '@/components/auth/use-auth';
 import { isSupabaseConfigured } from '@/lib/supabase';
 import { initGoogleSignIn, type GoogleUserInfo } from '@/lib/google-auth';
+import { signUpSchema, validate } from '@/lib/validation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -18,6 +19,7 @@ export default function SignUpPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const googleBtnRef = useRef<HTMLDivElement>(null);
@@ -57,10 +59,11 @@ export default function SignUpPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters long.');
-      return;
-    }
+
+    const { data, errors } = validate(signUpSchema, { name, email, password });
+    setFieldErrors(errors);
+    if (!data) return;
+
     setLoading(true);
     const { error } = await signUp(email, password, name);
     setLoading(false);
@@ -152,9 +155,13 @@ export default function SignUpPage() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="pl-9"
+                    aria-invalid={!!fieldErrors.name}
                     required
                   />
                 </div>
+                {fieldErrors.name && (
+                  <p className="text-xs text-destructive">{fieldErrors.name}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -168,9 +175,13 @@ export default function SignUpPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="pl-9"
+                    aria-invalid={!!fieldErrors.email}
                     required
                   />
                 </div>
+                {fieldErrors.email && (
+                  <p className="text-xs text-destructive">{fieldErrors.email}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -184,9 +195,13 @@ export default function SignUpPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="pl-9"
+                    aria-invalid={!!fieldErrors.password}
                     required
                   />
                 </div>
+                {fieldErrors.password && (
+                  <p className="text-xs text-destructive">{fieldErrors.password}</p>
+                )}
               </div>
 
               {error && (

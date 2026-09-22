@@ -7,6 +7,7 @@ import { GraduationCap, Mail, Lock, ArrowRight, AlertCircle } from 'lucide-react
 import { useAuth } from '@/components/auth/use-auth';
 import { isSupabaseConfigured } from '@/lib/supabase';
 import { initGoogleSignIn, type GoogleUserInfo } from '@/lib/google-auth';
+import { signInSchema, validate } from '@/lib/validation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -17,6 +18,7 @@ export default function SignInPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const googleBtnRef = useRef<HTMLDivElement>(null);
@@ -56,6 +58,11 @@ export default function SignInPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    const { data, errors } = validate(signInSchema, { email, password });
+    setFieldErrors(errors);
+    if (!data) return;
+
     setLoading(true);
     const { error } = await signIn(email, password);
     setLoading(false);
@@ -147,9 +154,13 @@ export default function SignInPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="pl-9"
+                    aria-invalid={!!fieldErrors.email}
                     required
                   />
                 </div>
+                {fieldErrors.email && (
+                  <p className="text-xs text-destructive">{fieldErrors.email}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -171,9 +182,13 @@ export default function SignInPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="pl-9"
+                    aria-invalid={!!fieldErrors.password}
                     required
                   />
                 </div>
+                {fieldErrors.password && (
+                  <p className="text-xs text-destructive">{fieldErrors.password}</p>
+                )}
               </div>
 
               {error && (

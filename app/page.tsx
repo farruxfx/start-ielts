@@ -8,10 +8,24 @@ import { Pricing } from '@/components/landing/pricing';
 import { Testimonials } from '@/components/landing/testimonials';
 import { CTA } from '@/components/landing/cta';
 import { Footer } from '@/components/landing/footer';
+import { websiteJsonLd, organizationJsonLd, courseJsonLd, jsonLdScript } from '@/lib/seo';
 
 export default function Home() {
   return (
     <>
+      {/* JSON-LD structured data (Phase 7.5) */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(websiteJsonLd()) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(organizationJsonLd()) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(courseJsonLd()) }}
+      />
       <Navbar />
       <main>
         <Hero />

@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Search, Volume2, Check, X, RotateCw, Plus, Trash2, BookOpen, Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { VirtualList } from '@/components/ui/virtual-list';
 
 interface VocabWord {
   id: string;
@@ -50,6 +51,49 @@ function saveWords(words: VocabWord[]) {
   try { localStorage.setItem('ieltspro_vocabulary', JSON.stringify(words)); } catch {}
 }
 
+function VocabCard({
+  word,
+  onToggle,
+  onDelete,
+  onSpeak,
+}: {
+  word: VocabWord;
+  onToggle: () => void;
+  onDelete: () => void;
+  onSpeak: (text: string) => void;
+}) {
+  return (
+    <div className={cn('h-full overflow-hidden rounded-2xl border border-border bg-card p-4 transition-all hover:shadow-md', word.mastered && 'border-emerald-500/20 bg-emerald-500/5')}>
+      <div className="flex items-start justify-between">
+        <div className="flex-1">
+          <div className="flex items-center gap-2">
+            <h3 className="font-bold">{word.word}</h3>
+            <button onClick={() => onSpeak(word.word)} className="text-muted-foreground hover:text-primary"><Volume2 className="h-3.5 w-3.5" /></button>
+          </div>
+          <span className={cn('mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold', difficultyColors[word.difficulty])}>{word.difficulty}</span>
+        </div>
+        <div className="flex gap-1">
+          <button onClick={onToggle} className={cn('rounded-lg p-1.5 transition-colors', word.mastered ? 'bg-emerald-100 text-emerald-600' : 'bg-muted text-muted-foreground hover:bg-emerald-100 hover:text-emerald-600')}>
+            <Check className="h-3.5 w-3.5" />
+          </button>
+          <button onClick={onDelete} className="rounded-lg bg-muted p-1.5 text-muted-foreground hover:bg-red-100 hover:text-red-600">
+            <Trash2 className="h-3.5 w-3.5" />
+          </button>
+        </div>
+      </div>
+      <p className="mt-2 text-sm text-muted-foreground">{word.definition}</p>
+      {word.example && <p className="mt-2 text-xs italic text-muted-foreground/70">"{word.example}"</p>}
+      {word.synonyms.length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-1">
+          {word.synonyms.map((s, i) => (
+            <span key={i} className="rounded-full bg-muted px-2 py-0.5 text-[10px] text-muted-foreground">{s}</span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function VocabularyPage() {
   const [words, setWords] = useState<VocabWord[]>([]);
   const [search, setSearch] = useState('');
@@ -59,9 +103,16 @@ export default function VocabularyPage() {
   const [flashcardIndex, setFlashcardIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [showAddWord, setShowAddWord] = useState(false);
+  const [viewportWidth, setViewportWidth] = useState(1024);
   const [newWord, setNewWord] = useState({ word: '', definition: '', example: '', synonyms: '', difficulty: 'medium' as const, category: 'academic' });
 
   useEffect(() => { setWords(getStoredWords()); }, []);
+  useEffect(() => {
+    const onResize = () => setViewportWidth(window.innerWidth);
+    onResize();
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   const filteredWords = words.filter(w => {
     if (search && !w.word.toLowerCase().includes(search.toLowerCase()) && !w.definition.toLowerCase().includes(search.toLowerCase())) return false;
@@ -217,38 +268,39 @@ export default function VocabularyPage() {
 
       {/* Grid View */}
       {viewMode === 'grid' && (
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredWords.map(word => (
-            <div key={word.id} className={cn('rounded-2xl border border-border bg-card p-4 transition-all hover:shadow-md', word.mastered && 'border-emerald-500/20 bg-emerald-500/5')}>
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-bold">{word.word}</h3>
-                    <button onClick={() => speak(word.word)} className="text-muted-foreground hover:text-primary"><Volume2 className="h-3.5 w-3.5" /></button>
-                  </div>
-                  <span className={cn('mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold', difficultyColors[word.difficulty])}>{word.difficulty}</span>
-                </div>
-                <div className="flex gap-1">
-                  <button onClick={() => toggleMastered(word.id)} className={cn('rounded-lg p-1.5 transition-colors', word.mastered ? 'bg-emerald-100 text-emerald-600' : 'bg-muted text-muted-foreground hover:bg-emerald-100 hover:text-emerald-600')}>
-                    <Check className="h-3.5 w-3.5" />
-                  </button>
-                  <button onClick={() => deleteWord(word.id)} className="rounded-lg bg-muted p-1.5 text-muted-foreground hover:bg-red-100 hover:text-red-600">
-                    <Trash2 className="h-3.5 w-3.5" />
-                  </button>
-                </div>
-              </div>
-              <p className="mt-2 text-sm text-muted-foreground">{word.definition}</p>
-              {word.example && <p className="mt-2 text-xs italic text-muted-foreground/70">"{word.example}"</p>}
-              {word.synonyms.length > 0 && (
-                <div className="mt-2 flex flex-wrap gap-1">
-                  {word.synonyms.map((s, i) => (
-                    <span key={i} className="rounded-full bg-muted px-2 py-0.5 text-[10px] text-muted-foreground">{s}</span>
-                  ))}
-                </div>
+        <>
+          {/* Phase 6.6: virtualize long lists — only visible cards are rendered */}
+          {filteredWords.length > 30 ? (
+            <VirtualList
+              items={filteredWords}
+              itemHeight={260}
+              height={780}
+              columns={viewportWidth >= 1024 ? 3 : viewportWidth >= 640 ? 2 : 1}
+              getKey={(word) => word.id}
+              className="rounded-2xl"
+              renderItem={(word) => (
+                <VocabCard
+                  word={word}
+                  onToggle={() => toggleMastered(word.id)}
+                  onDelete={() => deleteWord(word.id)}
+                  onSpeak={speak}
+                />
               )}
+            />
+          ) : (
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {filteredWords.map(word => (
+                <VocabCard
+                  key={word.id}
+                  word={word}
+                  onToggle={() => toggleMastered(word.id)}
+                  onDelete={() => deleteWord(word.id)}
+                  onSpeak={speak}
+                />
+              ))}
             </div>
-          ))}
-        </div>
+          )}
+        </>
       )}
 
       {/* Add Word Modal */}
