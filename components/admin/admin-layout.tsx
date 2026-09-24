@@ -67,7 +67,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
             <GraduationCap className="h-4 w-4" />
           </div>
           <div>
-            <span className="block text-sm font-bold tracking-tight">IELTS PRO</span>
+            <span className="block text-sm font-bold tracking-tight">StartIELTS</span>
             <span className="flex items-center gap-1 text-xs text-primary">
               <ShieldCheck className="h-3 w-3" />
               Admin Panel
@@ -125,7 +125,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                   <GraduationCap className="h-4 w-4" />
                 </div>
-                <span className="text-sm font-bold">IELTS PRO Admin</span>
+                <span className="text-sm font-bold">StartIELTS Admin</span>
               </div>
               <button onClick={() => setSidebarOpen(false)}>
                 <X className="h-5 w-5" />

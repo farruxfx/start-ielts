@@ -339,7 +339,7 @@ export default function DashboardPage() {
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-50">
             <Sparkles className="h-8 w-8 text-blue-500" />
           </div>
-          <h3 className="mt-4 text-lg font-semibold text-gray-900">Welcome to IELTS PRO! 🎉</h3>
+          <h3 className="mt-4 text-lg font-semibold text-gray-900">Welcome to StartIELTS! 🎉</h3>
           <p className="mt-2 max-w-sm mx-auto text-sm text-gray-500">
             Start practicing to see your progress here. Take your first test and track your band score.
           </p>

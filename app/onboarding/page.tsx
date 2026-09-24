@@ -143,7 +143,7 @@ export default function OnboardingPage() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
               <GraduationCap className="h-4 w-4" />
             </div>
-            <span className="font-bold">IELTS PRO</span>
+            <span className="font-bold">StartIELTS</span>
           </div>
           <span className="text-sm text-muted-foreground">{step}/6</span>
         </div>

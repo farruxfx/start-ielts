@@ -6,8 +6,8 @@ import { cn } from '@/lib/utils';
 
 const faqs = [
   {
-    question: 'Is IELTS PRO free to use?',
-    answer: 'Yes! IELTS PRO offers a free plan with limited access to practice tests, vocabulary, and basic analytics. You can upgrade to a paid plan for full access to all features.',
+    question: 'Is StartIELTS free to use?',
+    answer: 'Yes! StartIELTS offers a free plan with limited access to practice tests, vocabulary, and basic analytics. You can upgrade to a paid plan for full access to all features.',
   },
   {
     question: 'How does AI writing evaluation work?',
@@ -15,15 +15,15 @@ const faqs = [
   },
   {
     question: 'Can I practice speaking with AI?',
-    answer: 'Yes! IELTS PRO uses Web Speech API for speech recognition and Groq AI for evaluation. You can practice all 3 parts of the speaking test and get instant feedback on fluency, pronunciation, grammar, and vocabulary.',
+    answer: 'Yes! StartIELTS uses Web Speech API for speech recognition and Groq AI for evaluation. You can practice all 3 parts of the speaking test and get instant feedback on fluency, pronunciation, grammar, and vocabulary.',
   },
   {
     question: 'How many mock exams are available?',
     answer: 'We offer 50 full-length mock exams that simulate the real IELTS test experience. Each mock exam includes all 4 sections (Listening, Reading, Writing, Speaking) with timed interfaces and detailed scoring.',
   },
   {
-    question: 'Can I use IELTS PRO on my phone?',
-    answer: 'Absolutely! IELTS PRO is fully responsive and works great on all devices — smartphones, tablets, and desktops. We also support PWA for offline access.',
+    question: 'Can I use StartIELTS on my phone?',
+    answer: 'Absolutely! StartIELTS is fully responsive and works great on all devices — smartphones, tablets, and desktops. We also support PWA for offline access.',
   },
   {
     question: 'What payment methods do you accept?',
@@ -80,7 +80,7 @@ export function FAQ() {
             Frequently asked questions
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Everything you need to know about IELTS PRO
+            Everything you need to know about StartIELTS
           </p>
         </div>
 

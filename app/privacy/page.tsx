@@ -14,7 +14,7 @@ export default function PrivacyPage() {
           </Link>
           <div className="mx-auto flex items-center gap-2">
             <GraduationCap className="h-5 w-5 text-primary" />
-            <span className="font-bold">IELTS PRO</span>
+            <span className="font-bold">StartIELTS</span>
           </div>
           <div className="w-16" />
         </div>
@@ -100,7 +100,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-semibold">9. Children&apos;s Privacy</h2>
             <p className="text-muted-foreground">
-              IELTS PRO is not intended for users under 13 years of age. We do not knowingly collect personal
+              StartIELTS is not intended for users under 13 years of age. We do not knowingly collect personal
               information from children. If we become aware that a child has provided us with personal information,
               we will take steps to delete such information.
             </p>

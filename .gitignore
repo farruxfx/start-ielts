@@ -44,4 +44,4 @@ next-env.d.ts
 *.log.err
 
 # Large listening HTML files (with embedded audio) — too big for GitHub
-public/listening/*.html
+

@@ -1,7 +1,6 @@
-'use client';
-
-import { DashboardLayout } from '@/components/dashboard/dashboard-layout';
+import { ConditionalDashboardLayout } from '@/components/dashboard/conditional-dashboard-layout';
 
 export default function WritingLayout({ children }: { children: React.ReactNode }) {
-  return <DashboardLayout>{children}</DashboardLayout>;
+  // /writing (overview) gets the sidebar; /writing/test/<id> runs full-screen.
+  return <ConditionalDashboardLayout>{children}</ConditionalDashboardLayout>;
 }

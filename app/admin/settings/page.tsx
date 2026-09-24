@@ -17,8 +17,8 @@ interface PlatformSettings {
 
 export default function AdminSettingsPage() {
   const [settings, setSettings] = useState<PlatformSettings>({
-    site_name: 'IELTS PRO',
-    support_email: 'support@ieltspro.uz',
+    site_name: 'StartIELTS',
+    support_email: 'support@startielts.com',
     free_tier_limit: 3,
     default_exam_type: 'academic',
   });
