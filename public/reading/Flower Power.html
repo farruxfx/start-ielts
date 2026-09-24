@@ -14,7 +14,7 @@ html,body{height:100%}
   --panel:rgba(255,255,255,.62); --panel-solid:rgba(255,255,255,.92);
   --text:#1c1c1e; --text2:#6e6e73; --text3:#98989d;
   --border:rgba(60,60,67,.13); --hairline:rgba(60,60,67,.08);
-  --accent:#e31837; --accent-dark:#c11530; --accent-light:rgba(227,24,55,.10);
+  --accent:#2563eb; --accent-dark:#1d4ed8; --accent-light:rgba(37,99,235,.10);
   --green:#22a559; --green-bg:rgba(34,165,89,.14);
   --redx:#ff3b30; --red-bg:rgba(255,59,48,.12);
   --yellow:#ff9500; --yellow-bg:rgba(255,149,0,.15);
@@ -69,7 +69,7 @@ body{
 html[data-theme="dark"] .login-input::placeholder{color:rgba(255,255,255,.22)}
 .login-error{color:var(--redx);font-size:12.5px;font-weight:600;margin:-4px 0 12px;display:none;text-align:left}
 .login-error.show{display:block}
-.login-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:14px 0;width:100%;font-size:15.5px;font-weight:700;cursor:pointer;transition:.2s;box-shadow:0 8px 22px rgba(227,24,55,.35);margin-top:6px}
+.login-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:14px 0;width:100%;font-size:15.5px;font-weight:700;cursor:pointer;transition:.2s;box-shadow:0 8px 22px rgba(37,99,235,.35);margin-top:6px}
 .login-btn:hover{background:var(--accent-dark);transform:translateY(-1px)}
 .login-btn:active{transform:scale(.98)}
 .login-hint{font-size:11.5px;color:var(--text3);margin-top:14px;line-height:1.5}
@@ -87,7 +87,7 @@ html[data-theme="dark"] .login-input::placeholder{color:rgba(255,255,255,.22)}
 .home-meta-item{background:var(--panel-solid);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 20px;min-width:84px}
 .home-meta-item .val{font-size:20px;font-weight:800;color:var(--text)}
 .home-meta-item .lbl{font-size:10.5px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
-.start-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:15px 46px;font-size:16px;font-weight:700;cursor:pointer;transition:.2s;box-shadow:0 8px 22px rgba(227,24,55,.35)}
+.start-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:15px 46px;font-size:16px;font-weight:700;cursor:pointer;transition:.2s;box-shadow:0 8px 22px rgba(37,99,235,.35)}
 .start-btn:hover{background:var(--accent-dark);transform:translateY(-1px)}
 .start-btn:active{transform:scale(.97)}
 
@@ -136,7 +136,7 @@ html[data-theme="dark"] .login-input::placeholder{color:rgba(255,255,255,.22)}
 .resizer::after{content:'';width:4px;height:44px;border-radius:99px;background:var(--border)}
 .resizer:hover::after{background:var(--accent)}
 
-.watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-25deg);font-size:50px;font-weight:800;color:rgba(227,24,55,.05);pointer-events:none;z-index:0;white-space:nowrap;letter-spacing:2px}
+.watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-25deg);font-size:50px;font-weight:800;color:rgba(37,99,235,.05);pointer-events:none;z-index:0;white-space:nowrap;letter-spacing:2px}
 html[data-theme="dark"] .watermark{color:rgba(255,79,104,.06)}
 .pane-left>*:not(.watermark){position:relative;z-index:1}
 
@@ -246,7 +246,7 @@ mark.hl-y{background:#fde047;color:#000}mark.hl-g{background:#86efac;color:#000}
   .res-badge{justify-self:start}
 }
 :fullscreen .screen.active{height:100vh}
-::selection{background:rgba(227,24,55,.25)}
+::selection{background:rgba(37,99,235,.25)}
 
 /* ── QUESTION TYPES (@reading_cdi engine) ── */
 .q-block{margin-bottom:6px}
@@ -289,6 +289,54 @@ mark.hl-y{background:#fde047;color:#000}mark.hl-g{background:#86efac;color:#000}
   .q-row{flex-direction:column;align-items:stretch;gap:9px}
   .sel-input{width:100%}
 }
+</style>
+
+<style id="startielts-unified-design">
+/* ===== StartIELTS unified design (auto-injected) ===== */
+:root{
+  --brand:#2563eb; --brand-dark:#1d4ed8; --brand-light:rgba(37,99,235,.10);
+  --sui-border:#cbd5e1; --sui-text:#0f172a; --sui-muted:#64748b; --sui-bg:#f8fafc;
+}
+html{ -webkit-text-size-adjust:100%; }
+body{
+  font-family:'Segoe UI',system-ui,-apple-system,BlinkMacSystemFont,Roboto,'Helvetica Neue',Arial,sans-serif !important;
+  color:var(--sui-text);
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+h1,h2,h3,h4{ font-family:inherit; letter-spacing:-0.01em; }
+::selection{ background:rgba(37,99,235,.22); }
+::placeholder{ color:#94a3b8; }
+:focus-visible{ outline:2px solid var(--brand); outline-offset:2px; }
+/* form controls */
+input[type="radio"], input[type="checkbox"]{ accent-color:var(--brand) !important; }
+input[type="text"], input[type="number"], input[type="email"], input[type="password"],
+.answer-input, .inline-input, textarea, select{
+  font:inherit; color:var(--sui-text);
+  border:1.5px solid var(--sui-border); border-radius:8px;
+  background:#fff; transition:border-color .15s, box-shadow .15s;
+}
+input[type="text"]:focus, input[type="number"]:focus, .answer-input:focus,
+.inline-input:focus, textarea:focus, select:focus{
+  outline:none; border-color:var(--brand); box-shadow:0 0 0 3px rgba(37,99,235,.15);
+}
+/* option rows (multiple choice / T-F / matching) */
+.choice-option, .radio-option, .opt, .opt-btn, .tf-option, .answer-radio{
+  border-radius:10px;
+}
+.choice-option:hover, .radio-option:hover, .opt:hover, .opt-btn:hover{ filter:brightness(.985); }
+/* buttons */
+button{ font-family:inherit; border-radius:10px; }
+button:disabled{ opacity:.55; cursor:not-allowed; }
+/* scrollbars */
+::-webkit-scrollbar{ width:10px; height:10px; }
+::-webkit-scrollbar-track{ background:transparent; }
+::-webkit-scrollbar-thumb{ background:#cbd5e1; border-radius:8px; border:2px solid transparent; background-clip:content-box; }
+::-webkit-scrollbar-thumb:hover{ background:#94a3b8; background-clip:content-box; }
+/* media & iframe canvas never overflow */
+img, svg, video{ max-width:100%; height:auto; }
+/* accent vars used by the different generator families */
+:root{ --accent:var(--brand); --accent-dark:var(--brand-dark); --accent-light:var(--brand-light); --logo:var(--brand); --blue:var(--brand); }
+/* ===== end StartIELTS unified design ===== */
 </style>
 </head>
 <body>
