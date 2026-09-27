@@ -3,7 +3,12 @@
 
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const GROQ_API_KEY = process.env.GROQ_API_KEY || '';
-const GROQ_MODEL = 'openai/gpt-oss-120b';
+const GROQ_MODEL = process.env.GROQ_MODEL || 'openai/gpt-oss-120b';
+const GROQ_TIMEOUT_MS = 30_000;
+
+export function isGroqConfigured(): boolean {
+  return !!GROQ_API_KEY;
+}
 
 const IELTS_SYSTEM_PROMPT = `You are an expert IELTS preparation coach with 15+ years of experience helping students achieve band 7-9. You have deep knowledge of:
 
@@ -42,22 +47,34 @@ export async function chatWithAI(
     throw new Error('GROQ_API_KEY is not set. Get a free key at console.groq.com/keys');
   }
 
-  const response = await fetch(GROQ_API_URL, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${GROQ_API_KEY}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: GROQ_MODEL,
-      messages: [{ role: 'system', content: IELTS_SYSTEM_PROMPT }, ...messages],
-      temperature: options?.temperature ?? 0.7,
-      max_tokens: options?.maxTokens ?? 2048,
-    }),
-  });
+  const callGroq = async (): Promise<Response> =>
+    fetch(GROQ_API_URL, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${GROQ_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: GROQ_MODEL,
+        messages: [{ role: 'system', content: IELTS_SYSTEM_PROMPT }, ...messages],
+        temperature: options?.temperature ?? 0.7,
+        max_tokens: options?.maxTokens ?? 2048,
+      }),
+      signal: AbortSignal.timeout(GROQ_TIMEOUT_MS),
+    });
+
+  // One retry for transient gateway errors (429/5xx) with a short backoff.
+  let response = await callGroq();
+  if ((response.status === 429 || response.status >= 500) && response.status !== 503) {
+    await new Promise((r) => setTimeout(r, 800));
+    response = await callGroq();
+  }
 
   if (!response.ok) {
     const error = await response.text();
+    if (response.status === 429) {
+      throw new Error('AI service is busy (rate limit). Please try again in a moment.');
+    }
     throw new Error(`AI API error (${response.status}): ${error}`);
   }
 
@@ -140,5 +157,5 @@ Be specific and constructive. Use the official IELTS criteria.`
 }
 
 export function isAIConfigured(): boolean {
-  return !!GROQ_API_KEY;
+  return isGroqConfigured();
 }
