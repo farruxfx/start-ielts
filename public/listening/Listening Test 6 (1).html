@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>IELTS Listening Practice Test 12 | @reading_cdi</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+
+/* ══════════════════════════════════════
+   LIQUID GLASS TOKENS
+   ══════════════════════════════════════ */
+:root{
+  --bg:#eef0f4;
+  --bg-blob-1:#ffd7dd; --bg-blob-2:#cfe4ff; --bg-blob-3:#dcffe9;
+  --panel:rgba(255,255,255,.62); --panel-solid:rgba(255,255,255,.92);
+  --text:#1c1c1e; --text2:#6e6e73; --text3:#98989d;
+  --border:rgba(60,60,67,.13); --hairline:rgba(60,60,67,.08);
+  --accent:#7c3aed; --accent-dark:#005f99; --accent-light:rgba(124,58,237,.10);
+  --green:#22a559; --green-bg:rgba(34,165,89,.14);
+  --redx:#ff3b30; --red-bg:rgba(255,59,48,.12);
+  --yellow:#ff9500; --yellow-bg:rgba(255,149,0,.15);
+  --tg:#0088cc;
+  --glass-hi:rgba(255,255,255,.85); --glass-lo:rgba(255,255,255,.18);
+  --shadow:0 10px 40px rgba(31,38,55,.10),0 1px 2px rgba(31,38,55,.06);
+  --blur:blur(26px) saturate(190%);
+  --radius-xl:26px;--radius-lg:20px;--radius-md:14px;--radius-sm:10px;
+}
+html[data-theme="dark"]{
+  --bg:#000000;
+  --bg-blob-1:#3a0a14; --bg-blob-2:#07182c; --bg-blob-3:#062015;
+  --panel:rgba(28,28,30,.58); --panel-solid:rgba(24,24,26,.92);
+  --text:#f2f2f7; --text2:#a9a9ae; --text3:#7c7c80;
+  --border:rgba(255,255,255,.13); --hairline:rgba(255,255,255,.08);
+  --accent:#ff4f68; --accent-dark:#ff2d4d; --accent-light:rgba(255,79,104,.16);
+  --green:#32d873; --green-bg:rgba(50,216,115,.16);
+  --redx:#ff453a; --red-bg:rgba(255,69,58,.16);
+  --yellow:#ff9f0a; --yellow-bg:rgba(255,159,10,.16);
+  --glass-hi:rgba(255,255,255,.16); --glass-lo:rgba(255,255,255,.03);
+  --shadow:0 10px 40px rgba(0,0,0,.55),0 1px 2px rgba(0,0,0,.4);
+}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','SF Pro Display','Segoe UI',Roboto,sans-serif;
+  background:var(--bg);color:var(--text);height:100%;overflow:hidden;
+  -webkit-font-smoothing:antialiased;transition:background .4s ease,color .3s ease;
+}
+.liquid-bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.liquid-bg span{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;animation:drift 22s ease-in-out infinite}
+.liquid-bg span:nth-child(1){width:46vw;height:46vw;background:var(--bg-blob-1);top:-14%;left:-10%;animation-delay:0s}
+.liquid-bg span:nth-child(2){width:38vw;height:38vw;background:var(--bg-blob-2);bottom:-16%;right:-8%;animation-delay:-7s}
+.liquid-bg span:nth-child(3){width:30vw;height:30vw;background:var(--bg-blob-3);bottom:20%;left:30%;animation-delay:-14s}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(4%,6%) scale(1.08)}66%{transform:translate(-5%,-3%) scale(.95)}}
+@media(prefers-reduced-motion:reduce){.liquid-bg span{animation:none}}
+
+.screen{display:none;position:relative;z-index:1}.screen.active{display:flex;flex-direction:column;height:100%}
+.glass{background:var(--panel);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-hi);box-shadow:var(--shadow)}
+
+/* ── LOGIN ── */
+#login-screen{align-items:center;justify-content:center;padding:30px 20px;overflow-y:auto}
+.login-card{border-radius:var(--radius-xl);padding:44px 38px;max-width:420px;width:100%;text-align:center}
+.login-logo{font-size:15px;font-weight:800;color:var(--accent);letter-spacing:-.01em}
+.login-logo span{font-size:12px;color:var(--text3);font-weight:600;display:block;margin-top:3px;letter-spacing:.05em;text-transform:uppercase}
+.login-card h1{font-size:23px;font-weight:800;color:var(--text);margin:16px 0 6px;line-height:1.28;letter-spacing:-.01em}
+.login-card p.login-sub{color:var(--text2);font-size:13.5px;margin-bottom:22px;line-height:1.55}
+.login-field{text-align:left;margin-bottom:14px}
+.login-field label{display:block;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);margin-bottom:6px}
+.login-input{width:100%;padding:13px 16px;border-radius:var(--radius-md);border:1.5px solid var(--border);background:var(--panel-solid);color:var(--text);font-size:15px;font-family:inherit;outline:none;transition:.15s}
+.login-input:focus{border-color:var(--accent);background:var(--panel-solid)}
+.login-input::placeholder{color:rgba(60,60,67,.28);font-weight:600;letter-spacing:.02em}
+html[data-theme="dark"] .login-input::placeholder{color:rgba(255,255,255,.22)}
+.login-error{color:var(--redx);font-size:12.5px;font-weight:600;margin:-4px 0 12px;display:none;text-align:left}
+.login-error.show{display:block}
+.login-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:14px 0;width:100%;font-size:15.5px;font-weight:700;cursor:pointer;transition:.2s;box-shadow:0 8px 22px rgba(124,58,237,.35);margin-top:6px}
+.login-btn:hover{background:var(--accent-dark);transform:translateY(-1px)}
+.login-btn:active{transform:scale(.98)}
+.login-hint{font-size:11.5px;color:var(--text3);margin-top:14px;line-height:1.5}
+
+/* ── HOME ── */
+#home-screen{align-items:center;justify-content:center;padding:30px 20px;overflow-y:auto}
+.home-card{border-radius:var(--radius-xl);padding:44px 38px;max-width:640px;width:100%;text-align:center}
+.home-logo{font-size:15px;font-weight:800;color:var(--accent);letter-spacing:-.01em}
+.home-logo span{font-size:12px;color:var(--text3);font-weight:600;display:block;margin-top:3px;letter-spacing:.05em;text-transform:uppercase}
+.home-badge{display:inline-flex;align-items:center;gap:8px;background:var(--accent-light);color:var(--accent);font-size:12.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:7px 16px;border-radius:99px;margin:18px 0}
+.home-card h1{font-size:26px;font-weight:800;color:var(--text);margin-bottom:8px;line-height:1.28;letter-spacing:-.01em}
+.home-card .home-sub{color:var(--text2);font-size:13.5px;margin-bottom:6px;font-style:italic}
+.home-card p{color:var(--text2);font-size:14.5px;margin-bottom:24px;line-height:1.6}
+.home-meta{display:flex;justify-content:center;gap:14px;margin-bottom:26px;flex-wrap:wrap}
+.home-meta-item{background:var(--panel-solid);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 20px;min-width:84px}
+.home-meta-item .val{font-size:20px;font-weight:800;color:var(--text)}
+.home-meta-item .lbl{font-size:10.5px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.start-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:15px 46px;font-size:16px;font-weight:700;cursor:pointer;transition:.2s;box-shadow:0 8px 22px rgba(124,58,237,.35)}
+.start-btn:hover{background:var(--accent-dark);transform:translateY(-1px)}
+.start-btn:active{transform:scale(.97)}
+
+
+.home-theme-btn{position:fixed;top:18px;right:18px;z-index:5}
+
+/* ── HEADER ── */
+#exam-screen{flex-direction:column;height:100%}
+.exam-header{flex:0 0 auto;margin:10px 12px 0;border-radius:var(--radius-lg);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:200}
+.header-left{display:flex;align-items:center;gap:12px}
+.exam-logo{font-size:14px;font-weight:800;color:var(--accent);letter-spacing:-.01em}
+.exam-sub{font-size:10.5px;color:var(--text3);margin-top:1px}
+.header-pills{display:flex;gap:8px}
+
+
+
+
+.header-right{display:flex;align-items:center;gap:8px}
+.timer-box{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--text);background:var(--panel-solid);border:1px solid var(--border);border-radius:99px;padding:6px 13px}
+.timer-box.urgent{color:var(--redx)}
+.timer-val{min-width:48px;font-variant-numeric:tabular-nums}
+.icon-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:var(--panel-solid);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text);transition:.2s;flex-shrink:0}
+.icon-btn:hover{background:var(--accent-light);color:var(--accent);transform:translateY(-1px)}
+.icon-btn:active{transform:scale(.92)}
+.exit-link{font-size:12.5px;color:var(--text3);cursor:pointer;white-space:nowrap;padding:6px 4px}
+.exit-link:hover{color:var(--accent)}
+
+.ios-switch{position:relative;width:50px;height:30px;border-radius:99px;background:#78788033;border:none;cursor:pointer;flex-shrink:0;transition:background .25s}
+.ios-switch.on{background:var(--accent)}
+.ios-switch .knob{position:absolute;top:2px;left:2px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:transform .25s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;justify-content:center;font-size:13px}
+.ios-switch.on .knob{transform:translateX(20px)}
+
+.part-banner{flex:0 0 auto;margin:10px 12px 0;border-radius:var(--radius-md);padding:10px 18px;font-size:13px;color:var(--text2)}
+.part-banner b{color:var(--text)}
+
+.tg-float{position:fixed;right:18px;bottom:86px;background:var(--tg);color:#fff;border:none;border-radius:99px;padding:12px 18px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 8px 22px rgba(0,136,204,.4);z-index:300;text-decoration:none;transition:.2s}
+.tg-float:hover{background:#0077b3;transform:translateY(-2px)}
+.tg-float svg{width:18px;height:18px;flex-shrink:0}
+
+/* ── PART SWITCHER ── */
+.part-switcher{flex:0 0 auto;margin:10px 12px 0;display:flex;gap:8px;flex-wrap:wrap}
+.part-pill{border-radius:99px;padding:9px 20px;font-size:13px;font-weight:700;border:1px solid var(--border);background:var(--panel-solid);color:var(--text2);cursor:pointer;transition:.15s}
+.part-pill:hover{border-color:var(--accent);color:var(--accent)}
+.part-pill.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* ── BODY (single scroll pane) ── */
+.exam-body{display:flex;flex:1 1 auto;min-height:0;overflow:hidden;margin:10px 12px;gap:10px}
+.transcript-pane{display:none;flex-direction:column;flex:1 1 42%;min-width:0;overflow-y:auto;padding:22px 24px 40px;border-radius:var(--radius-lg);order:2}
+.pane-single{order:1}
+.transcript-pane::-webkit-scrollbar{width:7px}
+.transcript-pane::-webkit-scrollbar-track{background:transparent}
+.transcript-pane::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.transcript-header{font-size:12.5px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px}
+.transcript-body{font-size:15px;line-height:1.95;color:var(--text);white-space:pre-wrap}
+.exam-body.review-mode .transcript-pane{display:flex}
+.exam-body.review-mode .pane-single{flex:1 1 58%}
+.pane-single{flex:1 1 100%;min-width:0;min-height:0;overflow-y:auto;padding:24px 26px 100px;border-radius:var(--radius-lg)}
+.pane-single::-webkit-scrollbar{width:7px}
+.pane-single::-webkit-scrollbar-track{background:transparent}
+.pane-single::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.part-panel{display:none}
+.part-panel.active{display:block}
+
+/* ── AUDIO BOX ── */
+.audio-box{background:var(--panel-solid);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 18px;margin-bottom:20px;display:flex;flex-direction:column;gap:8px}
+.audio-box-title{font-size:12.5px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.05em;display:flex;align-items:center;gap:6px}
+.audio-box audio{width:100%;border-radius:99px}
+.audio-note{font-size:11.5px;color:var(--text3);line-height:1.5}
+.audio-controls-custom{display:flex;align-items:center;gap:14px}
+.audio-play-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:11px 22px;font-size:13.5px;font-weight:700;cursor:pointer;transition:.2s;flex-shrink:0}
+.audio-play-btn:hover{background:var(--accent-dark)}
+.audio-play-btn:disabled{background:var(--text3);cursor:default;opacity:.75}
+.audio-time{font-size:12.5px;color:var(--text2);font-variant-numeric:tabular-nums;font-weight:600}
+#global-audio-box{margin:10px 12px 0}
+
+/* ── PASSAGE-STYLE TEXT ── */
+.passage-title{font-size:19px;font-weight:800;color:var(--text);margin-bottom:4px;text-align:left;line-height:1.3}
+.passage-subtitle{font-size:12.5px;color:var(--text2);margin-bottom:18px;font-style:italic}
+.section-instructions{font-size:15px;color:var(--text2);line-height:1.75;margin-bottom:16px;background:var(--panel-solid);border:1px dashed var(--border);border-radius:var(--radius-md);padding:14px 18px}
+.section-instructions b{color:var(--accent)}
+
+/* ── ONE-CLICK HIGHLIGHT (no toolbar needed) ── */
+.hl-auto{background:#ffe066;color:#1c1c1e;border-radius:3px;padding:0 2px;cursor:pointer}
+html[data-theme="dark"] .hl-auto{background:#ffd24d;color:#1c1c1e}
+::selection{background:rgba(124,58,237,.25)}
+
+/* ── VOCAB / TRANSLATE ── */
+.vocab-word{border-bottom:2px dotted var(--accent);cursor:pointer;background:var(--accent-light);border-radius:3px;padding:0 1px}
+.vocab-word:hover{color:var(--accent)}
+.tooltip-box{display:none;position:fixed;z-index:9999;background:rgba(28,28,32,.88);backdrop-filter:blur(18px);color:#fff;border-radius:14px;padding:13px 16px;font-size:14px;max-width:270px;box-shadow:0 12px 30px rgba(0,0,0,.4);pointer-events:none;line-height:1.5;border:1px solid rgba(255,255,255,.1)}
+.t-word{font-size:15px;font-weight:700;color:#ff9fa8;margin-bottom:3px}
+.t-pron{font-size:12px;color:#9ca3af;margin-bottom:5px;font-style:italic}
+.t-uz{font-size:14px;color:#ffd479;font-weight:600;margin-bottom:4px}
+.t-def{font-size:12px;color:#d1d5db}
+
+/* ── NOTES LIST ── */
+.notes-block{margin-bottom:8px}
+.notes-block h4{font-size:14px;font-weight:800;color:var(--text);margin:18px 0 10px}
+.notes-block h5{font-size:13px;font-weight:800;color:var(--accent);margin:16px 0 8px}
+.notes-list{list-style:none;padding-left:0}
+.notes-list li{font-size:15.5px;line-height:2.05;color:var(--text)}
+.notes-list ul{list-style:none;padding-left:20px}
+.notes-list ul li::before{content:'– ';color:var(--text3)}
+
+/* Text-completion inline input */
+.sc-input{display:inline-block;min-width:140px;padding:8px 14px;border-radius:99px;border:1.5px solid var(--border);background:var(--panel-solid);color:var(--text);font-size:15px;font-weight:600;font-family:inherit;outline:none;transition:.15s;text-align:center}
+.sc-input:focus{border-color:var(--accent);background:var(--panel-solid)}
+.sc-input.correct{border-color:var(--green);background:var(--green-bg);color:var(--green);font-weight:700}
+.sc-input.wrong{border-color:var(--redx);background:var(--red-bg);color:var(--redx);font-weight:700}
+
+/* ── MCQ chip (single-select A/B/C with full text) ── */
+.multi-block{padding:16px 18px 14px;border:1px solid var(--border);border-radius:var(--radius-md);margin-bottom:14px;background:var(--panel-solid)}
+.multi-hint{font-size:15.5px;color:var(--text);margin-bottom:12px;font-weight:700;line-height:1.55}
+.multi-opts{display:flex;flex-direction:column;gap:7px}
+.multi-opt{display:flex;align-items:center;gap:11px;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-size:15px;color:var(--text);transition:all .15s}
+.multi-opt:hover{border-color:var(--accent);background:var(--accent-light)}
+.multi-opt.selected{border-color:var(--accent);background:var(--accent-light);font-weight:600}
+.multi-opt.correct{border-color:var(--green);background:var(--green-bg);color:var(--green)}
+.multi-opt.wrong{border-color:var(--redx);background:var(--red-bg);color:var(--redx)}
+.multi-check{width:20px;height:20px;border-radius:6px;border:1.5px solid #b8b8b8;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;color:#fff}
+.multi-opt.selected .multi-check{background:var(--accent);border-color:var(--accent)}
+.multi-opt.correct .multi-check{background:var(--green);border-color:var(--green)}
+.multi-opt.wrong .multi-check{background:var(--redx);border-color:var(--redx)}
+.multi-letter{font-weight:700;color:var(--text3);min-width:16px}
+
+/* ── TAP-TO-PLACE LETTER BANK (Q13-14, Q15-20, Q25-30) ── */
+.dragbank{background:var(--panel-solid);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 16px;margin-bottom:16px}
+.dragbank h4{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:10px}
+.dragbank-items{display:flex;flex-wrap:wrap;gap:8px}
+.drag-chip{padding:8px 15px;border:1.5px solid var(--accent);border-radius:99px;font-size:13px;font-weight:700;cursor:pointer;background:transparent;color:var(--accent);transition:all .15s;user-select:none}
+.drag-chip:hover{background:var(--accent-light);transform:translateY(-1px)}
+.drag-chip.tap-armed{outline:3px solid var(--yellow);outline-offset:2px;background:var(--yellow-bg);transform:scale(1.06)}
+.dq-block{padding:14px 18px;border:1px solid var(--border);border-radius:var(--radius-md);margin-bottom:10px;background:var(--panel-solid)}
+.dq-text{font-size:15.5px;color:var(--text);line-height:1.75;margin-bottom:2px}
+.dq-text b{color:var(--accent)}
+.drop-zone{display:inline-flex;align-items:center;justify-content:center;min-width:52px;min-height:30px;border:1.5px dashed var(--border);border-radius:99px;background:var(--panel);font-size:13.5px;font-weight:700;color:var(--text3);padding:5px 13px;transition:all .15s;cursor:pointer}
+.drop-zone.armed-target{border-color:var(--yellow);background:var(--yellow-bg);animation:armed-pulse 1s infinite}
+@keyframes armed-pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,149,0,.4)}50%{box-shadow:0 0 0 5px rgba(255,149,0,0)}}
+.drop-zone.filled{border-style:solid;border-color:var(--accent);background:var(--accent-light);color:var(--accent)}
+.drop-zone.correct{border-color:var(--green);background:var(--green-bg);color:var(--green)}
+.drop-zone.wrong{border-color:var(--redx);background:var(--red-bg);color:var(--redx)}
+.optbank-block{padding:14px 18px;border:1px dashed var(--border);border-radius:var(--radius-md);margin-bottom:14px;background:var(--panel-solid);font-size:14.5px;color:var(--text2);line-height:2}
+.optbank-block b{color:var(--accent)}
+
+/* ── FOOTER NAV ── */
+.exam-footer{position:fixed;bottom:10px;left:12px;right:12px;border-radius:var(--radius-lg);padding:9px 14px;display:flex;align-items:center;gap:10px;z-index:200}
+.q-nav-row{display:flex;gap:5px;flex:1;overflow-x:auto;align-items:center;scrollbar-width:none}
+.q-nav-row::-webkit-scrollbar{display:none}
+.q-nav-btn{width:28px;height:28px;border-radius:50%;border:1px solid var(--border);font-size:11px;font-weight:700;cursor:pointer;transition:.15s;background:var(--panel-solid);color:var(--text);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.q-nav-btn:hover{border-color:var(--accent)}
+.q-nav-btn.answered{background:var(--accent-light);border-color:var(--accent);color:var(--accent)}
+.q-nav-btn.correct{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+.q-nav-btn.wrong-nav{background:var(--red-bg);border-color:var(--redx);color:var(--redx)}
+.q-nav-row{overflow-x:visible}
+.q-nav-btn.q-nav-section{width:auto;flex:1;height:38px;border-radius:99px;font-size:13px;font-weight:800;padding:0 8px;background:var(--panel-solid);border:1.5px solid var(--border);color:var(--text)}
+.q-nav-btn.q-nav-section.answered{background:var(--accent-light);border-color:var(--accent);color:var(--accent)}
+.q-nav-btn.q-nav-section.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.answered-count{font-size:11.5px;color:var(--text3);white-space:nowrap}
+select.sc-input{cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M0 0l5 6 5-6z' fill='%236e6e73'/></svg>");background-repeat:no-repeat;background-position:right 12px center;padding-right:26px}
+select.sc-input.correct,select.sc-input.wrong{background-image:none}
+.check-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:11px 22px;font-size:13px;font-weight:700;cursor:pointer;transition:.2s;flex-shrink:0;white-space:nowrap}
+.check-btn:hover{background:var(--accent-dark)}
+.check-btn.done{background:var(--green)}
+
+/* ── RESULT MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,10,14,.45);backdrop-filter:blur(6px);z-index:2000;display:flex;justify-content:center;align-items:center;padding:16px}
+.modal-overlay.hidden{display:none}
+.modal-box{background:var(--panel-solid);backdrop-filter:var(--blur);border-radius:var(--radius-xl);width:100%;max-width:760px;max-height:88vh;display:flex;flex-direction:column;border:1px solid var(--glass-hi);box-shadow:var(--shadow);color:var(--text);overflow:hidden}
+.modal-header{padding:20px 24px 14px;border-bottom:1px solid var(--hairline);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-header h2{font-size:18px;font-weight:800;color:var(--text)}
+.modal-close{background:var(--border);border:none;width:30px;height:30px;border-radius:50%;font-size:18px;cursor:pointer;color:var(--text2);line-height:1}
+.modal-score-row{display:flex;gap:10px;justify-content:center;padding:14px 22px;border-bottom:1px solid var(--hairline);flex-shrink:0;flex-wrap:wrap}
+.score-pill{background:var(--panel);border:1px solid var(--border);border-radius:99px;padding:7px 18px;font-size:13.5px;font-weight:700;color:var(--text)}
+.modal-body{overflow-y:auto;padding:16px 22px 22px;flex:1}
+.res-filter-bar{display:flex;gap:6px;margin-bottom:14px;background:var(--border);padding:4px;border-radius:99px;width:fit-content}
+.res-filter-btn{background:transparent;border:none;border-radius:99px;padding:6px 15px;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--text2);transition:.2s}
+.res-filter-btn.active{background:var(--panel-solid);color:var(--accent);box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.res-row{display:grid;grid-template-columns:44px 1fr 1fr 84px;gap:8px;padding:11px 6px;border-bottom:1px solid var(--hairline);font-size:13px;align-items:start}
+.res-row.is-correct{background:rgba(34,165,89,.05)}
+.res-row.is-wrong{background:rgba(255,59,48,.05)}
+.res-row.is-skipped{background:rgba(255,149,0,.06)}
+.res-num{font-weight:700;color:var(--text);background:var(--panel);border:1px solid var(--border);border-radius:8px;width:34px;height:27px;display:flex;align-items:center;justify-content:center}
+.res-user{background:var(--panel);border:1px solid var(--border);padding:3px 7px;border-radius:7px;color:var(--text);font-size:12.5px;word-break:break-word}
+.res-correct{color:var(--green);font-weight:600;background:var(--green-bg);border:1px solid rgba(34,165,89,.25);padding:3px 7px;border-radius:7px;font-size:12.5px;word-break:break-word}
+.res-badge{justify-self:end;padding:3px 10px;border-radius:99px;font-size:10.5px;font-weight:700;white-space:nowrap;align-self:center}
+.res-badge.ok{background:var(--green-bg);color:var(--green);border:1px solid rgba(34,165,89,.3)}
+.res-badge.bad{background:var(--red-bg);color:var(--redx);border:1px solid rgba(255,59,48,.3)}
+.res-badge.skip{background:var(--yellow-bg);color:var(--yellow);border:1px solid rgba(255,149,0,.3)}
+.res-explain-en{font-size:12.5px;color:var(--text2);line-height:1.5;background:var(--panel);border-radius:8px;padding:9px 11px;margin-top:6px;grid-column:1/-1}
+.res-explain-uz{font-size:12.5px;color:var(--text);line-height:1.5;background:var(--accent-light);border-radius:8px;padding:9px 11px;margin-top:4px;grid-column:1/-1;border-left:3px solid var(--accent)}
+.modal-actions{display:flex;gap:8px;justify-content:center;padding:14px 22px;border-top:1px solid var(--hairline);flex-shrink:0;flex-wrap:wrap}
+.modal-btn{padding:10px 20px;border-radius:99px;font-size:13.5px;font-weight:700;cursor:pointer;transition:.2s;border:1.5px solid var(--border);background:var(--panel);color:var(--text)}
+.modal-btn:hover{border-color:var(--accent);color:var(--accent)}
+.modal-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}.modal-btn.primary:hover{background:var(--accent-dark)}
+.modal-btn.tg{background:var(--tg);color:#fff;border-color:var(--tg)}.modal-btn.tg:hover{background:#0077b3}
+
+@media(max-width:700px){
+  .exam-body{margin:8px}
+  .home-card,.login-card{padding:30px 20px}
+  .header-pills{display:none}
+  .tg-float span{display:none}
+  .exam-header{margin:8px 8px 0;padding:8px 12px}
+  .part-banner{margin:8px 8px 0}
+  .exam-footer{left:8px;right:8px}
+  .res-row{grid-template-columns:1fr}
+  .res-badge{justify-self:start}
+  .exam-body.review-mode{flex-direction:column;overflow-y:auto}
+  .exam-body.review-mode .transcript-pane,.exam-body.review-mode .pane-single{flex:1 1 auto;overflow-y:visible}
+}
+:fullscreen .screen.active{height:100vh}
+</style>
+
+<style id="startielts-unified-design">
+/* ===== StartIELTS unified design (auto-injected) ===== */
+:root{
+  --brand:#7c3aed; --brand-dark:#6d28d9; --brand-light:rgba(124,58,237,.08);
+  --sui-border:#e5e7eb; --sui-text:#1f2937; --sui-muted:#6b7280; --sui-bg:#f9fafb;
+}
+html{ -webkit-text-size-adjust:100%; }
+body{
+  font-family:'Segoe UI',system-ui,-apple-system,BlinkMacSystemFont,Roboto,'Helvetica Neue',Arial,sans-serif !important;
+  color:var(--sui-text);
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+h1,h2,h3,h4{ font-family:inherit; letter-spacing:-0.01em; }
+::selection{ background:rgba(124,58,237,.18); }
+::placeholder{ color:#9ca3af; }
+:focus-visible{ outline:2px solid #7c3aed; outline-offset:2px; }
+/* form controls */
+input[type="radio"], input[type="checkbox"]{ accent-color:var(--brand) !important; }
+input[type="text"], input[type="number"], input[type="email"], input[type="password"],
+.answer-input, .inline-input, textarea, select{
+  font:inherit; color:var(--sui-text);
+  border:1.5px solid var(--sui-border); border-radius:12px;
+  background:#fff; padding:10px 14px;
+  transition:border-color .15s, box-shadow .15s;
+}
+input[type="text"]:focus, input[type="number"]:focus, .answer-input:focus,
+.inline-input:focus, textarea:focus, select:focus{
+  outline:none; border-color:#7c3aed; box-shadow:0 0 0 3px rgba(124,58,237,.15);
+}
+/* option rows (multiple choice / T-F / matching) */
+.choice-option, .radio-option, .opt, .opt-btn, .tf-option, .answer-radio{
+  border-radius:10px;
+}
+.choice-option:hover, .radio-option:hover, .opt:hover, .opt-btn:hover{ filter:brightness(.985); }
+/* buttons */
+button{ font-family:inherit; border-radius:10px; }
+button:disabled{ opacity:.55; cursor:not-allowed; }
+/* scrollbars */
+::-webkit-scrollbar{ width:10px; height:10px; }
+::-webkit-scrollbar-track{ background:transparent; }
+::-webkit-scrollbar-thumb{ background:#cbd5e1; border-radius:8px; border:2px solid transparent; background-clip:content-box; }
+::-webkit-scrollbar-thumb:hover{ background:#94a3b8; background-clip:content-box; }
+/* media & iframe canvas never overflow */
+img, svg, video{ max-width:100%; height:auto; }
+/* accent vars used by the different generator families */
+:root{ --accent:#7c3aed; --accent-dark:#6d28d9; --accent-light:var(--brand-light); --logo:#2563eb; --blue:#2563eb; }
+
+/* ===== mock-runner skin — matches the app's Full Mock Exam look ===== */
+/* selected / checked option rows: pale violet fill, rounded */
+.choice-option.selected,
+.radio-option.selected,
+.opt.selected,
+.opt-btn.selected,
+.tf-option.selected,
+label:has(> input[type="radio"]:checked),
+label:has(> input[type="checkbox"]:checked){
+  background:rgba(124,58,237,.08) !important;
+}
+.choice-option, .radio-option, .opt, .opt-btn, .tf-option{
+  border-radius:12px !important;
+}
+.choice-option:hover, .radio-option:hover, .opt:hover, .opt-btn:hover{ background:#f5f3ff; }
+/* question-number navigation chips: rounded, violet when active */
+.question-number-btn, .q-num, .page-btn{
+  border-radius:10px !important;
+}
+.question-number-btn.active, .q-num.active{
+  background:#7c3aed !important; color:#fff !important; border-color:#7c3aed !important;
+}
+.question-number-btn.answered{ background:#ede9fe !important; border-color:#8b5cf6 !important; }
+/* primary submit button: solid blue pill like the mock runner's Next button */
+.submit-btn, .check-btn, .finish-btn{
+  background:#2563eb !important; color:#fff !important;
+  border-radius:10px !important; font-weight:700 !important;
+}
+.submit-btn:hover, .check-btn:hover, .finish-btn:hover{ background:#1d4ed8 !important; }
+/* radios/checkboxes: violet accent */
+input[type="radio"], input[type="checkbox"]{ accent-color:#7c3aed !important; }
+/* question blocks breathe — card-like rhythm like the mock runner */
+.mc-question, [data-question], .question-block, .tf-question, .q-card{
+  margin-bottom:14px;
+}
+/* question groups become mock-runner cards: white, rounded, soft border */
+.mc-question, .tf-question, .question-block, .qgroup, .q-item{
+  background:#fff; border:1px solid var(--sui-border); border-radius:16px;
+  padding:16px 18px; box-shadow:0 1px 2px rgba(16,24,40,.04);
+  margin-bottom:14px;
+}
+.q-item{ padding:12px 14px; }
+/* part intro / instructions: light violet banner like the mock runner */
+.part-banner, .part-intro, .part-instructions, .part-header p{
+  background:#f5f3ff; border-radius:12px; padding:10px 16px; color:#5b21b6;
+}
+.mc-question p, .question-text{ font-weight:600; color:var(--sui-text); }
+/* inline checkbox/radio labels get clickable pill spacing */
+.mc-question label, .choice-options label{
+  display:inline-flex; align-items:center; gap:7px;
+  padding:5px 12px; margin:3px 6px 3px 0;
+  border:1px solid var(--sui-border); border-radius:999px;
+  background:#fff; cursor:pointer;
+  transition:background .12s, border-color .12s;
+}
+.mc-question label:hover, .choice-options label:hover{ background:#f5f3ff; border-color:#ddd6fe; }
+.mc-question label:has(input:checked){ background:rgba(124,58,237,.08); border-color:#c4b5fd; }
+/* section headings inside tests: semibold, slate */
+.part-content h2, .part-content h3{ color:var(--sui-text); }
+/* ===== end mock-runner skin ===== */
+/* ===== force the light exam theme — the mock runner is always light ===== */
+html{ color-scheme:light; }
+html[data-theme="dark"]{
+  --bg:#eef0f4; --bg-blob-1:#f5f3ff; --bg-blob-2:#eef2ff; --bg-blob-3:#f0fdf4;
+  --panel:rgba(255,255,255,.62); --panel-solid:#ffffff;
+  --text:#1c1c1e; --text2:#6e6e73; --text3:#98989d;
+  --border:rgba(60,60,67,.13); --hairline:rgba(60,60,67,.08);
+  --accent:#7c3aed; --accent-dark:#6d28d9; --accent-light:rgba(124,58,237,.10);
+  --green:#22a559; --green-bg:rgba(34,165,89,.14);
+  --redx:#ff3b30; --red-bg:rgba(255,59,48,.12);
+  --yellow:#ff9500; --yellow-bg:rgba(255,149,0,.15);
+  --glass-hi:rgba(255,255,255,.85); --glass-lo:rgba(255,255,255,.18);
+  --shadow:0 10px 40px rgba(31,38,55,.10),0 1px 2px rgba(31,38,55,.06);
+}
+/* dark-mode toggles are locked to light — hide the now-useless switches */
+.theme-btn, [id^="theme-toggle"], [id^="theme-knob"], [id^="themeBtn"], .knob,
+.iconbtn[title*="Dark"], .iconbtn[title*="dark"], button[title*="Dark / light"],
+button[title*="dark mode" i], [title*="dark mode" i]{ display:none !important; }
+/* ===== mobile responsiveness (320–430px) — split panels stack, grids collapse ===== */
+@media (max-width:640px){
+  body{ overflow-y:auto !important; }
+  .screen{ height:auto !important; min-height:100vh; }
+  /* any 50/50 split becomes a stacked column; resizer is meaningless on touch */
+  .body-area{ flex-direction:column !important; overflow-y:auto !important; -webkit-overflow-scrolling:touch; }
+  .pane{ overflow:visible !important; padding:14px 12px 32px !important; }
+  .pane.left, .pane.right{ flex:0 0 auto !important; }
+  .resizer{ display:none !important; }
+  /* multi-column grids collapse to a single column */
+  .res-row, .navrow, .modal-score-row{ grid-template-columns:1fr !important; }
+  /* text inputs stay usable above the mobile keyboard */
+  input[type="text"], input[type="number"], .answer-input, .inline-input, textarea, select{ font-size:16px !important; }
+  /* touch-friendly option rows and nav chips */
+  .mc-question label, .choice-options label{ padding:9px 14px; margin:4px 6px 4px 0; }
+  .question-number-btn, .q-num, .page-btn{ min-width:34px; min-height:34px; }
+  /* header bars wrap instead of clipping */
+  .bar-right{ gap:2px; }
+  .iconbtn{ width:30px; height:30px; }
+  /* wide tables and pre blocks scroll inside their own container */
+  table{ display:block; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  pre{ overflow-x:auto; }
+  /* footer nav rows stay reachable */
+  .navscroll, .navgroup{ overflow-x:auto; max-width:100%; }
+}
+/* ===== end StartIELTS unified design ===== */
+</style>
+<script id="startielts-unified-design-js">
+(function(){try{
+  var el=document.documentElement;
+  var lock=function(){ if(el.getAttribute('data-theme')!=='light') el.setAttribute('data-theme','light'); };
+  lock();
+  new MutationObserver(lock).observe(el,{attributes:true,attributeFilter:['data-theme']});
+}catch(e){}})();
+</script>
+</head>
+<body>
+
+<div class="liquid-bg"><span></span><span></span><span></span></div>
+
+<div class="tooltip-box" id="tooltip"></div>
+
+<!-- ══ LOGIN ══ -->
+<div class="screen active" id="login-screen">
+  <button class="icon-btn home-theme-btn" id="theme-toggle-login" title="Dark mode">
+    <svg id="theme-icon-login" viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg>
+  </button>
+  <div class="login-card glass">
+    <div class="login-logo">IELTS<span>@reading_cdi · Kirish</span></div>
+    <h1>Xush kelibsiz 👋</h1>
+    <p class="login-sub">Testni boshlash uchun login va parolni kiriting</p>
+
+    <div class="login-field">
+      <label for="login-user">Ism familiya</label>
+      <input type="text" id="login-user" class="login-input" placeholder="Ismingizni kiriting" autocomplete="name">
+    </div>
+    <div class="login-field">
+      <label for="login-pass">Parol</label>
+      <input type="password" id="login-pass" class="login-input" placeholder="Parolni kiriting" autocomplete="current-password">
+    </div>
+    <div class="login-error" id="login-error">Ism va parolni to'g'ri kiriting.</div>
+
+    <button class="login-btn" onclick="checkLogin()">Kirish</button>
+
+    
+    <div class="login-hint">Barcha yangi testlar va materiallar Telegram kanalimizda</div>
+  </div>
+</div>
+
+<!-- ══ HOME ══ -->
+<div class="screen" id="home-screen">
+  <button class="icon-btn home-theme-btn" id="theme-toggle-home" title="Dark mode">
+    <svg id="theme-icon-home" viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg>
+  </button>
+  <div class="home-card glass">
+    <div class="home-logo">IELTS<span>@reading_cdi · Listening</span></div>
+    <div class="home-badge">🎧 Academic Listening</div>
+    <h1>IELTS Listening Practice Test 12</h1>
+    <p class="home-sub">4 sections · Music Alive Agency, Albany Fishing Competition, Art Exhibition, Mangrove Regeneration</p>
+    <p>40 questions · 40 minutes (incl. transfer time) · Notes Completion + Multiple Choice + Map/Matching. Tap underlined words for instant Uzbek translation. Just click-drag over any text to highlight it instantly — no toolbar needed.</p>
+    <div class="home-meta">
+      <div class="home-meta-item"><div class="val">40</div><div class="lbl">Questions</div></div>
+      <div class="home-meta-item"><div class="val">40:00</div><div class="lbl">Time limit</div></div>
+      <div class="home-meta-item"><div class="val">4</div><div class="lbl">Sections</div></div>
+    </div>
+    <br>
+    <button class="start-btn" onclick="startExam()">Start Test</button>
+    <br>
+    
+  </div>
+</div>
+
+<!-- ══ EXAM ══ -->
+<div class="screen" id="exam-screen">
+  <div class="exam-header glass">
+    <div class="header-left">
+      <div>
+        <div class="exam-logo">IELTS</div>
+        <div class="exam-sub">@reading_cdi</div>
+      </div>
+      <div class="header-pills">
+        
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="exit-link" onclick="confirmExit()">Exit</span>
+      <div class="timer-box" id="timer-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        <span class="timer-val" id="timer-val">40:00</span>
+      </div>
+      <button class="icon-btn" id="timer-toggle" title="Pause/Resume">
+        <svg id="timer-icon" viewBox="0 0 24 24" width="15" height="15"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+      </button>
+      <button class="icon-btn" id="timer-reset" title="Reset Timer">
+        <svg viewBox="0 0 24 24" width="15" height="15"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+      </button>
+      <button class="icon-btn" onclick="toggleFullscreen()" title="Fullscreen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+      </button>
+      <button class="ios-switch" id="theme-toggle-exam" title="Dark mode"><span class="knob" id="theme-knob-exam">☀️</span></button>
+    </div>
+  </div>
+
+  <div class="part-banner glass" id="part-banner"><b>Listening Part 1</b> — Questions 1–10. You will hear the recording once.</div>
+
+  <div class="audio-box glass" id="global-audio-box">
+    <div class="audio-box-title">🔊 Test Audio — one recording for the whole test</div>
+    <audio id="global-audio" preload="none">
+      <source src="https://raw.githubusercontent.com/Shaxxriyor/ielts-audio/main/section-1_z7jEdXiB.m4a-xxsvw-_3_%20(1).mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    <div class="audio-controls-custom" id="audio-controls-custom" style="display:none">
+      <button class="audio-play-btn" id="audio-play-btn" onclick="startGlobalAudio()">▶ Play Audio</button>
+      <span class="audio-time" id="audio-time-display">00:00 / 00:00</span>
+    </div>
+    <div class="audio-note" id="audio-playing-note">🔊 The recording starts automatically and cannot be paused until the test ends — exactly as in the real IELTS test.</div>
+    <div class="audio-note" id="audio-review-note" style="display:none;color:var(--accent);font-weight:600">✅ Test finished — you can now play, pause, and rewind the audio freely to check the transcript.</div>
+  </div>
+
+  
+
+  <div class="exam-body" id="exam-body">
+    <div class="transcript-pane glass" id="transcript-pane">
+      <div class="transcript-header">📝 Transcript — <span id="transcript-part-label">Section 1</span></div>
+      <div class="transcript-body" id="transcript-body">Transcript not added yet for this section.</div>
+    </div>
+    <div class="pane-single glass" id="pane-single">
+
+      <!-- ══ SECTION 1 ══ -->
+      <div class="part-panel active" id="part1">
+        <div class="passage-title">Section 1 — Music Alive Agency</div>
+        <div class="passage-subtitle">A phone call about joining a music agency</div>
+        <div class="section-instructions"><b>Questions 1–10.</b> Complete the notes below. Write <b>ONE WORD</b> or <b>A NUMBER</b> for each answer.</div>
+
+        <div class="notes-block">
+          <h4>Music Alive Agency</h4>
+          <ul class="notes-list">
+            <li><i>Example</i> — Contact person: Jim Granley</li>
+            <li>Members' details are on a <b>1</b> <input type="text" class="sc-input" id="sc-1" data-qnum="1" autocomplete="off"></li>
+            <li>Type of music represented: modern music (<b>2</b> <input type="text" class="sc-input" id="sc-2" data-qnum="2" autocomplete="off"> and jazz)</li>
+            <li>Newsletter comes out once a <b>3</b> <input type="text" class="sc-input" id="sc-3" data-qnum="3" autocomplete="off"></li>
+            <li>Cost of adult membership: £ <b>4</b> <input type="text" class="sc-input" id="sc-4" data-qnum="4" autocomplete="off"></li>
+            <li>Current number of members: <b>5</b> <input type="text" class="sc-input" id="sc-5" data-qnum="5" autocomplete="off"></li>
+            <li>Facilities include: rehearsal rooms and a <b>6</b> <input type="text" class="sc-input" id="sc-6" data-qnum="6" autocomplete="off"></li>
+            <li>There is no charge for <b>7</b> <input type="text" class="sc-input" id="sc-7" data-qnum="7" autocomplete="off"> advice</li>
+            <li>To become a member, send:
+              <ul>
+                <li>a letter with contact details</li>
+                <li>a recent <b>8</b> <input type="text" class="sc-input" id="sc-8" data-qnum="8" autocomplete="off"></li>
+              </ul>
+            </li>
+            <li>Address: 707, <b>9</b> <input type="text" class="sc-input" id="sc-9" data-qnum="9" autocomplete="off"> Street, Marbury</li>
+            <li>Contact email: music.<b>10</b> <input type="text" class="sc-input" id="sc-10" data-qnum="10" autocomplete="off">@bsu.co.uk</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ══ SECTION 2 ══ -->
+      <div class="part-panel" id="part2">
+        <div class="passage-title">Section 2 — Albany Fishing Competition</div>
+        <div class="passage-subtitle">Information for participants in the Albany fishing competition</div>
+        <div class="section-instructions"><b>Questions 11–14.</b> Choose the correct letter, A, B or C.</div>
+
+        <div class="multi-block" id="qblock-11">
+          <div class="multi-hint">11. What do participants need to take to the registration desk?</div>
+          <div class="multi-opts">
+            <div class="multi-opt" id="mc-11-A" onclick="selectMC(11,'A')"><div class="multi-check">✓</div><span class="multi-letter">A</span><span>a form of identification</span></div>
+            <div class="multi-opt" id="mc-11-B" onclick="selectMC(11,'B')"><div class="multi-check">✓</div><span class="multi-letter">B</span><span>a competitor number</span></div>
+            <div class="multi-opt" id="mc-11-C" onclick="selectMC(11,'C')"><div class="multi-check">✓</div><span class="multi-letter">C</span><span>cash for the entrance fee</span></div>
+          </div>
+        </div>
+        <div class="multi-block" id="qblock-12">
+          <div class="multi-hint">12. What does the entrance fee to the competition include?</div>
+          <div class="multi-opts">
+            <div class="multi-opt" id="mc-12-A" onclick="selectMC(12,'A')"><div class="multi-check">✓</div><span class="multi-letter">A</span><span>equipment for fishing</span></div>
+            <div class="multi-opt" id="mc-12-B" onclick="selectMC(12,'B')"><div class="multi-check">✓</div><span class="multi-letter">B</span><span>all food for both days</span></div>
+            <div class="multi-opt" id="mc-12-C" onclick="selectMC(12,'C')"><div class="multi-check">✓</div><span class="multi-letter">C</span><span>fuel for the fishing</span></div>
+          </div>
+        </div>
+        <div class="multi-block" id="qblock-13">
+          <div class="multi-hint">13. Participants without a fishing licence are recommended to apply for one</div>
+          <div class="multi-opts">
+            <div class="multi-opt" id="mc-13-A" onclick="selectMC(13,'A')"><div class="multi-check">✓</div><span class="multi-letter">A</span><span>at the registration desk.</span></div>
+            <div class="multi-opt" id="mc-13-B" onclick="selectMC(13,'B')"><div class="multi-check">✓</div><span class="multi-letter">B</span><span>over the phone.</span></div>
+            <div class="multi-opt" id="mc-13-C" onclick="selectMC(13,'C')"><div class="multi-check">✓</div><span class="multi-letter">C</span><span>on the internet.</span></div>
+          </div>
+        </div>
+        <div class="multi-block" id="qblock-14">
+          <div class="multi-hint">14. What will happen at 6pm on Sunday?</div>
+          <div class="multi-opts">
+            <div class="multi-opt" id="mc-14-A" onclick="selectMC(14,'A')"><div class="multi-check">✓</div><span class="multi-letter">A</span><span>The time allocated for fishing will end.</span></div>
+            <div class="multi-opt" id="mc-14-B" onclick="selectMC(14,'B')"><div class="multi-check">✓</div><span class="multi-letter">B</span><span>The fish caught will be judged.</span></div>
+            <div class="multi-opt" id="mc-14-C" onclick="selectMC(14,'C')"><div class="multi-check">✓</div><span class="multi-letter">C</span><span>The prizes will be awarded to the winners.</span></div>
+          </div>
+        </div>
+
+        <div class="section-instructions"><b>Questions 15–20.</b> Label the map below. Tap a letter, then tap the blank.</div>
+        <div style="margin-bottom:16px;border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border);max-width:480px;margin-left:auto;margin-right:auto">
+          <img src="https://archive.org/download/screenshot-2025-09-16-at-10.03.32-am/Screenshot%202025-09-16%20at%2010.03.32%E2%80%AFAM.png" alt="Albany Fishing Competition Map" style="width:100%;display:block">
+        </div>
+        <div class="dragbank" id="bank-1520">
+          <h4>👉 Tap a letter, then tap the blank</h4>
+          <div class="dragbank-items">
+            <div class="drag-chip" data-key="A" data-bank="b1520">A</div>
+            <div class="drag-chip" data-key="B" data-bank="b1520">B</div>
+            <div class="drag-chip" data-key="C" data-bank="b1520">C</div>
+            <div class="drag-chip" data-key="D" data-bank="b1520">D</div>
+            <div class="drag-chip" data-key="E" data-bank="b1520">E</div>
+            <div class="drag-chip" data-key="F" data-bank="b1520">F</div>
+            <div class="drag-chip" data-key="G" data-bank="b1520">G</div>
+            <div class="drag-chip" data-key="H" data-bank="b1520">H</div>
+            <div class="drag-chip" data-key="I" data-bank="b1520">I</div>
+          </div>
+        </div>
+        <div class="dq-block"><div class="dq-text"><b>15.</b> Registration area — <span class="drop-zone" id="q15" data-bank="b1520" data-qnum="15">tap here</span></div></div>
+        <div class="dq-block"><div class="dq-text"><b>16.</b> Shore fishing area — <span class="drop-zone" id="q16" data-bank="b1520" data-qnum="16">tap here</span></div></div>
+        <div class="dq-block"><div class="dq-text"><b>17.</b> Boat launching area — <span class="drop-zone" id="q17" data-bank="b1520" data-qnum="17">tap here</span></div></div>
+        <div class="dq-block"><div class="dq-text"><b>18.</b> Judging area — <span class="drop-zone" id="q18" data-bank="b1520" data-qnum="18">tap here</span></div></div>
+        <div class="dq-block"><div class="dq-text"><b>19.</b> Dining area — <span class="drop-zone" id="q19" data-bank="b1520" data-qnum="19">tap here</span></div></div>
+        <div class="dq-block"><div class="dq-text"><b>20.</b> Prize-giving area — <span class="drop-zone" id="q20" data-bank="b1520" data-qnum="20">tap here</span></div></div>
+      </div>
+
+      <!-- ══ SECTION 3 ══ -->
+      <div class="part-panel" id="part3">
+        <div class="passage-title">Section 3 — Preparing for the Art Exhibition</div>
+        <div class="passage-subtitle">Max and Abby, two students, discuss preparing for the end-of-year art exhibition</div>
+        <div class="section-instructions"><b>Questions 21–26.</b> Choose the correct letter, A, B or C.</div>
+
+        <div class="multi-block" id="qblock-21">
+          <div class="multi-hint">21. Max and Abby agree that in the art exhibition they are looking forward to</div>
+          <div class="multi-opts">
+            <div class="multi-opt" id="mc-21-A" onclick="selectMC(21,'A')"><div class="multi-check">✓</div><span class="multi-letter">A</span><span>showing people their work.</span></div>
+            <div class="multi-opt" id="mc-21-B" onclick="selectMC(21,'B')"><div class="multi-check">✓</div><span class="multi-letter">B</span><span>getting feedback from their tutor.</span></div>
+            <div class="multi-opt" id="mc-21-C" onclick="selectMC(21,'C')"><div class="multi-check">✓</div><span class="multi-letter">C</span><span>talking to other students about their displays.</span></div>
+          </div>
+        </div>
+        <div class="multi-block" id="qblock-22">
+          <div class="multi-hint">22. In last year's exhibition, both students were impressed by</div>
+          <div class="multi-opts">
+            <div class="multi-opt" id="mc-22-A" onclick="selectMC(22,'A')"><div class="multi-check">✓</div><span class="multi-letter">A</span><span>a set of metal sculptures.</span></div>
+            <div class="multi-opt" id="mc-22-B" onclick="selectMC(22,'B')"><div class="multi-check">✓</div><span class="multi-letter">B</span><span>a series of wooden models.</span></div>
+            <div class="multi-opt" id="mc-22-C" onclick="selectMC(22,'C')"><div class="multi-check">✓</div><span class="multi-letter">C</span><span>a collection of textile designs.</span></div>
+          </div>
+        </div>
+        <div class="multi-block" id="qblock-23">
+          <div class="multi-hint">23. What has Max decided to call his display?</div>
+          <div class="multi-opts">
+            <div class="multi-opt" id="mc-23-A" onclick="selectMC(23,'A')"><div class="multi-check">✓</div><span class="multi-letter">A</span><span>Mother Nature</span></div>
+            <div class="multi-opt" id="mc-23-B" onclick="selectMC(23,'B')"><div class="multi-check">✓</div><span class="multi-letter">B</span><span>Views of Farmland</span></div>
+            <div class="multi-opt" id="mc-23-C" onclick="selectMC(23,'C')"><div class="multi-check">✓</div><span class="multi-letter">C</span><span>Seasons</span></div>
+          </div>
+        </div>
+        <div class="multi-block" id="qblock-24">
+          <div class="multi-hint">24. What does Abby think will be difficult about preparing for their displays?</div>
+          <div class="multi-opts">
+            <div class="multi-opt" id="mc-24-A" onclick="selectMC(24,'A')"><div class="multi-check">✓</div><span class="multi-letter">A</span><span>having enough time to set it up</span></div>
+            <div class="multi-opt" id="mc-24-B" onclick="selectMC(24,'B')"><div class="multi-check">✓</div><span class="multi-letter">B</span><span>choosing which pieces to show</span></div>
+            <div class="multi-opt" id="mc-24-C" onclick="selectMC(24,'C')"><div class="multi-check">✓</div><span class="multi-letter">C</span><span>filling up all the available space</span></div>
+          </div>
+        </div>
+        <div class="multi-block" id="qblock-25">
+          <div class="multi-hint">25. What does Abby say about the summary they have to write?</div>
+          <div class="multi-opts">
+            <div class="multi-opt" id="mc-25-A" onclick="selectMC(25,'A')"><div class="multi-check">✓</div><span class="multi-letter">A</span><span>She isn't sure whether people will read it.</span></div>
+            <div class="multi-opt" id="mc-25-B" onclick="selectMC(25,'B')"><div class="multi-check">✓</div><span class="multi-letter">B</span><span>It will be difficult to keep it short enough.</span></div>
+            <div class="multi-opt" id="mc-25-C" onclick="selectMC(25,'C')"><div class="multi-check">✓</div><span class="multi-letter">C</span><span>It will be hard to clarify the reasons for her work.</span></div>
+          </div>
+        </div>
+        <div class="multi-block" id="qblock-26">
+          <div class="multi-hint">26. What aspect of the display will the students organise themselves?</div>
+          <div class="multi-opts">
+            <div class="multi-opt" id="mc-26-A" onclick="selectMC(26,'A')"><div class="multi-check">✓</div><span class="multi-letter">A</span><span>arranging the lighting</span></div>
+            <div class="multi-opt" id="mc-26-B" onclick="selectMC(26,'B')"><div class="multi-check">✓</div><span class="multi-letter">B</span><span>inviting local journalists</span></div>
+            <div class="multi-opt" id="mc-26-C" onclick="selectMC(26,'C')"><div class="multi-check">✓</div><span class="multi-letter">C</span><span>providing comment forms</span></div>
+          </div>
+        </div>
+
+        <div class="section-instructions"><b>Questions 27–30.</b> Which feature do the speakers identify as particularly interesting for each exhibition? Tap a letter, then tap the blank.</div>
+        <div class="dragbank" id="bank-2730">
+          <h4>👉 Tap a letter, then tap the blank</h4>
+          <div class="dragbank-items">
+            <div class="drag-chip" data-key="A" data-bank="b2730">A</div>
+            <div class="drag-chip" data-key="B" data-bank="b2730">B</div>
+            <div class="drag-chip" data-key="C" data-bank="b2730">C</div>
+            <div class="drag-chip" data-key="D" data-bank="b2730">D</div>
+            <div class="drag-chip" data-key="E" data-bank="b2730">E</div>
+            <div class="drag-chip" data-key="F" data-bank="b2730">F</div>
+          </div>
+        </div>
+        <div class="optbank-block"><b>Interesting features</b><br><b>A</b> the realistic colours &nbsp; <b>B</b> the sense of space &nbsp; <b>C</b> the unusual interpretation of the theme<br><b>D</b> the painting technique &nbsp; <b>E</b> the variety of materials used &nbsp; <b>F</b> the use of light and shade</div>
+        <div class="dq-block"><div class="dq-text"><b>27.</b> On the Water — <span class="drop-zone" id="q27" data-bank="b2730" data-qnum="27">tap here</span></div></div>
+        <div class="dq-block"><div class="dq-text"><b>28.</b> City Life — <span class="drop-zone" id="q28" data-bank="b2730" data-qnum="28">tap here</span></div></div>
+        <div class="dq-block"><div class="dq-text"><b>29.</b> Faces — <span class="drop-zone" id="q29" data-bank="b2730" data-qnum="29">tap here</span></div></div>
+        <div class="dq-block"><div class="dq-text"><b>30.</b> Moods — <span class="drop-zone" id="q30" data-bank="b2730" data-qnum="30">tap here</span></div></div>
+      </div>
+
+      <!-- ══ SECTION 4 ══ -->
+      <div class="part-panel" id="part4">
+        <div class="passage-title">Section 4 — The Mangrove Regeneration Project</div>
+        <div class="passage-subtitle">A lecture about a project to regenerate mangrove forests</div>
+        <div class="section-instructions"><b>Questions 31–40.</b> Complete the notes below. Write <b>NO MORE THAN TWO WORDS</b> for each answer.</div>
+
+        <div class="notes-block">
+          <h4>The Mangrove Regeneration Project</h4>
+          <h5>Background</h5>
+          <ul class="notes-list">
+            <li>Mangrove forests:
+              <ul>
+                <li>protect coastal areas from <b>31</b> <input type="text" class="sc-input" id="sc-31" data-qnum="31" autocomplete="off"> by the sea</li>
+                <li>are an important habitat for wildlife</li>
+              </ul>
+            </li>
+          </ul>
+          <h5>Problems</h5>
+          <ul class="notes-list">
+            <li>mangroves had been used by farmers as <b>32</b> <input type="text" class="sc-input" id="sc-32" data-qnum="32" autocomplete="off"></li>
+            <li>mangroves were poisoned by the use of <b>33</b> <input type="text" class="sc-input" id="sc-33" data-qnum="33" autocomplete="off"></li>
+            <li>local people used the mangroves as a place to put their <b>34</b> <input type="text" class="sc-input" id="sc-34" data-qnum="34" autocomplete="off"></li>
+          </ul>
+          <h5>Actions taken to protect the mangroves</h5>
+          <ul class="notes-list">
+            <li>a barrier which was made of <b>35</b> <input type="text" class="sc-input" id="sc-35" data-qnum="35" autocomplete="off"> was constructed — but it failed</li>
+            <li>new mangroves had to be grown from seed</li>
+            <li>the seeds of the <b>36</b> <input type="text" class="sc-input" id="sc-36" data-qnum="36" autocomplete="off"> mangrove were used</li>
+          </ul>
+          <h5>First set of seedlings</h5>
+          <ul class="notes-list">
+            <li>kept in small pots in a <b>37</b> <input type="text" class="sc-input" id="sc-37" data-qnum="37" autocomplete="off"></li>
+            <li>watered with <b>38</b> <input type="text" class="sc-input" id="sc-38" data-qnum="38" autocomplete="off"> rain water</li>
+            <li>planted out on south side of a small island</li>
+            <li>at risk from the large <b>39</b> <input type="text" class="sc-input" id="sc-39" data-qnum="39" autocomplete="off"> population</li>
+          </ul>
+          <h5>Second set of seedlings</h5>
+          <ul class="notes-list">
+            <li>planted in the seabed near established mangrove roots</li>
+            <li>the young plants were destroyed in a <b>40</b> <input type="text" class="sc-input" id="sc-40" data-qnum="40" autocomplete="off"></li>
+          </ul>
+          <h5>Results</h5>
+          <ul class="notes-list">
+            <li>The first set of seedlings was successful</li>
+          </ul>
+        </div>
+      </div>
+
+
+    </div><!-- /pane-single -->
+  </div><!-- /exam-body -->
+
+  <div class="exam-footer glass">
+    <div class="q-nav-row" id="q-nav-row"></div>
+    <span class="answered-count" id="answered-count">0 / 40</span>
+    <button class="check-btn" id="check-btn" onclick="submitExam()">Check Answers</button>
+  </div>
+</div>
+
+<!-- ══ RESULTS MODAL ══ -->
+<div class="modal-overlay hidden" id="modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>📊 Results — Natijalar</h2>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-score-row">
+      
+      
+      
+      
+    </div>
+    <div class="modal-body">
+      <div class="res-filter-bar">
+        <button class="res-filter-btn active" onclick="setResFilter('all',this)">All 40</button>
+        <button class="res-filter-btn" onclick="setResFilter('wrong',this)">❌ Mistakes</button>
+        <button class="res-filter-btn" onclick="setResFilter('skipped',this)">⏭ Skipped</button>
+      </div>
+      <div id="res-details"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn primary" onclick="closeModal()">Close</button>
+      <button class="modal-btn" onclick="retryTest()">🔄 Retry</button>
+      
+      <button class="modal-btn" onclick="showScreen('home-screen');closeModal()">🏠 Home</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════
+//  LOGIN
+// ══════════════════════════════════════
+const VALID_PASS='reading_cdi';
+function checkLogin(){
+  const u=document.getElementById('login-user').value.trim();
+  const p=document.getElementById('login-pass').value.trim();
+  const err=document.getElementById('login-error');
+  if(u.length>0 && p===VALID_PASS){
+    err.classList.remove('show');
+    localStorage.setItem('studentName',u);
+    showScreen('home-screen');
+  }else{
+    err.classList.add('show');
+  }
+}
+document.getElementById('login-pass').addEventListener('keydown',e=>{if(e.key==='Enter')checkLogin();});
+document.getElementById('login-user').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('login-pass').focus();});
+
+// ══════════════════════════════════════
+//  THEME (dark / light — Liquid Glass)
+// ══════════════════════════════════════
+function applyTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  const on=t==='dark';
+  document.getElementById('theme-toggle-exam').classList.toggle('on',on);
+  document.getElementById('theme-knob-exam').textContent=on?'🌙':'☀️';
+  const iconPaths={
+    on:'<path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/>',
+    off:'<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>'
+  };
+  document.getElementById('theme-icon-home').innerHTML=on?iconPaths.on:iconPaths.off;
+  document.getElementById('theme-icon-login').innerHTML=on?iconPaths.on:iconPaths.off;
+  try{localStorage.setItem('cdi-theme',t);}catch(e){}
+}
+function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');}
+document.getElementById('theme-toggle-home').addEventListener('click',toggleTheme);
+document.getElementById('theme-toggle-exam').addEventListener('click',toggleTheme);
+document.getElementById('theme-toggle-login').addEventListener('click',toggleTheme);
+(function(){
+  let saved='light';
+  try{saved=localStorage.getItem('cdi-theme')||('light');}catch(e){}
+  applyTheme(saved);
+})();
+
+// ══════════════════════════════════════
+//  VOCAB (instant Uzbek translation)
+// ══════════════════════════════════════
+const VOCAB = {
+  "database":     {pron:"/ˈdeɪtəbeɪs/",      uz:"ma'lumotlar bazasi",                def:"An organised collection of information stored on a computer"},
+  "rehearsal":    {pron:"/rɪˈhɜːsl/",        uz:"repetitsiya",                       def:"A practice session before a performance"},
+  "licence":      {pron:"/ˈlaɪsns/",         uz:"litsenziya, ruxsatnoma",            def:"An official document giving permission to do something"},
+  "registration": {pron:"/ˌredʒɪˈstreɪʃn/",  uz:"ro'yxatdan o'tish",                 def:"The act of formally recording your name/details for an event"},
+  "sculptures":   {pron:"/ˈskʌlptʃəz/",      uz:"haykallar",                         def:"Works of art made by carving or shaping materials"},
+  "textile":      {pron:"/ˈtekstaɪl/",       uz:"to'qimachilik",                     def:"Relating to woven or fabric-based materials"},
+  "exhibition":   {pron:"/ˌeksɪˈbɪʃn/",      uz:"ko'rgazma",                         def:"A public display of items or works"},
+  "mangrove":     {pron:"/ˈmæŋɡrəʊv/",       uz:"mangr daraxti",                     def:"A tropical tree that grows in coastal swamps"},
+  "seedlings":    {pron:"/ˈsiːdlɪŋz/",       uz:"ko'chatlar",                        def:"Young plants grown from seed"},
+  "regeneration": {pron:"/rɪˌdʒenəˈreɪʃn/",  uz:"tiklanish, qayta tiklash",          def:"The process of growing or forming again"},
+  "habitat":      {pron:"/ˈhæbɪtæt/",        uz:"yashash muhiti",                    def:"The natural environment in which an animal or plant lives"},
+  "fertilizer":   {pron:"/ˈfɜːtɪlaɪzə/",     uz:"o'g'it",                            def:"A substance added to soil to help plants grow"},
+};
+
+// ══════════════════════════════════════
+//  QUESTIONS DATA
+// ══════════════════════════════════════
+const SC_ACCEPT = {
+  1:["database","a database"],
+  2:["rock"],
+  3:["month","a month"],
+  4:["45","forty-five","forty five"],
+  5:["750","seven hundred and fifty"],
+  6:["studio","a studio"],
+  7:["legal"],
+  8:["recording","a recording"],
+  9:["kippax"],
+  10:["talent"],
+  31:["flooding"],
+  32:["firewood"],
+  33:["fertilizer","fertiliser"],
+  34:["trash","rubbish"],
+  35:["sand"],
+  36:["grey","gray"],
+  37:["hot house","hothouse","hot-house"],
+  38:["salty"],
+  39:["rabbit","rabbits"],
+  40:["storm"]
+};
+const MCQ_CORRECT={11:"A",12:"B",13:"C",14:"B",21:"A",22:"B",23:"A",24:"A",25:"B",26:"C"};
+const LETTERBANK_CORRECT={15:"G",16:"A",17:"C",18:"H",19:"D",20:"B",27:"D",28:"B",29:"C",30:"A"};
+
+// ══════════════════════════════════════
+//  EXPLANATIONS
+// ══════════════════════════════════════
+const EXPLANATIONS = {
+  1:{en:"Members' details are kept on a database.",
+     uz:"A'zolarning ma'lumotlari bazada saqlanadi."},
+  2:{en:"The agency represents modern music: rock and jazz.",
+     uz:"Agentlik zamonaviy musiqani ifodalaydi: rok va jaz."},
+  3:{en:"The newsletter is published once a month.",
+     uz:"Axborotnoma oyiga bir marta chiqadi."},
+  4:{en:"Adult membership costs £45.",
+     uz:"Kattalar uchun a'zolik narxi 45 funt sterling."},
+  5:{en:"The agency currently has 750 members.",
+     uz:"Agentlikda hozirda 750 a'zo bor."},
+  6:{en:"Facilities include rehearsal rooms and a studio.",
+     uz:"Imkoniyatlarga repetitsiya xonalari va studiya kiradi."},
+  7:{en:"Legal advice is provided free of charge.",
+     uz:"Yuridik maslahat bepul beriladi."},
+  8:{en:"Applicants must send a recent recording along with their letter.",
+     uz:"Arizachilar xat bilan birga so'nggi yozuvni yuborishlari kerak."},
+  9:{en:"The address is 707, Kippax Street, Marbury.",
+     uz:"Manzil: 707, Kippax ko'chasi, Marbury."},
+  10:{en:"The contact email uses the word 'talent'.",
+      uz:"Aloqa uchun elektron pochtada 'talent' so'zi ishlatiladi."},
+  11:{en:"Participants need a form of identification for registration.",
+      uz:"Ishtirokchilarga ro'yxatdan o'tish uchun shaxsni tasdiqlovchi hujjat kerak."},
+  12:{en:"The entrance fee includes food for both days.",
+      uz:"Kirish to'lovi ikkala kun uchun ovqatni ham o'z ichiga oladi."},
+  13:{en:"Those without a licence are advised to apply online.",
+      uz:"Litsenziyasi yo'qlarga internet orqali ariza berish tavsiya etiladi."},
+  14:{en:"At 6pm on Sunday the fish caught will be judged.",
+      uz:"Yakshanba kuni soat 18:00 da tutilgan baliqlar baholanadi."},
+  15:{en:"The registration area is at point G on the map.",
+      uz:"Ro'yxatdan o'tish maydoni xaritada G nuqtasida joylashgan."},
+  16:{en:"The shore fishing area is at point A.",
+      uz:"Qirg'oqdan baliq ovlash maydoni A nuqtasida."},
+  17:{en:"The boat launching area is at point C.",
+      uz:"Qayiqlarni suvga tushirish joyi C nuqtasida."},
+  18:{en:"The judging area is at point H.",
+      uz:"Baholash maydoni H nuqtasida."},
+  19:{en:"The dining area is at point D.",
+      uz:"Ovqatlanish maydoni D nuqtasida."},
+  20:{en:"The prize-giving area is at point B.",
+      uz:"Sovg'a topshirish maydoni B nuqtasida."},
+  21:{en:"Both students look forward to showing people their work.",
+      uz:"Ikkala talaba ham o'z ishlarini odamlarga ko'rsatishni intiqlik bilan kutmoqda."},
+  22:{en:"Both were impressed by a series of wooden models last year.",
+      uz:"O'tgan yili ikkalasi ham yog'ochdan yasalgan modellar seriyasidan hayratda qolishgan."},
+  23:{en:"Max has decided to call his display 'Mother Nature'.",
+      uz:"Maks o'z ko'rgazmasini 'Mother Nature' deb nomlashga qaror qildi."},
+  24:{en:"Abby thinks having enough time to set it up will be difficult.",
+      uz:"Ebbi uni tayyorlash uchun yetarli vaqt topish qiyin bo'lishini o'ylaydi."},
+  25:{en:"Abby says it will be difficult to keep the summary short enough.",
+      uz:"Ebbi xulosani yetarlicha qisqa qilish qiyin bo'lishini aytadi."},
+  26:{en:"The students will organise the lighting themselves.",
+      uz:"Talabalar yoritishni o'zlari tashkil qilishadi."},
+  27:{en:"'On the Water' was noted for its painting technique.",
+      uz:"'On the Water' bo'yash texnikasi bilan ajralib turgan."},
+  28:{en:"'City Life' was noted for its sense of space.",
+      uz:"'City Life' fazo hissi bilan ajralib turgan."},
+  29:{en:"'Faces' was noted for its unusual interpretation of the theme.",
+      uz:"'Faces' mavzuning g'ayrioddiy talqini bilan ajralib turgan."},
+  30:{en:"'Moods' was noted for its realistic colours.",
+      uz:"'Moods' realistik ranglari bilan ajralib turgan."},
+  31:{en:"Mangrove forests protect coastal areas from flooding by the sea.",
+      uz:"Mangr o'rmonlari qirg'oq hududlarini dengiz toshqinidan himoya qiladi."},
+  32:{en:"Farmers had used the mangroves as firewood.",
+      uz:"Fermerlar mangrlarni o'tin sifatida ishlatishgan."},
+  33:{en:"The mangroves were poisoned by the use of fertilizer.",
+      uz:"Mangrlar o'g'it ishlatilishi tufayli zaharlangan."},
+  34:{en:"Local people used the mangroves as a place to put their trash.",
+      uz:"Mahalliy aholi mangrlarni chiqindi tashlash joyi sifatida ishlatgan."},
+  35:{en:"A barrier made of sand was constructed but failed.",
+      uz:"Qumdan yasalgan to'siq qurilgan, lekin muvaffaqiyatsiz bo'lgan."},
+  36:{en:"Seeds of the grey mangrove were used to regrow the forest.",
+      uz:"O'rmonni qayta o'stirish uchun kulrang mangr urug'lari ishlatilgan."},
+  37:{en:"The first seedlings were kept in small pots in a hot house.",
+      uz:"Birinchi ko'chatlar issiqxonada kichik idishlarda saqlangan."},
+  38:{en:"They were watered with salty rain water.",
+      uz:"Ular sho'r yomg'ir suvi bilan sug'orilgan."},
+  39:{en:"The seedlings were at risk from the large rabbit population.",
+      uz:"Ko'chatlar katta quyon populyatsiyasidan xavf ostida edi."},
+  40:{en:"The second set of seedlings was destroyed in a storm.",
+      uz:"Ko'chatlarning ikkinchi to'plami bo'ron tufayli nobud bo'lgan."},
+};
+
+// ══════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════
+let userAnswers={},reviewed=false,timerSecs=2400,timerRunning=true,timerInterval,resFilter='all',armedChip=null,currentPart=1;
+
+// ══════════════════════════════════════
+//  SINGLE GLOBAL AUDIO (covers all 4 sections, no pausing allowed)
+// ══════════════════════════════════════
+let audioStarted=false;
+function fmtAudioTime(s){s=Math.floor(s||0);const m=String(Math.floor(s/60)).padStart(2,'0');const sec=String(s%60).padStart(2,'0');return `${m}:${sec}`;}
+function startGlobalAudio(){
+  const a=document.getElementById('global-audio');
+  if(!a||audioStarted)return;
+  audioStarted=true;
+  a.play().catch(()=>{audioStarted=false;});
+  const btn=document.getElementById('audio-play-btn');
+  if(btn){btn.disabled=true;btn.textContent='▶ Playing…';}
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  const a=document.getElementById('global-audio');
+  if(!a)return;
+  a.addEventListener('pause',()=>{
+    if(reviewed)return;
+    if(audioStarted && !a.ended)a.play();
+  });
+  a.addEventListener('timeupdate',()=>{
+    const disp=document.getElementById('audio-time-display');
+    if(disp)disp.textContent=`${fmtAudioTime(a.currentTime)} / ${fmtAudioTime(a.duration)}`;
+  });
+  a.addEventListener('ended',()=>{
+    const btn=document.getElementById('audio-play-btn');
+    if(btn)btn.textContent='✔ Finished';
+  });
+});
+const PART_META={
+  1:{label:"Listening Part 1",range:"1–10"},
+  2:{label:"Listening Part 2",range:"11–20"},
+  3:{label:"Listening Part 3",range:"21–30"},
+  4:{label:"Listening Part 4",range:"31–40"}
+};
+
+// ══════════════════════════════════════
+//  TRANSCRIPTS (shown in the review split-screen after Check Answers)
+//  Paste the real audio script for each section here.
+// ══════════════════════════════════════
+const TRANSCRIPTS={
+  1:`Hello, Music Alive. How can I help you?
+Hi. I've just moved to the area and I saw your advert. I wanted to find out about your services.
+Sure. What would you like to know?
+Well, I've got a number of questions, if that's OK. Have you got a few minutes?
+Of course. Can I make a note of your name?
+Yes. I'm Jim. Jim Granley.
+Thanks. And do you represent every type of musician? Can you tell me a bit about that?
+Well, we're basically a networking agency for musicians, but we don't actually find you work. We have all our members on our database, the type of music they play, and also we can put people in touch if they want to form a band, for example.
+Is there a lot of live music here?
+Yes, and venues contact us when they need musicians, etc. We deal with modern music, especially rock, which is what most people seem to enjoy around here. But we do also represent some jazz musicians. We don't accept classical music, I'm afraid.
+No, that's fine. What do you play?
+Guitar and violin, and a bit of flute. As I'm new here, I thought you could help me get in touch with people.
+I see. Sure. We actually have a newsletter I could send you that would give you a good idea of what we do, and how you can benefit from joining. The latest one came out this week. Would you like me to send you a copy?
+That would be great. Is it weekly?
+No, every month.
+Weekly would be too much work, I think.
+Right. And what are the costs for joining and becoming a member? Is it expensive? I'm on a tight budget.
+You and every other musician in the region. No, we do everything to keep costs down, because we know what it's like. We're pretty much all musicians ourselves, too. So to join is just £35, and that's a one-off payment. Oh, actually, that's the discounted rate for young musicians under 18s. The standard rate is £45.
+Unfortunately, I'm over 18. And how about joining? Can I join when I want? Now, for example? Or do you have a limit on numbers?
+No, you can join any time. We don't have a limit on the numbers of members we can have. The more, the merrier, in fact. Our membership's gone up recently from 700 to 750.
+That's good. And your ad says you also have facilities there that musicians can use. Can you explain a bit about that?
+Sure. Well, it's not huge, but we do have a couple of rooms where you can rehearse. They're soundproof. And we've just opened a studio, a small one. And it's already proving popular with bands that want to send demo tapes to venues and record labels.
+Wow, that sounds brilliant. And is that free?
+Guess not. No, that's extra. But we do have some free services. For example, we can offer legal advice if you need it, for contracts and things like that. Pretty useful stuff, you know.
+Great. So if I'm interested, what's the next step? How do I become a member?
+Well, simple really. Just send us a letter with your contact details and a recording made within the last couple of months. That'll give other members an idea of what you play.
+And where are you based?
+We're at 707 Kipax Street, Marbury.
+How do you spell Kipax?
+It's K-I-double-P-A-X.
+And is there an email address?
+Yes, it's music.talent at bsu.co.uk.
+Talent is in the word?
+Yes.
+Right. Just one last thing...`,
+  2:`Hello, everyone, and welcome to the Albany Fishing Competition. I'm going to give you some information you'll need for the next two days.
+
+Right, let's talk about registration. You'll need to head to the registration desk before the event starts. If you're here to compete rather than just watch, you'll have already paid your entrance fee online and you will have been given a competitor number. But to fully complete your registration in the competition, we'll need to see some form of identification today. So make sure you show that at the desk, otherwise you won't be properly entered.
+
+Right, so what do you get for your entrance fee? This is a fully catered competition, so whenever you're hungry, either today or tomorrow, just go down to the dining tent. As for things necessary for fishing, you know, your hooks, rods, all your gear, I'm sure you brought all that with you. And if you fancy fishing from a boat, you'll need to cover the cost of petrol.
+
+OK, now, if you want to fish in this country, you must have a fishing licence and have it with you. If you don't have one, don't worry. You can always go online and they'll issue you one immediately. We wanted to be able to sell them here at the competition, but the council wouldn't allow it, sadly. I think it's also possible to call the Department of Fisheries, but they send them by post, so obviously you won't get that in time now.
+
+OK, so the competition starts today and ends on Sunday evening. At 5.30pm, you will all have to stop fishing and at 6pm exactly, the judges will start weighing the fish to see how heavy they are in order to choose the winners. So, you'll need to be in the judging area before then. The prize giving will happen later in the evening.
+
+Right, have a look at your maps and I'll point out the important places. First, the registration area. To get to it, go to the roundabout in the middle of your map. From there, take the road that heads to the east. You'll find the registration desk on that road. It's a nice shady area surrounded by trees.
+
+OK, if you're planning to fish from the shore tomorrow, then there's a specially designated area for you. The shore fishing area is in one particular spot. You can't just go anywhere on the coastline. You'll find the area directly to the north of the skate park.
+
+If you're planning to fish from a boat, you'll need to go to the boat launching area. To reach it, you should go to the roundabout and take the road that's on the right. Follow that road to the beach and that's where you launch your boat.
+
+When the competition is over, you need to take your catch to the judging area so we can determine who the winner is. To get there, head out from the car park and take the first road on your left. Go past the first aid tent and the judging area will be set up down there.
+
+Meals will be served in the dining area. To get there, you'll need to go to the roundabout and take the road that leads west. Follow that road and just where there's a sharp bend, you'll find where you can eat. If you keep going, you'll come to a lighthouse.
+
+If you're lucky enough to win, or you just want to see the winners get their prizes, you'll need to head to the prize-giving area. It's north of the roundabout past the playground. The prize-giving area is at the end of that road, right on the beach.`,
+  3:`So, Abby, we have to prepare our individual displays for the end-of-year exhibition to showcase all the work we've done for the first year of our art degree.
+Yeah, Max, I've been thinking about how to put it all together. I'm excited about letting my friends and family see all the stuff I've produced.
+Me too. Actually, I'm really keen to see the work of the other students on our course. I mean, it'll be great to see all the finished displays.
+But we've seen what they've been doing throughout the year already, really. Anyway, what about getting feedback on our exhibition from our tutor? I wonder what that'll be like.
+Mmm, I'm a bit nervous about that part. I hope our stuff ends up looking as good as some of the displays in last year's exhibition.
+Yeah, do you remember that display of printed textiles? Fantastic mixtures of silk and wool, all coloured with natural dyes.
+Yeah, I can't actually remember that. What sticks in my mind are those ten wooden reproductions one student made, all of different types of transport, little cars and trains and stuff.
+Yes, it was really delicate work and much harder to do than if he'd tried to construct them out of metal.
+So our tutor asked us to come up with a name for our display which reflects the work we've done. What have you gone for?
+Well, most of what I've done has focused on the countryside, so I've been thinking of things connected to that. A lot of my larger pieces are views of farmland. That's not a particularly memorable name, though. I've gone for Mother Nature in the end, though I did think about the name Seasons as the fields are shown at different times over the farming year.
+Oh, OK. Do you think it's going to be challenging putting our displays together?
+Well, I've pretty much come to a conclusion about which pieces I'll include now. I'll have to miss out some of my preparatory drawings for the bigger pieces to make sure my best work fits into the space we've been allocated. I'm more concerned about how long it will take me to put everything in place. We've got a day and a half.
+That'll be plenty.
+We'll see. What about writing the summary of our work? It's for people who visit the exhibition to read, and I'm absolutely certain they will. It explains the reasons behind our work and they'll want to know what it all means.
+We've got a strict word limit to stick to, but I've got so much to say it won't be easy to say it in so few words.
+So what about other organisational stuff? We'll need good lighting for one thing. The technical guys are doing that, aren't they?
+Yeah. One thing to do is copy a load of comment forms so people can write what they think of the exhibition. Hopefully they'll be kind.
+I'm sure they will. I don't know about the journalists who've been invited, though. They might not be quite as nice to us.
+Well, fingers crossed. You never know.
+
+So, our tutor suggested visiting a few exhibitions to look at the way work is presented and to give us a few ideas about improving and displaying our own work.
+Yeah, I liked the On the Water exhibition, the way the artist used the brush strokes in the oil painting to create a sense of movement was amazing.
+Mmm, it takes a long time to develop skill like that. Maybe we'll get there one day.
+What I liked about the City Life exhibition was the fact that although the paintings themselves were of busy places, the display itself wasn't crowded at all. Perhaps the fact that the paintings were actually quite small was what created a more open feeling to the exhibition.
+Yeah, though the way they were arranged wasn't especially unusual.
+And then there was the Faces exhibition.
+Yeah, I mean, painting people's portraits isn't a new thing. But what I did like was the way the artist managed to reproduce the exact tones of the skin and hair of the people in the pictures.
+And the last exhibition we went to see was Moods.
+Mmm, I expected that to show emotions, people laughing, crying, whatever. But it was about plants. You don't tend to think of trees and flowers having feelings. And I'm not sure they do. But it certainly seemed that way in the pictures.
+Not the most obvious choice of subject, that's for sure. Anyway, I guess we'd better get on with it.`,
+  4:`Today I'm going to be talking about the first year of a regeneration project in a mangrove forest.
+
+Mangrove forests are found along river estuaries and coastlines and are important because they prevent flooding by acting as a barrier between the land and sea. The mangrove trees have special roots, which can breathe and allow them to survive in thick, airless mud. They are also a very important habitat for wading birds, fish, and other animals.
+
+In the area where the project is taking place, there have been a number of problems since the area was first settled over 100 years ago. Many of the mangrove trees were initially burnt as firewood by local farmers. The mangrove forests were also poisoned by settlers' farming methods because the farmers used fertilizer to increase crop yields and this started to seep into the water, eventually killing part of the mangrove forest.
+
+Farming in the area wasn't successful, and what was left of the mangrove forest area wasn't valued by local people as crops couldn't be grown there. And so what happened was that the area started to be used as somewhere to dump trash. Action was urgently needed to protect the mangrove forest and prevent flooding, and so the Mangrove Regeneration Project was set up.
+
+The conservationists involved decided to construct a sand barrier around the forests, but unfortunately this proved to be ineffective. The only way forward appeared to be to grow new mangroves from seed. Several species of mangrove inhabit the forests in this area of the United States, but it is the gray mangroves that we are concerned with here. The seed of this plant is about the size of an almond, and most seeds fall only when they are fully ripe.
+
+The Mangrove Regeneration Project first began three years ago. The first set of seedlings was planted in small pots and left to germinate in a hothouse. The plants thrived, and large roots appeared at the bottom of the pots. Ideally, these seedlings should have been conditioned with increasingly salty water before being planted in the sea. They had, in fact, only been watered with rainwater.
+
+As the plants weren't used to a saline environment, it was decided to plant them out on the south side of a small island nearby. It was hoped that this would allow them to get used to salt water gradually, since this part of the island was flooded every day at high tide. There were over 100 plants planted in this particular spot, and it was necessary to protect them not from the large number of wading birds which visit the area looking for food, but from the large rabbit colony living in the area.
+
+The process for the second set of seedlings was completely different. Young seedlings were collected from the forests and then taken to a new site. The seedlings were then planted in the seabed behind old mangrove roots for protection. However, this method did not prove very successful, and the vast majority of these seedlings were washed away in a storm.
+
+Luckily, the first set of seedlings survived, and this method is the one which the project will continue to use in the future. Now, I'd like to describe in more detail the process.`
+};
+function renderTranscript(p){
+  const label=document.getElementById('transcript-part-label');
+  const body=document.getElementById('transcript-body');
+  if(label)label.textContent=PART_META[p].label.replace('Listening ','');
+  if(body)body.textContent=TRANSCRIPTS[p]||'Transcript not added yet for this section.';
+}
+function enableAudioForReview(){
+  const a=document.getElementById('global-audio');
+  if(a)a.controls=true;
+  const actrl=document.getElementById('audio-controls-custom');
+  if(actrl)actrl.style.display='none';
+  const pnote=document.getElementById('audio-playing-note');
+  if(pnote)pnote.style.display='none';
+  const note=document.getElementById('audio-review-note');
+  if(note)note.style.display='block';
+}
+
+// ══════════════════════════════════════
+//  VOCAB TOOLTIP
+// ══════════════════════════════════════
+const tooltip=document.getElementById('tooltip');
+let isTouchDev='ontouchstart' in window||navigator.maxTouchPoints>0;
+function posTip(x,y){if(x+280>window.innerWidth)x=window.innerWidth-285;if(x<8)x=8;if(y+140>window.innerHeight)y=y-150;if(y<8)y=8;tooltip.style.left=x+'px';tooltip.style.top=y+'px';}
+function showTip(w,e){const d=VOCAB[w];if(!d)return;tooltip.innerHTML=`<div class="t-word">${w}</div><div class="t-pron">${d.pron}</div><div class="t-uz">🇺🇿 ${d.uz}</div><div class="t-def">${d.def}</div>`;tooltip.style.display='block';posTip(e.clientX+14,e.clientY+14);}
+function hideTip(){tooltip.style.display='none';}
+document.addEventListener('mousemove',e=>{if(isTouchDev)return;const w=e.target.closest('.vocab-word');if(!w){hideTip();return;}showTip(w.dataset.word,e);});
+document.addEventListener('click',e=>{if(!isTouchDev)return;const w=e.target.closest('.vocab-word');if(!w){if(!e.target.closest('.tooltip-box'))hideTip();return;}showTip(w.dataset.word,e);e.stopPropagation();});
+
+// ══════════════════════════════════════
+//  ONE-CLICK HIGHLIGHT — press mouse, drag over a word, release: instantly highlighted.
+//  Click an already-highlighted word again (no new drag) to remove it.
+// ══════════════════════════════════════
+document.addEventListener('mouseup',e=>{
+  if(e.target.closest('.sc-input, .drag-chip, .drop-zone, .multi-opt, button, audio, .tg-float, .part-pill')){
+    // don't fight with interactive controls
+  }
+  const sel=window.getSelection();
+  if(sel && sel.rangeCount && !sel.isCollapsed && sel.toString().trim().length>0){
+    const range=sel.getRangeAt(0);
+    if(!e.target.closest('#pane-single'))return;
+    const span=document.createElement('span');span.className='hl-auto';
+    try{range.surroundContents(span);}
+    catch(err){const frag=range.extractContents();span.appendChild(frag);range.insertNode(span);}
+    sel.removeAllRanges();
+    return;
+  }
+  const hit=e.target.closest('.hl-auto');
+  if(hit){
+    const parent=hit.parentNode;
+    while(hit.firstChild)parent.insertBefore(hit.firstChild,hit);
+    parent.removeChild(hit);
+    parent.normalize();
+  }
+});
+
+// ══════════════════════════════════════
+//  MCQ (single-select letter with full text)
+// ══════════════════════════════════════
+function selectMC(qnum,letter){
+  if(reviewed)return;
+  userAnswers[qnum]=letter;
+  ['A','B','C'].forEach(o=>{
+    const el=document.getElementById(`mc-${qnum}-${o}`);
+    if(el)el.classList.toggle('selected',o===letter);
+  });
+  updateNav();
+}
+
+// ══════════════════════════════════════
+//  TAP-TO-PLACE LETTER BANKS
+// ══════════════════════════════════════
+function attachDragHandlers(){
+  document.querySelectorAll('.drag-chip').forEach(chip=>{
+    chip.addEventListener('click',e=>{
+      e.stopPropagation();if(reviewed)return;
+      document.querySelectorAll('.drag-chip').forEach(c=>c.classList.remove('tap-armed'));
+      if(armedChip===chip){armedChip=null;armZones(false);}
+      else{armedChip=chip;chip.classList.add('tap-armed');armZones(true,chip.dataset.bank);}
+    });
+  });
+  document.querySelectorAll('.drop-zone').forEach(z=>{
+    z.addEventListener('click',e=>{
+      e.stopPropagation();if(reviewed)return;
+      if(armedChip && armedChip.dataset.bank===z.dataset.bank){
+        dropAnswer(z,armedChip.dataset.key);
+        armedChip.classList.remove('tap-armed');armedChip=null;armZones(false);
+      }
+    });
+  });
+}
+function armZones(on,bank){
+  document.querySelectorAll('.drop-zone').forEach(z=>{
+    if(on&&z.dataset.bank===bank)z.classList.add('armed-target');
+    else z.classList.remove('armed-target');
+  });
+}
+function dropAnswer(z,key){
+  if(reviewed)return;
+  z.classList.add('filled');z.textContent=key;
+  userAnswers[z.dataset.qnum]=key;updateNav();
+}
+
+// ══════════════════════════════════════
+//  TEXT COMPLETION INPUTS
+// ══════════════════════════════════════
+document.querySelectorAll('.sc-input').forEach(inp=>{
+  inp.addEventListener('input',e=>{
+    if(reviewed)return;
+    userAnswers[e.target.dataset.qnum]=e.target.value;
+    updateNav();
+  });
+});
+
+// ══════════════════════════════════════
+//  PART SWITCHER
+// ══════════════════════════════════════
+function showPart(p){
+  currentPart=p;
+  document.querySelectorAll('.part-panel').forEach(el=>el.classList.remove('active'));
+  document.getElementById('part'+p).classList.add('active');
+  const meta=PART_META[p];
+  document.getElementById('part-banner').innerHTML=`<b>${meta.label}</b> — Questions ${meta.range}. You will hear the recording once.`;
+  if(reviewed)renderTranscript(p);
+  updateNav();
+}
+function partOfQuestion(n){if(n<=10)return 1;if(n<=20)return 2;if(n<=30)return 3;return 4;}
+
+// ══════════════════════════════════════
+//  NAV ROW
+// ══════════════════════════════════════
+const SECTION_RANGES={1:[1,10],2:[11,20],3:[21,30],4:[31,40]};
+function buildNav(){
+  const row=document.getElementById('q-nav-row');row.innerHTML='';
+  const labels={1:'Section 1',2:'Section 2',3:'Section 3',4:'Section 4'};
+  for(let p=1;p<=4;p++){
+    const b=document.createElement('button');
+    b.className='q-nav-btn q-nav-section';b.id=`nav-${p}`;b.textContent=labels[p];
+    b.onclick=()=>{showPart(p);};
+    row.appendChild(b);
+  }
+  updateNav();
+}
+function updateNav(){
+  let count=0;
+  for(let n=1;n<=40;n++){
+    const v=userAnswers[n];
+    if(v&&String(v).trim())count++;
+  }
+  for(let p=1;p<=4;p++){
+    const b=document.getElementById(`nav-${p}`);if(!b)continue;
+    const range=SECTION_RANGES[p];
+    let allAnswered=true;
+    for(let n=range[0];n<=range[1];n++){
+      const v=userAnswers[n];
+      if(!(v&&String(v).trim())){allAnswered=false;break;}
+    }
+    b.classList.toggle('answered',allAnswered);
+    b.classList.toggle('active',p===currentPart);
+  }
+  document.getElementById('answered-count').textContent=`${count} / 40`;
+}
+function scrollToQ(n){
+  const el=document.getElementById(`qblock-${n}`)||document.getElementById(`q${n}`)||document.getElementById(`sc-${n}`);
+  if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+// ══════════════════════════════════════
+//  TIMER
+// ══════════════════════════════════════
+function fmtTime(s){const m=Math.floor(s/60);return `${String(m).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;}
+function tickTimer(){
+  if(!timerRunning)return;
+  timerSecs--;
+  document.getElementById('timer-val').textContent=fmtTime(timerSecs);
+  if(timerSecs<=300)document.getElementById('timer-box').classList.add('urgent');
+  if(timerSecs<=0){clearInterval(timerInterval);submitExam();}
+}
+function startTimer(){timerInterval=setInterval(tickTimer,1000);}
+document.getElementById('timer-toggle').addEventListener('click',()=>{
+  timerRunning=!timerRunning;
+  const icon=document.getElementById('timer-icon');
+  icon.innerHTML=timerRunning?'<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>':'<path d="M8 5v14l11-7L8 5z"/>';
+});
+document.getElementById('timer-reset').addEventListener('click',()=>{timerSecs=2400;document.getElementById('timer-val').textContent='40:00';document.getElementById('timer-box').classList.remove('urgent');});
+
+// ══════════════════════════════════════
+//  FULLSCREEN
+// ══════════════════════════════════════
+function toggleFullscreen(){if(!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{});else document.exitFullscreen();}
+
+// ══════════════════════════════════════
+//  SCREENS
+// ══════════════════════════════════════
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function confirmExit(){if(confirm('Exit the test?')){clearInterval(timerInterval);showScreen('home-screen');}}
+function startExam(){
+  userAnswers={};reviewed=false;timerSecs=2400;timerRunning=true;armedChip=null;
+  audioStarted=false;
+  const ga=document.getElementById('global-audio');
+  if(ga){ga.pause();ga.currentTime=0;ga.controls=false;}
+  const actrl=document.getElementById('audio-controls-custom');
+  if(actrl)actrl.style.display='none';
+  const abtn=document.getElementById('audio-play-btn');
+  if(abtn){abtn.disabled=false;abtn.textContent='▶ Play Audio';}
+  const adisp=document.getElementById('audio-time-display');
+  if(adisp)adisp.textContent='00:00 / 00:00';
+  const anote=document.getElementById('audio-playing-note');
+  if(anote)anote.style.display='';
+  const arev=document.getElementById('audio-review-note');
+  if(arev)arev.style.display='none';
+  document.getElementById('exam-body').classList.remove('review-mode');
+  document.getElementById('timer-val').textContent='40:00';
+  document.getElementById('timer-box').classList.remove('urgent');
+  document.getElementById('timer-icon').innerHTML='<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+  showScreen('exam-screen');
+  showPart(1);
+  attachDragHandlers();buildNav();startTimer();
+  document.getElementById('check-btn').textContent='Check Answers';
+  document.getElementById('check-btn').className='check-btn';
+  document.getElementById('check-btn').onclick=submitExam;
+  startGlobalAudio();
+}
+function retryTest(){closeModal();startExam();}
+
+// ══════════════════════════════════════
+//  SCORING
+// ══════════════════════════════════════
+function normText(s){return String(s||'').trim().toLowerCase().replace(/[.,!?;:'"]+$/,'').replace(/^£/,'').trim();}
+function getCorrectDisplay(n){
+  if(SC_ACCEPT[n])return SC_ACCEPT[n][0];
+  if(MCQ_CORRECT[n]!==undefined)return MCQ_CORRECT[n];
+  if(LETTERBANK_CORRECT[n]!==undefined)return LETTERBANK_CORRECT[n];
+  return '';
+}
+function checkAns(n){
+  const given=userAnswers[n];
+  if(given===undefined||given===null||!String(given).trim())return null;
+  if(SC_ACCEPT[n])return SC_ACCEPT[n].map(normText).includes(normText(given));
+  if(MCQ_CORRECT[n]!==undefined)return given===MCQ_CORRECT[n];
+  if(LETTERBANK_CORRECT[n]!==undefined)return given===LETTERBANK_CORRECT[n];
+  return null;
+}
+function estimateBand(s){
+  if(s>=39)return 9;if(s>=37)return 8.5;if(s>=35)return 8;if(s>=32)return 7.5;
+  if(s>=30)return 7;if(s>=26)return 6.5;if(s>=23)return 6;if(s>=18)return 5.5;
+  if(s>=16)return 5;if(s>=13)return 4.5;return 4;
+}
+
+function submitExam(){
+  clearInterval(timerInterval);reviewed=true;
+  document.getElementById('exam-body').classList.add('review-mode');
+  renderTranscript(currentPart);
+  enableAudioForReview();
+  let correct=0,wrong=0,skip=0;
+
+  for(let n=1;n<=40;n++){
+    const r=checkAns(n);
+    if(r===null)skip++;else if(r)correct++;else wrong++;
+
+    if(SC_ACCEPT[n]){
+      const inp=document.getElementById(`sc-${n}`);
+      if(inp){if(r)inp.classList.add('correct');else if(userAnswers[n])inp.classList.add('wrong');}
+    }
+    if(MCQ_CORRECT[n]!==undefined){
+      const given=userAnswers[n];
+      ['A','B','C'].forEach(o=>{
+        const el=document.getElementById(`mc-${n}-${o}`);if(!el)return;
+        if(o===MCQ_CORRECT[n])el.classList.add('correct');
+        else if(o===given)el.classList.add('wrong');
+      });
+    }
+    if(LETTERBANK_CORRECT[n]!==undefined){
+      const z=document.getElementById(`q${n}`);
+      if(z){if(r)z.classList.add('correct');else if(userAnswers[n])z.classList.add('wrong');}
+    }
+  }
+
+  document.getElementById('modal-score').textContent=`Score: ${correct} / 40`;
+  document.getElementById('modal-band').textContent=`Band: ${estimateBand(correct)}`;
+  document.getElementById('modal-correct').textContent=`✓ Correct: ${correct}`;
+  document.getElementById('modal-wrong').textContent=`✗ Wrong: ${wrong}`;
+  renderResDetails();
+  document.getElementById('modal').classList.remove('hidden');
+  document.getElementById('check-btn').textContent='My Result';
+  document.getElementById('check-btn').className='check-btn done';
+  document.getElementById('check-btn').onclick=()=>document.getElementById('modal').classList.remove('hidden');
+}
+
+// ══════════════════════════════════════
+//  REVIEW MODAL
+// ══════════════════════════════════════
+function setResFilter(f,btn){
+  resFilter=f;
+  document.querySelectorAll('.res-filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderResDetails();
+}
+function renderResDetails(){
+  const cont=document.getElementById('res-details');
+  let html='';
+  for(let n=1;n<=40;n++){
+    const r=checkAns(n);
+    const status=r===true?'is-correct':r===false?'is-wrong':'is-skipped';
+    if(resFilter==='wrong'&&status!=='is-wrong')continue;
+    if(resFilter==='skipped'&&status!=='is-skipped')continue;
+    const given=userAnswers[n]||'—';
+    const correctDisp=getCorrectDisplay(n);
+    const badgeClass=status==='is-correct'?'ok':status==='is-skipped'?'skip':'bad';
+    const badgeText=status==='is-correct'?'Correct':status==='is-skipped'?'Skipped':'Incorrect';
+    const expl=EXPLANATIONS[n]||{en:'',uz:''};
+    html+=`<div class="res-row ${status}">
+      <span class="res-num">${n}</span>
+      <span class="res-user">${given}</span>
+      <span class="res-correct">${correctDisp}</span>
+      <span class="res-badge ${badgeClass}">${badgeText}</span>
+      <div class="res-explain-en"><b>Why:</b> ${expl.en}</div>
+      <div class="res-explain-uz"><b>Tushuntirish:</b> ${expl.uz}</div>
+    </div>`;
+  }
+  if(!html)html=`<p style="text-align:center;color:var(--text3);padding:30px">Nothing to show for this filter 🎉</p>`;
+  cont.innerHTML=html;
+}
+function closeModal(){document.getElementById('modal').classList.add('hidden');}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
+</script>
+</body>
+</html>

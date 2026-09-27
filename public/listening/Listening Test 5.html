@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>IELTS Listening Practice | @reading_cdi</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+
+/* ══════════════════════════════════════
+   LIQUID GLASS TOKENS
+   ══════════════════════════════════════ */
+:root{
+  --bg:#eef0f4;
+  --bg-blob-1:#ffd7dd; --bg-blob-2:#cfe4ff; --bg-blob-3:#dcffe9;
+  --panel:rgba(255,255,255,.62); --panel-solid:rgba(255,255,255,.92);
+  --text:#1c1c1e; --text2:#6e6e73; --text3:#98989d;
+  --border:rgba(60,60,67,.13); --hairline:rgba(60,60,67,.08);
+  --accent:#7c3aed; --accent-dark:#005f99; --accent-light:rgba(124,58,237,.10);
+  --green:#22a559; --green-bg:rgba(34,165,89,.14);
+  --redx:#ff3b30; --red-bg:rgba(255,59,48,.12);
+  --yellow:#ff9500; --yellow-bg:rgba(255,149,0,.15);
+  --tg:#0088cc;
+  --glass-hi:rgba(255,255,255,.85); --glass-lo:rgba(255,255,255,.18);
+  --shadow:0 10px 40px rgba(31,38,55,.10),0 1px 2px rgba(31,38,55,.06);
+  --blur:blur(26px) saturate(190%);
+  --radius-xl:26px;--radius-lg:20px;--radius-md:14px;--radius-sm:10px;
+}
+html[data-theme="dark"]{
+  --bg:#000000;
+  --bg-blob-1:#3a0a14; --bg-blob-2:#07182c; --bg-blob-3:#062015;
+  --panel:rgba(28,28,30,.58); --panel-solid:rgba(24,24,26,.92);
+  --text:#f2f2f7; --text2:#a9a9ae; --text3:#7c7c80;
+  --border:rgba(255,255,255,.13); --hairline:rgba(255,255,255,.08);
+  --accent:#ff4f68; --accent-dark:#ff2d4d; --accent-light:rgba(255,79,104,.16);
+  --green:#32d873; --green-bg:rgba(50,216,115,.16);
+  --redx:#ff453a; --red-bg:rgba(255,69,58,.16);
+  --yellow:#ff9f0a; --yellow-bg:rgba(255,159,10,.16);
+  --glass-hi:rgba(255,255,255,.16); --glass-lo:rgba(255,255,255,.03);
+  --shadow:0 10px 40px rgba(0,0,0,.55),0 1px 2px rgba(0,0,0,.4);
+}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','SF Pro Display','Segoe UI',Roboto,sans-serif;
+  background:var(--bg);color:var(--text);height:100%;overflow:hidden;
+  -webkit-font-smoothing:antialiased;transition:background .4s ease,color .3s ease;
+}
+.liquid-bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.liquid-bg span{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;animation:drift 22s ease-in-out infinite}
+.liquid-bg span:nth-child(1){width:46vw;height:46vw;background:var(--bg-blob-1);top:-14%;left:-10%;animation-delay:0s}
+.liquid-bg span:nth-child(2){width:38vw;height:38vw;background:var(--bg-blob-2);bottom:-16%;right:-8%;animation-delay:-7s}
+.liquid-bg span:nth-child(3){width:30vw;height:30vw;background:var(--bg-blob-3);bottom:20%;left:30%;animation-delay:-14s}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(4%,6%) scale(1.08)}66%{transform:translate(-5%,-3%) scale(.95)}}
+@media(prefers-reduced-motion:reduce){.liquid-bg span{animation:none}}
+
+.screen{display:none;position:relative;z-index:1}.screen.active{display:flex;flex-direction:column;height:100%}
+.glass{background:var(--panel);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-hi);box-shadow:var(--shadow)}
+
+/* ── LOGIN ── */
+#login-screen{align-items:center;justify-content:center;padding:30px 20px;overflow-y:auto}
+.login-card{border-radius:var(--radius-xl);padding:44px 38px;max-width:420px;width:100%;text-align:center}
+.login-logo{font-size:15px;font-weight:800;color:var(--accent);letter-spacing:-.01em}
+.login-logo span{font-size:12px;color:var(--text3);font-weight:600;display:block;margin-top:3px;letter-spacing:.05em;text-transform:uppercase}
+.login-card h1{font-size:23px;font-weight:800;color:var(--text);margin:16px 0 6px;line-height:1.28;letter-spacing:-.01em}
+.login-card p.login-sub{color:var(--text2);font-size:13.5px;margin-bottom:22px;line-height:1.55}
+.login-field{text-align:left;margin-bottom:14px}
+.login-field label{display:block;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);margin-bottom:6px}
+.login-input{width:100%;padding:13px 16px;border-radius:var(--radius-md);border:1.5px solid var(--border);background:var(--panel-solid);color:var(--text);font-size:15px;font-family:inherit;outline:none;transition:.15s}
+.login-input:focus{border-color:var(--accent);background:var(--panel-solid)}
+.login-input::placeholder{color:rgba(60,60,67,.28);font-weight:600;letter-spacing:.02em}
+html[data-theme="dark"] .login-input::placeholder{color:rgba(255,255,255,.22)}
+.login-error{color:var(--redx);font-size:12.5px;font-weight:600;margin:-4px 0 12px;display:none;text-align:left}
+.login-error.show{display:block}
+.login-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:14px 0;width:100%;font-size:15.5px;font-weight:700;cursor:pointer;transition:.2s;box-shadow:0 8px 22px rgba(124,58,237,.35);margin-top:6px}
+.login-btn:hover{background:var(--accent-dark);transform:translateY(-1px)}
+.login-btn:active{transform:scale(.98)}
+.login-hint{font-size:11.5px;color:var(--text3);margin-top:14px;line-height:1.5}
+
+/* ── HOME ── */
+#home-screen{align-items:center;justify-content:center;padding:30px 20px;overflow-y:auto}
+.home-card{border-radius:var(--radius-xl);padding:44px 38px;max-width:640px;width:100%;text-align:center}
+.home-logo{font-size:15px;font-weight:800;color:var(--accent);letter-spacing:-.01em}
+.home-logo span{font-size:12px;color:var(--text3);font-weight:600;display:block;margin-top:3px;letter-spacing:.05em;text-transform:uppercase}
+.home-badge{display:inline-flex;align-items:center;gap:8px;background:var(--accent-light);color:var(--accent);font-size:12.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:7px 16px;border-radius:99px;margin:18px 0}
+.home-card h1{font-size:26px;font-weight:800;color:var(--text);margin-bottom:8px;line-height:1.28;letter-spacing:-.01em}
+.home-card .home-sub{color:var(--text2);font-size:13.5px;margin-bottom:6px;font-style:italic}
+.home-card p{color:var(--text2);font-size:14.5px;margin-bottom:24px;line-height:1.6}
+.home-meta{display:flex;justify-content:center;gap:14px;margin-bottom:26px;flex-wrap:wrap}
+.home-meta-item{background:var(--panel-solid);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 20px;min-width:84px}
+.home-meta-item .val{font-size:20px;font-weight:800;color:var(--text)}
+.home-meta-item .lbl{font-size:10.5px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.start-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:15px 46px;font-size:16px;font-weight:700;cursor:pointer;transition:.2s;box-shadow:0 8px 22px rgba(124,58,237,.35)}
+.start-btn:hover{background:var(--accent-dark);transform:translateY(-1px)}
+.start-btn:active{transform:scale(.97)}
+
+
+.home-theme-btn{position:fixed;top:18px;right:18px;z-index:5}
+
+/* ── HEADER ── */
+#exam-screen{flex-direction:column;height:100%}
+.exam-header{flex:0 0 auto;margin:10px 12px 0;border-radius:var(--radius-lg);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:200}
+.header-left{display:flex;align-items:center;gap:12px}
+.exam-logo{font-size:14px;font-weight:800;color:var(--accent);letter-spacing:-.01em}
+.exam-sub{font-size:10.5px;color:var(--text3);margin-top:1px}
+.header-pills{display:flex;gap:8px}
+
+
+
+
+.header-right{display:flex;align-items:center;gap:8px}
+.timer-box{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--text);background:var(--panel-solid);border:1px solid var(--border);border-radius:99px;padding:6px 13px}
+.timer-box.urgent{color:var(--redx)}
+.timer-val{min-width:48px;font-variant-numeric:tabular-nums}
+.icon-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:var(--panel-solid);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text);transition:.2s;flex-shrink:0}
+.icon-btn:hover{background:var(--accent-light);color:var(--accent);transform:translateY(-1px)}
+.icon-btn:active{transform:scale(.92)}
+.exit-link{font-size:12.5px;color:var(--text3);cursor:pointer;white-space:nowrap;padding:6px 4px}
+.exit-link:hover{color:var(--accent)}
+
+.ios-switch{position:relative;width:50px;height:30px;border-radius:99px;background:#78788033;border:none;cursor:pointer;flex-shrink:0;transition:background .25s}
+.ios-switch.on{background:var(--accent)}
+.ios-switch .knob{position:absolute;top:2px;left:2px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:transform .25s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;justify-content:center;font-size:13px}
+.ios-switch.on .knob{transform:translateX(20px)}
+
+.part-banner{flex:0 0 auto;margin:10px 12px 0;border-radius:var(--radius-md);padding:10px 18px;font-size:13px;color:var(--text2)}
+.part-banner b{color:var(--text)}
+
+.tg-float{position:fixed;right:18px;bottom:86px;background:var(--tg);color:#fff;border:none;border-radius:99px;padding:12px 18px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 8px 22px rgba(0,136,204,.4);z-index:300;text-decoration:none;transition:.2s}
+.tg-float:hover{background:#0077b3;transform:translateY(-2px)}
+.tg-float svg{width:18px;height:18px;flex-shrink:0}
+
+/* ── PART SWITCHER ── */
+.part-switcher{flex:0 0 auto;margin:10px 12px 0;display:flex;gap:8px;flex-wrap:wrap}
+.part-pill{border-radius:99px;padding:9px 20px;font-size:13px;font-weight:700;border:1px solid var(--border);background:var(--panel-solid);color:var(--text2);cursor:pointer;transition:.15s}
+.part-pill:hover{border-color:var(--accent);color:var(--accent)}
+.part-pill.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* ── BODY (single scroll pane) ── */
+.exam-body{display:flex;flex:1 1 auto;min-height:0;overflow:hidden;margin:10px 12px;gap:10px}
+.transcript-pane{display:none;flex-direction:column;flex:1 1 42%;min-width:0;overflow-y:auto;padding:22px 24px 40px;border-radius:var(--radius-lg)}
+.transcript-pane::-webkit-scrollbar{width:7px}
+.transcript-pane::-webkit-scrollbar-track{background:transparent}
+.transcript-pane::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.transcript-header{font-size:12.5px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px}
+.transcript-body{font-size:15px;line-height:1.95;color:var(--text);white-space:pre-wrap}
+.exam-body.review-mode .transcript-pane{display:flex}
+.exam-body.review-mode .pane-single{flex:1 1 58%}
+.pane-single{flex:1 1 100%;min-width:0;min-height:0;overflow-y:auto;padding:24px 26px 100px;border-radius:var(--radius-lg)}
+.pane-single::-webkit-scrollbar{width:7px}
+.pane-single::-webkit-scrollbar-track{background:transparent}
+.pane-single::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.part-panel{display:none}
+.part-panel.active{display:block}
+
+/* ── AUDIO BOX ── */
+.audio-box{background:var(--panel-solid);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 18px;margin-bottom:20px;display:flex;flex-direction:column;gap:8px}
+.audio-box-title{font-size:12.5px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.05em;display:flex;align-items:center;gap:6px}
+.audio-box audio{width:100%;border-radius:99px}
+.audio-note{font-size:11.5px;color:var(--text3);line-height:1.5}
+.audio-controls-custom{display:flex;align-items:center;gap:14px}
+.audio-play-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:11px 22px;font-size:13.5px;font-weight:700;cursor:pointer;transition:.2s;flex-shrink:0}
+.audio-play-btn:hover{background:var(--accent-dark)}
+.audio-play-btn:disabled{background:var(--text3);cursor:default;opacity:.75}
+.audio-time{font-size:12.5px;color:var(--text2);font-variant-numeric:tabular-nums;font-weight:600}
+#global-audio-box{margin:10px 12px 0}
+
+/* ── PASSAGE-STYLE TEXT ── */
+.passage-title{font-size:19px;font-weight:800;color:var(--text);margin-bottom:4px;text-align:left;line-height:1.3}
+.passage-subtitle{font-size:12.5px;color:var(--text2);margin-bottom:18px;font-style:italic}
+.section-instructions{font-size:15px;color:var(--text2);line-height:1.75;margin-bottom:16px;background:var(--panel-solid);border:1px dashed var(--border);border-radius:var(--radius-md);padding:14px 18px}
+.section-instructions b{color:var(--accent)}
+
+/* ── ONE-CLICK HIGHLIGHT (no toolbar needed) ── */
+.hl-auto{background:#ffe066;color:#1c1c1e;border-radius:3px;padding:0 2px;cursor:pointer}
+html[data-theme="dark"] .hl-auto{background:#ffd24d;color:#1c1c1e}
+::selection{background:rgba(124,58,237,.25)}
+
+/* ── VOCAB / TRANSLATE ── */
+.vocab-word{border-bottom:2px dotted var(--accent);cursor:pointer;background:var(--accent-light);border-radius:3px;padding:0 1px}
+.vocab-word:hover{color:var(--accent)}
+.tooltip-box{display:none;position:fixed;z-index:9999;background:rgba(28,28,32,.88);backdrop-filter:blur(18px);color:#fff;border-radius:14px;padding:13px 16px;font-size:14px;max-width:270px;box-shadow:0 12px 30px rgba(0,0,0,.4);pointer-events:none;line-height:1.5;border:1px solid rgba(255,255,255,.1)}
+.t-word{font-size:15px;font-weight:700;color:#ff9fa8;margin-bottom:3px}
+.t-pron{font-size:12px;color:#9ca3af;margin-bottom:5px;font-style:italic}
+.t-uz{font-size:14px;color:#ffd479;font-weight:600;margin-bottom:4px}
+.t-def{font-size:12px;color:#d1d5db}
+
+/* ── NOTES LIST ── */
+.notes-block{margin-bottom:8px}
+.notes-block h4{font-size:14px;font-weight:800;color:var(--text);margin:18px 0 10px}
+.notes-block h5{font-size:13px;font-weight:800;color:var(--accent);margin:16px 0 8px}
+.notes-list{list-style:none;padding-left:0}
+.notes-list li{font-size:15.5px;line-height:2.05;color:var(--text)}
+.notes-list ul{list-style:none;padding-left:20px}
+.notes-list ul li::before{content:'– ';color:var(--text3)}
+
+/* Text-completion inline input */
+.sc-input{display:inline-block;min-width:140px;padding:8px 14px;border-radius:99px;border:1.5px solid var(--border);background:var(--panel-solid);color:var(--text);font-size:15px;font-weight:600;font-family:inherit;outline:none;transition:.15s;text-align:center}
+.sc-input:focus{border-color:var(--accent);background:var(--panel-solid)}
+.sc-input.correct{border-color:var(--green);background:var(--green-bg);color:var(--green);font-weight:700}
+.sc-input.wrong{border-color:var(--redx);background:var(--red-bg);color:var(--redx);font-weight:700}
+
+/* ── MCQ chip (single-select A/B/C with full text) ── */
+.multi-block{padding:16px 18px 14px;border:1px solid var(--border);border-radius:var(--radius-md);margin-bottom:14px;background:var(--panel-solid)}
+.multi-hint{font-size:15.5px;color:var(--text);margin-bottom:12px;font-weight:700;line-height:1.55}
+.multi-opts{display:flex;flex-direction:column;gap:7px}
+.multi-opt{display:flex;align-items:center;gap:11px;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-size:15px;color:var(--text);transition:all .15s}
+.multi-opt:hover{border-color:var(--accent);background:var(--accent-light)}
+.multi-opt.selected{border-color:var(--accent);background:var(--accent-light);font-weight:600}
+.multi-opt.correct{border-color:var(--green);background:var(--green-bg);color:var(--green)}
+.multi-opt.wrong{border-color:var(--redx);background:var(--red-bg);color:var(--redx)}
+.multi-check{width:20px;height:20px;border-radius:6px;border:1.5px solid #b8b8b8;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;color:#fff}
+.multi-opt.selected .multi-check{background:var(--accent);border-color:var(--accent)}
+.multi-opt.correct .multi-check{background:var(--green);border-color:var(--green)}
+.multi-opt.wrong .multi-check{background:var(--redx);border-color:var(--redx)}
+.multi-letter{font-weight:700;color:var(--text3);min-width:16px}
+
+/* ── TAP-TO-PLACE LETTER BANK (Q13-14, Q15-20, Q25-30) ── */
+.dragbank{background:var(--panel-solid);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 16px;margin-bottom:16px}
+.dragbank h4{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:10px}
+.dragbank-items{display:flex;flex-wrap:wrap;gap:8px}
+.drag-chip{padding:8px 15px;border:1.5px solid var(--accent);border-radius:99px;font-size:13px;font-weight:700;cursor:pointer;background:transparent;color:var(--accent);transition:all .15s;user-select:none}
+.drag-chip:hover{background:var(--accent-light);transform:translateY(-1px)}
+.drag-chip.tap-armed{outline:3px solid var(--yellow);outline-offset:2px;background:var(--yellow-bg);transform:scale(1.06)}
+.dq-block{padding:14px 18px;border:1px solid var(--border);border-radius:var(--radius-md);margin-bottom:10px;background:var(--panel-solid)}
+.dq-text{font-size:15.5px;color:var(--text);line-height:1.75;margin-bottom:2px}
+.dq-text b{color:var(--accent)}
+.drop-zone{display:inline-flex;align-items:center;justify-content:center;min-width:52px;min-height:30px;border:1.5px dashed var(--border);border-radius:99px;background:var(--panel);font-size:13.5px;font-weight:700;color:var(--text3);padding:5px 13px;transition:all .15s;cursor:pointer}
+.drop-zone.armed-target{border-color:var(--yellow);background:var(--yellow-bg);animation:armed-pulse 1s infinite}
+@keyframes armed-pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,149,0,.4)}50%{box-shadow:0 0 0 5px rgba(255,149,0,0)}}
+.drop-zone.filled{border-style:solid;border-color:var(--accent);background:var(--accent-light);color:var(--accent)}
+.drop-zone.correct{border-color:var(--green);background:var(--green-bg);color:var(--green)}
+.drop-zone.wrong{border-color:var(--redx);background:var(--red-bg);color:var(--redx)}
+.optbank-block{padding:14px 18px;border:1px dashed var(--border);border-radius:var(--radius-md);margin-bottom:14px;background:var(--panel-solid);font-size:14.5px;color:var(--text2);line-height:2}
+.optbank-block b{color:var(--accent)}
+
+/* ── FOOTER NAV ── */
+.exam-footer{position:fixed;bottom:10px;left:12px;right:12px;border-radius:var(--radius-lg);padding:9px 14px;display:flex;align-items:center;gap:10px;z-index:200}
+.q-nav-row{display:flex;gap:5px;flex:1;overflow-x:auto;align-items:center;scrollbar-width:none}
+.q-nav-row::-webkit-scrollbar{display:none}
+.q-nav-btn{width:28px;height:28px;border-radius:50%;border:1px solid var(--border);font-size:11px;font-weight:700;cursor:pointer;transition:.15s;background:var(--panel-solid);color:var(--text);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.q-nav-btn:hover{border-color:var(--accent)}
+.q-nav-btn.answered{background:var(--accent-light);border-color:var(--accent);color:var(--accent)}
+.q-nav-btn.correct{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+.q-nav-btn.wrong-nav{background:var(--red-bg);border-color:var(--redx);color:var(--redx)}
+.q-nav-row{overflow-x:visible}
+.q-nav-btn.q-nav-section{width:auto;flex:1;height:38px;border-radius:99px;font-size:13px;font-weight:800;padding:0 8px;background:var(--panel-solid);border:1.5px solid var(--border);color:var(--text)}
+.q-nav-btn.q-nav-section.answered{background:var(--accent-light);border-color:var(--accent);color:var(--accent)}
+.q-nav-btn.q-nav-section.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.answered-count{font-size:11.5px;color:var(--text3);white-space:nowrap}
+select.sc-input{cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M0 0l5 6 5-6z' fill='%236e6e73'/></svg>");background-repeat:no-repeat;background-position:right 12px center;padding-right:26px}
+select.sc-input.correct,select.sc-input.wrong{background-image:none}
+.check-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:11px 22px;font-size:13px;font-weight:700;cursor:pointer;transition:.2s;flex-shrink:0;white-space:nowrap}
+.check-btn:hover{background:var(--accent-dark)}
+.check-btn.done{background:var(--green)}
+
+/* ── RESULT MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,10,14,.45);backdrop-filter:blur(6px);z-index:2000;display:flex;justify-content:center;align-items:center;padding:16px}
+.modal-overlay.hidden{display:none}
+.modal-box{background:var(--panel-solid);backdrop-filter:var(--blur);border-radius:var(--radius-xl);width:100%;max-width:760px;max-height:88vh;display:flex;flex-direction:column;border:1px solid var(--glass-hi);box-shadow:var(--shadow);color:var(--text);overflow:hidden}
+.modal-header{padding:20px 24px 14px;border-bottom:1px solid var(--hairline);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-header h2{font-size:18px;font-weight:800;color:var(--text)}
+.modal-close{background:var(--border);border:none;width:30px;height:30px;border-radius:50%;font-size:18px;cursor:pointer;color:var(--text2);line-height:1}
+.modal-score-row{display:flex;gap:10px;justify-content:center;padding:14px 22px;border-bottom:1px solid var(--hairline);flex-shrink:0;flex-wrap:wrap}
+.score-pill{background:var(--panel);border:1px solid var(--border);border-radius:99px;padding:7px 18px;font-size:13.5px;font-weight:700;color:var(--text)}
+.modal-body{overflow-y:auto;padding:16px 22px 22px;flex:1}
+.res-filter-bar{display:flex;gap:6px;margin-bottom:14px;background:var(--border);padding:4px;border-radius:99px;width:fit-content}
+.res-filter-btn{background:transparent;border:none;border-radius:99px;padding:6px 15px;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--text2);transition:.2s}
+.res-filter-btn.active{background:var(--panel-solid);color:var(--accent);box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.res-row{display:grid;grid-template-columns:44px 1fr 1fr 84px;gap:8px;padding:11px 6px;border-bottom:1px solid var(--hairline);font-size:13px;align-items:start}
+.res-row.is-correct{background:rgba(34,165,89,.05)}
+.res-row.is-wrong{background:rgba(255,59,48,.05)}
+.res-row.is-skipped{background:rgba(255,149,0,.06)}
+.res-num{font-weight:700;color:var(--text);background:var(--panel);border:1px solid var(--border);border-radius:8px;width:34px;height:27px;display:flex;align-items:center;justify-content:center}
+.res-user{background:var(--panel);border:1px solid var(--border);padding:3px 7px;border-radius:7px;color:var(--text);font-size:12.5px;word-break:break-word}
+.res-correct{color:var(--green);font-weight:600;background:var(--green-bg);border:1px solid rgba(34,165,89,.25);padding:3px 7px;border-radius:7px;font-size:12.5px;word-break:break-word}
+.res-badge{justify-self:end;padding:3px 10px;border-radius:99px;font-size:10.5px;font-weight:700;white-space:nowrap;align-self:center}
+.res-badge.ok{background:var(--green-bg);color:var(--green);border:1px solid rgba(34,165,89,.3)}
+.res-badge.bad{background:var(--red-bg);color:var(--redx);border:1px solid rgba(255,59,48,.3)}
+.res-badge.skip{background:var(--yellow-bg);color:var(--yellow);border:1px solid rgba(255,149,0,.3)}
+.res-explain-en{font-size:12.5px;color:var(--text2);line-height:1.5;background:var(--panel);border-radius:8px;padding:9px 11px;margin-top:6px;grid-column:1/-1}
+.res-explain-uz{font-size:12.5px;color:var(--text);line-height:1.5;background:var(--accent-light);border-radius:8px;padding:9px 11px;margin-top:4px;grid-column:1/-1;border-left:3px solid var(--accent)}
+.modal-actions{display:flex;gap:8px;justify-content:center;padding:14px 22px;border-top:1px solid var(--hairline);flex-shrink:0;flex-wrap:wrap}
+.modal-btn{padding:10px 20px;border-radius:99px;font-size:13.5px;font-weight:700;cursor:pointer;transition:.2s;border:1.5px solid var(--border);background:var(--panel);color:var(--text)}
+.modal-btn:hover{border-color:var(--accent);color:var(--accent)}
+.modal-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}.modal-btn.primary:hover{background:var(--accent-dark)}
+.modal-btn.tg{background:var(--tg);color:#fff;border-color:var(--tg)}.modal-btn.tg:hover{background:#0077b3}
+
+@media(max-width:700px){
+  .exam-body{margin:8px}
+  .home-card,.login-card{padding:30px 20px}
+  .header-pills{display:none}
+  .tg-float span{display:none}
+  .exam-header{margin:8px 8px 0;padding:8px 12px}
+  .part-banner{margin:8px 8px 0}
+  .exam-footer{left:8px;right:8px}
+  .res-row{grid-template-columns:1fr}
+  .res-badge{justify-self:start}
+  .exam-body.review-mode{flex-direction:column;overflow-y:auto}
+  .exam-body.review-mode .transcript-pane,.exam-body.review-mode .pane-single{flex:1 1 auto;overflow-y:visible}
+}
+:fullscreen .screen.active{height:100vh}
+</style>
+
+<style id="startielts-unified-design">
+/* ===== StartIELTS unified design (auto-injected) ===== */
+:root{
+  --brand:#7c3aed; --brand-dark:#6d28d9; --brand-light:rgba(124,58,237,.08);
+  --sui-border:#e5e7eb; --sui-text:#1f2937; --sui-muted:#6b7280; --sui-bg:#f9fafb;
+}
+html{ -webkit-text-size-adjust:100%; }
+body{
+  font-family:'Segoe UI',system-ui,-apple-system,BlinkMacSystemFont,Roboto,'Helvetica Neue',Arial,sans-serif !important;
+  color:var(--sui-text);
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+h1,h2,h3,h4{ font-family:inherit; letter-spacing:-0.01em; }
+::selection{ background:rgba(124,58,237,.18); }
+::placeholder{ color:#9ca3af; }
+:focus-visible{ outline:2px solid #7c3aed; outline-offset:2px; }
+/* form controls */
+input[type="radio"], input[type="checkbox"]{ accent-color:var(--brand) !important; }
+input[type="text"], input[type="number"], input[type="email"], input[type="password"],
+.answer-input, .inline-input, textarea, select{
+  font:inherit; color:var(--sui-text);
+  border:1.5px solid var(--sui-border); border-radius:12px;
+  background:#fff; padding:10px 14px;
+  transition:border-color .15s, box-shadow .15s;
+}
+input[type="text"]:focus, input[type="number"]:focus, .answer-input:focus,
+.inline-input:focus, textarea:focus, select:focus{
+  outline:none; border-color:#7c3aed; box-shadow:0 0 0 3px rgba(124,58,237,.15);
+}
+/* option rows (multiple choice / T-F / matching) */
+.choice-option, .radio-option, .opt, .opt-btn, .tf-option, .answer-radio{
+  border-radius:10px;
+}
+.choice-option:hover, .radio-option:hover, .opt:hover, .opt-btn:hover{ filter:brightness(.985); }
+/* buttons */
+button{ font-family:inherit; border-radius:10px; }
+button:disabled{ opacity:.55; cursor:not-allowed; }
+/* scrollbars */
+::-webkit-scrollbar{ width:10px; height:10px; }
+::-webkit-scrollbar-track{ background:transparent; }
+::-webkit-scrollbar-thumb{ background:#cbd5e1; border-radius:8px; border:2px solid transparent; background-clip:content-box; }
+::-webkit-scrollbar-thumb:hover{ background:#94a3b8; background-clip:content-box; }
+/* media & iframe canvas never overflow */
+img, svg, video{ max-width:100%; height:auto; }
+/* accent vars used by the different generator families */
+:root{ --accent:#7c3aed; --accent-dark:#6d28d9; --accent-light:var(--brand-light); --logo:#2563eb; --blue:#2563eb; }
+
+/* ===== mock-runner skin — matches the app's Full Mock Exam look ===== */
+/* selected / checked option rows: pale violet fill, rounded */
+.choice-option.selected,
+.radio-option.selected,
+.opt.selected,
+.opt-btn.selected,
+.tf-option.selected,
+label:has(> input[type="radio"]:checked),
+label:has(> input[type="checkbox"]:checked){
+  background:rgba(124,58,237,.08) !important;
+}
+.choice-option, .radio-option, .opt, .opt-btn, .tf-option{
+  border-radius:12px !important;
+}
+.choice-option:hover, .radio-option:hover, .opt:hover, .opt-btn:hover{ background:#f5f3ff; }
+/* question-number navigation chips: rounded, violet when active */
+.question-number-btn, .q-num, .page-btn{
+  border-radius:10px !important;
+}
+.question-number-btn.active, .q-num.active{
+  background:#7c3aed !important; color:#fff !important; border-color:#7c3aed !important;
+}
+.question-number-btn.answered{ background:#ede9fe !important; border-color:#8b5cf6 !important; }
+/* primary submit button: solid blue pill like the mock runner's Next button */
+.submit-btn, .check-btn, .finish-btn{
+  background:#2563eb !important; color:#fff !important;
+  border-radius:10px !important; font-weight:700 !important;
+}
+.submit-btn:hover, .check-btn:hover, .finish-btn:hover{ background:#1d4ed8 !important; }
+/* radios/checkboxes: violet accent */
+input[type="radio"], input[type="checkbox"]{ accent-color:#7c3aed !important; }
+/* question blocks breathe — card-like rhythm like the mock runner */
+.mc-question, [data-question], .question-block, .tf-question, .q-card{
+  margin-bottom:14px;
+}
+/* question groups become mock-runner cards: white, rounded, soft border */
+.mc-question, .tf-question, .question-block, .qgroup, .q-item{
+  background:#fff; border:1px solid var(--sui-border); border-radius:16px;
+  padding:16px 18px; box-shadow:0 1px 2px rgba(16,24,40,.04);
+  margin-bottom:14px;
+}
+.q-item{ padding:12px 14px; }
+/* part intro / instructions: light violet banner like the mock runner */
+.part-banner, .part-intro, .part-instructions, .part-header p{
+  background:#f5f3ff; border-radius:12px; padding:10px 16px; color:#5b21b6;
+}
+.mc-question p, .question-text{ font-weight:600; color:var(--sui-text); }
+/* inline checkbox/radio labels get clickable pill spacing */
+.mc-question label, .choice-options label{
+  display:inline-flex; align-items:center; gap:7px;
+  padding:5px 12px; margin:3px 6px 3px 0;
+  border:1px solid var(--sui-border); border-radius:999px;
+  background:#fff; cursor:pointer;
+  transition:background .12s, border-color .12s;
+}
+.mc-question label:hover, .choice-options label:hover{ background:#f5f3ff; border-color:#ddd6fe; }
+.mc-question label:has(input:checked){ background:rgba(124,58,237,.08); border-color:#c4b5fd; }
+/* section headings inside tests: semibold, slate */
+.part-content h2, .part-content h3{ color:var(--sui-text); }
+/* ===== end mock-runner skin ===== */
+/* ===== force the light exam theme — the mock runner is always light ===== */
+html{ color-scheme:light; }
+html[data-theme="dark"]{
+  --bg:#eef0f4; --bg-blob-1:#f5f3ff; --bg-blob-2:#eef2ff; --bg-blob-3:#f0fdf4;
+  --panel:rgba(255,255,255,.62); --panel-solid:#ffffff;
+  --text:#1c1c1e; --text2:#6e6e73; --text3:#98989d;
+  --border:rgba(60,60,67,.13); --hairline:rgba(60,60,67,.08);
+  --accent:#7c3aed; --accent-dark:#6d28d9; --accent-light:rgba(124,58,237,.10);
+  --green:#22a559; --green-bg:rgba(34,165,89,.14);
+  --redx:#ff3b30; --red-bg:rgba(255,59,48,.12);
+  --yellow:#ff9500; --yellow-bg:rgba(255,149,0,.15);
+  --glass-hi:rgba(255,255,255,.85); --glass-lo:rgba(255,255,255,.18);
+  --shadow:0 10px 40px rgba(31,38,55,.10),0 1px 2px rgba(31,38,55,.06);
+}
+/* dark-mode toggles are locked to light — hide the now-useless switches */
+.theme-btn, [id^="theme-toggle"], [id^="theme-knob"], [id^="themeBtn"], .knob,
+.iconbtn[title*="Dark"], .iconbtn[title*="dark"], button[title*="Dark / light"],
+button[title*="dark mode" i], [title*="dark mode" i]{ display:none !important; }
+/* ===== mobile responsiveness (320–430px) — split panels stack, grids collapse ===== */
+@media (max-width:640px){
+  body{ overflow-y:auto !important; }
+  .screen{ height:auto !important; min-height:100vh; }
+  /* any 50/50 split becomes a stacked column; resizer is meaningless on touch */
+  .body-area{ flex-direction:column !important; overflow-y:auto !important; -webkit-overflow-scrolling:touch; }
+  .pane{ overflow:visible !important; padding:14px 12px 32px !important; }
+  .pane.left, .pane.right{ flex:0 0 auto !important; }
+  .resizer{ display:none !important; }
+  /* multi-column grids collapse to a single column */
+  .res-row, .navrow, .modal-score-row{ grid-template-columns:1fr !important; }
+  /* text inputs stay usable above the mobile keyboard */
+  input[type="text"], input[type="number"], .answer-input, .inline-input, textarea, select{ font-size:16px !important; }
+  /* touch-friendly option rows and nav chips */
+  .mc-question label, .choice-options label{ padding:9px 14px; margin:4px 6px 4px 0; }
+  .question-number-btn, .q-num, .page-btn{ min-width:34px; min-height:34px; }
+  /* header bars wrap instead of clipping */
+  .bar-right{ gap:2px; }
+  .iconbtn{ width:30px; height:30px; }
+  /* wide tables and pre blocks scroll inside their own container */
+  table{ display:block; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  pre{ overflow-x:auto; }
+  /* footer nav rows stay reachable */
+  .navscroll, .navgroup{ overflow-x:auto; max-width:100%; }
+}
+/* ===== end StartIELTS unified design ===== */
+</style>
+<script id="startielts-unified-design-js">
+(function(){try{
+  var el=document.documentElement;
+  var lock=function(){ if(el.getAttribute('data-theme')!=='light') el.setAttribute('data-theme','light'); };
+  lock();
+  new MutationObserver(lock).observe(el,{attributes:true,attributeFilter:['data-theme']});
+}catch(e){}})();
+</script>
+</head>
+<body>
+
+<div class="liquid-bg"><span></span><span></span><span></span></div>
+
+<div class="tooltip-box" id="tooltip"></div>
+
+<!-- ══ LOGIN ══ -->
+<div class="screen active" id="login-screen">
+  <button class="icon-btn home-theme-btn" id="theme-toggle-login" title="Dark mode">
+    <svg id="theme-icon-login" viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg>
+  </button>
+  <div class="login-card glass">
+    <div class="login-logo">IELTS<span>@reading_cdi · Kirish</span></div>
+    <h1>Xush kelibsiz 👋</h1>
+    <p class="login-sub">Testni boshlash uchun login va parolni kiriting</p>
+
+    <div class="login-field">
+      <label for="login-user">Login</label>
+      <input type="text" id="login-user" class="login-input" placeholder="reading_cdi" autocomplete="username">
+    </div>
+    <div class="login-field">
+      <label for="login-pass">Parol</label>
+      <input type="password" id="login-pass" class="login-input" placeholder="reading_cdi" autocomplete="current-password">
+    </div>
+    <div class="login-error" id="login-error">Login yoki parol noto'g'ri. Qaytadan urinib ko'ring.</div>
+
+    <button class="login-btn" onclick="checkLogin()">Kirish</button>
+
+    
+    <div class="login-hint">Barcha yangi testlar va materiallar Telegram kanalimizda</div>
+  </div>
+</div>
+
+<!-- ══ HOME ══ -->
+<div class="screen" id="home-screen">
+  <button class="icon-btn home-theme-btn" id="theme-toggle-home" title="Dark mode">
+    <svg id="theme-icon-home" viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg>
+  </button>
+  <div class="home-card glass">
+    <div class="home-logo">IELTS<span>@reading_cdi · Listening</span></div>
+    <div class="home-badge">🎧 Academic Listening</div>
+    <h1>IELTS Listening Practice Test</h1>
+    <p class="home-sub">4 sections · Accommodation, Nature Park, Academic Discussion, Drama in Education</p>
+    <p>40 questions · 40 minutes (incl. transfer time) · Notes Completion + Multiple Choice + Matching. Tap underlined words for instant Uzbek translation. Just click-drag over any text to highlight it instantly — no toolbar needed.</p>
+    <div class="home-meta">
+      <div class="home-meta-item"><div class="val">40</div><div class="lbl">Questions</div></div>
+      <div class="home-meta-item"><div class="val">40:00</div><div class="lbl">Time limit</div></div>
+      <div class="home-meta-item"><div class="val">4</div><div class="lbl">Sections</div></div>
+    </div>
+    <br>
+    <button class="start-btn" onclick="startExam()">Start Test</button>
+    <br>
+    
+  </div>
+</div>
+
+<!-- ══ EXAM ══ -->
+<div class="screen" id="exam-screen">
+  <div class="exam-header glass">
+    <div class="header-left">
+      <div>
+        <div class="exam-logo">IELTS</div>
+        <div class="exam-sub">@reading_cdi</div>
+      </div>
+      <div class="header-pills">
+        
+        
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="exit-link" onclick="confirmExit()">Exit</span>
+      <div class="timer-box" id="timer-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        <span class="timer-val" id="timer-val">40:00</span>
+      </div>
+      <button class="icon-btn" id="timer-toggle" title="Pause/Resume">
+        <svg id="timer-icon" viewBox="0 0 24 24" width="15" height="15"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+      </button>
+      <button class="icon-btn" id="timer-reset" title="Reset Timer">
+        <svg viewBox="0 0 24 24" width="15" height="15"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+      </button>
+      <button class="icon-btn" onclick="toggleFullscreen()" title="Fullscreen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+      </button>
+      <button class="ios-switch" id="theme-toggle-exam" title="Dark mode"><span class="knob" id="theme-knob-exam">☀️</span></button>
+    </div>
+  </div>
+
+  <div class="part-banner glass" id="part-banner"><b>Listening Part 1</b> — Questions 1–10. You will hear the recording once.</div>
+
+  <div class="audio-box glass" id="global-audio-box">
+    <div class="audio-box-title">🔊 Test Audio — one recording for the whole test</div>
+    <audio id="global-audio" preload="none">
+      <source src="https://raw.githubusercontent.com/Shaxxriyor/ielts-audio/main/section-1mp3-xxsvw_nzuc0CTO%20(1).mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    <div class="audio-controls-custom">
+      <button class="audio-play-btn" id="audio-play-btn" onclick="startGlobalAudio()">▶ Play Audio</button>
+      <span class="audio-time" id="audio-time-display">00:00 / 00:00</span>
+    </div>
+    <div class="audio-note">You can press Play only once, and the recording cannot be paused — exactly as in the real IELTS test.</div>
+    <div class="audio-note" id="audio-review-note" style="display:none;color:var(--accent);font-weight:600">✅ Test finished — you can now play, pause, and rewind the audio freely to check the transcript.</div>
+  </div>
+
+  
+
+  <div class="exam-body" id="exam-body">
+    <div class="transcript-pane glass" id="transcript-pane">
+      <div class="transcript-header">📝 Transcript — <span id="transcript-part-label">Section 1</span></div>
+      <div class="transcript-body" id="transcript-body">Transcript not added yet for this section.</div>
+    </div>
+    <div class="pane-single glass" id="pane-single">
+
+      <!-- ══ SECTION 1 ══ -->
+      <div class="part-panel active" id="part1">
+        <div class="passage-title">Section 1 — Accommodation Request</div>
+        <div class="passage-subtitle">A phone conversation between a letting agent and a prospective tenant</div>
+        <div class="section-instructions"><b>Questions 1–10.</b> Complete the notes below. Write <b>NO MORE THAN TWO WORDS AND/OR A NUMBER</b> for each answer.</div>
+
+        <div class="notes-block">
+          <h4>Accommodation Request</h4>
+          <ul class="notes-list">
+            <li>Type of <span class="vocab-word" data-word="accommodation">accommodation</span>: a house</li>
+            <li>Preferred location: the <b>1</b> <input type="text" class="sc-input" id="sc-1" data-qnum="1" autocomplete="off"> of the town</li>
+            <li>Facilities required:
+              <ul>
+                <li><span class="vocab-word" data-word="furnished">furnished</span> property</li>
+                <li>with a <b>2</b> <input type="text" class="sc-input" id="sc-2" data-qnum="2" autocomplete="off"></li>
+              </ul>
+            </li>
+            <li>Period of time required: one year</li>
+            <li>Start date of rental period: <b>3</b> <input type="text" class="sc-input" id="sc-3" data-qnum="3" autocomplete="off"></li>
+            <li>Present address: 56, Stone Street</li>
+            <li>Phone number: (mobile) 07942 326584</li>
+            <li>Reference from: her <b>4</b> <input type="text" class="sc-input" id="sc-4" data-qnum="4" autocomplete="off"> (<span class="vocab-word" data-word="employer">employer</span>)</li>
+            <li>Maximum rent: <b>5</b> <input type="text" class="sc-input" id="sc-5" data-qnum="5" autocomplete="off"> £ per month</li>
+            <li>Applicant's job: <b>6</b> <input type="text" class="sc-input" id="sc-6" data-qnum="6" autocomplete="off"></li>
+            <li>Documents to be supplied:
+              <ul>
+                <li>ID check: <span class="vocab-word" data-word="applicant">applicant</span>'s passport</li>
+                <li>Credit check: a <b>7</b> <input type="text" class="sc-input" id="sc-7" data-qnum="7" autocomplete="off"></li>
+              </ul>
+            </li>
+            <li><span class="vocab-word" data-word="viewing">Viewing</span> arrangements:
+              <ul>
+                <li>Address of property: 33, <b>8</b> <input type="text" class="sc-input" id="sc-8" data-qnum="8" autocomplete="off"> Street</li>
+                <li>Viewing day and time: Saturday 4 p.m.</li>
+              </ul>
+            </li>
+            <li>To check:
+              <ul>
+                <li>Is there a <b>9</b> <input type="text" class="sc-input" id="sc-9" data-qnum="9" autocomplete="off"> in the house?</li>
+                <li>Is there a <b>10</b> <input type="text" class="sc-input" id="sc-10" data-qnum="10" autocomplete="off"> nearby?</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ══ SECTION 2 ══ -->
+      <div class="part-panel" id="part2">
+        <div class="passage-title">Section 2 — Green Island Nature Park</div>
+        <div class="passage-subtitle">A guide's talk to visitors at a nature park</div>
+        <div class="section-instructions"><b>Questions 11 and 12.</b> Choose the correct letter, A, B, or C.</div>
+
+        <div class="multi-block" id="qblock-11">
+          <div class="multi-hint">11. Which natural feature of Green Island is special?</div>
+          <div class="multi-opts">
+            <div class="multi-opt" id="mc-11-A" onclick="selectMC(11,'A')"><div class="multi-check">✓</div><span class="multi-letter">A</span><span>The water</span></div>
+            <div class="multi-opt" id="mc-11-B" onclick="selectMC(11,'B')"><div class="multi-check">✓</div><span class="multi-letter">B</span><span>The birds</span></div>
+            <div class="multi-opt" id="mc-11-C" onclick="selectMC(11,'C')"><div class="multi-check">✓</div><span class="multi-letter">C</span><span>The fish</span></div>
+          </div>
+        </div>
+        <div class="multi-block" id="qblock-12">
+          <div class="multi-hint">12. Who started the nature park?</div>
+          <div class="multi-opts">
+            <div class="multi-opt" id="mc-12-A" onclick="selectMC(12,'A')"><div class="multi-check">✓</div><span class="multi-letter">A</span><span>Mitchell Cullen</span></div>
+            <div class="multi-opt" id="mc-12-B" onclick="selectMC(12,'B')"><div class="multi-check">✓</div><span class="multi-letter">B</span><span>Churchill Peters</span></div>
+            <div class="multi-opt" id="mc-12-C" onclick="selectMC(12,'C')"><div class="multi-check">✓</div><span class="multi-letter">C</span><span>Joseph Turia</span></div>
+          </div>
+        </div>
+
+        <div class="section-instructions"><b>Questions 13 and 14.</b> Choose <b>TWO</b> letters, A–E.<br><b>Which TWO conditions are best for seeing fish?</b></div>
+        <div class="optbank-block"><b>A</b> Summer days &nbsp; <b>B</b> No wind &nbsp; <b>C</b> Early morning &nbsp; <b>D</b> High tide &nbsp; <b>E</b> No rain for one week</div>
+        <div class="dq-block"><div class="dq-text"><b>13.</b>
+          <select class="sc-input" id="q13" data-qnum="13" onchange="if(reviewed)return;userAnswers[13]=this.value;updateNav();">
+            <option value="">select</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+          </select>
+        </div></div>
+        <div class="dq-block"><div class="dq-text"><b>14.</b>
+          <select class="sc-input" id="q14" data-qnum="14" onchange="if(reviewed)return;userAnswers[14]=this.value;updateNav();">
+            <option value="">select</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+          </select>
+        </div></div>
+
+        <div class="section-instructions"><b>Questions 15–20.</b> What are the rules for the following activities in the nature park?<br><b>A</b> Visitors can always do this &nbsp; <b>B</b> Visitors can sometimes do this &nbsp; <b>C</b> Visitors must not do this</div>
+        <div class="dragbank" id="bank-1520">
+          <h4>👉 Tap a letter, then tap the blank</h4>
+          <div class="dragbank-items">
+            <div class="drag-chip" data-key="A" data-bank="b1520">A</div>
+            <div class="drag-chip" data-key="B" data-bank="b1520">B</div>
+            <div class="drag-chip" data-key="C" data-bank="b1520">C</div>
+          </div>
+        </div>
+        <div class="dq-block"><div class="dq-text"><b>15.</b> play games on the beach — <span class="drop-zone" id="q15" data-bank="b1520" data-qnum="15">tap here</span></div></div>
+        <div class="dq-block"><div class="dq-text"><b>16.</b> feed the fish — <span class="drop-zone" id="q16" data-bank="b1520" data-qnum="16">tap here</span></div></div>
+        <div class="dq-block"><div class="dq-text"><b>17.</b> touch the fish on purpose — <span class="drop-zone" id="q17" data-bank="b1520" data-qnum="17">tap here</span></div></div>
+        <div class="dq-block"><div class="dq-text"><b>18.</b> take <span class="vocab-word" data-word="underwater">underwater</span> photographs — <span class="drop-zone" id="q18" data-bank="b1520" data-qnum="18">tap here</span></div></div>
+        <div class="dq-block"><div class="dq-text"><b>19.</b> climb on Green Island — <span class="drop-zone" id="q19" data-bank="b1520" data-qnum="19">tap here</span></div></div>
+        <div class="dq-block"><div class="dq-text"><b>20.</b> use a private boat — <span class="drop-zone" id="q20" data-bank="b1520" data-qnum="20">tap here</span></div></div>
+      </div>
+
+      <!-- ══ SECTION 3 ══ -->
+      <div class="part-panel" id="part3">
+        <div class="passage-title">Section 3 — Academic Discussion</div>
+        <div class="passage-subtitle">Two students, Mike and Sarah, discuss a research presentation about music and memory</div>
+        <div class="section-instructions"><b>Questions 21–24.</b> Choose the correct letter, A, B, or C.</div>
+
+        <div class="multi-block" id="qblock-21">
+          <div class="multi-hint">21. The lecturer likes the topic because</div>
+          <div class="multi-opts">
+            <div class="multi-opt" id="mc-21-A" onclick="selectMC(21,'A')"><div class="multi-check">✓</div><span class="multi-letter">A</span><span>it links to a previous research topic.</span></div>
+            <div class="multi-opt" id="mc-21-B" onclick="selectMC(21,'B')"><div class="multi-check">✓</div><span class="multi-letter">B</span><span>the whole class will be interested in it.</span></div>
+            <div class="multi-opt" id="mc-21-C" onclick="selectMC(21,'C')"><div class="multi-check">✓</div><span class="multi-letter">C</span><span>there is plenty of information to write about.</span></div>
+          </div>
+        </div>
+        <div class="multi-block" id="qblock-22">
+          <div class="multi-hint">22. When talking about their teenage years, <span class="vocab-word" data-word="participants">participants</span> in a study were asked to say</div>
+          <div class="multi-opts">
+            <div class="multi-opt" id="mc-22-A" onclick="selectMC(22,'A')"><div class="multi-check">✓</div><span class="multi-letter">A</span><span>how often they listened to music</span></div>
+            <div class="multi-opt" id="mc-22-B" onclick="selectMC(22,'B')"><div class="multi-check">✓</div><span class="multi-letter">B</span><span>who some music reminded them of</span></div>
+            <div class="multi-opt" id="mc-22-C" onclick="selectMC(22,'C')"><div class="multi-check">✓</div><span class="multi-letter">C</span><span>whether their musical tastes had changed</span></div>
+          </div>
+        </div>
+        <div class="multi-block" id="qblock-23">
+          <div class="multi-hint">23. The study is important because it is the first to</div>
+          <div class="multi-opts">
+            <div class="multi-opt" id="mc-23-A" onclick="selectMC(23,'A')"><div class="multi-check">✓</div><span class="multi-letter">A</span><span>involve so many participants.</span></div>
+            <div class="multi-opt" id="mc-23-B" onclick="selectMC(23,'B')"><div class="multi-check">✓</div><span class="multi-letter">B</span><span>do research into this topic area.</span></div>
+            <div class="multi-opt" id="mc-23-C" onclick="selectMC(23,'C')"><div class="multi-check">✓</div><span class="multi-letter">C</span><span>show a link between music and social class.</span></div>
+          </div>
+        </div>
+        <div class="multi-block" id="qblock-24">
+          <div class="multi-hint">24. Sarah doubts the <span class="vocab-word" data-word="findings">findings</span> of the study because she thinks</div>
+          <div class="multi-opts">
+            <div class="multi-opt" id="mc-24-A" onclick="selectMC(24,'A')"><div class="multi-check">✓</div><span class="multi-letter">A</span><span>the research was rushed.</span></div>
+            <div class="multi-opt" id="mc-24-B" onclick="selectMC(24,'B')"><div class="multi-check">✓</div><span class="multi-letter">B</span><span>some people wouldn't fit the findings.</span></div>
+            <div class="multi-opt" id="mc-24-C" onclick="selectMC(24,'C')"><div class="multi-check">✓</div><span class="multi-letter">C</span><span>the information given may not be <span class="vocab-word" data-word="reliable">reliable</span>.</span></div>
+          </div>
+        </div>
+
+        <div class="section-instructions"><b>Questions 25–30.</b> What comments do Mike and Sarah make about each section of the presentation? Choose six answers, A–G. Tap a letter, then tap the blank.</div>
+        <div class="dragbank" id="bank-2530">
+          <h4>👉 Tap a letter, then tap the blank</h4>
+          <div class="dragbank-items">
+            <div class="drag-chip" data-key="A" data-bank="b2530">A</div>
+            <div class="drag-chip" data-key="B" data-bank="b2530">B</div>
+            <div class="drag-chip" data-key="C" data-bank="b2530">C</div>
+            <div class="drag-chip" data-key="D" data-bank="b2530">D</div>
+            <div class="drag-chip" data-key="E" data-bank="b2530">E</div>
+            <div class="drag-chip" data-key="F" data-bank="b2530">F</div>
+            <div class="drag-chip" data-key="G" data-bank="b2530">G</div>
+          </div>
+        </div>
+        <div class="optbank-block">
+          <b>A</b> the information is inaccurate &nbsp; <b>B</b> not interesting enough &nbsp; <b>C</b> too detailed &nbsp;
+          <b>D</b> the <span class="vocab-word" data-word="statistics">statistics</span> are incomplete &nbsp; <b>E</b> need more expert opinions &nbsp;
+          <b>F</b> need to make it more <span class="vocab-word" data-word="relevant">relevant</span> &nbsp; <b>G</b> present both sides
+        </div>
+        <div class="dq-block"><div class="dq-text"><b>25.</b> Background to the study — <span class="drop-zone" id="q25" data-bank="b2530" data-qnum="25">tap here</span></div></div>
+        <div class="dq-block"><div class="dq-text"><b>26.</b> Other similar research — <span class="drop-zone" id="q26" data-bank="b2530" data-qnum="26">tap here</span></div></div>
+        <div class="dq-block"><div class="dq-text"><b>27.</b> Findings — <span class="drop-zone" id="q27" data-bank="b2530" data-qnum="27">tap here</span></div></div>
+        <div class="dq-block"><div class="dq-text"><b>28.</b> Market research — <span class="drop-zone" id="q28" data-bank="b2530" data-qnum="28">tap here</span></div></div>
+        <div class="dq-block"><div class="dq-text"><b>29.</b> <span class="vocab-word" data-word="limitations">Limitations</span> of the research — <span class="drop-zone" id="q29" data-bank="b2530" data-qnum="29">tap here</span></div></div>
+        <div class="dq-block"><div class="dq-text"><b>30.</b> Future research — <span class="drop-zone" id="q30" data-bank="b2530" data-qnum="30">tap here</span></div></div>
+      </div>
+
+      <!-- ══ SECTION 4 ══ -->
+      <div class="part-panel" id="part4">
+        <div class="passage-title">Section 4 — Effects of Drama Activities on Children</div>
+        <div class="passage-subtitle">A lecture on how drama shapes children's personal development and learning</div>
+        <div class="section-instructions"><b>Questions 31–40.</b> Complete the notes below. Write <b>ONE WORD ONLY</b> for each answer.</div>
+
+        <div class="notes-block">
+          <h5>Drama helps children's personal development</h5>
+          <ul class="notes-list">
+            <li>firstly, group participation develops <b>31</b> <input type="text" class="sc-input" id="sc-31" data-qnum="31" autocomplete="off"> in their own ideas</li>
+            <li><span class="vocab-word" data-word="unscripted">unscripted</span>, <span class="vocab-word" data-word="imaginative">imaginative</span> activities allow children to take <b>32</b> <input type="text" class="sc-input" id="sc-32" data-qnum="32" autocomplete="off"></li>
+            <li>Also, working as a group teaches the importance of <b>33</b> <input type="text" class="sc-input" id="sc-33" data-qnum="33" autocomplete="off"> to others</li>
+            <li>performance makes children <b>34</b> <input type="text" class="sc-input" id="sc-34" data-qnum="34" autocomplete="off"> for their learning and behaviour</li>
+          </ul>
+          <h5>The value of role play in the classroom</h5>
+          <ul class="notes-list">
+            <li>to function as a form of <b>35</b> <input type="text" class="sc-input" id="sc-35" data-qnum="35" autocomplete="off"> for children experiencing difficulties</li>
+            <li>to help children judge their behaviour <span class="vocab-word" data-word="objectively">objectively</span></li>
+            <li>to explore <span class="vocab-word" data-word="controversial">controversial</span> subjects with a class in a <b>36</b> <input type="text" class="sc-input" id="sc-36" data-qnum="36" autocomplete="off"> environment</li>
+            <li>to develop children's self-knowledge and understanding of <b>37</b> <input type="text" class="sc-input" id="sc-37" data-qnum="37" autocomplete="off"></li>
+          </ul>
+          <h5>How drama improves the process of history learning</h5>
+          <ul class="notes-list">
+            <li>drama activities increase children's <b>38</b> <input type="text" class="sc-input" id="sc-38" data-qnum="38" autocomplete="off"> in class</li>
+            <li>make it easier for children to <b>39</b> <input type="text" class="sc-input" id="sc-39" data-qnum="39" autocomplete="off"> and understand historical events</li>
+            <li>find answers to <b>40</b> <input type="text" class="sc-input" id="sc-40" data-qnum="40" autocomplete="off"> in history to see why certain decisions were made</li>
+          </ul>
+        </div>
+      </div>
+
+    </div><!-- /pane-single -->
+  </div><!-- /exam-body -->
+
+  <div class="exam-footer glass">
+    <div class="q-nav-row" id="q-nav-row"></div>
+    <span class="answered-count" id="answered-count">0 / 40</span>
+    <button class="check-btn" id="check-btn" onclick="submitExam()">Check Answers</button>
+  </div>
+</div>
+
+<!-- ══ RESULTS MODAL ══ -->
+<div class="modal-overlay hidden" id="modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>📊 Results — Natijalar</h2>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-score-row">
+      
+      
+      
+      
+    </div>
+    <div class="modal-body">
+      <div class="res-filter-bar">
+        <button class="res-filter-btn active" onclick="setResFilter('all',this)">All 40</button>
+        <button class="res-filter-btn" onclick="setResFilter('wrong',this)">❌ Mistakes</button>
+        <button class="res-filter-btn" onclick="setResFilter('skipped',this)">⏭ Skipped</button>
+      </div>
+      <div id="res-details"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn primary" onclick="closeModal()">Close</button>
+      <button class="modal-btn" onclick="retryTest()">🔄 Retry</button>
+      
+      <button class="modal-btn" onclick="showScreen('home-screen');closeModal()">🏠 Home</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════
+//  LOGIN
+// ══════════════════════════════════════
+const VALID_USER='reading_cdi', VALID_PASS='reading_cdi';
+function checkLogin(){
+  const u=document.getElementById('login-user').value.trim();
+  const p=document.getElementById('login-pass').value.trim();
+  const err=document.getElementById('login-error');
+  if(u===VALID_USER && p===VALID_PASS){
+    err.classList.remove('show');
+    showScreen('home-screen');
+  }else{
+    err.classList.add('show');
+  }
+}
+document.getElementById('login-pass').addEventListener('keydown',e=>{if(e.key==='Enter')checkLogin();});
+document.getElementById('login-user').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('login-pass').focus();});
+
+// ══════════════════════════════════════
+//  THEME (dark / light — Liquid Glass)
+// ══════════════════════════════════════
+function applyTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  const on=t==='dark';
+  document.getElementById('theme-toggle-exam').classList.toggle('on',on);
+  document.getElementById('theme-knob-exam').textContent=on?'🌙':'☀️';
+  const iconPaths={
+    on:'<path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/>',
+    off:'<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>'
+  };
+  document.getElementById('theme-icon-home').innerHTML=on?iconPaths.on:iconPaths.off;
+  document.getElementById('theme-icon-login').innerHTML=on?iconPaths.on:iconPaths.off;
+  try{localStorage.setItem('cdi-theme',t);}catch(e){}
+}
+function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');}
+document.getElementById('theme-toggle-home').addEventListener('click',toggleTheme);
+document.getElementById('theme-toggle-exam').addEventListener('click',toggleTheme);
+document.getElementById('theme-toggle-login').addEventListener('click',toggleTheme);
+(function(){
+  let saved='light';
+  try{saved=localStorage.getItem('cdi-theme')||('light');}catch(e){}
+  applyTheme(saved);
+})();
+
+// ══════════════════════════════════════
+//  VOCAB (instant Uzbek translation)
+// ══════════════════════════════════════
+const VOCAB = {
+  "accommodation": {pron:"/əˌkɒməˈdeɪʃn/",  uz:"turar joy, yashash joyi",           def:"A place to live or stay"},
+  "furnished":     {pron:"/ˈfɜːnɪʃt/",      uz:"jihozlangan",                       def:"Fitted with furniture"},
+  "employer":      {pron:"/ɪmˈplɔɪə/",      uz:"ish beruvchi",                      def:"A person or organisation that employs people"},
+  "applicant":     {pron:"/ˈæplɪkənt/",     uz:"ariza beruvchi, nomzod",            def:"A person who applies for something"},
+  "viewing":       {pron:"/ˈvjuːɪŋ/",       uz:"ko'rish, ko'rikdan o'tkazish",       def:"An occasion of inspecting a property"},
+  "underwater":    {pron:"/ˌʌndəˈwɔːtə/",   uz:"suv osti",                          def:"Situated or occurring beneath the surface of water"},
+  "participants":  {pron:"/pɑːˈtɪsɪpənts/", uz:"ishtirokchilar",                    def:"People who take part in something"},
+  "findings":      {pron:"/ˈfaɪndɪŋz/",     uz:"natijalar, topilmalar",             def:"Information discovered as a result of research"},
+  "reliable":      {pron:"/rɪˈlaɪəbl/",     uz:"ishonchli",                         def:"Consistently good and able to be trusted"},
+  "statistics":    {pron:"/stəˈtɪstɪks/",   uz:"statistika, ma'lumotlar",           def:"Numerical facts collected for analysis"},
+  "relevant":      {pron:"/ˈreləvənt/",     uz:"tegishli, dolzarb",                 def:"Closely connected or applicable to the matter at hand"},
+  "limitations":   {pron:"/ˌlɪmɪˈteɪʃnz/",  uz:"cheklovlar",                        def:"Restrictions or weaknesses in something"},
+  "unscripted":    {pron:"/ʌnˈskrɪptɪd/",   uz:"ssenariysiz, tayyorlanmagan",       def:"Not based on a prepared script"},
+  "imaginative":   {pron:"/ɪˈmædʒɪnətɪv/",  uz:"ijodiy, xayoliy",                   def:"Having or showing creativity"},
+  "objectively":   {pron:"/əbˈdʒektɪvli/",  uz:"xolisona, ob'ektiv ravishda",       def:"Without being influenced by personal feelings"},
+  "controversial":{pron:"/ˌkɒntrəˈvɜːʃl/",  uz:"bahsli, mojaroli",                  def:"Causing public disagreement"},
+};
+
+// ══════════════════════════════════════
+//  QUESTIONS DATA
+// ══════════════════════════════════════
+const SC_ACCEPT = {
+  1:["southeast","south east","south-east"],
+  2:["washing machine"],
+  3:["15 may","15th may","may 15","15/05","15.05","15-05"],
+  4:["employer"],
+  5:["675","£675","675 pounds"],
+  6:["translator"],
+  7:["bank statement"],
+  8:["ainsworth"],
+  9:["telephone","phone","telephone line"],
+  10:["bus stop"],
+  31:["confidence"],
+  32:["risks","risk"],
+  33:["listening"],
+  34:["responsible"],
+  35:["therapy"],
+  36:["safe"],
+  37:["morality"],
+  38:["participation"],
+  39:["remember"],
+  40:["problems","problem"]
+};
+const MCQ_CORRECT={11:"A",12:"B",21:"B",22:"B",23:"A",24:"C"};
+const LETTERBANK_CORRECT={13:"B",14:"E",15:"B",16:"B",17:"C",18:"A",19:"B",20:"A",25:"C",26:"B",27:"G",28:"D",29:"E",30:"F"};
+
+// ══════════════════════════════════════
+//  EXPLANATIONS
+// ══════════════════════════════════════
+const EXPLANATIONS = {
+  1:{en:"The caller specifies she wants a house in the southeast part of town.",
+     uz:"Qo'ng'iroq qiluvchi shahar janubi-sharqidagi (southeast) uyni xohlashini aytadi."},
+  2:{en:"Among the required facilities, she mentions needing a washing machine in the property.",
+     uz:"U kerakli jihozlar orasida kir yuvish mashinasi kerakligini aytadi."},
+  3:{en:"She states the rental period should start on 15th May.",
+     uz:"U ijara muddati 15-may kunidan boshlanishi kerakligini aytadi."},
+  4:{en:"For a reference, she says she can provide one from her employer.",
+     uz:"Tavsiyanoma uchun u ish beruvchisidan olishi mumkinligini aytadi."},
+  5:{en:"She gives the maximum rent she can pay as £675 per month.",
+     uz:"U oyiga to'lay oladigan maksimal ijara summasi sifatida £675 ni aytadi."},
+  6:{en:"She explains that her current job is working as a translator.",
+     uz:"U hozirgi kasbi tarjimon ekanligini tushuntiradi."},
+  7:{en:"For the credit check, she is asked to supply a bank statement.",
+     uz:"Kredit tekshiruvi uchun undan bank hisobvarag'i so'raladi."},
+  8:{en:"The address given for viewing the property is on Ainsworth Street.",
+     uz:"Ko'rgazma uchun manzil sifatida Ainsworth ko'chasi aytiladi."},
+  9:{en:"She asks whether there is a telephone line already installed in the house.",
+     uz:"U uyda telefon liniyasi mavjudligini so'raydi."},
+  10:{en:"She also asks if there is a bus stop nearby the property.",
+      uz:"U shuningdek, uy yaqinida avtobus bekati borligini so'raydi."},
+  11:{en:"The guide explains that the birds are the special natural feature of Green Island.",
+      uz:"Gid Green orolining alohida tabiiy xususiyati qushlar ekanligini tushuntiradi."},
+  12:{en:"The nature park was started by Churchill Peters, as mentioned by the speaker.",
+      uz:"Tabiat parkini Cherchill Piters tashkil etgani aytiladi."},
+  13:{en:"The best conditions for seeing fish are said to include no wind.",
+      uz:"Baliqlarni ko'rish uchun eng yaxshi sharoitlardan biri — shamolsiz havo ekanligi aytiladi."},
+  14:{en:"Early morning is also mentioned as one of the best times to see fish.",
+      uz:"Erta tong ham baliqlarni ko'rish uchun eng yaxshi vaqtlardan biri sifatida aytiladi."},
+  15:{en:"Playing games on the beach is allowed only sometimes, according to the rules.",
+      uz:"Qoidalarga ko'ra, plyajda o'yin o'ynash faqat ba'zan ruxsat etiladi."},
+  16:{en:"Feeding the fish is also only sometimes permitted.",
+      uz:"Baliqlarni ovqatlantirish ham faqat ba'zan ruxsat etiladi."},
+  17:{en:"Touching the fish on purpose is never allowed.",
+      uz:"Baliqlarga qasddan tegish hech qachon ruxsat etilmaydi."},
+  18:{en:"Visitors are always allowed to take underwater photographs.",
+      uz:"Tashrif buyuruvchilarga suv ostida surat olishga doimo ruxsat beriladi."},
+  19:{en:"Climbing on Green Island is only sometimes allowed.",
+      uz:"Green orolga chiqish faqat ba'zan ruxsat etiladi."},
+  20:{en:"Visitors are always permitted to use a private boat.",
+      uz:"Tashrif buyuruvchilarga xususiy qayiqdan foydalanishga doimo ruxsat beriladi."},
+  21:{en:"The lecturer likes the topic because it links to a previous research topic he worked on.",
+      uz:"O'qituvchi mavzuni yoqtiradi, chunki u avvalgi tadqiqot mavzusi bilan bog'liq."},
+  22:{en:"Participants were asked who a particular piece of music reminded them of.",
+      uz:"Ishtirokchilardan musiqa ularga kimni eslatishini aytish so'ralgan."},
+  23:{en:"This is the first study to involve such a large number of participants.",
+      uz:"Bu shu qadar ko'p ishtirokchini jalb qilgan birinchi tadqiqot."},
+  24:{en:"Sarah is doubtful because she thinks some people wouldn't fit the findings.",
+      uz:"Sara shubha bildiradi, chunki ba'zi odamlar natijalarga mos kelmasligi mumkinligini o'ylaydi."},
+  25:{en:"They comment that the background section is too detailed.",
+      uz:"Ular kirish qismi haddan tashqari batafsil ekanligini aytishadi."},
+  26:{en:"They feel the section on other research is not interesting enough.",
+      uz:"Ular boshqa tadqiqotlar bo'limi yetarlicha qiziqarli emasligini his qilishadi."},
+  27:{en:"They suggest the findings section should present both sides of the argument.",
+      uz:"Ular natijalar bo'limida ikkala tomon ham ko'rsatilishi kerakligini taklif qilishadi."},
+  28:{en:"They say the market research statistics are incomplete.",
+      uz:"Ular bozor tadqiqoti statistikasi to'liq emasligini aytishadi."},
+  29:{en:"They think the limitations section needs more expert opinions.",
+      uz:"Ular cheklovlar bo'limida ko'proq mutaxassis fikri kerakligini o'ylashadi."},
+  30:{en:"They suggest that the future research section needs to be made more relevant.",
+      uz:"Ular kelajakdagi tadqiqotlar bo'limi yanada dolzarb qilinishi kerakligini taklif qilishadi."},
+  31:{en:"Group participation is said to develop children's confidence in their own ideas.",
+      uz:"Guruh ishtiroki bolalarda o'z fikrlariga ishonch rivojlantiradi."},
+  32:{en:"Unscripted, imaginative activities allow children to take risks.",
+      uz:"Ssenariysiz, ijodiy faoliyatlar bolalarga xavf-xatarlarni bo'yniga olishga imkon beradi."},
+  33:{en:"Working as a group teaches the importance of listening to others.",
+      uz:"Guruh bo'lib ishlash boshqalarni tinglash muhimligini o'rgatadi."},
+  34:{en:"Performance makes children feel responsible for their own learning and behaviour.",
+      uz:"Sahna chiqishlari bolalarni o'z ta'limi va xulq-atvori uchun mas'ul his qilishga undaydi."},
+  35:{en:"Drama functions as a form of therapy for children facing difficulties.",
+      uz:"Drama qiyinchiliklarga duch kelayotgan bolalar uchun terapiya shakli sifatida xizmat qiladi."},
+  36:{en:"It helps children explore controversial subjects in a safe environment.",
+      uz:"Bu bolalarga bahsli mavzularni xavfsiz muhitda o'rganishga yordam beradi."},
+  37:{en:"Drama develops children's self-knowledge and understanding of morality.",
+      uz:"Drama bolalarda o'z-o'zini bilish va axloq tushunchasini rivojlantiradi."},
+  38:{en:"Drama activities increase children's participation in the history class.",
+      uz:"Drama faoliyati bolalarning tarix darsidagi ishtirokini oshiradi."},
+  39:{en:"It makes it easier for children to remember and understand historical events.",
+      uz:"Bu bolalarga tarixiy voqealarni eslab qolish va tushunishni osonlashtiradi."},
+  40:{en:"Drama helps find answers to problems in history to see why certain decisions were made.",
+      uz:"Drama tarixdagi muammolarga javob topishga yordam beradi."},
+};
+
+// ══════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════
+let userAnswers={},reviewed=false,timerSecs=2400,timerRunning=true,timerInterval,resFilter='all',armedChip=null,currentPart=1;
+
+// ══════════════════════════════════════
+//  SINGLE GLOBAL AUDIO (covers all 4 sections, no pausing allowed)
+// ══════════════════════════════════════
+let audioStarted=false;
+function fmtAudioTime(s){s=Math.floor(s||0);const m=String(Math.floor(s/60)).padStart(2,'0');const sec=String(s%60).padStart(2,'0');return `${m}:${sec}`;}
+function startGlobalAudio(){
+  const a=document.getElementById('global-audio');
+  if(!a||audioStarted)return;
+  audioStarted=true;
+  a.play().catch(()=>{audioStarted=false;});
+  const btn=document.getElementById('audio-play-btn');
+  if(btn){btn.disabled=true;btn.textContent='▶ Playing…';}
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  const a=document.getElementById('global-audio');
+  if(!a)return;
+  a.addEventListener('pause',()=>{
+    if(reviewed)return;
+    if(audioStarted && !a.ended)a.play();
+  });
+  a.addEventListener('timeupdate',()=>{
+    const disp=document.getElementById('audio-time-display');
+    if(disp)disp.textContent=`${fmtAudioTime(a.currentTime)} / ${fmtAudioTime(a.duration)}`;
+  });
+  a.addEventListener('ended',()=>{
+    const btn=document.getElementById('audio-play-btn');
+    if(btn)btn.textContent='✔ Finished';
+  });
+});
+const PART_META={
+  1:{label:"Listening Part 1",range:"1–10"},
+  2:{label:"Listening Part 2",range:"11–20"},
+  3:{label:"Listening Part 3",range:"21–30"},
+  4:{label:"Listening Part 4",range:"31–40"}
+};
+
+// ══════════════════════════════════════
+//  TRANSCRIPTS (shown in the review split-screen after Check Answers)
+//  Paste the real audio script for each section here.
+// ══════════════════════════════════════
+const TRANSCRIPTS={
+  1:`Now turn to section one on page two of your question booklet. Section one. You will hear a woman asking an agent about rented accommodation.
+
+First, you have some time to look at questions one to six on page two. Listen carefully and answer questions one to six.
+
+Good morning. How can I help you?
+I'm interested in renting somewhere to live in town and was wondering what you had available.
+Excellent. I'll just need to find out a bit more about what you're looking for and then we can see what we've got. So your name is…
+Anna Black.
+Good, got that. And what sort of accommodation are you looking for, ideally?
+Well, I don't know if this is going to be possible, but ideally a house. I live in a flat at the moment and I've got really noisy neighbours. That's the reason I want to move.
+Oh dear. And I'm afraid most of the accommodation for rent in the city centre is flats. Would you be prepared to look elsewhere? There are a lot of nice properties in the south-east.
+Oh yes, that would be really convenient for me. Quite a few of my friends are there and it would be really close to my work.
+And there's more chance of finding what you're after there. I take it you'd be looking for a furnished place, would you?
+Yes. And I know it's not always included, but I'd like to have a washing machine. I hate going to laundrettes and if I'm a bit further out of the city, it might be a problem to find one.
+I'll see what I can do. Now, how long would you need the property for, bearing in mind that the minimum is six months?
+One year. I don't want to chop and change too often and that'd give me the chance to see how things work out. And then I could reassess the situation after that.
+And when would you like to move in?
+I've got to be out of my present place by the 30th of April. Then I'm going to visit my parents for a couple of weeks, so let's say 15th of May.
+And what's your current address? I'd better make a note of that for our files, and I'll put that you're there only until the end of April.
+56 Stone Street.
+And is there a phone number I can get you on?
+Yes. The best one to use is my mobile, and that's 07942 326 584.
+Now, of course, we'll need a reference before we're able to proceed with any contract. Who would be able to supply you with a reference?
+I'm pretty sure my employer will do that for me. I don't really know my doctor or anyone like that here.
+Good. Now let's see what we've got that might suit you. Oh, first, how much are you looking to pay?
+I'm paying £650 a month at the moment and the most I can go to is £675. I really can't go over that.
+That shouldn't be any problem. It's a realistic figure. And can I ask what it is you do for a living?
+Since I came here, I've been working for various bodies within the city as a translator, you know, for the police and the hospital.
+
+OK, good. Before you hear the rest of the conversation, you have some time to look at questions 7 to 10 on page 2. Now listen and answer questions 7 to 10.
+
+Now, if we do find something, we'll need to check your ID, so we'll need to see your passport, and, of course, to do the credit check, we'll need to see a bank statement in order to complete all the paperwork.
+No problem. I can bring those in tomorrow.
+Good. Now, we've got a small house to rent that I think might be just what you're looking for. 33 Ainsworth Street. That's A-I-N-S-W-O-R-T-H Street. Here are the details.
+This looks great. Right size, right price?
+Well, I could arrange for you to view it on Saturday around 4pm if that's convenient.
+Good. I can't see any mention of a telephone in the details though. I'd need that.
+Hmm. I'll look into that and I can double check when we're at the property.
+And, sorry, there's another thing. Do you happen to know if there's a bus stop reasonably close to the house so that I can get around easily?
+Again, if I can't find out before Saturday, I'll check it out when we're there.
+OK. So, I'll drop by tomorrow with those papers you need and then see you at the property Saturday at 4pm.
+Excellent.
+
+That is the end of section 1. You now have half a minute to check your answers.`,
+  2:`Now turn to section 2 on page 3. Section 2. You will hear a tour guide giving information about a nature park to a group of students.
+
+First, you have some time to look at questions 11 to 14. Now listen carefully and answer questions 11 to 14.
+
+So, why is Green Island such an interesting place?
+Visitors come from all over the country to use our glass bottom boat to see the fish at Green Island. But, in fact, there's nothing unusual about the fish here. You find exactly the same species in many other places on this coast. And the same is true of the birds. What is unique about Green Island is that the water is so clear, which means that you can actually see the fish more easily.
+
+The first scientist to work here was Mitchell Cullen, who began recording information about marine life in the area. Some years later, Joseph Turia established a laboratory, which we'll be visiting shortly. But, of course, the name of Churchill Peters will always be the most closely associated with the setting up of the nature park itself. He wanted to protect the species that live around Green Island, and creating a nature park was the best way of achieving that.
+
+So let me tell you about the fish. As I mentioned, you can usually see them quite easily. But the distance you can see underwater does change depending on the conditions. So, here are a few things to think about.
+
+The most important consideration is rainfall. If it's raining, don't come to Green Island to see the fish. What you want is a bright day, but either summer or winter is fine. As we know, in this part of the world, it can actually be quite hazy and cloudy in summer, so the season doesn't really matter. What's important is that there shouldn't have been any rain for a week. That's when the water is clearest.
+
+The state of the tide, though, doesn't make much difference to underwater visibility, and you can come at either high or low tide.
+
+Another thing to think about is the wind. The perfect time to come to Green Island is when it's calm and there are no waves on the sea. In our experience, an east wind is the worst because it causes too many waves.
+
+Oh, one other thing. Don't come too early in the morning. Any time in the middle of the day when the sun is high is best.
+
+Before you hear the rest of the information, you have some time to look at questions 15 to 20. Now listen and answer questions 15 to 20.
+
+All right. So, before we go and see the fish for ourselves, there are a number of rules you must know about.
+
+So far as the beach goes, this isn't the best place for your family's soccer or cricket game. There are many other beaches in the area for those sorts of activities. But at low tide and when the park doesn't have very many visitors, people do occasionally play a game on the beach. We don't mind that.
+
+Many of our visitors like to use the glass-bottom boats to see the fish. But you're welcome to get into the water and swim with them at any time. Soon you'll be surrounded by hundreds of small fish. It's a wonderful experience.
+
+Now, the difficult question of feeding the fish. Feeding the fish encourages them to swim around people, but it also changes their natural environment. We ask you, therefore, to use your common sense. If there are only a few visitors, you can give the fish a small amount of food. But when the park is very busy, we ask you not to feed the fish.
+
+If you do go swimming with the fish, you'll find that sometimes they bump into you, touch your legs or arms. However, you shouldn't try to deliberately touch the fish.
+
+Photographs, though, are not a problem. In fact, professional underwater photographers often visit the park, and today it's possible to buy simple underwater cameras quite cheaply.
+
+Now, we don't encourage you to visit the island itself, and climbing on it is forbidden during the spring nesting season. But at other times of the year, if you're swimming near the island and are feeling tired, it's okay to climb up and have a quick rest.
+
+Finally, boats. We provide a number of different boat trips for visitors. But if you have your own boat, you are very welcome to use it here at the nature park. Just remember to go slowly near the beach or when there are divers in the water.
+
+Okay, well, I think we're ready to go down to the beach, so grab your…
+
+That is the end of Section 2. You now have half a minute to check your answers.`,
+  3:`Now turn to Section 3. You will hear two psychology students called Sarah and Mike discussing their research on music and psychology with a lecturer.
+
+First, you have some time to look at questions 21 to 24. Now listen carefully and answer questions 21 to 24.
+
+We discuss this today. This is your research into the relationship between psychology and music, isn't it?
+Yes, that's right. We found a recent study by a Professor North in the UK. Experts have always suspected there were similarities between fans of certain music types, but this study was able to prove that musical tastes are directly related to our personality.
+I like this topic. It's certainly going to generate a lot of discussion among your classmates when you present it. I'm pleased to see you bringing in a topic we haven't seen before. Just make sure there's enough detail and it's readily available for your presentation.
+We think there is, yes.
+So, what does the study involve?
+Well, 36,000 people from all around the world completed an online survey. One part of this was to provide information about the first album or CD that they considered important as a teenager.
+Yes. They also had to say who they associate that music with now — for example, a parent or a romantic partner. Professor North was trying to see if there were any links between musical tastes and emotions.
+Interesting. And what makes this study so significant? Have there been any other studies in this area?
+Well, we think this research is quite groundbreaking. It isn't the first study of its kind, as experts have found links previously between things like musical tastes and social class, for example. But people from all over the world were involved in this one, so it's the scale of the study that makes it significant.
+And what were their findings?
+For each music type, they listed the most common characteristics that each typical fan had. The findings suggest classical music fans are shy, have high self-esteem, are creative and at ease. Although heavy metal music fans come from a different generation, it was found that they also share these characteristics, which is a remarkable discovery.
+Actually, I have to say that I'm a bit skeptical of the findings. I'm not so sure we can trust them.
+Why? He can't be accused of using a small sample or rushing the findings. This study's taken some time to come out. Is it because you think some people won't match their descriptions?
+Well, I do know a few who don't fit neatly, but that's not the issue. The participants were asked to describe themselves during the study, so it's only their opinion of their personality rather than objective fact.
+Well, that's certainly something to explore further. I have to go to deliver my lecture now, so if I were you, I'd look at the material you've got and decide what you're going to do with it.
+
+Before you hear the rest of the discussion, you have some time to look at questions 25 to 30. Now listen and answer questions 25 to 30.
+
+All right, so let's decide what to do with each of the sections of our presentation on Professor North's research. The first part was the background section.
+We want to include that, of course.
+Yes, but when we put all our notes together, we really ended up with too much.
+I agree. It's not really the length that's the problem, though. There are just too many facts here at the moment.
+True. Let's make it more general.
+What about the next section? It's about the earlier research that has been done in this area. We've printed out pages and pages here.
+Yes, I was expecting to find some fascinating information here, but it's a bit dull, especially all those statistics.
+I agree. We have to mention it first, so we'll just have to try and make it sound noteworthy.
+Yes. Well, what about the findings of the study? You wanted to focus on the similarities you found between various music lovers, and I wanted to show the opposite view and see how they differ.
+Well, they're both important, so maybe we could include the two different points of view.
+Yes, that could work. Let's do it independently then, before we put our information together. We probably have enough for that section then.
+Great. Now, market research. There are so many implications of how this could be used in a marketing situation.
+Yes, but we just don't have all the data yet, and we don't know when it's going to be available.
+Okay. Well, let's point that out, but present it briefly anyway.
+Good idea. The next one was limitations of the study. Did you look into that?
+I did. I think because Professor North wrote this himself, there's not much here and it might not be very objective.
+Yes. We need to find out how other researchers view the study to see if there's been any criticism of it.
+All right. And finally, future research. That seems like a good way to end our presentation.
+It would be, but his suggestions are too far removed from our original topic. They concentrate too much on music.
+Yes. Let's find a way to include more psychology so it relates better to our course.
+Good idea. So what do you think about saying…
+
+That is the end of Section 3. You now have half a minute to check your answers.`,
+  4:`Now turn to Section 4. You will hear part of a lecture for teacher trainees using drama activities in the classroom.
+
+First, you have some time to look at questions 31 to 40. Now listen carefully and answer questions 31 to 40.
+
+So now we're going to look at some of the reasons why it's beneficial to include drama activities, such as role play, in your teaching practice in a range of subject areas.
+
+There's a lot of evidence to show that drama helps a child's personal development. Firstly, creating a space for children to express themselves freely in a group situation helps to give them confidence in their own opinions and ideas. And, of course, drama activities can work especially well for shy or introverted children who usually don't participate in other types of classroom situations.
+
+Secondly, unscripted improvisation activities, where children work from their imagination, if done in a supportive way, give children the opportunity to gain experience in taking risks and encourage them to say things that they might normally be afraid to say.
+
+Drama can also support the child's educational development. For example, the emphasis placed on cooperative activities in drama means that group members must learn the value of listening to one another. Being involved in any sort of performance, which relies on everyone working together and playing their part, also helps children to be responsible not only for their learning, but for their general behavior. These are just a couple of ways in which drama can benefit a child's learning.
+
+Now, I'd like to look at how role play can be such a valuable learning tool in the classroom. The value of role play for children who are having difficulties as a means of therapy is now widely accepted. The experience of doing a role play, where children act out aspects of their own life without explicitly stating that it is a direct representation of their own experiences, can help children to judge their own behavior in an objective way. One obvious example would be doing a role reversal with a bully role playing a victim. Because this approach doesn't involve direct confrontation, it may help the bully to see his or her behavior in a different light.
+
+More generally, role play also allows the teacher to explore potentially controversial or taboo subjects in a safe setting in which children feel at ease. It's obviously essential for children to feel they won't be criticized or judged for voicing certain views. Getting children to examine their thoughts and opinions carefully can lead to a deeper self-knowledge and a stronger awareness of morality. This is an important factor in developing social skills.
+
+Let's look at a specific subject area now and think about how drama can enrich the learning process for the study of history. Bringing characters from the past to life in the classroom by doing classroom drama activities is an easy way to improve the level of the children's participation in the lesson. So, drama in the history classroom makes for a livelier atmosphere. But getting children to reenact scenes from history can also be extremely useful, as it helps them to remember what happened and why it was important, as well as helping to bring the past alive.
+
+Another way of doing this is to ask children to find solutions to historical problems using role play. This can help to focus attention on why certain decisions were taken. For example, children can be asked to decide how best to defend their town from attack or where to build a new site.
+
+Okay, what I'd like to do now is to think about your next teaching practice session and, in groups, discuss how you would incorporate an element of drama into your lesson plan.
+
+That is the end of Section 4. You now have half a minute to check your answers.`
+};
+function renderTranscript(p){
+  const label=document.getElementById('transcript-part-label');
+  const body=document.getElementById('transcript-body');
+  if(label)label.textContent=PART_META[p].label.replace('Listening ','');
+  if(body)body.textContent=TRANSCRIPTS[p]||'Transcript not added yet for this section.';
+}
+function enableAudioForReview(){
+  const a=document.getElementById('global-audio');
+  if(a)a.controls=true;
+  const btn=document.getElementById('audio-play-btn');
+  if(btn)btn.style.display='none';
+  const disp=document.getElementById('audio-time-display');
+  if(disp)disp.style.display='none';
+  const note=document.getElementById('audio-review-note');
+  if(note)note.style.display='block';
+}
+
+// ══════════════════════════════════════
+//  VOCAB TOOLTIP
+// ══════════════════════════════════════
+const tooltip=document.getElementById('tooltip');
+let isTouchDev='ontouchstart' in window||navigator.maxTouchPoints>0;
+function posTip(x,y){if(x+280>window.innerWidth)x=window.innerWidth-285;if(x<8)x=8;if(y+140>window.innerHeight)y=y-150;if(y<8)y=8;tooltip.style.left=x+'px';tooltip.style.top=y+'px';}
+function showTip(w,e){const d=VOCAB[w];if(!d)return;tooltip.innerHTML=`<div class="t-word">${w}</div><div class="t-pron">${d.pron}</div><div class="t-uz">🇺🇿 ${d.uz}</div><div class="t-def">${d.def}</div>`;tooltip.style.display='block';posTip(e.clientX+14,e.clientY+14);}
+function hideTip(){tooltip.style.display='none';}
+document.addEventListener('mousemove',e=>{if(isTouchDev)return;const w=e.target.closest('.vocab-word');if(!w){hideTip();return;}showTip(w.dataset.word,e);});
+document.addEventListener('click',e=>{if(!isTouchDev)return;const w=e.target.closest('.vocab-word');if(!w){if(!e.target.closest('.tooltip-box'))hideTip();return;}showTip(w.dataset.word,e);e.stopPropagation();});
+
+// ══════════════════════════════════════
+//  ONE-CLICK HIGHLIGHT — press mouse, drag over a word, release: instantly highlighted.
+//  Click an already-highlighted word again (no new drag) to remove it.
+// ══════════════════════════════════════
+document.addEventListener('mouseup',e=>{
+  if(e.target.closest('.sc-input, .drag-chip, .drop-zone, .multi-opt, button, audio, .tg-float, .part-pill')){
+    // don't fight with interactive controls
+  }
+  const sel=window.getSelection();
+  if(sel && sel.rangeCount && !sel.isCollapsed && sel.toString().trim().length>0){
+    const range=sel.getRangeAt(0);
+    if(!e.target.closest('#pane-single'))return;
+    const span=document.createElement('span');span.className='hl-auto';
+    try{range.surroundContents(span);}
+    catch(err){const frag=range.extractContents();span.appendChild(frag);range.insertNode(span);}
+    sel.removeAllRanges();
+    return;
+  }
+  const hit=e.target.closest('.hl-auto');
+  if(hit){
+    const parent=hit.parentNode;
+    while(hit.firstChild)parent.insertBefore(hit.firstChild,hit);
+    parent.removeChild(hit);
+    parent.normalize();
+  }
+});
+
+// ══════════════════════════════════════
+//  MCQ (single-select letter with full text)
+// ══════════════════════════════════════
+function selectMC(qnum,letter){
+  if(reviewed)return;
+  userAnswers[qnum]=letter;
+  ['A','B','C'].forEach(o=>{
+    const el=document.getElementById(`mc-${qnum}-${o}`);
+    if(el)el.classList.toggle('selected',o===letter);
+  });
+  updateNav();
+}
+
+// ══════════════════════════════════════
+//  TAP-TO-PLACE LETTER BANKS
+// ══════════════════════════════════════
+function attachDragHandlers(){
+  document.querySelectorAll('.drag-chip').forEach(chip=>{
+    chip.addEventListener('click',e=>{
+      e.stopPropagation();if(reviewed)return;
+      document.querySelectorAll('.drag-chip').forEach(c=>c.classList.remove('tap-armed'));
+      if(armedChip===chip){armedChip=null;armZones(false);}
+      else{armedChip=chip;chip.classList.add('tap-armed');armZones(true,chip.dataset.bank);}
+    });
+  });
+  document.querySelectorAll('.drop-zone').forEach(z=>{
+    z.addEventListener('click',e=>{
+      e.stopPropagation();if(reviewed)return;
+      if(armedChip && armedChip.dataset.bank===z.dataset.bank){
+        dropAnswer(z,armedChip.dataset.key);
+        armedChip.classList.remove('tap-armed');armedChip=null;armZones(false);
+      }
+    });
+  });
+}
+function armZones(on,bank){
+  document.querySelectorAll('.drop-zone').forEach(z=>{
+    if(on&&z.dataset.bank===bank)z.classList.add('armed-target');
+    else z.classList.remove('armed-target');
+  });
+}
+function dropAnswer(z,key){
+  if(reviewed)return;
+  z.classList.add('filled');z.textContent=key;
+  userAnswers[z.dataset.qnum]=key;updateNav();
+}
+
+// ══════════════════════════════════════
+//  TEXT COMPLETION INPUTS
+// ══════════════════════════════════════
+document.querySelectorAll('.sc-input').forEach(inp=>{
+  inp.addEventListener('input',e=>{
+    if(reviewed)return;
+    userAnswers[e.target.dataset.qnum]=e.target.value;
+    updateNav();
+  });
+});
+
+// ══════════════════════════════════════
+//  PART SWITCHER
+// ══════════════════════════════════════
+function showPart(p){
+  currentPart=p;
+  document.querySelectorAll('.part-panel').forEach(el=>el.classList.remove('active'));
+  document.getElementById('part'+p).classList.add('active');
+  const meta=PART_META[p];
+  document.getElementById('part-banner').innerHTML=`<b>${meta.label}</b> — Questions ${meta.range}. You will hear the recording once.`;
+  if(reviewed)renderTranscript(p);
+  updateNav();
+}
+function partOfQuestion(n){if(n<=10)return 1;if(n<=20)return 2;if(n<=30)return 3;return 4;}
+
+// ══════════════════════════════════════
+//  NAV ROW
+// ══════════════════════════════════════
+const SECTION_RANGES={1:[1,10],2:[11,20],3:[21,30],4:[31,40]};
+function buildNav(){
+  const row=document.getElementById('q-nav-row');row.innerHTML='';
+  const labels={1:'Section 1',2:'Section 2',3:'Section 3',4:'Section 4'};
+  for(let p=1;p<=4;p++){
+    const b=document.createElement('button');
+    b.className='q-nav-btn q-nav-section';b.id=`nav-${p}`;b.textContent=labels[p];
+    b.onclick=()=>{showPart(p);};
+    row.appendChild(b);
+  }
+  updateNav();
+}
+function updateNav(){
+  let count=0;
+  for(let n=1;n<=40;n++){
+    const v=userAnswers[n];
+    if(v&&String(v).trim())count++;
+  }
+  for(let p=1;p<=4;p++){
+    const b=document.getElementById(`nav-${p}`);if(!b)continue;
+    const range=SECTION_RANGES[p];
+    let allAnswered=true;
+    for(let n=range[0];n<=range[1];n++){
+      const v=userAnswers[n];
+      if(!(v&&String(v).trim())){allAnswered=false;break;}
+    }
+    b.classList.toggle('answered',allAnswered);
+    b.classList.toggle('active',p===currentPart);
+  }
+  document.getElementById('answered-count').textContent=`${count} / 40`;
+}
+function scrollToQ(n){
+  const el=document.getElementById(`qblock-${n}`)||document.getElementById(`q${n}`)||document.getElementById(`sc-${n}`);
+  if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+// ══════════════════════════════════════
+//  TIMER
+// ══════════════════════════════════════
+function fmtTime(s){const m=Math.floor(s/60);return `${String(m).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;}
+function tickTimer(){
+  if(!timerRunning)return;
+  timerSecs--;
+  document.getElementById('timer-val').textContent=fmtTime(timerSecs);
+  if(timerSecs<=300)document.getElementById('timer-box').classList.add('urgent');
+  if(timerSecs<=0){clearInterval(timerInterval);submitExam();}
+}
+function startTimer(){timerInterval=setInterval(tickTimer,1000);}
+document.getElementById('timer-toggle').addEventListener('click',()=>{
+  timerRunning=!timerRunning;
+  const icon=document.getElementById('timer-icon');
+  icon.innerHTML=timerRunning?'<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>':'<path d="M8 5v14l11-7L8 5z"/>';
+});
+document.getElementById('timer-reset').addEventListener('click',()=>{timerSecs=2400;document.getElementById('timer-val').textContent='40:00';document.getElementById('timer-box').classList.remove('urgent');});
+
+// ══════════════════════════════════════
+//  FULLSCREEN
+// ══════════════════════════════════════
+function toggleFullscreen(){if(!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{});else document.exitFullscreen();}
+
+// ══════════════════════════════════════
+//  SCREENS
+// ══════════════════════════════════════
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function confirmExit(){if(confirm('Exit the test?')){clearInterval(timerInterval);showScreen('home-screen');}}
+function startExam(){
+  userAnswers={};reviewed=false;timerSecs=2400;timerRunning=true;armedChip=null;
+  audioStarted=false;
+  const ga=document.getElementById('global-audio');
+  if(ga){ga.pause();ga.currentTime=0;ga.controls=false;}
+  const abtn=document.getElementById('audio-play-btn');
+  if(abtn){abtn.disabled=false;abtn.textContent='▶ Play Audio';abtn.style.display='';}
+  const adisp=document.getElementById('audio-time-display');
+  if(adisp){adisp.textContent='00:00 / 00:00';adisp.style.display='';}
+  const arev=document.getElementById('audio-review-note');
+  if(arev)arev.style.display='none';
+  document.getElementById('exam-body').classList.remove('review-mode');
+  document.getElementById('timer-val').textContent='40:00';
+  document.getElementById('timer-box').classList.remove('urgent');
+  document.getElementById('timer-icon').innerHTML='<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+  showScreen('exam-screen');
+  showPart(1);
+  attachDragHandlers();buildNav();startTimer();
+  document.getElementById('check-btn').textContent='Check Answers';
+  document.getElementById('check-btn').className='check-btn';
+  document.getElementById('check-btn').onclick=submitExam;
+}
+function retryTest(){closeModal();startExam();}
+
+// ══════════════════════════════════════
+//  SCORING
+// ══════════════════════════════════════
+function normText(s){return String(s||'').trim().toLowerCase().replace(/[.,!?;:'"]+$/,'').replace(/^£/,'').trim();}
+function getCorrectDisplay(n){
+  if(SC_ACCEPT[n])return SC_ACCEPT[n][0];
+  if(MCQ_CORRECT[n]!==undefined)return MCQ_CORRECT[n];
+  if(LETTERBANK_CORRECT[n]!==undefined)return LETTERBANK_CORRECT[n];
+  return '';
+}
+function checkAns(n){
+  const given=userAnswers[n];
+  if(given===undefined||given===null||!String(given).trim())return null;
+  if(SC_ACCEPT[n])return SC_ACCEPT[n].map(normText).includes(normText(given));
+  if(MCQ_CORRECT[n]!==undefined)return given===MCQ_CORRECT[n];
+  if(LETTERBANK_CORRECT[n]!==undefined)return given===LETTERBANK_CORRECT[n];
+  return null;
+}
+function estimateBand(s){
+  if(s>=39)return 9;if(s>=37)return 8.5;if(s>=35)return 8;if(s>=32)return 7.5;
+  if(s>=30)return 7;if(s>=26)return 6.5;if(s>=23)return 6;if(s>=18)return 5.5;
+  if(s>=16)return 5;if(s>=13)return 4.5;return 4;
+}
+
+function submitExam(){
+  clearInterval(timerInterval);reviewed=true;
+  document.getElementById('exam-body').classList.add('review-mode');
+  renderTranscript(currentPart);
+  enableAudioForReview();
+  let correct=0,wrong=0,skip=0;
+
+  for(let n=1;n<=40;n++){
+    const r=checkAns(n);
+    if(r===null)skip++;else if(r)correct++;else wrong++;
+
+    if(SC_ACCEPT[n]){
+      const inp=document.getElementById(`sc-${n}`);
+      if(inp){if(r)inp.classList.add('correct');else if(userAnswers[n])inp.classList.add('wrong');}
+    }
+    if(MCQ_CORRECT[n]!==undefined){
+      const given=userAnswers[n];
+      ['A','B','C'].forEach(o=>{
+        const el=document.getElementById(`mc-${n}-${o}`);if(!el)return;
+        if(o===MCQ_CORRECT[n])el.classList.add('correct');
+        else if(o===given)el.classList.add('wrong');
+      });
+    }
+    if(LETTERBANK_CORRECT[n]!==undefined){
+      const z=document.getElementById(`q${n}`);
+      if(z){if(r)z.classList.add('correct');else if(userAnswers[n])z.classList.add('wrong');}
+    }
+  }
+
+  document.getElementById('modal-score').textContent=`Score: ${correct} / 40`;
+  document.getElementById('modal-band').textContent=`Band: ${estimateBand(correct)}`;
+  document.getElementById('modal-correct').textContent=`✓ Correct: ${correct}`;
+  document.getElementById('modal-wrong').textContent=`✗ Wrong: ${wrong}`;
+  renderResDetails();
+  document.getElementById('modal').classList.remove('hidden');
+  document.getElementById('check-btn').textContent='My Result';
+  document.getElementById('check-btn').className='check-btn done';
+  document.getElementById('check-btn').onclick=()=>document.getElementById('modal').classList.remove('hidden');
+}
+
+// ══════════════════════════════════════
+//  REVIEW MODAL
+// ══════════════════════════════════════
+function setResFilter(f,btn){
+  resFilter=f;
+  document.querySelectorAll('.res-filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderResDetails();
+}
+function renderResDetails(){
+  const cont=document.getElementById('res-details');
+  let html='';
+  for(let n=1;n<=40;n++){
+    const r=checkAns(n);
+    const status=r===true?'is-correct':r===false?'is-wrong':'is-skipped';
+    if(resFilter==='wrong'&&status!=='is-wrong')continue;
+    if(resFilter==='skipped'&&status!=='is-skipped')continue;
+    const given=userAnswers[n]||'—';
+    const correctDisp=getCorrectDisplay(n);
+    const badgeClass=status==='is-correct'?'ok':status==='is-skipped'?'skip':'bad';
+    const badgeText=status==='is-correct'?'Correct':status==='is-skipped'?'Skipped':'Incorrect';
+    const expl=EXPLANATIONS[n]||{en:'',uz:''};
+    html+=`<div class="res-row ${status}">
+      <span class="res-num">${n}</span>
+      <span class="res-user">${given}</span>
+      <span class="res-correct">${correctDisp}</span>
+      <span class="res-badge ${badgeClass}">${badgeText}</span>
+      <div class="res-explain-en"><b>Why:</b> ${expl.en}</div>
+      <div class="res-explain-uz"><b>Tushuntirish:</b> ${expl.uz}</div>
+    </div>`;
+  }
+  if(!html)html=`<p style="text-align:center;color:var(--text3);padding:30px">Nothing to show for this filter 🎉</p>`;
+  cont.innerHTML=html;
+}
+function closeModal(){document.getElementById('modal').classList.add('hidden');}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
+</script>
+</body>
+</html>
