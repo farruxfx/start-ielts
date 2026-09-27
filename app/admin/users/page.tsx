@@ -9,6 +9,8 @@ import {
   ChevronLeft,
   ChevronRight,
   AlertCircle,
+  GraduationCap,
+  Wallet,
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
@@ -39,6 +41,9 @@ export default function AdminUsersPage() {
   const [page, setPage] = useState(0);
   const [total, setTotal] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [actionId, setActionId] = useState('');
+  const [actionRole, setActionRole] = useState('teacher');
+  const [actionTier, setActionTier] = useState('basic');
   const pageSize = 10;
 
   const fetchUsers = useCallback(async () => {
@@ -50,7 +55,9 @@ export default function AdminUsersPage() {
       .range(page * pageSize, (page + 1) * pageSize - 1);
 
     if (search) {
-      query = query.or(`email.ilike.%${search}%,full_name.ilike.%${search}%`);
+      query = query.or(
+        `email.ilike.%${search}%,full_name.ilike.%${search}%,id.ilike.%${search}%`
+      );
     }
 
     const { data, count } = await query;
@@ -113,6 +120,56 @@ export default function AdminUsersPage() {
     }
   };
 
+  // Look up a single user by exact/partial ID; returns their uuid or null
+  const lookupUserId = async (term: string): Promise<string | null> => {
+    setError(null);
+    if (!term.trim()) {
+      setError('Please paste a user ID first.');
+      return null;
+    }
+    const { data, error: fetchError } = await supabase
+      .from('profiles')
+      .select('id, email, full_name, role, target_band, created_at')
+      .ilike('id', `%${term.trim()}%`)
+      .limit(2);
+    if (fetchError || !data?.length) {
+      setError(`No user found for ID “${term.trim()}”.`);
+      return null;
+    }
+    if (data.length > 1) {
+      setError('This ID matches multiple users. Paste the full ID.');
+      return null;
+    }
+    const found = data[0] as ProfileRow;
+    const { data: subData } = await supabase
+      .from('subscriptions')
+      .select('user_id, tier, status')
+      .eq('user_id', found.id)
+      .maybeSingle();
+    if (subData) {
+      setSubs((prev) => ({
+        ...prev,
+        [found.id]: subData as SubRow,
+      }));
+    }
+    // Focus the table on this user
+    setSearch(found.id);
+    setPage(0);
+    setUsers([found]);
+    setTotal(1);
+    return found.id;
+  };
+
+  const handleIdRole = async () => {
+    const id = await lookupUserId(actionId);
+    if (id) await changeRole(id, actionRole);
+  };
+
+  const handleIdTier = async () => {
+    const id = await lookupUserId(actionId);
+    if (id) await changeTier(id, actionTier);
+  };
+
   const totalPages = Math.ceil(total / pageSize);
 
   return (
@@ -130,16 +187,69 @@ export default function AdminUsersPage() {
           <span>{error}</span>
         </div>
       )}
-
       {/* Search */}
       <div className="relative max-w-md">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
-          placeholder="Search by name or email..."
+          placeholder="Search by name, email or user ID..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="pl-9"
         />
+      </div>
+
+      {/* Quick actions by user ID */}
+      <div className="rounded-xl border border-border bg-card p-4">
+        <p className="text-sm font-medium">Quick actions by user ID</p>
+        <p className="mt-0.5 text-xs text-muted-foreground">
+          Paste the ID the user shows in their profile (Settings → Profile → Your ID).
+        </p>
+        <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+          <Input
+            placeholder="User ID..."
+            value={actionId}
+            onChange={(e) => setActionId(e.target.value)}
+            className="font-mono text-xs sm:flex-1"
+          />
+          <select
+            value={actionRole}
+            onChange={(e) => setActionRole(e.target.value)}
+            className="rounded-md border border-input bg-background px-2 py-2 text-xs font-medium"
+          >
+            <option value="student">Role: Student</option>
+            <option value="teacher">Role: Teacher</option>
+            <option value="admin">Role: Admin</option>
+          </select>
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-1.5 whitespace-nowrap"
+            onClick={handleIdRole}
+          >
+            <GraduationCap className="h-4 w-4" />
+            Set role
+          </Button>
+          <select
+            value={actionTier}
+            onChange={(e) => setActionTier(e.target.value)}
+            className="rounded-md border border-input bg-background px-2 py-2 text-xs font-medium"
+          >
+            <option value="free">Tier: Free</option>
+            <option value="daily">Tier: Daily Pass</option>
+            <option value="start">Tier: Start</option>
+            <option value="basic">Tier: Basic</option>
+            <option value="pro">Tier: Pro</option>
+          </select>
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-1.5 whitespace-nowrap"
+            onClick={handleIdTier}
+          >
+            <Wallet className="h-4 w-4" />
+            Set tier
+          </Button>
+        </div>
       </div>
 
       {/* Stats */}
@@ -218,6 +328,13 @@ export default function AdminUsersPage() {
                               {user.full_name || 'Unnamed'}
                             </div>
                             <div className="truncate text-xs text-muted-foreground">{user.email}</div>
+                            <div
+                              className="mt-0.5 cursor-pointer font-mono text-[10px] text-muted-foreground/70 hover:text-foreground"
+                              title="Click to copy full ID"
+                              onClick={() => navigator.clipboard?.writeText(user.id).catch(() => {})}
+                            >
+                              ID: {user.id.slice(0, 8)}…{user.id.slice(-4)}
+                            </div>
                           </div>
                         </div>
                       </td>
@@ -233,22 +350,21 @@ export default function AdminUsersPage() {
                         </select>
                       </td>
                       <td className="px-4 py-3">
-                        {sub ? (
-                          <select
-                            value={sub.tier}
-                            onChange={(e) => changeTier(user.id, e.target.value)}
-                            className={cn(
-                              'rounded-md border border-input bg-background px-2 py-1 text-xs font-medium capitalize focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-                              sub.tier !== 'free' && 'border-amber-300'
-                            )}
-                          >
-                            <option value="free">Free</option>
-                            <option value="plus">Plus</option>
-                            <option value="pro">Pro</option>
-                          </select>
-                        ) : (
-                          <Badge variant="secondary">Free</Badge>
-                        )}
+                        <select
+                          value={sub?.tier || 'free'}
+                          onChange={(e) => changeTier(user.id, e.target.value)}
+                          className={cn(
+                            'rounded-md border border-input bg-background px-2 py-1 text-xs font-medium capitalize focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                            (sub?.tier || 'free') !== 'free' && 'border-amber-300'
+                          )}
+                          title="Manually set subscription tier"
+                        >
+                          <option value="free">Free</option>
+                          <option value="daily">Daily Pass</option>
+                          <option value="start">Start</option>
+                          <option value="basic">Basic</option>
+                          <option value="pro">Pro</option>
+                        </select>
                       </td>
                       <td className="px-4 py-3 text-sm text-muted-foreground">
                         {user.target_band ? user.target_band.toFixed(1) : '—'}

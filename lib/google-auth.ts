@@ -53,7 +53,11 @@ export interface CredentialResponse {
   select_by: string;
 }
 
-const GOOGLE_CLIENT_ID = '517488937450-k8p8asqduv8ofsde73r4pgkkivienpmj.apps.googleusercontent.com';
+// Prefer env var so different deployments (localhost / Vercel / production)
+// can use their own OAuth client. The fallback keeps the app working as before.
+const GOOGLE_CLIENT_ID =
+  process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ||
+  '517488937450-k8p8asqduv8ofsde73r4pgkkivienpmj.apps.googleusercontent.com';
 const GIS_SCRIPT_URL = 'https://accounts.google.com/gsi/client';
 
 let scriptLoaded = false;

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import {
   ArrowLeft, User, Mail, Lock, Target, Calendar, Globe, Moon, Sun,
-  Bell, Volume2, Eye, Download, Upload, Trash2, Save, Camera,
+  Bell, Volume2, Eye, Download, Upload, Trash2, Save, Camera, Copy, Check,
   Clock, BookOpen, Headphones, PenLine, Mic, Shield, Palette,
   RotateCcw, FileJson, AlertCircle, CheckCircle
 } from 'lucide-react';
@@ -82,6 +82,7 @@ export default function SettingsPage() {
   const { user, signOut } = useAuth();
   const [settings, setSettings] = useState<SettingsData>(defaultSettings);
   const [saved, setSaved] = useState(false);
+  const [copiedId, setCopiedId] = useState(false);
   const [activeTab, setActiveTab] = useState('profile');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -124,6 +125,17 @@ export default function SettingsPage() {
     }
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
+  };
+
+  const handleCopyId = async () => {
+    if (!user?.id) return;
+    try {
+      await navigator.clipboard.writeText(user.id);
+      setCopiedId(true);
+      setTimeout(() => setCopiedId(false), 1500);
+    } catch {
+      // Clipboard unavailable — ignore
+    }
   };
 
   const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -293,6 +305,30 @@ export default function SettingsPage() {
                       <Label>Email</Label>
                       <Input value={settings.email} disabled className="opacity-60" />
                       <p className="mt-1 text-xs text-muted-foreground">Email cannot be changed</p>
+                    </div>
+                    <div>
+                      <Label>Your ID</Label>
+                      <div className="mt-1 flex gap-2">
+                        <Input
+                          value={user?.id || ''}
+                          disabled
+                          className="opacity-60 font-mono text-xs"
+                          placeholder="—"
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="icon"
+                          onClick={handleCopyId}
+                          disabled={!user?.id}
+                          title="Copy ID"
+                        >
+                          {copiedId ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
+                        </Button>
+                      </div>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        This ID is visible only in your profile. Share it with administration when requested.
+                      </p>
                     </div>
                   </div>
                 </div>
