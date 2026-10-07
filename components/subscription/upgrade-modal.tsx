@@ -20,6 +20,7 @@ import { cn } from '@/lib/utils';
 import { useAuth } from '@/components/auth/use-auth';
 import { PLANS, type PlanId, getUserPlan, formatUZS } from '@/lib/subscription';
 import { formatAmount } from '@/lib/payment-system';
+import { notifyAccessChanged } from '@/lib/access-client';
 import {
   getActivePaymentMethodLocal,
   savePaymentOrderLocal,
@@ -58,6 +59,24 @@ export function UpgradeModal({ open, onClose }: UpgradeModalProps) {
     }
   }, [open]);
 
+  // Server-side activation: payment confirmed → the server verifies the
+  // order, computes expiry ITSELF, writes the subscription record and
+  // re-mints the signed session cookie — premium unlocks WITHOUT re-login.
+  const activateSubscription = useCallback(async (id: string) => {
+    try {
+      const res = await fetch('/api/subscription/activate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId: id, planId: selectedPlan }),
+      });
+      if (!res.ok) throw new Error('activation failed');
+    } catch {
+      // Best-effort: the state endpoint re-syncs the cookie on next load.
+    }
+    // Refresh every access listener (cards, runner gate, dashboard).
+    notifyAccessChanged();
+  }, [selectedPlan]);
+
   // Poll for payment status
   const checkStatus = useCallback(async () => {
     if (!orderId) return;
@@ -68,17 +87,19 @@ export function UpgradeModal({ open, onClose }: UpgradeModalProps) {
       if (data.useClientSide) {
         const order = getPaymentOrderLocal(orderId);
         if (order && order.status === 'paid') {
+          await activateSubscription(orderId);
           setPaid(true);
           setPolling(false);
           setView('success');
         }
       } else if (data.order && data.order.status === 'paid') {
+        await activateSubscription(orderId);
         setPaid(true);
         setPolling(false);
         setView('success');
       }
     } catch {}
-  }, [orderId]);
+  }, [orderId, activateSubscription]);
 
   useEffect(() => {
     if (!polling) return;

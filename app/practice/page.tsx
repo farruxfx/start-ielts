@@ -3,7 +3,10 @@
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { Search, Clock, ChevronLeft, ChevronRight, Headphones, BookOpen, PenLine, Mic, FileCheck } from 'lucide-react';
+import { Search, Clock, ChevronLeft, ChevronRight, Headphones, BookOpen, PenLine, Mic, FileCheck, Lock, Check } from 'lucide-react';
+import { isFreeTest } from '@/lib/test-access';
+import { useAccessState } from '@/lib/access-client';
+import { PremiumTestModal } from '@/components/subscription/premium-test-modal';
 import { getTestResults } from '@/lib/store';
 import type { TestType, TestResult } from '@/lib/types';
 import { cn } from '@/lib/utils';
@@ -15,6 +18,7 @@ import { SPEAKING_CATEGORIES } from '@/lib/speaking-practice-data';
 
 interface TestCard {
   id: string;
+  slug: string;
   title: string;
   subtitle: string;
   skill: 'listening' | 'reading' | 'writing' | 'speaking';
@@ -25,6 +29,7 @@ interface TestCard {
 
 const listeningCards: TestCard[] = LISTENING_TESTS.map(t => ({
     id: String(t.id),
+    slug: t.slug,
     title: t.title,
     subtitle: t.category + ' · ' + t.difficulty,
     skill: 'listening' as const,
@@ -35,6 +40,7 @@ const listeningCards: TestCard[] = LISTENING_TESTS.map(t => ({
 
 const readingCards: TestCard[] = READING_TESTS.map(t => ({
     id: String(t.id),
+    slug: t.slug,
     title: t.title,
     subtitle: t.category + ' · ' + t.difficulty,
     skill: 'reading' as const,
@@ -45,6 +51,7 @@ const readingCards: TestCard[] = READING_TESTS.map(t => ({
 
 const writingCards: TestCard[] = WRITING_TESTS.map(t => ({
   id: t.id,
+  slug: t.slug,
   title: t.name,
   subtitle: t.task1.type + ' · ' + t.difficulty,
   skill: 'writing' as const,
@@ -78,49 +85,90 @@ const skillStyles: Record<string, { badge: string; dot: string; icon: React.Elem
   speaking: { badge: 'bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300', dot: 'bg-amber-500', icon: Mic },
 };
 
-function TestCardComponent({ test }: { test: TestCard }) {
+function TestCardComponent({ test, subscriptionActive }: { test: TestCard; subscriptionActive: boolean }) {
   const config = skillStyles[test.skill];
   const Icon = config.icon;
+  const [modalOpen, setModalOpen] = useState(false);
+
+  // Listening/Reading are server-gated (free vs premium); Writing/Speaking stay open.
+  const gated = test.skill === 'listening' || test.skill === 'reading';
+  const free = gated && isFreeTest(test.slug);
+  const locked = gated && !free && !subscriptionActive;
+
+  const body = (
+    <div className="group relative overflow-hidden rounded-xl sm:rounded-2xl border border-border bg-card p-3 sm:p-5 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/20 min-h-[140px] sm:min-h-[170px] flex flex-col">
+      {/* Decorative background icon */}
+      <div className="absolute -bottom-4 -right-4 opacity-[0.06] transition-transform duration-500 group-hover:scale-110">
+        <Icon className="h-32 w-32 text-foreground" strokeWidth={1} />
+      </div>
+
+      {/* Top row: badge + duration */}
+      <div className="flex items-center justify-between mb-3">
+        <span className={cn(
+          'inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide',
+          config.badge
+        )}>
+          <span className={cn('h-1.5 w-1.5 rounded-full', config.dot)} />
+          {test.skill}
+        </span>
+        <span className="inline-flex items-center gap-1 text-xs text-muted-foreground font-medium">
+          <Clock className="h-3.5 w-3.5" />
+          {test.duration}
+        </span>
+      </div>
+
+      {/* Title */}
+      <h3 className="text-[15px] font-bold text-foreground leading-snug mb-2 pr-8">
+        {test.title}
+      </h3>
+
+      {/* Subtitle */}
+      <p className="text-sm text-muted-foreground mt-auto">
+        {test.subtitle}
+      </p>
+
+      {/* Access badge row (listening/reading only) */}
+      {gated && (
+        <div className="mt-2 flex items-center justify-between">
+          {free ? (
+            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold uppercase text-emerald-700 dark:bg-emerald-900/60 dark:text-emerald-300">
+              <Check className="h-3 w-3" /> Free
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1 rounded-full bg-violet-100 px-2 py-0.5 text-[10px] font-bold uppercase text-violet-700 dark:bg-violet-900/60 dark:text-violet-300">
+              <Lock className="h-3 w-3" /> Premium
+            </span>
+          )}
+          <span className="text-[11px] font-bold text-primary">
+            {locked ? 'Unlock with Subscription' : 'Start Test'}
+          </span>
+        </div>
+      )}
+    </div>
+  );
 
   return (
-    <Link href={test.href}>
-      <div className="group relative overflow-hidden rounded-xl sm:rounded-2xl border border-border bg-card p-3 sm:p-5 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/20 min-h-[140px] sm:min-h-[170px] flex flex-col">
-        {/* Decorative background icon */}
-        <div className="absolute -bottom-4 -right-4 opacity-[0.06] transition-transform duration-500 group-hover:scale-110">
-          <Icon className="h-32 w-32 text-foreground" strokeWidth={1} />
-        </div>
-
-        {/* Top row: badge + duration */}
-        <div className="flex items-center justify-between mb-3">
-          <span className={cn(
-            'inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide',
-            config.badge
-          )}>
-            <span className={cn('h-1.5 w-1.5 rounded-full', config.dot)} />
-            {test.skill}
-          </span>
-          <span className="inline-flex items-center gap-1 text-xs text-muted-foreground font-medium">
-            <Clock className="h-3.5 w-3.5" />
-            {test.duration}
-          </span>
-        </div>
-
-        {/* Title */}
-        <h3 className="text-[15px] font-bold text-foreground leading-snug mb-2 pr-8">
-          {test.title}
-        </h3>
-
-        {/* Subtitle */}
-        <p className="text-sm text-muted-foreground mt-auto">
-          {test.subtitle}
-        </p>
-      </div>
-    </Link>
+    <>
+      {locked ? (
+        <button
+          type="button"
+          onClick={() => setModalOpen(true)}
+          className="text-left"
+          aria-label={`${test.title} — Premium test`}
+        >
+          {body}
+        </button>
+      ) : (
+        <Link href={test.href}>{body}</Link>
+      )}
+      <PremiumTestModal open={modalOpen} onClose={() => setModalOpen(false)} testName={test.title} />
+    </>
   );
 }
 
 export default function PracticePage() {
   const searchParams = useSearchParams();
+  const { subscriptionActive } = useAccessState();
   const initialSkill = (searchParams.get('skill') as string) || 'All';
 
   const [activeSkill, setActiveSkill] = useState<string>('All');
@@ -243,7 +291,7 @@ export default function PracticePage() {
       {/* Tests Grid */}
       <div key={`${activeSkill}-${activeCategory}`} className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {filteredTests.map((test) => (
-          <TestCardComponent key={`${activeSkill}-${test.id}`} test={test} />
+          <TestCardComponent key={`${activeSkill}-${test.id}`} test={test} subscriptionActive={subscriptionActive} />
         ))}
       </div>
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Check, X, ArrowRight, Crown, Zap, Star, Sparkles, ChevronDown, ChevronUp } from 'lucide-react';
 import { Navbar } from '@/components/landing/navbar';
@@ -13,12 +13,42 @@ import {
   formatUZS,
   getUserPlan,
   type PlanId,
+  type PlanDefinition,
 } from '@/lib/subscription';
 
 export default function PricingPage() {
   const { user } = useAuth();
   const [purchasing, setPurchasing] = useState<PlanId | null>(null);
   const [showComparison, setShowComparison] = useState(false);
+  // Admin price overrides merged into the static catalog (prices editable
+  // from the admin panel without a redeploy).
+  const [effectivePlans, setEffectivePlans] = useState<PlanDefinition[]>(PLANS);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/plans/effective')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (cancelled || !data || typeof data.overrides !== 'object') return;
+        setEffectivePlans((prev) =>
+          prev.map((p) => {
+            const o = data.overrides[p.id];
+            if (!o) return p;
+            return {
+              ...p,
+              price: typeof o.price === 'number' ? o.price : p.price,
+              dailyPrice:
+                p.id === 'daily' && typeof o.dailyPrice === 'number' ? o.dailyPrice : p.dailyPrice,
+            };
+          }),
+        );
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const currentPlan = user ? getUserPlan(user.id) : 'free';
 
   const handlePurchase = async (planId: PlanId) => {
@@ -115,7 +145,7 @@ export default function PricingPage() {
                     Need full access for just one day?
                   </h3>
                   <p className="text-sm text-amber-700 dark:text-amber-300">
-                    Daily Pass — {formatUZS(7900)} · 24 hours of extended access
+                    Daily Pass — {formatUZS(effectivePlans.find((p) => p.id === 'daily')?.dailyPrice || 7900)} · 24 hours of extended access
                   </p>
                 </div>
               </div>
@@ -134,7 +164,7 @@ export default function PricingPage() {
         {/* ═══ Pricing Cards ═══ */}
         <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-16">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {PLANS.filter(p => p.id !== 'daily').map((plan) => {
+            {effectivePlans.filter(p => p.id !== 'daily').map((plan) => {
               const isCurrent = currentPlan === plan.id;
               return (
                 <div

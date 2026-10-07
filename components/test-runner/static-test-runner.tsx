@@ -1,9 +1,11 @@
 'use client';
 
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { Headphones, BookOpen, Clock, ChevronLeft, Maximize2, Minimize2, AlertCircle } from 'lucide-react';
+import { Headphones, BookOpen, Clock, ChevronLeft, Maximize2, Minimize2, AlertCircle, Loader2, Lock } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { useTestAccess } from '@/lib/access-client';
+import { PremiumTestModal } from '@/components/subscription/premium-test-modal';
 
 export interface StaticTestInfo {
   name: string;
@@ -76,7 +78,15 @@ export function StaticTestRunner({ test, skill }: { test: StaticTestInfo | null;
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [started, setStarted] = useState(false);
   const [timeLeft, setTimeLeft] = useState(test ? test.duration * 60 : 60 * 60);
+  const [showPremiumModal, setShowPremiumModal] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Server-side access gate (defense in depth — middleware also guards the
+  // runner route and the static HTML, but this keeps the UX in-place).
+  const slug = test?.filename
+    ? test.filename.toLowerCase().replace(/_/g, '-').replace(/\s+/g, '-').replace(/\.html$/, '')
+    : undefined;
+  const { checking, allowed } = useTestAccess(skill, slug);
 
   useEffect(() => {
     if (started && timeLeft > 0) {
@@ -183,6 +193,50 @@ export function StaticTestRunner({ test, skill }: { test: StaticTestInfo | null;
             <ChevronLeft className="h-4 w-4" /> Back to {cfg.listLabel} Tests
           </Link>
         </div>
+      </div>
+    );
+  }
+
+  // ── Access gate: server decision pending ──
+  if (checking) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          <p className="text-sm text-muted-foreground">Tekshirilmoqda...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Access gate: server denied → subscription prompt, never the test ──
+  if (!allowed) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background p-4">
+        <div className="w-full max-w-md rounded-2xl border border-border bg-card p-8 text-center shadow-sm">
+          <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-violet-500/10">
+            <Lock className="h-8 w-8 text-violet-600" />
+          </div>
+          <h1 className="text-xl font-bold text-foreground">Bu test Premium foydalanuvchilar uchun</h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Ushbu testdan foydalanish uchun StartIELTS obunasini faollashtiring.
+          </p>
+          <div className="mt-6 space-y-2">
+            <Link
+              href="/pricing"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90"
+            >
+              Obunani ko&apos;rish →
+            </Link>
+            <Link
+              href={cfg.listHref}
+              className="flex w-full items-center justify-center rounded-xl border border-border px-4 py-3 text-sm font-semibold transition-colors hover:bg-muted"
+            >
+              Orqaga qaytish
+            </Link>
+          </div>
+        </div>
+        <PremiumTestModal open={showPremiumModal} onClose={() => setShowPremiumModal(false)} testName={test?.name} />
       </div>
     );
   }

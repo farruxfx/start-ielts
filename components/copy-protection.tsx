@@ -1,10 +1,34 @@
 'use client';
 
 import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+
+/**
+ * Copy / screenshot protection — ACTIVE ONLY DURING TESTS.
+ *
+ * "In-test" routes: listening & reading runner pages, mock exam, writing
+ * test and /test/[code]. Everywhere else (dashboard, pricing, settings,
+ * admin, payment instructions, ...) copying works normally — the previous
+ * global clipboard override that broke every "Copy" button is gone.
+ */
+const TEST_PATH_PREFIXES = ['/listening/', '/reading/', '/mock-exam/', '/writing/test/', '/test/'];
 
 export function CopyProtection() {
+  const pathname = usePathname() || '';
+  const inTest = TEST_PATH_PREFIXES.some((p) => pathname.startsWith(p));
+
   useEffect(() => {
-    // Disable right-click context menu
+    // Outside tests: no restrictions at all.
+    if (!inTest) return;
+
+    const isEditable = (el: EventTarget | null): boolean => {
+      const t = el as HTMLElement | null;
+      if (!t) return false;
+      const tag = t.tagName;
+      return tag === 'INPUT' || tag === 'TEXTAREA' || !!t.isContentEditable;
+    };
+
+    // Disable right-click context menu inside tests
     const handleContextMenu = (e: MouseEvent) => {
       e.preventDefault();
       return false;
@@ -12,88 +36,36 @@ export function CopyProtection() {
 
     // Disable keyboard shortcuts for copying, printing, saving, viewing source
     const handleKeyDown = (e: KeyboardEvent) => {
-      const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+      const isMac = (navigator.platform || '').toUpperCase().includes('MAC');
       const ctrl = isMac ? e.metaKey : e.ctrlKey;
+      const key = e.key.toLowerCase();
 
-      // Ctrl+C / Cmd+C — Copy
-      if (ctrl && e.key === 'c' && !e.shiftKey) {
+      // Ctrl/Cmd + C/X/A/P/S/U/J — copy, cut, select-all, print, save, view-source, downloads
+      if (ctrl && !e.shiftKey && ['c', 'x', 'a', 'p', 's', 'u', 'j'].includes(key)) {
         e.preventDefault();
         return false;
       }
 
-      // Ctrl+V / Cmd+V — Paste (block in test areas)
-      if (ctrl && e.key === 'v') {
+      // Ctrl/Cmd + V — paste is pointless in tests, block it
+      if (ctrl && key === 'v') {
         e.preventDefault();
         return false;
       }
 
-      // Ctrl+X / Cmd+X — Cut
-      if (ctrl && e.key === 'x') {
+      // DevTools shortcuts
+      if (ctrl && e.shiftKey && ['i', 'j', 'c'].includes(key)) {
         e.preventDefault();
         return false;
       }
-
-      // Ctrl+A / Cmd+A — Select All
-      if (ctrl && e.key === 'a') {
-        e.preventDefault();
-        return false;
-      }
-
-      // Ctrl+P / Cmd+P — Print
-      if (ctrl && e.key === 'p') {
-        e.preventDefault();
-        return false;
-      }
-
-      // Ctrl+S / Cmd+S — Save
-      if (ctrl && e.key === 's') {
-        e.preventDefault();
-        return false;
-      }
-
-      // Ctrl+U / Cmd+U — View Source
-      if (ctrl && e.key === 'u') {
-        e.preventDefault();
-        return false;
-      }
-
-      // Ctrl+J / Cmd+J — Downloads
-      if (ctrl && e.key === 'j') {
-        e.preventDefault();
-        return false;
-      }
-
-      // Ctrl+Shift+I / Cmd+Option+I — DevTools
-      if (ctrl && e.shiftKey && e.key === 'I') {
-        e.preventDefault();
-        return false;
-      }
-
-      // Ctrl+Shift+J / Cmd+Option+J — Console
-      if (ctrl && e.shiftKey && e.key === 'J') {
-        e.preventDefault();
-        return false;
-      }
-
-      // Ctrl+Shift+C / Cmd+Option+C — Inspect Element
-      if (ctrl && e.shiftKey && e.key === 'C') {
-        e.preventDefault();
-        return false;
-      }
-
-      // F12 — DevTools
       if (e.key === 'F12') {
         e.preventDefault();
         return false;
       }
 
-      // Print Screen
+      // Print Screen — best-effort clipboard clear
       if (e.key === 'PrintScreen') {
         e.preventDefault();
-        // Clear clipboard
-        if (navigator.clipboard) {
-          navigator.clipboard.writeText('').catch(() => {});
-        }
+        try { navigator.clipboard?.writeText('').catch(() => {}); } catch { /* ignore */ }
         return false;
       }
     };
@@ -104,54 +76,46 @@ export function CopyProtection() {
       return false;
     };
 
-    // Disable text selection via mouse
+    // Disable text selection via mouse (inputs still selectable)
     const handleSelectStart = (e: Event) => {
-      const target = e.target as HTMLElement;
-      // Allow selection in input/textarea fields
-      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) {
-        return true;
-      }
+      if (isEditable(e.target)) return true;
       e.preventDefault();
       return false;
     };
 
-    // Block DevTools via debugger statement detection
-    const handleDevToolsCheck = () => {
-      const threshold = 100;
-      const start = performance.now();
-      // This is a lightweight detection — actual blocking is done via shortcuts
-      // Real protection happens server-side
+    // Block copying of the selected test content
+    const handleCopy = (e: ClipboardEvent) => {
+      if (isEditable(e.target)) return true;
+      e.preventDefault();
+      return false;
     };
 
     document.addEventListener('contextmenu', handleContextMenu, true);
     document.addEventListener('keydown', handleKeyDown, true);
     document.addEventListener('dragstart', handleDragStart, true);
     document.addEventListener('selectstart', handleSelectStart, true);
+    document.addEventListener('copy', handleCopy, true);
 
-    // DevTools detection
-    const devToolsInterval = setInterval(handleDevToolsCheck, 1000);
-
-    // Disable print screen via clipboard API override
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      const originalWriteText = navigator.clipboard.writeText.bind(navigator.clipboard);
-      navigator.clipboard.writeText = async (text: string) => {
-        // Allow clipboard writes inside input/textarea only
-        const activeEl = document.activeElement;
-        if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || (activeEl as HTMLElement).isContentEditable)) {
-          return originalWriteText(text);
-        }
-        return Promise.resolve();
-      };
-    }
+    // Test-only user-select lock (iframe content already handled by the runner).
+    const style = document.createElement('style');
+    style.id = 'copy-guard-style';
+    style.textContent =
+      '.copy-guard-active *:not(input):not(textarea):not([contenteditable="true"]) ' +
+      '{ -webkit-user-select: none !important; -moz-user-select: none !important; ' +
+      '-ms-user-select: none !important; user-select: none !important; }';
+    document.head.appendChild(style);
+    document.body.classList.add('copy-guard-active');
 
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu, true);
       document.removeEventListener('keydown', handleKeyDown, true);
       document.removeEventListener('dragstart', handleDragStart, true);
       document.removeEventListener('selectstart', handleSelectStart, true);
-      clearInterval(devToolsInterval);
+      document.removeEventListener('copy', handleCopy, true);
+      document.body.classList.remove('copy-guard-active');
+      document.getElementById('copy-guard-style')?.remove();
     };
-  }, []);
+  }, [inTest]);
 
   return null;
 }

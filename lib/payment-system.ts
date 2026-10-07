@@ -100,7 +100,9 @@ export async function createPaymentOrder(
 ): Promise<PaymentOrder | null> {
   const plan = PLANS.find(p => p.id === planId);
   if (!plan || planId === 'free') return null;
-  const baseAmount = planId === 'daily' ? (plan.dailyPrice || 0) : plan.price;
+  // Effective price: admin overrides (plan_overrides) merged over the static catalog.
+  const { getEffectivePlanPrice } = await import('./plan-overrides');
+  const baseAmount = await getEffectivePlanPrice(planId);
   if (baseAmount <= 0) return null;
 
   const exactAmount = await generateUniqueAmount(baseAmount);

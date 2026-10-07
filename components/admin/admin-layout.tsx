@@ -17,6 +17,8 @@ import {
   ShieldCheck,
   Upload,
   Clock,
+  Tag,
+  Radio,
 } from 'lucide-react';
 import { useAuth } from '@/components/auth/use-auth';
 import { cn } from '@/lib/utils';
@@ -28,6 +30,16 @@ const adminNav = [
   { label: 'Import History', href: '/admin/import-history', icon: Clock },
   { label: 'Users', href: '/admin/users', icon: Users },
   { label: 'Subscriptions', href: '/admin/subscriptions', icon: CreditCard },
+  {
+    label: 'Pricing',
+    href: '/admin/pricing',
+    icon: Tag,
+  },
+  {
+    label: 'Telegram Listener',
+    href: '/admin/telegram',
+    icon: Radio,
+  },
   { label: 'Payment Methods', href: '/admin/payment-methods', icon: CreditCard },
   { label: 'Payment Orders', href: '/admin/payment-orders', icon: CreditCard },
   { label: 'Settings', href: '/admin/settings', icon: Settings },

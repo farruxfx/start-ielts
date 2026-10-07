@@ -19,6 +19,7 @@ import {
   Zap,
   ChevronRight,
   Sparkles,
+  Lock,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -30,6 +31,8 @@ import {
   setUserProfile,
 } from '@/lib/store';
 import { useAuth } from '@/components/auth/use-auth';
+import { useAccessState } from '@/lib/access-client';
+import { TOTAL_FREE_TESTS } from '@/lib/test-access';
 import { SubscriptionWidget } from '@/components/subscription/subscription-widget';
 import dynamic from 'next/dynamic';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -68,6 +71,43 @@ function ChartSkeleton() {
       <Skeleton className="h-5 w-40" />
       <Skeleton className="mt-3 h-[260px] w-full" />
     </div>
+  );
+}
+
+function TestAccessSummary() {
+  const { subscriptionActive, plan, expiresAt, loading } = useAccessState();
+
+  if (loading) return null;
+
+  return (
+    <div className="grid grid-cols-2 gap-3">
+      <div className="rounded-2xl border border-border bg-card p-4">
+        <div className="flex items-center gap-2">
+          <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Free Tests</span>
+        </div>
+        <p className="mt-2 text-lg font-bold text-foreground">{TOTAL_FREE_TESTS} / {TOTAL_FREE_TESTS} available</p>
+        <p className="text-xs text-muted-foreground">Har doim ochiq testlar</p>
+      </div>
+      <div className="rounded-2xl border border-border bg-card p-4">
+        <div className="flex items-center gap-2">
+          {subscriptionActive ? (
+            <Sparkles className="h-4 w-4 text-violet-600" />
+          ) : (
+            <Lock className="h-4 w-4 text-muted-foreground" />
+          )}
+          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Premium Tests</span>
+        </div>
+        <p className="mt-2 text-lg font-bold text-foreground">
+          {subscriptionActive ? 'Unlocked' : 'Locked'}
+        </p>
+        <p className="text-xs text-muted-foreground">
+          {subscriptionActive
+            ? `${plan.toUpperCase()} · ${expiresAt ? new Date(expiresAt).toLocaleDateString('uz-UZ') + ' gacha' : 'Faol obuna'}`
+            : 'Barcha premium testlar ochiladi'}
+        </p>
+    </div>
+  </div>
   );
 }
 
@@ -166,6 +206,9 @@ export default function DashboardPage() {
 
       {/* ═══ Subscription Widget ═══ */}
       <SubscriptionWidget />
+
+      {/* ═══ Test Access Summary ═══ */}
+      <TestAccessSummary />
 
       {/* ═══ Quick Actions — Circular Badges ═══ */}
       <div>

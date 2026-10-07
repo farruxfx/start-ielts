@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { isSupabaseConfigured } from '@/lib/supabase';
-import { PLANS, getPlanPrice, type PlanId } from '@/lib/plans-data';
+import { PLANS, type PlanId } from '@/lib/plans-data';
+import { getEffectivePlanPrice } from '@/lib/plan-overrides';
 
 // When Supabase is not configured, return instructions for client-side handling
 export async function POST(req: NextRequest) {
@@ -16,7 +17,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Cannot create payment order for free plan' }, { status: 400 });
     }
 
-    const baseAmount = getPlanPrice(planId);
+    // Admin-editable effective price (plan_overrides merged over defaults)
+    const baseAmount = await getEffectivePlanPrice(planId);
 
     if (!isSupabaseConfigured) {
       // No Supabase — tell client to create order locally

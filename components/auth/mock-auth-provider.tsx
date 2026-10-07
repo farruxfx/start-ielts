@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import type { GoogleUserInfo } from '@/lib/google-auth';
+import { setSessionCookie, clearSessionCookie } from '@/lib/auth-session-client';
 
 type UserRole = 'student' | 'teacher' | 'admin';
 
@@ -140,6 +141,8 @@ export function MockAuthProvider({ children }: { children: ReactNode }) {
     setUser(effectiveUser);
     setRole(effectiveUser.role);
     setCurrentUser(effectiveUser);
+    // Mint the signed httpOnly session cookie (server-side access control).
+    void setSessionCookie(effectiveUser);
     return { error: null };
   };
 
@@ -163,6 +166,7 @@ export function MockAuthProvider({ children }: { children: ReactNode }) {
     setUser(newUser);
     setRole(newUser.role);
     setCurrentUser(newUser);
+    void setSessionCookie(newUser);
     return { error: null };
   };
 
@@ -199,6 +203,7 @@ export function MockAuthProvider({ children }: { children: ReactNode }) {
     setUser(existingUser);
     setRole(existingUser.role);
     setCurrentUser(existingUser);
+    void setSessionCookie(existingUser);
     return { error: null };
   };
 
@@ -206,6 +211,8 @@ export function MockAuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
     setRole(null);
     setCurrentUser(null);
+    // Clear the signed session cookie so middleware locks premium again.
+    void clearSessionCookie();
   };
 
   return (

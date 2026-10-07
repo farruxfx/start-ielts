@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import type { Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
+import { setSessionCookie, clearSessionCookie } from '@/lib/auth-session-client';
 
 type UserRole = 'student' | 'teacher' | 'admin';
 
@@ -49,6 +50,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(session?.user ?? null);
       if (session?.user) {
         fetchRole(session.user.id);
+        void setSessionCookie({
+          id: session.user.id,
+          email: session.user.email || '',
+          name: (session.user.user_metadata?.name as string) || undefined,
+          role: undefined,
+        });
       }
       setLoading(false);
     }).catch(() => {
@@ -64,8 +71,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setUser(session?.user ?? null);
           if (session?.user) {
             fetchRole(session.user.id);
+            void setSessionCookie({
+              id: session.user.id,
+              email: session.user.email || '',
+              name: (session.user.user_metadata?.name as string) || undefined,
+              role: undefined,
+            });
           } else {
             setRole(null);
+            void clearSessionCookie();
           }
           setLoading(false);
         })();
@@ -139,6 +153,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setSession(null);
     setUser(null);
     setRole(null);
+    void clearSessionCookie();
   };
 
   return (
