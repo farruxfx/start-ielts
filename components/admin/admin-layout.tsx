@@ -19,6 +19,8 @@ import {
   Clock,
   Tag,
   Radio,
+  Ticket,
+  Gift,
 } from 'lucide-react';
 import { useAuth } from '@/components/auth/use-auth';
 import { cn } from '@/lib/utils';
@@ -34,6 +36,16 @@ const adminNav = [
     label: 'Pricing',
     href: '/admin/pricing',
     icon: Tag,
+  },
+  {
+    label: 'Promo Codes',
+    href: '/admin/promo-codes',
+    icon: Ticket,
+  },
+  {
+    label: 'Free Access',
+    href: '/admin/free-access',
+    icon: Gift,
   },
   {
     label: 'Telegram Listener',

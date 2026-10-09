@@ -31,6 +31,10 @@ export interface PaymentOrder {
   payment_method_id: string;
   base_amount: number;
   exact_amount: number;
+  /** Promo discount (UZS) already deducted from base_amount. */
+  discount_amount?: number;
+  /** Uppercased promo code applied to this order (null = none). */
+  promo_code?: string | null;
   status: PaymentOrderStatus;
   expires_at: string;
   paid_at: string | null;
@@ -97,13 +101,30 @@ export async function createPaymentOrder(
   userId: string,
   planId: PlanId,
   paymentMethodId: string,
+  promoCode?: string | null,
 ): Promise<PaymentOrder | null> {
   const plan = PLANS.find(p => p.id === planId);
   if (!plan || planId === 'free') return null;
   // Effective price: admin overrides (plan_overrides) merged over the static catalog.
   const { getEffectivePlanPrice } = await import('./plan-overrides');
-  const baseAmount = await getEffectivePlanPrice(planId);
+  let baseAmount = await getEffectivePlanPrice(planId);
   if (baseAmount <= 0) return null;
+
+  // Promo code: validated server-side; the discounted amount becomes the
+  // order base so the unique exact_amount the user transfers (and the
+  // Telegram listener matches) reflects the promo price — never full price.
+  let promoCodeNorm: string | null = null;
+  let discountAmount = 0;
+  if (promoCode && promoCode.trim()) {
+    const { validatePromoCode, normalizeCode } = await import('./promo-codes');
+    const validation = await validatePromoCode(promoCode, planId, baseAmount);
+    if (!validation.valid) {
+      throw Object.assign(new Error(validation.error || "Promo kod noto'g'ri"), { status: 400 });
+    }
+    discountAmount = validation.discount;
+    promoCodeNorm = normalizeCode(promoCode);
+    baseAmount = validation.finalBasePrice;
+  }
 
   const exactAmount = await generateUniqueAmount(baseAmount);
   const expiresAt = new Date(Date.now() + PAYMENT_ORDER_TTL_MINUTES * 60 * 1000).toISOString();
@@ -116,6 +137,8 @@ export async function createPaymentOrder(
     plan_id: planId,
     payment_method_id: paymentMethodId,
     base_amount: baseAmount,
+    discount_amount: discountAmount,
+    promo_code: promoCodeNorm,
     exact_amount: exactAmount,
     status: 'pending' as PaymentOrderStatus,
     expires_at: expiresAt,

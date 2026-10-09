@@ -9,6 +9,10 @@
 //    • /listening/[slug], /reading/[slug]  → runner pages
 //      (unauthenticated → signin redirect; premium without active sub →
 //      /subscription-required page)
+//    • /mock-exam/[id] (+ /history, /result) → mock exam gate; free exams
+//      are stacked over free listening/reading teasers (all-or-nothing).
+//      Free ids are admin-manageable (app_free_access) with a static
+//      fallback and a short-lived cookie cache to keep the Edge fast.
 //
 //  The subscription claim comes from the ECDSA-signed session cookie —
 //  clients cannot tamper with it (see lib/session.ts).
@@ -16,7 +20,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { SESSION_COOKIE, verifySessionToken, deriveAccessState } from '@/lib/session';
-import { isFreeTest } from '@/lib/test-access';
+import { isFreeTest, isFreeMockExam, FREE_MOCK_EXAM_IDS } from '@/lib/test-access';
 
 /** `Authentic Listening Mock (1).html` → `authentic-listening-mock-1` */
 function fileToSlug(pathname: string): string | null {
@@ -30,6 +34,18 @@ function fileToSlug(pathname: string): string | null {
   if (!decoded.toLowerCase().endsWith('.html')) return null;
   const base = decoded.slice(0, -'.html'.length);
   return base.toLowerCase().replace(/_/g, '-').replace(/\s+/g, '-');
+}
+
+/** Free mock ids from the admin-maintained cookie cache (fallback: static). */
+function freeMockIdsFromCookie(req: NextRequest): string[] {
+  const raw = req.cookies.get('ielts_free_mocks')?.value;
+  if (!raw) return [...FREE_MOCK_EXAM_IDS];
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) && parsed.length > 0 ? parsed.map(String) : [...FREE_MOCK_EXAM_IDS];
+  } catch {
+    return [...FREE_MOCK_EXAM_IDS];
+  }
 }
 
 function premiumDeniedHtml(): string {
@@ -72,6 +88,42 @@ function premiumDeniedHtml(): string {
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+
+  // ── Mock exam routes ────────────────────────────────────────────────
+  if (pathname.startsWith('/mock-exam')) {
+    // List page + svg assets stay public.
+    if (pathname === '/mock-exam' || pathname.includes('.')) {
+      return NextResponse.next();
+    }
+
+    const token = req.cookies.get(SESSION_COOKIE)?.value;
+    const state = deriveAccessState(await verifySessionToken(token));
+
+    const segments = pathname.split('/').filter(Boolean); // ['mock-exam', id?]
+    const examId = segments[1] || '';
+
+    // Free mock exam ids (cookie cache → static default). Non-exam paths
+    // (history, result pages) just require authentication.
+    const freeMocks = freeMockIdsFromCookie(req);
+    const isRunningPage = examId && !['history', 'result'].includes(examId);
+
+    if (isRunningPage) {
+      const allowed = isFreeMockExam(examId, freeMocks)
+        ? state.authenticated // free mock still requires an account
+        : state.authenticated && state.subscriptionActive;
+      if (allowed) return NextResponse.next();
+    } else {
+      // /mock-exam/history, /mock-exam/result — account required
+      if (state.authenticated) return NextResponse.next();
+    }
+
+    const url = req.nextUrl.clone();
+    url.pathname = '/subscription-required';
+    url.search = '';
+    url.searchParams.set('skill', 'mock-exam');
+    if (examId) url.searchParams.set('slug', examId);
+    return NextResponse.redirect(url);
+  }
 
   // Only guard test content under /listening and /reading.
   if (!pathname.startsWith('/listening') && !pathname.startsWith('/reading')) {
@@ -139,5 +191,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/listening/:path*', '/reading/:path*'],
+  matcher: ['/listening/:path*', '/reading/:path*', '/mock-exam/:path*'],
 };

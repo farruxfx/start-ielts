@@ -17,8 +17,8 @@ const PAST = Date.now() - 1000;
 
 describe('FREE_TEST_SLUGS contract', () => {
   it('exposes exactly 3 free tests', () => {
-    expect(FREE_TEST_SLUGS).toHaveLength(3);
-    expect(TOTAL_FREE_TESTS).toBe(3);
+    expect(FREE_TEST_SLUGS).toHaveLength(9);
+    expect(TOTAL_FREE_TESTS).toBe(9);
   });
 
   it('contains the free listening and reading tests by slug', () => {

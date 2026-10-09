@@ -22,11 +22,16 @@ export default function SignUpPage() {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [postedToOnboarding, setPostedToOnboarding] = useState(false);
   const googleBtnRef = useRef<HTMLDivElement>(null);
 
+  // Existing users land on the dashboard. BUT while a signup flow (email
+  // submit or Google callback) is posting the user to /onboarding, this
+  // effect must NOT steal the navigation — otherwise Google users get
+  // bounced to /dashboard before onboarding renders (the reported bug).
   useEffect(() => {
-    if (session) router.push('/dashboard');
-  }, [session, router]);
+    if (session && !postedToOnboarding) router.push('/dashboard');
+  }, [session, postedToOnboarding, router]);
 
   // Initialize Google Sign-In button (only when Supabase is NOT configured — mock auth)
   useEffect(() => {
@@ -42,6 +47,7 @@ export default function SignUpPage() {
               setError(error);
               setGoogleLoading(false);
             } else {
+              setPostedToOnboarding(true);
               router.push('/onboarding');
             }
           }
@@ -70,6 +76,7 @@ export default function SignUpPage() {
     if (error) {
       setError(error);
     } else {
+      setPostedToOnboarding(true);
       router.push('/onboarding');
     }
   };

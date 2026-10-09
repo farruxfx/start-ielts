@@ -38,7 +38,7 @@ CREATE POLICY "plan_overrides_public_read" ON plan_overrides
 
 DROP POLICY IF EXISTS "plan_overrides_service_write" ON plan_overrides;
 CREATE POLICY "plan_overrides_service_write" ON plan_overrides
-  FOR ALL USING (true) WITH CHECK (true);
+  FOR ALL TO service_role USING (true) WITH CHECK (true);
 
 -- transaction_logs may predate the telegram_listener source: widen nothing,
 -- the column accepts any TEXT; just make sure the unique dedupe index exists.

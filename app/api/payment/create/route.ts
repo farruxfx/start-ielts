@@ -7,7 +7,11 @@ import { getEffectivePlanPrice } from '@/lib/plan-overrides';
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { userId, planId } = body as { userId: string; planId: PlanId };
+    const { userId, planId, promoCode } = body as {
+      userId: string;
+      planId: PlanId;
+      promoCode?: string | null;
+    };
 
     if (!userId || !planId) {
       return NextResponse.json({ error: 'Missing userId or planId' }, { status: 400 });
@@ -18,14 +22,26 @@ export async function POST(req: NextRequest) {
     }
 
     // Admin-editable effective price (plan_overrides merged over defaults)
-    const baseAmount = await getEffectivePlanPrice(planId);
+    let baseAmount = await getEffectivePlanPrice(planId);
 
     if (!isSupabaseConfigured) {
+      // No Supabase — honor promo for the client-side path, then hand off.
+      let finalBase = baseAmount;
+      if (promoCode && promoCode.trim()) {
+        const { validatePromoCode } = await import('@/lib/promo-codes');
+        const validation = await validatePromoCode(promoCode, planId, baseAmount);
+        if (!validation.valid) {
+          return NextResponse.json({ error: validation.error }, { status: 400 });
+        }
+        finalBase = validation.finalBasePrice;
+      }
       // No Supabase — tell client to create order locally
       return NextResponse.json({
         success: true,
         useClientSide: true,
-        baseAmount,
+        baseAmount: finalBase,
+        originalBaseAmount: baseAmount,
+        promoCode: promoCode || null,
         planId,
       });
     }
@@ -37,7 +53,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'No active payment method configured' }, { status: 500 });
     }
 
-    const order = await createPaymentOrder(userId, planId, paymentMethod.id);
+    const order = await createPaymentOrder(userId, planId, paymentMethod.id, promoCode);
     if (!order) {
       return NextResponse.json({ error: 'Failed to create payment order' }, { status: 500 });
     }
@@ -49,6 +65,8 @@ export async function POST(req: NextRequest) {
         exactAmount: order.exact_amount,
         baseAmount: order.base_amount,
         planId: order.plan_id,
+        promoCode: order.promo_code,
+        discountAmount: order.discount_amount,
         expiresAt: order.expires_at,
         status: order.status,
       },

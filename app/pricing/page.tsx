@@ -20,6 +20,8 @@ export default function PricingPage() {
   const { user } = useAuth();
   const [purchasing, setPurchasing] = useState<PlanId | null>(null);
   const [showComparison, setShowComparison] = useState(false);
+  const [promoInputs, setPromoInputs] = useState<Partial<Record<PlanId, string>>>({});
+  const [promoState, setPromoState] = useState<Partial<Record<PlanId, { checking: boolean; error?: string; discount?: number; final?: number }>>>({});
   // Admin price overrides merged into the static catalog (prices editable
   // from the admin panel without a redeploy).
   const [effectivePlans, setEffectivePlans] = useState<PlanDefinition[]>(PLANS);
@@ -51,6 +53,34 @@ export default function PricingPage() {
 
   const currentPlan = user ? getUserPlan(user.id) : 'free';
 
+  const applyPromo = async (planId: PlanId) => {
+    const code = (promoInputs[planId] || '').trim();
+    if (!code) return;
+    setPromoState((s) => ({ ...s, [planId]: { checking: true } }));
+    try {
+      const res = await fetch('/api/promo/validate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code, planId }),
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        setPromoState((s) => ({ ...s, [planId]: { checking: false, error: data.error || "Kod noto'g'ri" } }));
+        return;
+      }
+      if (!data.valid) {
+        setPromoState((s) => ({ ...s, [planId]: { checking: false, error: data.error || "Kod noto'g'ri" } }));
+        return;
+      }
+      setPromoState((s) => ({
+        ...s,
+        [planId]: { checking: false, discount: data.discount, final: data.finalBasePrice },
+      }));
+    } catch {
+      setPromoState((s) => ({ ...s, [planId]: { checking: false, error: 'Server bilan aloqa xatosi' } }));
+    }
+  };
+
   const handlePurchase = async (planId: PlanId) => {
     if (!user) {
       window.location.href = '/signin';
@@ -61,7 +91,7 @@ export default function PricingPage() {
       const res = await fetch('/api/payment/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: user.id, planId }),
+        body: JSON.stringify({ userId: user.id, planId, promoCode: (promoInputs[planId] || '').trim() || null }),
       });
       const data = await res.json();
       
@@ -77,6 +107,7 @@ export default function PricingPage() {
           setPurchasing(null);
           return;
         }
+        // data.baseAmount already reflects the promo discount (server validated)
         const exactAmount = generateUniqueAmountLocal(data.baseAmount);
         const orderId = `po_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
         const now = new Date().toISOString();
@@ -88,6 +119,8 @@ export default function PricingPage() {
           plan_id: planId,
           payment_method_id: method.id,
           base_amount: data.baseAmount,
+          discount_amount: Math.max(0, (data.originalBaseAmount || data.baseAmount) - data.baseAmount),
+          promo_code: (promoInputs[planId] || '').trim().toUpperCase() || null,
           exact_amount: exactAmount,
           status: 'pending',
           expires_at: expiresAt,
@@ -97,7 +130,7 @@ export default function PricingPage() {
           processed_at: null,
           created_at: now,
           updated_at: now,
-        });
+        } as any);
         
         window.location.href = `/payment/${orderId}`;
       } else {
@@ -211,7 +244,18 @@ export default function PricingPage() {
                       ) : (
                         <>
                           <span className="text-sm text-muted-foreground">/oyiga</span>
-                          <span className="text-3xl font-bold">{formatUZS(plan.price)}</span>
+                          {promoState[plan.id]?.discount ? (
+                            <>
+                              <span className="text-2xl font-bold text-green-600">
+                                {formatUZS(promoState[plan.id]!.final!)}
+                              </span>
+                              <span className="text-sm line-through text-muted-foreground">
+                                {formatUZS(plan.price)}
+                              </span>
+                            </>
+                          ) : (
+                            <span className="text-3xl font-bold">{formatUZS(plan.price)}</span>
+                          )}
                         </>
                       )}
                     </div>
@@ -226,6 +270,39 @@ export default function PricingPage() {
                       </li>
                     ))}
                   </ul>
+
+                  {/* Promo input (paid plans only) */}
+                  {plan.price > 0 && (
+                    <div className="mb-4 space-y-1.5">
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          placeholder="Promo kod"
+                          value={promoInputs[plan.id] || ''}
+                          onChange={(e) =>
+                            setPromoInputs((p) => ({ ...p, [plan.id]: e.target.value.toUpperCase() }))
+                          }
+                          className="h-9 w-full rounded-xl border border-border bg-background px-3 text-sm uppercase tracking-wide focus:outline-none focus:ring-2 focus:ring-primary/50"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => applyPromo(plan.id)}
+                          disabled={promoState[plan.id]?.checking || !(promoInputs[plan.id] || '').trim()}
+                          className="h-9 shrink-0 rounded-xl border border-primary/40 bg-primary/10 px-3 text-xs font-bold text-primary hover:bg-primary/20 disabled:opacity-50"
+                        >
+                          {promoState[plan.id]?.checking ? '...' : 'Qo‘llash'}
+                        </button>
+                      </div>
+                      {promoState[plan.id]?.error && (
+                        <p className="text-xs text-destructive">{promoState[plan.id]!.error}</p>
+                      )}
+                      {promoState[plan.id]?.discount ? (
+                        <p className="text-xs font-medium text-green-600">
+                          Promo qo‘llanildi: −{formatUZS(promoState[plan.id]!.discount!)}
+                        </p>
+                      ) : null}
+                    </div>
+                  )}
 
                   {/* CTA */}
                   <button

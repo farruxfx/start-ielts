@@ -122,7 +122,7 @@ export function UpgradeModal({ open, onClose }: UpgradeModalProps) {
     return () => clearInterval(timer);
   }, [view]);
 
-  const handleSelectPlan = async (planId: PlanId) => {
+  const handleSelectPlan = async (planId: PlanId, promoCode?: string | null) => {
     if (!user || planId === 'free') return;
 
     const plan = PLANS.find(p => p.id === planId);
@@ -134,8 +134,27 @@ export function UpgradeModal({ open, onClose }: UpgradeModalProps) {
       return;
     }
 
-    // Create order client-side
-    const baseAmount = planId === 'daily' ? (plan.dailyPrice || 0) : plan.price;
+    // Server truth: admin-overridden price + promo validation happen here.
+    let baseAmount = planId === 'daily' ? (plan.dailyPrice || 0) : plan.price;
+    let discountAmount = 0;
+    try {
+      const res = await fetch('/api/promo/validate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: promoCode || '', planId }),
+      });
+      if (res.ok) {
+        const v = await res.json();
+        if (v.error) {
+          alert(v.error);
+          return;
+        }
+        if (v.valid) {
+          discountAmount = v.discount;
+          baseAmount = v.finalBasePrice;
+        }
+      }
+    } catch { /* fall back to base price */ }
     const exact = generateUniqueAmountLocal(baseAmount);
     const id = `po_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
     const now = new Date().toISOString();
@@ -143,10 +162,12 @@ export function UpgradeModal({ open, onClose }: UpgradeModalProps) {
 
     savePaymentOrderLocal({
       id, user_id: user.id, plan_id: planId, payment_method_id: method.id,
-      base_amount: baseAmount, exact_amount: exact, status: 'pending',
+      base_amount: baseAmount, discount_amount: discountAmount,
+      promo_code: promoCode ? promoCode.trim().toUpperCase() : null,
+      exact_amount: exact, status: 'pending',
       expires_at: expiresAt, paid_at: null, transaction_message_id: null,
       transaction_sender_id: null, processed_at: null, created_at: now, updated_at: now,
-    });
+    } as any);
 
     setOrderId(id);
     setExactAmount(exact);
@@ -156,6 +177,9 @@ export function UpgradeModal({ open, onClose }: UpgradeModalProps) {
     setView('checkout');
     setPolling(true);
   };
+
+  const [promoInputs, setPromoInputs] = useState<Partial<Record<PlanId, string>>>({});
+  const [promoErrors, setPromoErrors] = useState<Partial<Record<PlanId, string | null>>>({});
 
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text.replace(/\s/g, ''));
@@ -191,38 +215,53 @@ export function UpgradeModal({ open, onClose }: UpgradeModalProps) {
 
             <div className="space-y-3">
               {PLANS.filter(p => p.id !== 'free' && getPlanLevel(p.id) > getPlanLevel(currentPlan)).map(plan => (
-                <button
-                  key={plan.id}
-                  onClick={() => handleSelectPlan(plan.id)}
-                  className={cn(
-                    'w-full flex items-center gap-4 p-4 rounded-xl border-2 text-left transition-all',
-                    plan.highlighted
-                      ? 'border-primary/30 bg-primary/5 hover:border-primary hover:shadow-md'
-                      : 'border-border hover:border-primary/30 hover:shadow-sm'
-                  )}
-                >
-                  <span className="text-2xl">{plan.icon}</span>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="font-bold text-sm">{plan.name}</span>
-                      {plan.badge && (
-                        <span className="text-[9px] font-bold bg-primary text-primary-foreground px-1.5 py-0.5 rounded-full">{plan.badge}</span>
+                <div key={plan.id} className="space-y-1.5">
+                  <button
+                    onClick={() => handleSelectPlan(plan.id, promoInputs[plan.id] || null)}
+                    className={cn(
+                      'w-full flex items-center gap-4 p-4 rounded-xl border-2 text-left transition-all',
+                      plan.highlighted
+                        ? 'border-primary/30 bg-primary/5 hover:border-primary hover:shadow-md'
+                        : 'border-border hover:border-primary/30 hover:shadow-sm'
+                    )}
+                  >
+                    <span className="text-2xl">{plan.icon}</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-sm">{plan.name}</span>
+                        {plan.badge && (
+                          <span className="text-[9px] font-bold bg-primary text-primary-foreground px-1.5 py-0.5 rounded-full">{plan.badge}</span>
+                        )}
+                      </div>
+                      <p className="text-xs text-muted-foreground">{plan.tagline}</p>
+                      {promoErrors[plan.id] && (
+                        <p className="text-xs text-destructive">{promoErrors[plan.id]}</p>
                       )}
                     </div>
-                    <p className="text-xs text-muted-foreground">{plan.tagline}</p>
+                    <div className="text-right flex-shrink-0">
+                      <p className="font-bold text-sm">{formatUZS(plan.price)}</p>
+                      <p className="text-[10px] text-muted-foreground">/oyiga</p>
+                    </div>
+                    <ArrowRight className="h-4 w-4 text-muted-foreground" />
+                  </button>
+                  <div className="flex gap-2 px-1">
+                    <input
+                      type="text"
+                      placeholder="Promo kod (ixtiyoriy)"
+                      value={promoInputs[plan.id] || ''}
+                      onChange={(e) =>
+                        setPromoInputs((p) => ({ ...p, [plan.id]: e.target.value.toUpperCase() }))
+                      }
+                      className="h-8 flex-1 rounded-lg border border-border bg-background px-2.5 text-xs uppercase tracking-wide focus:outline-none focus:ring-2 focus:ring-primary/50"
+                    />
                   </div>
-                  <div className="text-right flex-shrink-0">
-                    <p className="font-bold text-sm">{formatUZS(plan.price)}</p>
-                    <p className="text-[10px] text-muted-foreground">/oyiga</p>
-                  </div>
-                  <ArrowRight className="h-4 w-4 text-muted-foreground" />
-                </button>
+                </div>
               ))}
             </div>
 
             {/* Daily Pass */}
             <button
-              onClick={() => handleSelectPlan('daily')}
+              onClick={() => handleSelectPlan('daily', promoInputs['daily'] || null)}
               className="w-full mt-3 flex items-center gap-4 p-3 rounded-xl border-2 border-dashed border-amber-300 bg-amber-50 dark:bg-amber-950/20 text-left hover:border-amber-400 transition-all"
             >
               <Zap className="h-5 w-5 text-amber-500" />
@@ -232,6 +271,15 @@ export function UpgradeModal({ open, onClose }: UpgradeModalProps) {
               </div>
               <ArrowRight className="h-4 w-4 text-amber-500" />
             </button>
+            <div className="flex gap-2 px-1 mt-1.5">
+              <input
+                type="text"
+                placeholder="Daily Pass promo kodi"
+                value={promoInputs['daily'] || ''}
+                onChange={(e) => setPromoInputs((p) => ({ ...p, daily: e.target.value.toUpperCase() }))}
+                className="h-8 flex-1 rounded-lg border border-amber-300/60 bg-amber-50/50 dark:bg-amber-950/20 px-2.5 text-xs uppercase tracking-wide focus:outline-none focus:ring-2 focus:ring-amber-400/50"
+              />
+            </div>
           </div>
         )}
 

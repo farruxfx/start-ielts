@@ -12,7 +12,7 @@
 //    PREMIUM test + session, active subscription    → ALLOW
 // ═══════════════════════════════════════════════════════════════════════
 
-export type Skill = 'listening' | 'reading';
+export type Skill = 'listening' | 'reading' | 'mock-exam';
 
 /**
  * The ONLY tests a free (non-subscribed) user may open.
@@ -20,12 +20,36 @@ export type Skill = 'listening' | 'reading';
  * Changing this list = changing which tests are FREE (server-controlled).
  */
 export const FREE_TEST_SLUGS: readonly string[] = [
-  'african-clawed-frog-listening',        // Listening — 1 free test
-  '200-years-of-australian-landscapes',   // Reading — free test 1
-  'airborne-dentists',                    // Reading — free test 2
+  // ── Listening (5) ──
+  'african-clawed-frog-listening',        // Listening — teaser 1
+  'listening-test-2',                     // Listening — teaser 2
+  'listening-test-3',                     // Listening — teaser 3
+  'listening-test-4',                     // Listening — teaser 4
+  'cambridge-21-test-1-listening',        // Listening — teaser 5 (Cambridge)
+  // ── Reading (4) ──
+  '200-years-of-australian-landscapes',   // Reading — teaser 1
+  'airborne-dentists',                    // Reading — teaser 2
+  'bees-and-pollination',                 // Reading — teaser 3
+  'emperor-penguins',                     // Reading — teaser 4
 ];
 
-export const TOTAL_FREE_TESTS = FREE_TEST_SLUGS.length; // 3
+export const TOTAL_FREE_TESTS = 9;
+
+/**
+ * Free mock exams (admin-manageable via app_free_access table; falls back
+ * to this static default when the table has no row for 'mock_exam').
+ * Exam ids follow lib/mock-exams.ts (`mock-1` .. `mock-N`).
+ */
+export const FREE_MOCK_EXAM_IDS: readonly string[] = ['mock-1', 'mock-2'];
+export const TOTAL_FREE_MOCKS = 2;
+
+/** General free-access configuration row keys in app_free_access. */
+export type FreeAccessConfigKey = 'mock_exam';
+
+export function isFreeMockExam(examId: string, freeIds?: string[]): boolean {
+  const list = freeIds && freeIds.length > 0 ? freeIds : FREE_MOCK_EXAM_IDS;
+  return list.includes(examId);
+}
 
 export type AccessReason =
   | 'free_test'            // one of the 3 public free tests
