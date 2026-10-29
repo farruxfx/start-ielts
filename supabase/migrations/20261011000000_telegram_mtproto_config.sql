@@ -4,9 +4,24 @@
 --  webhook secret to telegram_settings so they are managed from the admin
 --  panel and never stored in the repository.
 --
---  Requires: telegram_settings (20261007000000_telegram_listener_and_plan_overrides.sql)
---  Run BEFORE this if not applied yet.
+--  Self-contained: creates telegram_settings if the earlier migration
+--  (20261007000000_telegram_listener_and_plan_overrides.sql) was not applied.
 -- ═════════════════════════════════════════════════════════════════════════
+
+-- Base table (skipped if 20261007000000 already created it)
+CREATE TABLE IF NOT EXISTS telegram_settings (
+  id TEXT PRIMARY KEY DEFAULT 'default',
+  bot_token TEXT NOT NULL,
+  chat_id TEXT DEFAULT '',
+  enabled BOOLEAN NOT NULL DEFAULT false,
+  last_update_id BIGINT NOT NULL DEFAULT 0,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+ALTER TABLE telegram_settings ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "telegram_settings_service_only" ON telegram_settings;
+CREATE POLICY "telegram_settings_service_only" ON telegram_settings
+  FOR ALL USING (false) WITH CHECK (false);
 
 ALTER TABLE telegram_settings
   ADD COLUMN IF NOT EXISTS mtproto_api_id BIGINT,
