@@ -3,11 +3,12 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { GraduationCap, Mail, Lock, ArrowRight, AlertCircle } from 'lucide-react';
+import { GraduationCap, Mail, Lock, ArrowRight, AlertCircle, ShieldCheck } from 'lucide-react';
 import { useAuth } from '@/components/auth/use-auth';
 import { isSupabaseConfigured } from '@/lib/supabase';
 import { initGoogleSignIn, type GoogleUserInfo } from '@/lib/google-auth';
 import { signInSchema, validate } from '@/lib/validation';
+import { CaptchaWidget, type CaptchaHandle } from '@/components/auth/captcha-widget';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -22,6 +23,7 @@ export default function SignInPage() {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const googleBtnRef = useRef<HTMLDivElement>(null);
+  const captchaRef = useRef<CaptchaHandle>(null);
 
   useEffect(() => {
     if (session) router.push('/dashboard');
@@ -62,6 +64,10 @@ export default function SignInPage() {
     const { data, errors } = validate(signInSchema, { email, password });
     setFieldErrors(errors);
     if (!data) return;
+
+    // Bot guard — captcha must pass before any auth call.
+    const captchaOk = captchaRef.current ? await captchaRef.current.verify() : true;
+    if (!captchaOk) return;
 
     setLoading(true);
     const { error } = await signIn(email, password);
@@ -191,14 +197,16 @@ export default function SignInPage() {
                 )}
               </div>
 
-              {error && (
-                <div className="flex items-center gap-2 rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
-                  <AlertCircle className="h-4 w-4 flex-shrink-0" />
-                  <span>{error}</span>
-                </div>
-              )}
+            {error && (
+              <div className="flex items-center gap-2 rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
+                <AlertCircle className="h-4 w-4 flex-shrink-0" />
+                <span>{error}</span>
+              </div>
+            )}
 
-              <Button type="submit" className="w-full" disabled={loading}>
+            <CaptchaWidget ref={captchaRef} label="Tekshiruv: rasmdagi kodni kiriting" />
+
+            <Button type="submit" className="w-full" disabled={loading}>
                 {loading ? 'Signing in...' : 'Sign in'}
                 {!loading && <ArrowRight className="ml-2 h-4 w-4" />}
               </Button>

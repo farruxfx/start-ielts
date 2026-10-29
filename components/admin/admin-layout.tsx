@@ -21,6 +21,7 @@ import {
   Radio,
   Ticket,
   Gift,
+  KeyRound,
 } from 'lucide-react';
 import { useAuth } from '@/components/auth/use-auth';
 import { cn } from '@/lib/utils';
@@ -51,6 +52,11 @@ const adminNav = [
     label: 'Telegram Listener',
     href: '/admin/telegram',
     icon: Radio,
+  },
+  {
+    label: 'API Keys',
+    href: '/admin/api-keys',
+    icon: KeyRound,
   },
   { label: 'Payment Methods', href: '/admin/payment-methods', icon: CreditCard },
   { label: 'Payment Orders', href: '/admin/payment-orders', icon: CreditCard },

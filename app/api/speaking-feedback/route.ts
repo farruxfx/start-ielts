@@ -3,7 +3,7 @@ import { getSpeakingFeedback, isAIConfigured } from '@/lib/ai';
 
 export async function POST(req: NextRequest) {
   try {
-    if (!isAIConfigured()) {
+    if (!(await isAIConfigured())) {
       return NextResponse.json(
         { error: 'AI not configured. Add GROQ_API_KEY to .env.local.', offline: true },
         { status: 503 }

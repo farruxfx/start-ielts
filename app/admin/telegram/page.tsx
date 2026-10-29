@@ -11,6 +11,7 @@ import {
   Power,
   Activity,
   Info,
+  UserRound,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -29,6 +30,14 @@ interface ListenerResult {
   lastUpdateId: number;
 }
 
+interface MtprotoInfo {
+  configured: boolean;
+  apiIdMasked?: string;
+  apiHashMasked?: string;
+  phoneMasked?: string;
+  webhookSecretMasked?: string;
+}
+
 export default function AdminTelegramPage() {
   const [botToken, setBotToken] = useState('');
   const [chatId, setChatId] = useState('');
@@ -43,6 +52,14 @@ export default function AdminTelegramPage() {
   const [verifyResult, setVerifyResult] = useState<{ ok: boolean; text: string } | null>(null);
   const [lastResult, setLastResult] = useState<ListenerResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  // MTProto (my.telegram.org) user-account listener
+  const [mtproto, setMtproto] = useState<MtprotoInfo>({ configured: false });
+  const [mtApiId, setMtApiId] = useState('');
+  const [mtApiHash, setMtApiHash] = useState('');
+  const [mtPhone, setMtPhone] = useState('');
+  const [mtWebhookSecret, setMtWebhookSecret] = useState('');
+  const [mtSaving, setMtSaving] = useState(false);
   const autoTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const load = useCallback(async () => {
@@ -55,6 +72,7 @@ export default function AdminTelegramPage() {
         setTokenMasked(data.botTokenMasked || '');
         setChatId(data.chatId || '');
         setEnabled(!!data.enabled);
+        setMtproto(data.mtproto || { configured: false });
       } else {
         setError(data.error || 'Yuklanmadi');
       }
@@ -116,6 +134,37 @@ export default function AdminTelegramPage() {
       setError('Server bilan aloqa xatosi');
     } finally {
       setSaving(false);
+    }
+  };
+
+  const saveMtproto = async () => {
+    setMtSaving(true);
+    setError(null);
+    try {
+      const res = await fetch('/api/admin/telegram/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          mtproto: true,
+          apiId: mtApiId,
+          apiHash: mtApiHash,
+          phone: mtPhone,
+          webhookSecret: mtWebhookSecret,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || 'Saqlanmadi');
+        return;
+      }
+      setMtApiId('');
+      setMtApiHash('');
+      setMtWebhookSecret('');
+      load();
+    } catch {
+      setError('Server bilan aloqa xatosi');
+    } finally {
+      setMtSaving(false);
     }
   };
 
@@ -349,6 +398,119 @@ export default function AdminTelegramPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* MTProto (my.telegram.org) — user-account listener card */}
+      <Card className="rounded-2xl">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base font-bold flex items-center gap-2">
+            <UserRound className="h-4 w-4 text-primary" />
+            MTProto — shaxsiy akkaunt kuzatuvchi (my.telegram.org)
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="rounded-lg border border-border bg-muted/40 p-3 text-xs text-muted-foreground space-y-1">
+            <p className="flex items-start gap-1.5">
+              <Info className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
+              Bu rejimda to‘lov xabarlarini o‘qish uchun bot emas, MAXFIY shaxsiy akkaunt ishlatiladi:
+              my.telegram.org → API development tools → App configuration → nomini kopiting (api_id va api_hash).
+            </p>
+            <p className="flex items-start gap-1.5">
+              <Info className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
+              Kredensiallar shu joystickda saqlanadi (DB service_role orqali) — kod va GitHub’da umuman saqlanmaydi.
+              Skript nuqtado‘q: <span className="font-mono">npx tsx scripts/telegram-listener.ts</span> — akkunt TPdan krediall nematoling.
+            </p>
+          </div>
+
+          {loading ? (
+            <div className="flex justify-center py-4">
+              <Loader2 className="h-5 w-5 animate-spin text-primary" />
+            </div>
+          ) : (
+            <>
+              {mtproto.configured && (
+                <div className="rounded-lg border border-border bg-muted/40 p-3 text-sm">
+                  <p className="text-muted-foreground">
+                    api_id: <span className="font-mono">{mtproto.apiIdMasked}</span>
+                    {' '}· api_hash: <span className="font-mono">{mtproto.apiHashMasked}</span>
+                  </p>
+                  <p className="text-muted-foreground mt-1">
+                    Telefon: <span className="font-mono">{mtproto.phoneMasked || '—'}</span>
+                    {' '}· Webhook secret: <span className="font-mono">{mtproto.webhookSecretMasked || '—'}</span>
+                  </p>
+                  <p className="mt-2 text-xs text-green-700 dark:text-green-400">
+                    Saqlangan. Skript o‘shadan o‘qiydi (SUPABASE_SERVICE_ROLE_KEY env bilan).
+                  </p>
+                </div>
+              )}
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="mt-api-id" className="text-xs text-muted-foreground">
+                    api_id {mtproto.configured && '(yangilash uchun kiriting)'}
+                  </Label>
+                  <Input
+                    id="mt-api-id"
+                    type="password"
+                    placeholder="20812345"
+                    value={mtApiId}
+                    onChange={(e) => setMtApiId(e.target.value.replace(/[^0-9]/g, ''))}
+                    className="font-mono"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="mt-api-hash" className="text-xs text-muted-foreground">
+                    api_hash
+                  </Label>
+                  <Input
+                    id="mt-api-hash"
+                    type="password"
+                    placeholder="0123456789abcdef0123456789abcdef"
+                    value={mtApiHash}
+                    onChange={(e) => setMtApiHash(e.target.value.trim())}
+                    className="font-mono"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="mt-phone" className="text-xs text-muted-foreground">
+                    Akkunt telefon raqami (ixtiyoriy)
+                  </Label>
+                  <Input
+                    id="mt-phone"
+                    placeholder="+998901234567"
+                    value={mtPhone}
+                    onChange={(e) => setMtPhone(e.target.value.trim())}
+                    className="font-mono"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="mt-webhook" className="text-xs text-muted-foreground">
+                    Webhook secret (skript ↔ sayt handshake)
+                  </Label>
+                  <Input
+                    id="mt-webhook"
+                    type="password"
+                    placeholder="uzoq tasodifiy satr..."
+                    value={mtWebhookSecret}
+                    onChange={(e) => setMtWebhookSecret(e.target.value.trim())}
+                    className="font-mono"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-end">
+                <Button
+                  onClick={saveMtproto}
+                  disabled={mtSaving || !mtApiId || !mtApiHash || !mtWebhookSecret}
+                  className="gap-1.5"
+                >
+                  {mtSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+                  MTProto saqlash
+                </Button>
+              </div>
+            </>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }

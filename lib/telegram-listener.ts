@@ -28,6 +28,29 @@ export interface TelegramListenerSettings {
   lastUpdateId: number;
 }
 
+/** Service-role client (bypasses RLS); null when Supabase is not configured. */
+async function getServiceClient(): Promise<any | null> {
+  if (!isSupabaseConfigured) return null;
+  try {
+    const { createClient } = await import('@supabase/supabase-js');
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    return createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, key!, {
+      auth: { persistSession: false, autoRefreshToken: false },
+    }) as any;
+  } catch {
+    return null;
+  }
+}
+
+export interface TelegramMtprotoSettings {
+  apiId: string;
+  apiHash: string;
+  phone: string;
+  session: string;
+  webhookSecret: string;
+  enabled: boolean;
+}
+
 // ─── Settings storage ─────────────────────────────────────────────────
 
 let memoryOffset = 0; // demo mode only
@@ -35,11 +58,12 @@ let memoryOffset = 0; // demo mode only
 export async function getTelegramSettings(): Promise<TelegramListenerSettings | null> {
   if (isSupabaseConfigured) {
     try {
-      const { data } = await supabase
-        .from('telegram_settings')
+      const client = await getServiceClient();
+      const { data } = await client
+        ?.from('telegram_settings')
         .select('bot_token, chat_id, enabled, last_update_id')
         .eq('id', 'default')
-        .maybeSingle();
+        .maybeSingle() ?? { data: null };
       if (data?.bot_token) {
         return {
           botToken: data.bot_token,
@@ -68,8 +92,9 @@ export async function saveTelegramSettings(
   enabled: boolean,
 ): Promise<boolean> {
   if (isSupabaseConfigured) {
-    const { error } = await supabase
-      .from('telegram_settings')
+    const client = await getServiceClient();
+    const { error } = await client
+      ?.from('telegram_settings')
       .upsert(
         {
           id: 'default',
@@ -79,10 +104,75 @@ export async function saveTelegramSettings(
           updated_at: new Date().toISOString(),
         },
         { onConflict: 'id' },
-      );
+      ) ?? { error: new Error('No service client') };
     return !error;
   }
   // Demo mode: cannot persist — set TELEGRAM_BOT_TOKEN env instead.
+  return false;
+}
+
+// ─── MTProto (my.telegram.org) settings — user-account listener ────────
+
+export async function getMtprotoSettings(): Promise<TelegramMtprotoSettings | null> {
+  if (isSupabaseConfigured) {
+    try {
+      const client = await getServiceClient();
+      const { data } = await client
+        ?.from('telegram_settings')
+        .select('mtproto_api_id, mtproto_api_hash, mtproto_phone, mtproto_session, webhook_secret')
+        .eq('id', 'default')
+        .maybeSingle() ?? { data: null };
+      if (data?.mtproto_api_id && data?.mtproto_api_hash) {
+        return {
+          apiId: String(data.mtproto_api_id),
+          apiHash: data.mtproto_api_hash || '',
+          phone: data.mtproto_phone || '',
+          session: data.mtproto_session || '',
+          webhookSecret: data.webhook_secret || '',
+          enabled: true,
+        };
+      }
+    } catch { /* fall through */ }
+  }
+  const apiId = process.env.TELEGRAM_API_ID;
+  const apiHash = process.env.TELEGRAM_API_HASH;
+  if (apiId && apiHash) {
+    return {
+      apiId,
+      apiHash,
+      phone: process.env.TELEGRAM_PHONE || '',
+      session: '',
+      webhookSecret: process.env.PAYMENT_WEBHOOK_SECRET || '',
+      enabled: true,
+    };
+  }
+  return null;
+}
+
+export async function saveMtprotoSettings(
+  apiId: string,
+  apiHash: string,
+  phone: string,
+  webhookSecret: string,
+): Promise<boolean> {
+  if (isSupabaseConfigured) {
+    const client = await getServiceClient();
+    const { error } = await client
+      ?.from('telegram_settings')
+      .upsert(
+        {
+          id: 'default',
+          mtproto_api_id: Number(apiId),
+          mtproto_api_hash: apiHash,
+          mtproto_phone: phone,
+          webhook_secret: webhookSecret,
+          updated_at: new Date().toISOString(),
+        },
+        { onConflict: 'id' },
+      ) ?? { error: new Error('No service client') };
+    return !error;
+  }
+  // Demo mode: cannot persist — set TELEGRAM_API_ID / TELEGRAM_API_HASH env instead.
   return false;
 }
 
@@ -90,8 +180,9 @@ async function persistOffset(updateId: number): Promise<void> {
   memoryOffset = updateId;
   if (isSupabaseConfigured) {
     try {
-      await supabase
-        .from('telegram_settings')
+      const client = await getServiceClient();
+      await client
+        ?.from('telegram_settings')
         .update({ last_update_id: updateId })
         .eq('id', 'default');
     } catch { /* best effort */ }
@@ -161,11 +252,12 @@ async function tgGetUpdates(token: string, offset: number): Promise<TgUpdate[] |
 async function alreadyProcessed(messageId: string): Promise<boolean> {
   if (!isSupabaseConfigured) return false; // local store dedupes via processed_at
   try {
-    const { data } = await supabase
-      .from('transaction_logs')
+    const client = await getServiceClient();
+    const { data } = await client
+      ?.from('transaction_logs')
       .select('id')
       .eq('source_message_id', String(messageId))
-      .limit(1);
+      .limit(1) ?? { data: null };
     return !!(data && data.length > 0);
   } catch {
     return false;

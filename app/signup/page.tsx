@@ -8,6 +8,7 @@ import { useAuth } from '@/components/auth/use-auth';
 import { isSupabaseConfigured } from '@/lib/supabase';
 import { initGoogleSignIn, type GoogleUserInfo } from '@/lib/google-auth';
 import { signUpSchema, validate } from '@/lib/validation';
+import { CaptchaWidget, type CaptchaHandle } from '@/components/auth/captcha-widget';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -24,6 +25,7 @@ export default function SignUpPage() {
   const [googleLoading, setGoogleLoading] = useState(false);
   const [postedToOnboarding, setPostedToOnboarding] = useState(false);
   const googleBtnRef = useRef<HTMLDivElement>(null);
+  const captchaRef = useRef<CaptchaHandle>(null);
 
   // Existing users land on the dashboard. BUT while a signup flow (email
   // submit or Google callback) is posting the user to /onboarding, this
@@ -69,6 +71,10 @@ export default function SignUpPage() {
     const { data, errors } = validate(signUpSchema, { name, email, password });
     setFieldErrors(errors);
     if (!data) return;
+
+    // Bot guard — captcha must pass before any auth call.
+    const captchaOk = captchaRef.current ? await captchaRef.current.verify() : true;
+    if (!captchaOk) return;
 
     setLoading(true);
     const { error } = await signUp(email, password, name);
@@ -217,6 +223,8 @@ export default function SignUpPage() {
                   <span>{error}</span>
                 </div>
               )}
+
+              <CaptchaWidget ref={captchaRef} label="Tekshiruv: rasmdagi kodni kiriting" />
 
               <Button type="submit" className="w-full" disabled={loading}>
                 {loading ? 'Creating account...' : 'Create free account'}

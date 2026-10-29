@@ -12,7 +12,6 @@ import {
   GraduationCap,
   Wallet,
 } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -29,8 +28,9 @@ interface ProfileRow {
 
 interface SubRow {
   user_id: string;
-  tier: string;
+  plan: string;
   status: string;
+  expires_at: string | null;
 }
 
 export default function AdminUsersPage() {
@@ -48,37 +48,24 @@ export default function AdminUsersPage() {
 
   const fetchUsers = useCallback(async () => {
     setLoading(true);
-    let query = supabase
-      .from('profiles')
-      .select('*', { count: 'exact' })
-      .order('created_at', { ascending: false })
-      .range(page * pageSize, (page + 1) * pageSize - 1);
-
-    if (search) {
-      query = query.or(
-        `email.ilike.%${search}%,full_name.ilike.%${search}%,id.ilike.%${search}%`
-      );
+    try {
+      const params = new URLSearchParams({ list: '1', page: String(page), pageSize: String(pageSize) });
+      if (search.trim()) params.set('q', search.trim());
+      const res = await fetch(`/api/admin/users/grant?${params}`);
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || 'Foydalanuvchilar yuklanmadi.');
+      } else {
+        setUsers(data.users || []);
+        setSubs(data.subs || {});
+        setTotal(data.total || 0);
+        setError(null);
+      }
+    } catch {
+      setError('Server bilan aloqa xatosi.');
+    } finally {
+      setLoading(false);
     }
-
-    const { data, count } = await query;
-
-    if (data) {
-      const userIds = data.map((u) => u.id);
-      const { data: subData } = await supabase
-        .from('subscriptions')
-        .select('user_id, tier, status')
-        .in('user_id', userIds);
-
-      const subMap: Record<string, SubRow> = {};
-      (subData || []).forEach((s) => {
-        subMap[s.user_id] = s as SubRow;
-      });
-
-      setUsers(data as ProfileRow[]);
-      setSubs(subMap);
-      setTotal(count || 0);
-    }
-    setLoading(false);
   }, [page, search]);
 
   useEffect(() => {
@@ -89,85 +76,88 @@ export default function AdminUsersPage() {
     return () => clearTimeout(timer);
   }, [search, fetchUsers]);
 
+  const grant = async (
+    body: Record<string, unknown>,
+    userId?: string,
+  ): Promise<boolean> => {
+    setError(null);
+    try {
+      const res = await fetch('/api/admin/users/grant', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || 'Amal bajarilmadi.');
+        return false;
+      }
+      if (userId && data.user) {
+        setUsers((prev) => (prev.some((u) => u.id === userId)
+          ? prev.map((u) => (u.id === userId ? { ...u, ...data.user } : u))
+          : [data.user as ProfileRow]));
+      }
+      if (data.subscription) {
+        setSubs((prev) => ({
+          ...prev,
+          [data.user.id]: { user_id: data.user.id, ...data.subscription },
+        }));
+      }
+      return true;
+    } catch {
+      setError('Server bilan aloqa xatosi.');
+      return false;
+    }
+  };
+
   const changeRole = async (userId: string, newRole: string) => {
-    setError(null);
-    const { error: rpcError } = await supabase.rpc('admin_set_user_role', {
-      p_target_user: userId,
-      p_role: newRole,
-    });
-    if (rpcError) {
-      setError('Could not update user role.');
-    } else {
-      setUsers((prev) =>
-        prev.map((u) => (u.id === userId ? { ...u, role: newRole } : u))
-      );
-    }
+    await grant({ id: userId, role: newRole }, userId);
   };
 
-  const changeTier = async (userId: string, newTier: string) => {
-    setError(null);
-    const { error: rpcError } = await supabase.rpc('admin_set_subscription_tier', {
-      p_target_user: userId,
-      p_tier: newTier,
-    });
-    if (rpcError) {
-      setError('Could not update subscription.');
-    } else {
-      setSubs((prev) => ({
-        ...prev,
-        [userId]: { user_id: userId, tier: newTier, status: 'active' },
-      }));
-    }
+  const changeTier = async (userId: string, newPlan: string) => {
+    await grant({ id: userId, plan: newPlan }, userId);
   };
 
-  // Look up a single user by exact/partial ID; returns their uuid or null
-  const lookupUserId = async (term: string): Promise<string | null> => {
+  // Look up a single user by exact/partial ID via the admin API
+  const lookupUserId = async (term: string): Promise<ProfileRow | null> => {
     setError(null);
     if (!term.trim()) {
-      setError('Please paste a user ID first.');
+      setError('User ID kiritilishi shart.');
       return null;
     }
-    const { data, error: fetchError } = await supabase
-      .from('profiles')
-      .select('id, email, full_name, role, target_band, created_at')
-      .ilike('id', `%${term.trim()}%`)
-      .limit(2);
-    if (fetchError || !data?.length) {
-      setError(`No user found for ID “${term.trim()}”.`);
+    try {
+      const res = await fetch(`/api/admin/users/grant?q=${encodeURIComponent(term.trim())}`);
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || 'Foydalanuvchi topilmadi.');
+        return null;
+      }
+      const found = { ...data.user, target_band: null, created_at: new Date().toISOString() } as ProfileRow;
+      if (data.subscription) {
+        setSubs((prev) => ({
+          ...prev,
+          [found.id]: { user_id: found.id, ...data.subscription },
+        }));
+      }
+      setSearch(found.id);
+      setPage(0);
+      setUsers([found]);
+      setTotal(1);
+      return found;
+    } catch {
+      setError('Server bilan aloqa xatosi.');
       return null;
     }
-    if (data.length > 1) {
-      setError('This ID matches multiple users. Paste the full ID.');
-      return null;
-    }
-    const found = data[0] as ProfileRow;
-    const { data: subData } = await supabase
-      .from('subscriptions')
-      .select('user_id, tier, status')
-      .eq('user_id', found.id)
-      .maybeSingle();
-    if (subData) {
-      setSubs((prev) => ({
-        ...prev,
-        [found.id]: subData as SubRow,
-      }));
-    }
-    // Focus the table on this user
-    setSearch(found.id);
-    setPage(0);
-    setUsers([found]);
-    setTotal(1);
-    return found.id;
   };
 
   const handleIdRole = async () => {
-    const id = await lookupUserId(actionId);
-    if (id) await changeRole(id, actionRole);
+    const user = await lookupUserId(actionId);
+    if (user) await changeRole(user.id, actionRole);
   };
 
   const handleIdTier = async () => {
-    const id = await lookupUserId(actionId);
-    if (id) await changeTier(id, actionTier);
+    const user = await lookupUserId(actionId);
+    if (user) await changeTier(user.id, actionTier);
   };
 
   const totalPages = Math.ceil(total / pageSize);
@@ -269,7 +259,7 @@ export default function AdminUsersPage() {
           </div>
           <div>
             <div className="text-xl font-bold">
-              {Object.values(subs).filter((s) => s.tier !== 'free' && s.status === 'active').length}
+              {Object.values(subs).filter((s) => s.plan !== 'free' && s.status === 'active').length}
             </div>
             <div className="text-xs text-muted-foreground">Premium (this page)</div>
           </div>
@@ -351,11 +341,11 @@ export default function AdminUsersPage() {
                       </td>
                       <td className="px-4 py-3">
                         <select
-                          value={sub?.tier || 'free'}
+                          value={sub?.plan || 'free'}
                           onChange={(e) => changeTier(user.id, e.target.value)}
                           className={cn(
                             'rounded-md border border-input bg-background px-2 py-1 text-xs font-medium capitalize focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-                            (sub?.tier || 'free') !== 'free' && 'border-amber-300'
+                            (sub?.plan || 'free') !== 'free' && 'border-amber-300'
                           )}
                           title="Manually set subscription tier"
                         >

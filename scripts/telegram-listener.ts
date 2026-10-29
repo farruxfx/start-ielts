@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 // ═══════════════════════════════════════════════════════════════════════
-//  TELEGRAM LISTENER — @HUMOcardbot Transaction Monitor
-//  Connects as a USER account to read @HUMOcardbot messages
+//  TELEGRAM LISTENER — bank transaction monitor (MTProto USER account)
+//  Connects as a USER account (my.telegram.org api_id/api_hash) to read
+//  bank-bot messages. Credentials are loaded from the admin panel DB,
+//  never hard-coded here.
 //  
 //  USAGE: npx tsx scripts/telegram-listener.ts
 // ═══════════════════════════════════════════════════════════════════════
@@ -12,17 +14,77 @@ const { NEW_MESSAGE } = require('telegram/Events');
 const fs = require('fs');
 const readline = require('readline');
 
-// ─── Configuration ────────────────────────────────────────────────────
-
-const API_ID = parseInt(process.env.TELEGRAM_API_ID || '0');
-const API_HASH = process.env.TELEGRAM_API_HASH || '';
-const PHONE = process.env.TELEGRAM_PHONE || '';
-const WEBHOOK_SECRET = process.env.PAYMENT_WEBHOOK_SECRET || 'startielts-payment-webhook-2024';
+// ═══════════════════════════════════════════════════════════════════
+//  CONFIG — credentials are NEVER hard-coded here (no secrets in git).
+//
+//  Priority order:
+//   1. telegram_settings row (admin panel MTProto card) — read with the
+//      SUPABASE_SERVICE_ROLE_KEY service-role key (env only, not in git).
+//   2. Environment fallback: TELEGRAM_API_ID / TELEGRAM_API_HASH /
+//      TELEGRAM_PHONE / PAYMENT_WEBHOOK_SECRET.
+//
+//  The webhook secret MUST come from the admin panel (webhook_secret
+//  column) or PAYMENT_WEBHOOK_SECRET env. There is NO default secret.
+// ═══════════════════════════════════════════════════════════════════
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-const SESSION_FILE = './.telegram-humo-session';
+const SESSION_FILE = './.telegram-session'; // cached MTProto session string
 
-// HUMO Bot usernames to monitor
-const HUMO_BOT_USERNAMES = ['HUMOcardbot', 'humocardbot'];
+let API_ID = 0;
+let API_HASH = '';
+let PHONE = '';
+let WEBHOOK_SECRET = '';
+
+async function loadConfig() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (url && key) {
+    try {
+      const { createClient } = require('@supabase/supabase-js');
+      const db = createClient(url, key, { auth: { persistSession: false } });
+      const { data } = await db
+        .from('telegram_settings')
+        .select('mtproto_api_id, mtproto_api_hash, mtproto_phone, webhook_secret')
+        .eq('id', 'default')
+        .maybeSingle();
+      if (data && data.mtproto_api_id && data.mtproto_api_hash) {
+        API_ID = Number(data.mtproto_api_id);
+        API_HASH = String(data.mtproto_api_hash);
+        PHONE = String(data.mtproto_phone || '');
+        WEBHOOK_SECRET = String(data.webhook_secret || '');
+        console.log('✅ MTProto creds loaded from admin panel (telegram_settings)');
+      }
+    } catch (e) {
+      console.warn('⚠️  DB config read failed:', e.message);
+    }
+  }
+  if (!API_ID) API_ID = parseInt(process.env.TELEGRAM_API_ID || '0');
+  if (!API_HASH) API_HASH = process.env.TELEGRAM_API_HASH || '';
+  if (!PHONE) PHONE = process.env.TELEGRAM_PHONE || '';
+  if (!WEBHOOK_SECRET) WEBHOOK_SECRET = process.env.PAYMENT_WEBHOOK_SECRET || '';
+}
+
+// Bank bot usernames to monitor (environment override: TELEGRAM_SOURCE_BOTS).
+const BANK_BOT_USERNAMES = (process.env.TELEGRAM_SOURCE_BOTS || 'HUMOcardbot,humocardbot')
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+/** Best-effort: share the session string back to the admin panel DB. */
+async function persistSessionToDb(session) {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) return;
+  try {
+    const { createClient } = require('@supabase/supabase-js');
+    const db = createClient(url, key, { auth: { persistSession: false } });
+    await db
+      .from('telegram_settings')
+      .upsert({ id: 'default', mtproto_session: session }, { onConflict: 'id' });
+    console.log('💾 Session pushed to admin panel (telegram_settings)');
+  } catch {
+    /* best effort */
+  }
+}
 
 // ─── Parser ───────────────────────────────────────────────────────────
 
@@ -113,12 +175,24 @@ function prompt(question) {
 async function main() {
   console.log('');
   console.log('═══════════════════════════════════════════════════════════');
-  console.log('  🏦 StartIELTS — HUMO Card Transaction Listener');
+  console.log('  🏦 StartIELTS — Bank transaction listener (MTProto user account)');
   console.log('═══════════════════════════════════════════════════════════');
   console.log('');
 
+  await loadConfig();
+
   if (!API_ID || !API_HASH) {
-    console.error('❌ Missing TELEGRAM_API_ID or TELEGRAM_API_HASH in .env.local');
+    console.error(
+      '❌ MTProto kredensiallar topilmadi. Admin paneldan (Telegram listener → MTProto)\n' +
+        '   saqlangan bo‘lsin yoki .env.local ga TELEGRAM_API_ID / TELEGRAM_API_HASH yozilsin.'
+    );
+    process.exit(1);
+  }
+  if (!WEBHOOK_SECRET) {
+    console.error(
+      '❌ PAYMENT_WEBHOOK_SECRET yo‘q. Admin panelda webhook_secret saqlangan\n' +
+        '   bo‘lsin yoki .env.local ga PAYMENT_WEBHOOK_SECRET yozilsin (default yo‘q).'
+    );
     process.exit(1);
   }
 
@@ -138,6 +212,9 @@ async function main() {
 
   console.log('🔌 Connecting to Telegram...');
 
+  // Load session from file only (manual login once); skip interactive re-login.
+  console.log('🔌 Connecting to Telegram...');
+
   await client.start({
     phoneNumber: async () => PHONE || await prompt('📱 Phone number: '),
     password: async () => await prompt('🔑 2FA Password (leave empty if none): '),
@@ -145,13 +222,15 @@ async function main() {
     onError: (err) => console.error('Client error:', err.message),
   });
 
-  // Save session
-  fs.writeFileSync(SESSION_FILE, client.session.save());
-  console.log('💾 Session saved');
+  // Save session to file (also pushed to admin panel for reuse).
+  const savedSession = client.session.save();
+  fs.writeFileSync(SESSION_FILE, savedSession);
+  console.log('💾 Session saved to file');
+  persistSessionToDb(String(savedSession));
   console.log('');
   console.log('✅ Connected to Telegram!');
   console.log(`📡 Webhook: ${APP_URL}/api/payment/webhook`);
-  console.log(`👂 Monitoring for @HUMOcardbot messages...`);
+  console.log(`👂 Monitoring for @${BANK_BOT_USERNAMES.join('/ @')} messages...`);
   console.log('');
   console.log('Waiting for incoming transactions... (Press Ctrl+C to stop)');
   console.log('');
@@ -169,12 +248,12 @@ async function main() {
       const username = sender.username || '';
       const senderId = sender.id?.toString() || '';
 
-      // Check if from HUMO bot
-      const isHumoBot = HUMO_BOT_USERNAMES.some(
+      // Check if from a monitored bank bot
+      const isBankBot = BANK_BOT_USERNAMES.some(
         name => username.toLowerCase() === name.toLowerCase()
       );
 
-      if (!isHumoBot) return;
+      if (!isBankBot) return;
 
       const text = message.message;
       const msgId = message.id?.toString() || Date.now().toString();

@@ -1,13 +1,29 @@
 // Free AI API integration — Groq (best free tier: no credit card, 30 RPM, 14.4K RPD)
 // Alternatives: Google AI Studio, OpenRouter, Hugging Face
+//
+// The API key is managed from the ADMIN PANEL (platform_secrets table);
+// the GROQ_API_KEY env var is only a fallback. Nothing is hard-coded.
+
+import { getGroqApiKey } from './platform-secrets';
 
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
-const GROQ_API_KEY = process.env.GROQ_API_KEY || '';
 const GROQ_MODEL = process.env.GROQ_MODEL || 'openai/gpt-oss-120b';
 const GROQ_TIMEOUT_MS = 30_000;
 
-export function isGroqConfigured(): boolean {
-  return !!GROQ_API_KEY;
+let cachedKey: string | null = null;
+let cachedAt = 0;
+const KEY_TTL_MS = 60 * 1000; // pick up admin changes within a minute
+
+export async function getApiKey(): Promise<string> {
+  if (cachedKey && Date.now() - cachedAt < KEY_TTL_MS) return cachedKey;
+  const key = await getGroqApiKey();
+  cachedKey = key || '';
+  cachedAt = Date.now();
+  return cachedKey;
+}
+
+export async function isGroqConfigured(): Promise<boolean> {
+  return !!(await getApiKey());
 }
 
 const IELTS_SYSTEM_PROMPT = `You are an expert IELTS preparation coach with 15+ years of experience helping students achieve band 7-9. You have deep knowledge of:
@@ -43,15 +59,16 @@ export async function chatWithAI(
   messages: AIMessage[],
   options?: { temperature?: number; maxTokens?: number }
 ): Promise<AIResponse> {
-  if (!GROQ_API_KEY) {
-    throw new Error('GROQ_API_KEY is not set. Get a free key at console.groq.com/keys');
+  const apiKey = await getApiKey();
+  if (!apiKey) {
+    throw new Error('GROQ API key sozlanmagan — admin paneldan (API Keys) kiriting yoki GROQ_API_KEY env qo‘ying.');
   }
 
   const callGroq = async (): Promise<Response> =>
     fetch(GROQ_API_URL, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${GROQ_API_KEY}`,
+        'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -156,6 +173,6 @@ Be specific and constructive. Use the official IELTS criteria.`
   return response.content;
 }
 
-export function isAIConfigured(): boolean {
+export async function isAIConfigured(): Promise<boolean> {
   return isGroqConfigured();
 }
