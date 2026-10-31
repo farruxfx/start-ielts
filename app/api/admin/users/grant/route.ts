@@ -47,7 +47,7 @@ interface ResolvedUser {
   role: string;
 }
 
-/** Exact match first, then a unique partial match. */
+/** Exact match first, then a unique partial match. Falls back to auth.users. */
 async function resolveUser(term: string): Promise<ResolvedUser | { error: string }> {
   const termNorm = term.trim();
   if (!termNorm) return { error: 'Foydalanuvchi ID kiritilmagan.' };
@@ -64,6 +64,30 @@ async function resolveUser(term: string): Promise<ResolvedUser | { error: string
       .select('id, email, full_name, role')
       .ilike('id', `%${termNorm}%`)
       .limit(2));
+  }
+  if (!data?.length) {
+    ({ data } = await client
+      .from('profiles')
+      .select('id, email, full_name, role')
+      .ilike('email', `%${termNorm}%`)
+      .limit(2));
+  }
+  if (!data?.length && uuidRe.test(termNorm)) {
+    // Profile row missing — resolve straight from auth.users via admin API.
+    try {
+      const { data: au } = await client.auth.admin.getUserById(termNorm);
+      const auUser = (au as { user?: { id: string; email?: string; user_metadata?: Record<string, unknown> } } | null)?.user;
+      if (auUser) {
+        return {
+          id: auUser.id,
+          email: auUser.email || '',
+          full_name: String(auUser.user_metadata?.name || '') || (auUser.email || '').split('@')[0],
+          role: 'student',
+        };
+      }
+    } catch {
+      /* service key missing or lookup failed */
+    }
   }
   if (!data?.length) return { error: `Bu ID bo'yicha foydalanuvchi topilmadi` };
   if (data.length > 1) return { error: 'Bu ID bir nechta foydalanuvchiga mos keldi — toliq ID kiriting.' };
@@ -104,8 +128,63 @@ async function listUsers(req: NextRequest) {
   const sp = req.nextUrl.searchParams;
   const page = Math.max(0, Number(sp.get('page') || 0));
   const pageSize = Math.min(50, Math.max(1, Number(sp.get('pageSize') || 10)));
-  const q = (sp.get('q') || '').trim();
+  const q = (sp.get('q') || '').trim().toLowerCase();
   const client = await getClient();
+
+  // Primary source: auth.users via the admin API — every registered user
+  // appears here even if their profiles row is missing. profiles/user_subscriptions
+  // are merged in afterwards; fall back to profiles-only when the service key is absent.
+  try {
+    const { data: au, error } = await client.auth.admin.listUsers({ page, perPage: pageSize });
+    const auUsers = (au as { users?: { id: string; email?: string; created_at?: string; user_metadata?: Record<string, unknown> }[] } | null)?.users;
+    if (!error && Array.isArray(auUsers)) {
+      const total = (au as unknown as { total?: number }).total ?? auUsers.length;
+      const ids = auUsers.map((u) => u.id);
+
+      const profMap: Record<string, { full_name: string; role: string; target_band: number | null }> = {};
+      if (ids.length) {
+        const { data: profs } = await client
+          .from('profiles')
+          .select('id, full_name, role, target_band')
+          .in('id', ids);
+        for (const p of profs || []) {
+          profMap[p.id] = { full_name: p.full_name || '', role: p.role || 'student', target_band: p.target_band ?? null };
+        }
+      }
+
+      const subsMap: Record<string, { plan: string; status: string; expires_at: string | null }> = {};
+      if (ids.length) {
+        const { data: subData } = await client
+          .from('user_subscriptions')
+          .select('user_id, plan_id, status, expires_at')
+          .in('user_id', ids);
+        for (const s of subData || []) {
+          subsMap[s.user_id] = { plan: s.plan_id, status: s.status, expires_at: s.expires_at };
+        }
+      }
+
+      let users = auUsers.map((u) => {
+        const p = profMap[u.id];
+        return {
+          id: u.id,
+          email: u.email || '',
+          full_name: p?.full_name || String(u.user_metadata?.name || '') || (u.email || '').split('@')[0],
+          role: p?.role || 'student',
+          target_band: p?.target_band ?? null,
+          has_profile: !!p,
+          created_at: u.created_at || '',
+        };
+      });
+      if (q) {
+        users = users.filter(
+          (u) => u.email.toLowerCase().includes(q) || u.full_name.toLowerCase().includes(q) || u.id.includes(q),
+        );
+      }
+      return NextResponse.json({ users, subs: subsMap, total: q ? users.length : total });
+    }
+  } catch {
+    // admin API unavailable (no service key) — profiles fallback below
+  }
 
   let query = client
     .from('profiles')
@@ -169,7 +248,13 @@ export async function POST(req: NextRequest) {
   let resultProof: Record<string, unknown> = {};
 
   if (role) {
-    const { error } = await client.from('profiles').update({ role }).eq('id', user.id);
+    // Upsert so the grant also works for a user whose profiles row is missing.
+    const { error } = await client
+      .from('profiles')
+      .upsert(
+        { id: user.id, email: user.email, full_name: user.full_name, role },
+        { onConflict: 'id' },
+      );
     if (error) {
       return NextResponse.json({ error: 'Rol yozilmadi: ' + error.message }, { status: 500 });
     }
