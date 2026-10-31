@@ -35,26 +35,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState<UserRole | null>(null);
 
-  const fetchRole = async (uid: string) => {
+  const fetchRole = async (uid: string): Promise<UserRole> => {
     const { data } = await supabase
       .from('profiles')
       .select('role')
       .eq('id', uid)
       .maybeSingle();
-    setRole((data?.role as UserRole) || 'student');
+    const r = (data?.role as UserRole) || 'student';
+    setRole(r);
+    return r;
   };
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        fetchRole(session.user.id);
+        const r = await fetchRole(session.user.id);
         void setSessionCookie({
           id: session.user.id,
           email: session.user.email || '',
           name: (session.user.user_metadata?.name as string) || undefined,
-          role: undefined,
+          role: r,
         });
       }
       setLoading(false);
@@ -70,12 +72,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setSession(session);
           setUser(session?.user ?? null);
           if (session?.user) {
-            fetchRole(session.user.id);
+            const r = await fetchRole(session.user.id);
             void setSessionCookie({
               id: session.user.id,
               email: session.user.email || '',
               name: (session.user.user_metadata?.name as string) || undefined,
-              role: undefined,
+              role: r,
             });
           } else {
             setRole(null);

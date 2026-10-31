@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { setSessionCookie } from '@/lib/auth-session-client';
 import {
   GraduationCap,
   LayoutDashboard,
@@ -68,6 +69,30 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { user, loading, role, signOut } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [cookieReady, setCookieReady] = useState(false);
+
+  // Re-mint the server session cookie (with the admin role) BEFORE the page
+  // widgets fetch /api/admin/* — otherwise a missing/expired/student-role
+  // cookie makes every admin API return 401/403.
+  useEffect(() => {
+    if (!user || role !== 'admin') {
+      setCookieReady(false);
+      return;
+    }
+    let alive = true;
+    (async () => {
+      await setSessionCookie({
+        id: user.id,
+        email: user.email || '',
+        name: (user as any).user_metadata?.name || undefined,
+        role: 'admin',
+      });
+      if (alive) setCookieReady(true);
+    })();
+    return () => {
+      alive = false;
+    };
+  }, [user, role]);
 
   useEffect(() => {
     if (!loading && (!user || role !== 'admin')) {
@@ -75,7 +100,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
     }
   }, [user, loading, role, router]);
 
-  if (loading || !user || role !== 'admin') {
+  if (loading || !user || role !== 'admin' || !cookieReady) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
